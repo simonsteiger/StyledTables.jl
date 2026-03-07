@@ -28,6 +28,10 @@ end
 # Usage: gt(df) |> tab_spanner("Label"; columns = [:a, :b])
 function tab_spanner(label; columns::Vector{Symbol})
     return function (tbl::GTTable)
+        colnames = Symbol.(names(tbl.data))
+        for col in columns
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
         push!(tbl.spanners, Spanner(label, columns))
         return tbl
     end

@@ -93,12 +93,18 @@ using Test
         @test size(result.cells, 1) == 3
         @test result.header == 2
 
-        # Spanner label appears above :dose (col 2)
+        # Spanner label appears above :dose (col 2) and :response (col 3)
         @test result.cells[1, 2].value == "Treatment"
         @test result.cells[1, 2].style.merge == true
+        @test result.cells[1, 2].style.mergegroup == 1
+        @test result.cells[1, 3].value == "Treatment"
+        @test result.cells[1, 3].style.merge == true
+        @test result.cells[1, 3].style.mergegroup == 1
 
         # :name col has nothing in spanner row
         @test isnothing(result.cells[1, 1].value)
+        # unknown column raises ArgumentError
+        @test_throws ArgumentError gt(df) |> tab_spanner("X"; columns = [:typo])
 
         # Column header row (row 2) is unaffected
         @test result.cells[2, 1].value == "name"
