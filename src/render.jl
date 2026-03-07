@@ -46,6 +46,8 @@ end
 
 # Build a single header cell for a given column, applying label overrides and alignment
 function _header_cell(tbl::GTTable, col::Symbol)
+    # Stub column has no header label
+    col == tbl.stub_col && return Cell(nothing)
     label = get(tbl.col_labels, col, string(col))
     halign = get(tbl.col_alignments, col, :left)
     return Cell(label; bold = true, halign)

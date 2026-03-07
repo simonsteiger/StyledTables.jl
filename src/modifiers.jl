@@ -37,6 +37,14 @@ function tab_spanner(label; columns::Vector{Symbol})
     end
 end
 
+function tab_stub(col::Symbol)
+    return function (tbl::GTTable)
+        col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
+        tbl.stub_col = col
+        return tbl
+    end
+end
+
 function gt(data)
     df = data isa DataFrame ? data : DataFrame(data)
     return GTTable(

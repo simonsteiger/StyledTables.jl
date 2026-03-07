@@ -111,4 +111,25 @@ using Test
         @test result.cells[2, 2].value == "dose"
     end
 
+    @testset "tab_stub" begin
+        df = DataFrame(rowname = ["Alice", "Bob"], score = [90, 85])
+        tbl = gt(df) |> tab_stub(:rowname)
+        result = render(tbl)
+
+        # Still 2 columns in output (stub + data)
+        @test size(result.cells, 2) == 2
+
+        # Header for stub column is empty (nothing)
+        @test isnothing(result.cells[1, 1].value)
+
+        # Header for data column is present
+        @test result.cells[1, 2].value == "score"
+
+        # Body stub values are shown
+        @test result.cells[2, 1].value == "Alice"
+
+        # unknown column raises ArgumentError
+        @test_throws ArgumentError gt(df) |> tab_stub(:nonexistent)
+    end
+
 end
