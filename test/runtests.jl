@@ -132,4 +132,36 @@ using Test
         @test_throws ArgumentError gt(df) |> tab_stub(:nonexistent)
     end
 
+    @testset "tab_row_group" begin
+        df = DataFrame(
+            arm   = ["A", "A", "B", "B"],
+            name  = ["x1", "x2", "y1", "y2"],
+            score = [1, 2, 3, 4],
+        )
+        tbl = gt(df) |> tab_row_group(:arm)
+        result = render(tbl)
+
+        # arm column is removed → 2 display columns
+        @test size(result.cells, 2) == 2
+
+        # 1 header row + 4 body rows + 2 group label rows = 7 rows total
+        @test size(result.cells, 1) == 7
+
+        # Group label rows are bold
+        # Row 2 should be group label "A"
+        @test result.cells[2, 1].value == "A"
+        @test result.cells[2, 1].style.bold == true
+
+        # Row 3 is first data row under group A, indented
+        @test result.cells[3, 1].value == "x1"
+        @test result.cells[3, 1].style.indent_pt > 0
+
+        # Row 5 should be group label "B"
+        @test result.cells[5, 1].value == "B"
+        @test result.cells[5, 1].style.bold == true
+
+        # unknown column raises ArgumentError
+        @test_throws ArgumentError gt(df) |> tab_row_group(:nonexistent)
+    end
+
 end

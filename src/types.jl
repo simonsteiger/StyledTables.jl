@@ -14,6 +14,7 @@ mutable struct GTTable
     col_alignments::Dict{Symbol,Symbol}
     spanners::Vector{Spanner}
     row_group_col::Union{Nothing,Symbol}
+    row_group_indent_pt::Float64
     stub_col::Union{Nothing,Symbol}
     header::Union{Nothing,TableHeader}
     footnotes::Vector{Any}

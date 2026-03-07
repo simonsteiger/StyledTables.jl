@@ -2,34 +2,90 @@
 
 function render(tbl::GTTable)
     df = tbl.data
-    colnames = Symbol.(names(df))
-    n_cols = length(colnames)
 
-    # --- Spanner row (optional) ---
+    # Remove row group column from displayed columns
+    display_cols = if tbl.row_group_col !== nothing
+        filter(!=(tbl.row_group_col), Symbol.(names(df)))
+    else
+        Symbol.(names(df))
+    end
+
+    n_cols = length(display_cols)
     has_spanners = !isempty(tbl.spanners)
-    spanner_row = has_spanners ? _build_spanner_row(tbl, colnames) : nothing
 
-    # --- Column header row ---
-    header_row = [_header_cell(tbl, col) for col in colnames]
+    spanner_row  = has_spanners ? _build_spanner_row(tbl, display_cols) : nothing
+    header_row   = [_header_cell(tbl, col) for col in display_cols]
 
-    # --- Body rows ---
-    body = Matrix{Cell}(undef, nrow(df), n_cols)
+    body = if tbl.row_group_col !== nothing
+        _build_body_with_groups(tbl, df, display_cols)
+    else
+        _build_plain_body(tbl, df, display_cols)
+    end
+
+    n_header_rows = 1 + (has_spanners ? 1 : 0)
+
+    parts = Matrix{Cell}[]
+    has_spanners && push!(parts, reshape(spanner_row, 1, n_cols))
+    push!(parts, reshape(header_row, 1, n_cols))
+    push!(parts, body)
+
+    cells = reduce(vcat, parts)
+    return Table(cells; header = n_header_rows)
+end
+
+function _build_plain_body(tbl::GTTable, df::DataFrame, colnames::Vector{Symbol})
+    body = Matrix{Cell}(undef, nrow(df), length(colnames))
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
         for i in 1:nrow(df)
             body[i, j] = Cell(df[i, col]; halign)
         end
     end
+    return body
+end
 
-    n_header_rows = 1 + (has_spanners ? 1 : 0)
+function _build_body_with_groups(tbl::GTTable, df::DataFrame, display_cols::Vector{Symbol})
+    group_col = tbl.row_group_col
+    indent = tbl.row_group_indent_pt
+    group_vals = string.(df[!, group_col])
 
-    cells = if has_spanners
-        [spanner_row'; header_row'; body]
-    else
-        [header_row'; body]
+    group_insert_positions = _find_group_boundaries(group_vals)
+    n_extra = length(group_insert_positions)
+    n_display_rows = nrow(df) + n_extra
+    n_cols = length(display_cols)
+
+    body = Matrix{Cell}(undef, n_display_rows, n_cols)
+    offset = 0
+
+    for i in 1:nrow(df)
+        if haskey(group_insert_positions, i)
+            label = group_insert_positions[i]
+            for j in 1:n_cols
+                body[i + offset, j] = j == 1 ? Cell(label; bold = true) : Cell(nothing)
+            end
+            offset += 1
+        end
+        for (j, col) in enumerate(display_cols)
+            halign = get(tbl.col_alignments, col, :left)
+            indent_pt = j == 1 ? indent : 0.0
+            body[i + offset, j] = Cell(df[i, col]; halign, indent_pt)
+        end
     end
 
-    return Table(cells; header = n_header_rows)
+    return body
+end
+
+# Returns Dict(row_index => group_label) for rows that start a new group
+function _find_group_boundaries(group_vals::Vector{<:AbstractString})
+    result = Dict{Int,String}()
+    prev = nothing
+    for (i, v) in enumerate(group_vals)
+        if v != prev
+            result[i] = v
+            prev = v
+        end
+    end
+    return result
 end
 
 function _build_spanner_row(tbl::GTTable, colnames::Vector{Symbol})

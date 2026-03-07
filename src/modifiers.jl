@@ -53,8 +53,18 @@ function gt(data)
         Dict{Symbol,Symbol}(),
         Spanner[],
         nothing,
+        12.0,
         nothing,
         nothing,
         Any[],
     )
+end
+
+function tab_row_group(col::Symbol; indent_pt::Real = 12)
+    return function (tbl::GTTable)
+        col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
+        tbl.row_group_col = col
+        tbl.row_group_indent_pt = Float64(indent_pt)
+        return tbl
+    end
 end
