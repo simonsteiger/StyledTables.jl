@@ -8,7 +8,7 @@ function render(tbl::GTTable)
     header_row = [_header_cell(tbl, col) for col in colnames]
 
     # --- Body rows ---
-    body = Matrix{Cell}(undef, nrow(df), ncol(df))
+    body = Matrix{Cell}(undef, nrow(df), length(colnames))
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
         for i in 1:nrow(df)
