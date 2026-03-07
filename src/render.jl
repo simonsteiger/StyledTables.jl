@@ -82,7 +82,11 @@ function _build_body_with_groups(tbl::GTTable, df::DataFrame, display_cols::Vect
         if haskey(group_insert_positions, i)
             label = group_insert_positions[i]
             for j in 1:n_cols
-                body[i + offset, j] = j == 1 ? Cell(label; bold = true) : Cell(nothing)
+                if j == 1
+                    body[i + offset, j] = Cell(label; bold = true, indent_pt = 0, halign = :left)
+                else
+                    body[i + offset, j] = Cell(nothing)
+                end
             end
             offset += 1
         end
