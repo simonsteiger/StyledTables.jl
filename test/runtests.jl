@@ -26,6 +26,11 @@ using Test
         result = render(tbl)
         @test result.cells[1, 1].value == "Variable X"
         @test result.cells[1, 2].value == "Variable Y"
+        # boldness preserved when label override is active
+        @test result.cells[1, 1].style.bold == true
+        @test result.cells[1, 2].style.bold == true
+        # unknown column raises ArgumentError
+        @test_throws ArgumentError gt(df) |> cols_label(typo = "Label")
     end
 
     @testset "cols_align" begin
@@ -38,6 +43,17 @@ using Test
         # body alignment
         @test result.cells[2, 1].style.halign == :center
         @test result.cells[2, 2].style.halign == :center
+        # all-columns default path
+        tbl2 = gt(df) |> cols_align(:right)
+        result2 = render(tbl2)
+        @test result2.cells[1, 1].style.halign == :right
+        @test result2.cells[1, 2].style.halign == :right
+        @test result2.cells[2, 1].style.halign == :right
+        @test result2.cells[2, 2].style.halign == :right
+        # invalid halign raises ArgumentError
+        @test_throws ArgumentError cols_align(:centre)
+        # nonexistent column raises ArgumentError
+        @test_throws ArgumentError gt(df) |> cols_align(:left, [:nonexistent])
     end
 
     @testset "basic render" begin
