@@ -25,6 +25,14 @@ function cols_align(halign::Symbol, columns=nothing)
     end
 end
 
+# Usage: gt(df) |> tab_spanner("Label"; columns = [:a, :b])
+function tab_spanner(label; columns::Vector{Symbol})
+    return function (tbl::GTTable)
+        push!(tbl.spanners, Spanner(label, columns))
+        return tbl
+    end
+end
+
 function gt(data)
     df = data isa DataFrame ? data : DataFrame(data)
     return GTTable(

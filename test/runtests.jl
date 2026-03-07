@@ -84,4 +84,25 @@ using Test
         @test result.header == 1
     end
 
+    @testset "tab_spanner" begin
+        df = DataFrame(name = ["Alice"], dose = [10], response = [0.9])
+        tbl = gt(df) |> tab_spanner("Treatment"; columns = [:dose, :response])
+        result = render(tbl)
+
+        # Spanner adds one extra header row → header = 2, total rows = 3 (1 spanner + 1 col-header + 1 body)
+        @test size(result.cells, 1) == 3
+        @test result.header == 2
+
+        # Spanner label appears above :dose (col 2)
+        @test result.cells[1, 2].value == "Treatment"
+        @test result.cells[1, 2].style.merge == true
+
+        # :name col has nothing in spanner row
+        @test isnothing(result.cells[1, 1].value)
+
+        # Column header row (row 2) is unaffected
+        @test result.cells[2, 1].value == "name"
+        @test result.cells[2, 2].value == "dose"
+    end
+
 end
