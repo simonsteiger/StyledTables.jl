@@ -3,7 +3,13 @@ uuid = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
 authors = ["simonsteiger <simon.j.steiger@gmail.com> and contributors"]
 version = "1.0.0-DEV"
 
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+SummaryTables = "6ce4ecf0-73a7-4ce3-9fb4-80ebfe887b60"
+
 [compat]
+DataFrames = "1"
+SummaryTables = "3.5.1"
 julia = "1.10"
 
 [extras]
