@@ -20,6 +20,26 @@ using Test
         @test isempty(tbl.footnotes)
     end
 
+    @testset "cols_label" begin
+        df = DataFrame(x = [1], y = [2])
+        tbl = gt(df) |> cols_label(x = "Variable X", y = "Variable Y")
+        result = render(tbl)
+        @test result.cells[1, 1].value == "Variable X"
+        @test result.cells[1, 2].value == "Variable Y"
+    end
+
+    @testset "cols_align" begin
+        df = DataFrame(x = [1, 2], y = [3, 4])
+        tbl = gt(df) |> cols_align(:center, [:x, :y])
+        result = render(tbl)
+        # header alignment
+        @test result.cells[1, 1].style.halign == :center
+        @test result.cells[1, 2].style.halign == :center
+        # body alignment
+        @test result.cells[2, 1].style.halign == :center
+        @test result.cells[2, 2].style.halign == :center
+    end
+
     @testset "basic render" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])
         tbl = gt(df)
