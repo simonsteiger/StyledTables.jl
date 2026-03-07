@@ -152,13 +152,19 @@ using Test
         @test result.cells[2, 1].value == "A"
         @test result.cells[2, 1].style.bold == true
 
-        # Row 3 is first data row under group A, indented
+        # Row 3 is first data row under group A, indented in col 1 but not col 2
         @test result.cells[3, 1].value == "x1"
         @test result.cells[3, 1].style.indent_pt > 0
+        @test result.cells[3, 2].style.indent_pt == 0.0
 
         # Row 5 should be group label "B"
         @test result.cells[5, 1].value == "B"
         @test result.cells[5, 1].style.bold == true
+
+        # custom indent_pt is applied
+        tbl2 = gt(df) |> tab_row_group(:arm; indent_pt = 24)
+        result2 = render(tbl2)
+        @test result2.cells[3, 1].style.indent_pt == 24.0
 
         # unknown column raises ArgumentError
         @test_throws ArgumentError gt(df) |> tab_row_group(:nonexistent)
