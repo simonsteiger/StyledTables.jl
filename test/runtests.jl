@@ -132,6 +132,31 @@ using Test
         @test_throws ArgumentError gt(df) |> tab_stub(:nonexistent)
     end
 
+    @testset "tab_header" begin
+        df = DataFrame(x = [1, 2], y = [3, 4])
+
+        # Title only
+        tbl = gt(df) |> tab_header("My Table")
+        result = render(tbl)
+        # 1 title row + 1 col-header row + 2 body rows = 4
+        @test size(result.cells, 1) == 4
+        @test result.header == 2
+        @test result.cells[1, 1].value == "My Table"
+        @test result.cells[1, 1].style.merge == true
+        # merged cells have the same value in all columns
+        @test result.cells[1, 2].value == "My Table"
+
+        # Title + subtitle
+        tbl2 = gt(df) |> tab_header("My Table"; subtitle = "A subtitle")
+        result2 = render(tbl2)
+        # 1 title + 1 subtitle + 1 col-header + 2 body = 5
+        @test size(result2.cells, 1) == 5
+        @test result2.header == 3
+        @test result2.cells[1, 1].value == "My Table"
+        @test result2.cells[2, 1].value == "A subtitle"
+        @test result2.cells[2, 1].style.italic == true
+    end
+
     @testset "tab_row_group" begin
         df = DataFrame(
             arm   = ["A", "A", "B", "B"],

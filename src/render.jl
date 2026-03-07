@@ -22,15 +22,36 @@ function render(tbl::GTTable)
         _build_plain_body(tbl, df, display_cols)
     end
 
-    n_header_rows = 1 + (has_spanners ? 1 : 0)
+    has_title = tbl.header !== nothing
+    has_subtitle = has_title && tbl.header.subtitle !== nothing
+    title_rows = _build_title_rows(tbl, n_cols)
+
+    n_header_rows = (has_title ? 1 : 0) + (has_subtitle ? 1 : 0) + (has_spanners ? 1 : 0) + 1
 
     parts = Matrix{Cell}[]
+    append!(parts, title_rows)
     has_spanners && push!(parts, reshape(spanner_row, 1, n_cols))
     push!(parts, reshape(header_row, 1, n_cols))
     push!(parts, body)
 
     cells = reduce(vcat, parts)
     return Table(cells; header = n_header_rows)
+end
+
+function _build_title_rows(tbl::GTTable, n_cols::Int)
+    rows = Matrix{Cell}[]
+    hdr = tbl.header
+    hdr === nothing && return rows
+
+    title_row = [Cell(hdr.title; bold = true, merge = true) for _ in 1:n_cols]
+    push!(rows, reshape(title_row, 1, n_cols))
+
+    if hdr.subtitle !== nothing
+        subtitle_row = [Cell(hdr.subtitle; italic = true, merge = true) for _ in 1:n_cols]
+        push!(rows, reshape(subtitle_row, 1, n_cols))
+    end
+
+    return rows
 end
 
 function _build_plain_body(tbl::GTTable, df::DataFrame, colnames::Vector{Symbol})

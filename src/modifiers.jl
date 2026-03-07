@@ -60,6 +60,13 @@ function gt(data)
     )
 end
 
+function tab_header(title; subtitle = nothing)
+    return function (tbl::GTTable)
+        tbl.header = TableHeader(title, subtitle)
+        return tbl
+    end
+end
+
 function tab_row_group(col::Symbol; indent_pt::Real = 12)
     return function (tbl::GTTable)
         col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
