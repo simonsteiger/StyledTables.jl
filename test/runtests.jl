@@ -155,6 +155,14 @@ using Test
         @test result2.cells[1, 1].value == "My Table"
         @test result2.cells[2, 1].value == "A subtitle"
         @test result2.cells[2, 1].style.italic == true
+
+        # Title + subtitle + spanner: n_header_rows = 4
+        tbl3 = gt(df) |> tab_header("My Table"; subtitle = "Subtitle") |> tab_spanner("XY"; columns = [:x, :y])
+        result3 = render(tbl3)
+        @test result3.header == 4
+        @test size(result3.cells, 1) == 6  # 4 header rows + 2 body rows
+        @test result3.cells[1, 1].value == "My Table"
+        @test result3.cells[3, 1].value == "XY"  # spanner row is row 3
     end
 
     @testset "tab_row_group" begin
