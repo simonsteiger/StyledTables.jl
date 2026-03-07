@@ -67,6 +67,13 @@ function tab_header(title; subtitle = nothing)
     end
 end
 
+function tab_footnote(text)
+    return function (tbl::GTTable)
+        push!(tbl.footnotes, text)
+        return tbl
+    end
+end
+
 function tab_row_group(col::Symbol; indent_pt::Real = 12)
     return function (tbl::GTTable)
         col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))

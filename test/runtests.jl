@@ -165,6 +165,15 @@ using Test
         @test result3.cells[3, 1].value == "XY"  # spanner row is row 3
     end
 
+    @testset "tab_footnote" begin
+        df = DataFrame(x = [1])
+        tbl = gt(df) |> tab_footnote("Source: internal data") |> tab_footnote("n = 1")
+        result = render(tbl)
+        @test length(result.footnotes) == 2
+        @test result.footnotes[1] == "Source: internal data"
+        @test result.footnotes[2] == "n = 1"
+    end
+
     @testset "tab_row_group" begin
         df = DataFrame(
             arm   = ["A", "A", "B", "B"],

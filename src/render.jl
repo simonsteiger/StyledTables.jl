@@ -35,7 +35,7 @@ function render(tbl::GTTable)
     push!(parts, body)
 
     cells = reduce(vcat, parts)
-    return Table(cells; header = n_header_rows)
+    return Table(cells; header = n_header_rows, footnotes = tbl.footnotes)
 end
 
 function _build_title_rows(tbl::GTTable, n_cols::Int)
