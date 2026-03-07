@@ -1,8 +1,9 @@
 # Usage: gt(df) |> cols_label(x = "X", y = "Y")
 function cols_label(; kwargs...)
     return function (tbl::GTTable)
+        colnames = Symbol.(names(tbl.data))
         for (col, label) in kwargs
-            col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
             tbl.col_labels[col] = label
         end
         return tbl
@@ -14,9 +15,10 @@ end
 function cols_align(halign::Symbol, columns=nothing)
     halign in (:left, :center, :right) || throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
     return function (tbl::GTTable)
-        cols = columns === nothing ? Symbol.(names(tbl.data)) : columns
+        colnames = Symbol.(names(tbl.data))
+        cols = columns === nothing ? colnames : columns
         for col in cols
-            col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
             tbl.col_alignments[col] = halign
         end
         return tbl
