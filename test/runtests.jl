@@ -14,18 +14,22 @@ end
 Base.show(io::IO, m::AsMIME{M}) where {M} = show(io, M(), m.object)
 
 as_html(object) = AsMIME{MIME"text/html"}(object)
+as_latex(object) = AsMIME{MIME"text/latex"}(object)
+as_typst(object) = AsMIME{MIME"text/typst"}(object)
 
 """
     run_reftest(tbl::GTTable, relpath::AbstractString)
 
-Render `tbl` to a SummaryTables.Table, then compare its HTML output against
-the reference file at `test/<relpath>.txt`.  If the file does not yet exist,
-ReferenceTests creates it on the first run.
+Render `tbl` to a SummaryTables.Table, then compare its HTML, LaTeX, and
+Typst output against reference files at `test/<relpath>.txt`,
+`test/<relpath>.latex.txt`, and `test/<relpath>.typ.txt` respectively.
+If a file does not yet exist, ReferenceTests creates it on the first run.
 """
 function run_reftest(tbl, relpath)
     rendered = render(tbl)
-    path_full = joinpath(@__DIR__, relpath * ".txt")
-    @test_reference path_full as_html(rendered)
+    @test_reference joinpath(@__DIR__, relpath * ".txt") as_html(rendered)
+    @test_reference joinpath(@__DIR__, relpath * ".latex.txt") as_latex(rendered)
+    @test_reference joinpath(@__DIR__, relpath * ".typ.txt") as_typst(rendered)
 end
 
 # ---------------------------------------------------------------------------
