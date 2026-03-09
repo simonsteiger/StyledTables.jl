@@ -8,7 +8,7 @@ struct TableHeader
     subtitle::Union{Nothing,Any}
 end
 
-mutable struct GTTable
+mutable struct StyledTable
     data::DataFrame
     col_labels::Dict{Symbol,Any}
     col_alignments::Dict{Symbol,Symbol}
