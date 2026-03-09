@@ -1,4 +1,4 @@
-name = "SummaryTablesExtras"
+name = "StyledTables"
 uuid = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
 authors = ["simonsteiger <simon.j.steiger@gmail.com> and contributors"]
 version = "1.0.0-DEV"
