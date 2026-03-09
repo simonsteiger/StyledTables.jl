@@ -1,6 +1,6 @@
 # Rendering defined here
 
-function render(tbl::GTTable)
+function render(tbl::StyledTable)
     df = tbl.data
 
     # Remove row group column from displayed columns
@@ -38,7 +38,7 @@ function render(tbl::GTTable)
     return Table(cells; header = n_header_rows, footnotes = tbl.footnotes)
 end
 
-function _build_title_rows(tbl::GTTable, n_cols::Int)
+function _build_title_rows(tbl::StyledTable, n_cols::Int)
     rows = Matrix{Cell}[]
     hdr = tbl.header
     hdr === nothing && return rows
@@ -54,7 +54,7 @@ function _build_title_rows(tbl::GTTable, n_cols::Int)
     return rows
 end
 
-function _build_plain_body(tbl::GTTable, df::DataFrame, colnames::Vector{Symbol})
+function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Symbol})
     body = Matrix{Cell}(undef, nrow(df), length(colnames))
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
@@ -65,7 +65,7 @@ function _build_plain_body(tbl::GTTable, df::DataFrame, colnames::Vector{Symbol}
     return body
 end
 
-function _build_body_with_groups(tbl::GTTable, df::DataFrame, display_cols::Vector{Symbol})
+function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::Vector{Symbol})
     group_col = tbl.row_group_col
     indent = tbl.row_group_indent_pt
     group_vals = string.(df[!, group_col])
@@ -113,7 +113,7 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
     return result
 end
 
-function _build_spanner_row(tbl::GTTable, colnames::Vector{Symbol})
+function _build_spanner_row(tbl::StyledTable, colnames::Vector{Symbol})
     row = Cell[Cell(nothing) for _ in colnames]
     for (group_idx, spanner) in enumerate(tbl.spanners)
         for col in spanner.columns
@@ -126,7 +126,7 @@ function _build_spanner_row(tbl::GTTable, colnames::Vector{Symbol})
 end
 
 # Build a single header cell for a given column, applying label overrides and alignment
-function _header_cell(tbl::GTTable, col::Symbol)
+function _header_cell(tbl::StyledTable, col::Symbol)
     # Stub column has no header label
     col == tbl.stub_col && return Cell(nothing)
     label = get(tbl.col_labels, col, string(col))
