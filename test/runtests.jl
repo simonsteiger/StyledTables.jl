@@ -1,4 +1,4 @@
-using SummaryTablesExtras
+using StyledTables
 using SummaryTables
 using DataFrames
 using Test
@@ -18,7 +18,7 @@ as_latex(object) = AsMIME{MIME"text/latex"}(object)
 as_typst(object) = AsMIME{MIME"text/typst"}(object)
 
 """
-    run_reftest(tbl::GTTable, relpath::AbstractString)
+    run_reftest(tbl::StyledTable, relpath::AbstractString)
 
 Render `tbl` to a SummaryTables.Table, then compare its HTML, LaTeX, and
 Typst output against reference files at `test/<relpath>.txt`,
@@ -36,12 +36,12 @@ end
 # Test suite
 # ---------------------------------------------------------------------------
 
-@testset "SummaryTablesExtras" begin
+@testset "StyledTables" begin
 
     # -----------------------------------------------------------------------
-    @testset "gt / basic render" begin
+    @testset "styled_table / basic render" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])
-        run_reftest(gt(df), "references/gt/basic")
+        run_reftest(styled_table(df), "references/styled_table/basic")
     end
 
     # -----------------------------------------------------------------------
@@ -49,17 +49,17 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            gt(df) |> cols_label(x = "Variable X", y = "Variable Y"),
+            styled_table(df) |> cols_label(x = "Variable X", y = "Variable Y"),
             "references/cols_label/relabeled_two_cols",
         )
 
         run_reftest(
-            gt(df) |> cols_label(x = "Only X"),
+            styled_table(df) |> cols_label(x = "Only X"),
             "references/cols_label/relabeled_one_col",
         )
 
         # Error path: unknown column name
-        @test_throws ArgumentError gt(df) |> cols_label(typo = "Label")
+        @test_throws ArgumentError styled_table(df) |> cols_label(typo = "Label")
     end
 
     # -----------------------------------------------------------------------
@@ -67,23 +67,23 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            gt(df) |> cols_align(:center, [:x, :y]),
+            styled_table(df) |> cols_align(:center, [:x, :y]),
             "references/cols_align/center_both",
         )
 
         run_reftest(
-            gt(df) |> cols_align(:right),
+            styled_table(df) |> cols_align(:right),
             "references/cols_align/right_all",
         )
 
         run_reftest(
-            gt(df) |> cols_align(:left, [:x]),
+            styled_table(df) |> cols_align(:left, [:x]),
             "references/cols_align/left_one_col",
         )
 
         # Error paths
         @test_throws ArgumentError cols_align(:centre)
-        @test_throws ArgumentError gt(df) |> cols_align(:left, [:nonexistent])
+        @test_throws ArgumentError styled_table(df) |> cols_align(:left, [:nonexistent])
     end
 
     # -----------------------------------------------------------------------
@@ -91,18 +91,18 @@ end
         df = DataFrame(name = ["Alice", "Bob"], dose = [10, 20], response = [0.9, 0.8])
 
         run_reftest(
-            gt(df) |> tab_spanner("Treatment"; columns = [:dose, :response]),
+            styled_table(df) |> tab_spanner("Treatment"; columns = [:dose, :response]),
             "references/tab_spanner/basic",
         )
 
         run_reftest(
-            gt(df) |> tab_spanner("Treatment"; columns = [:dose, :response])
+            styled_table(df) |> tab_spanner("Treatment"; columns = [:dose, :response])
                     |> tab_spanner("Participant"; columns = [:name]),
             "references/tab_spanner/two_spanners",
         )
 
         # Error path: unknown column
-        @test_throws ArgumentError gt(df) |> tab_spanner("X"; columns = [:typo])
+        @test_throws ArgumentError styled_table(df) |> tab_spanner("X"; columns = [:typo])
     end
 
     # -----------------------------------------------------------------------
@@ -110,12 +110,12 @@ end
         df = DataFrame(rowname = ["Alice", "Bob"], score = [90, 85])
 
         run_reftest(
-            gt(df) |> tab_stub(:rowname),
+            styled_table(df) |> tab_stub(:rowname),
             "references/tab_stub/basic",
         )
 
         # Error path
-        @test_throws ArgumentError gt(df) |> tab_stub(:nonexistent)
+        @test_throws ArgumentError styled_table(df) |> tab_stub(:nonexistent)
     end
 
     # -----------------------------------------------------------------------
@@ -123,17 +123,17 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            gt(df) |> tab_header("My Table"),
+            styled_table(df) |> tab_header("My Table"),
             "references/tab_header/title_only",
         )
 
         run_reftest(
-            gt(df) |> tab_header("My Table"; subtitle = "A subtitle"),
+            styled_table(df) |> tab_header("My Table"; subtitle = "A subtitle"),
             "references/tab_header/title_and_subtitle",
         )
 
         run_reftest(
-            gt(df) |> tab_header("My Table"; subtitle = "Subtitle")
+            styled_table(df) |> tab_header("My Table"; subtitle = "Subtitle")
                     |> tab_spanner("XY"; columns = [:x, :y]),
             "references/tab_header/with_spanner",
         )
@@ -144,12 +144,12 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            gt(df) |> tab_footnote("Source: internal data"),
+            styled_table(df) |> tab_footnote("Source: internal data"),
             "references/tab_footnote/single",
         )
 
         run_reftest(
-            gt(df) |> tab_footnote("Source: internal data") |> tab_footnote("n = 2"),
+            styled_table(df) |> tab_footnote("Source: internal data") |> tab_footnote("n = 2"),
             "references/tab_footnote/multiple",
         )
     end
@@ -163,17 +163,17 @@ end
         )
 
         run_reftest(
-            gt(df) |> tab_row_group(:arm),
+            styled_table(df) |> tab_row_group(:arm),
             "references/tab_row_group/basic",
         )
 
         run_reftest(
-            gt(df) |> tab_row_group(:arm; indent_pt = 24),
+            styled_table(df) |> tab_row_group(:arm; indent_pt = 24),
             "references/tab_row_group/custom_indent",
         )
 
         # Error path
-        @test_throws ArgumentError gt(df) |> tab_row_group(:nonexistent)
+        @test_throws ArgumentError styled_table(df) |> tab_row_group(:nonexistent)
     end
 
 end
