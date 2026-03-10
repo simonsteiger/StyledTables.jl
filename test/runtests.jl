@@ -237,4 +237,36 @@ end
         )
     end
 
+    # -----------------------------------------------------------------------
+    @testset "sub_missing" begin
+        df = DataFrame(x = [1, missing, 3], y = ["a", "b", missing])
+
+        run_reftest(
+            styled_table(df) |> sub_missing(),
+            "references/sub_missing/default",
+        )
+
+        run_reftest(
+            styled_table(df) |> sub_missing(with = "N/A"),
+            "references/sub_missing/custom_text",
+        )
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "tab_options" begin
+        df = DataFrame(x = [1.23456, 2.34567], y = [0.001, 999.9])
+
+        run_reftest(
+            styled_table(df) |> tab_options(round_digits = 2, round_mode = :digits),
+            "references/tab_options/round_digits",
+        )
+
+        run_reftest(
+            styled_table(df) |> tab_options(round_digits = 4, round_mode = :sigdigits, trailing_zeros = true),
+            "references/tab_options/sigdigits_trailing",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> tab_options(round_mode = :invalid)
+    end
+
 end

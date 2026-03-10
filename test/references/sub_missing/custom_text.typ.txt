@@ -1,0 +1,21 @@
+
+#table(
+    rows: 4,
+    columns: 2,
+    column-gutter: 0.25em,
+    align: (left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        [*#"x"*],
+        [*#"y"*],
+        table.hline(y: 1, stroke: 0.75pt),
+    ),
+    [#"1"],
+    [#"a"],
+    [#"N/A"],
+    [#"b"],
+    [#"3"],
+    [#"N/A"],
+    table.hline(y: 4, stroke: 1pt),
+)

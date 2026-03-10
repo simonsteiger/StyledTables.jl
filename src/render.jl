@@ -51,7 +51,16 @@ function render(tbl::StyledTable)
         footer_row_start = size(cells, 1) - length(tbl.source_notes) + 1
     end
 
-    return Table(cells; header = n_header_rows, footer = footer_row_start, footnotes = tbl.footnotes)
+    return Table(
+        cells;
+        header = n_header_rows,
+        footer = footer_row_start,
+        footnotes = tbl.footnotes,
+        postprocess = tbl.postprocessors,
+        round_digits = something(tbl.round_digits, 3),
+        round_mode = something(tbl.round_mode, :auto),
+        trailing_zeros = something(tbl.trailing_zeros, false),
+    )
 end
 
 function _build_title_rows(tbl::StyledTable, n_cols::Int)

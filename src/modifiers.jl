@@ -108,6 +108,33 @@ function tab_source_note(text)
     end
 end
 
+# Usage: styled_table(df) |> sub_missing()
+#        styled_table(df) |> sub_missing(with = "N/A")
+function sub_missing(; with::Any = "—")
+    return function (tbl::StyledTable)
+        push!(tbl.postprocessors, SummaryTables.Replace(ismissing, with, true))
+        return tbl
+    end
+end
+
+# Usage: styled_table(df) |> tab_options(round_digits=2, round_mode=:digits)
+function tab_options(;
+    round_digits::Union{Nothing,Int} = nothing,
+    round_mode::Union{Nothing,Symbol} = nothing,
+    trailing_zeros::Union{Nothing,Bool} = nothing,
+)
+    if round_mode !== nothing
+        round_mode in (:auto, :digits, :sigdigits) ||
+            throw(ArgumentError("round_mode must be :auto, :digits, or :sigdigits, got :$round_mode"))
+    end
+    return function (tbl::StyledTable)
+        round_digits !== nothing && (tbl.round_digits = round_digits)
+        round_mode !== nothing && (tbl.round_mode = round_mode)
+        trailing_zeros !== nothing && (tbl.trailing_zeros = trailing_zeros)
+        return tbl
+    end
+end
+
 # Usage: styled_table(df) |> cols_hide(:a, :b)
 function cols_hide(cols::Symbol...)
     return function (tbl::StyledTable)
