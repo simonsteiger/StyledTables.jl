@@ -176,4 +176,40 @@ end
         @test_throws ArgumentError styled_table(df) |> tab_row_group(:nonexistent)
     end
 
+    # -----------------------------------------------------------------------
+    @testset "cols_hide" begin
+        df = DataFrame(a = [1, 2], b = [3, 4], c = [5, 6])
+
+        run_reftest(
+            styled_table(df) |> cols_hide(:c),
+            "references/cols_hide/single",
+        )
+
+        run_reftest(
+            styled_table(df) |> cols_hide(:a, :c),
+            "references/cols_hide/multiple",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> cols_hide(:nonexistent)
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "cols_move" begin
+        df = DataFrame(a = [1, 2], b = [3, 4], c = [5, 6])
+
+        run_reftest(
+            styled_table(df) |> cols_move([:c, :b]),
+            "references/cols_move/to_start",
+        )
+
+        run_reftest(
+            styled_table(df) |> cols_move([:c]; after = :a),
+            "references/cols_move/after_col",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> cols_move([:nonexistent])
+        @test_throws ArgumentError styled_table(df) |> cols_move([:c]; after = :nonexistent)
+        @test_throws ArgumentError styled_table(df) |> cols_move([:c]; after = :c)
+    end
+
 end

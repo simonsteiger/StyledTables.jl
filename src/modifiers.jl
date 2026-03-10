@@ -93,3 +93,38 @@ function tab_row_group(col::Symbol; indent_pt::Real = 12)
         return tbl
     end
 end
+
+# Usage: styled_table(df) |> cols_hide(:a, :b)
+function cols_hide(cols::Symbol...)
+    return function (tbl::StyledTable)
+        colnames = Symbol.(names(tbl.data))
+        for col in cols
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+            push!(tbl.hidden_cols, col)
+        end
+        return tbl
+    end
+end
+
+# Usage: styled_table(df) |> cols_move([:c, :b])            # move :c, :b to start
+#        styled_table(df) |> cols_move([:c]; after = :a)    # move :c after :a
+function cols_move(cols::AbstractVector{Symbol}; after::Union{Nothing,Symbol} = nothing)
+    return function (tbl::StyledTable)
+        colnames = Symbol.(names(tbl.data))
+        for col in cols
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+        if after !== nothing
+            after in colnames || throw(ArgumentError("Column :$after not found in DataFrame"))
+            after in cols && throw(ArgumentError("Column :$after cannot appear in both `cols` and `after`"))
+        end
+        remaining = filter(c -> c ∉ cols, colnames)
+        if after === nothing
+            tbl.col_order = vcat(cols, remaining)
+        else
+            idx = findfirst(==(after), remaining)
+            tbl.col_order = vcat(remaining[1:idx], collect(cols), remaining[idx+1:end])
+        end
+        return tbl
+    end
+end

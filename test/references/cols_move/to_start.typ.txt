@@ -1,0 +1,22 @@
+
+#table(
+    rows: 3,
+    columns: 3,
+    column-gutter: 0.25em,
+    align: (left, left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        [*#"c"*],
+        [*#"b"*],
+        [*#"a"*],
+        table.hline(y: 1, stroke: 0.75pt),
+    ),
+    [#"5"],
+    [#"3"],
+    [#"1"],
+    [#"6"],
+    [#"4"],
+    [#"2"],
+    table.hline(y: 3, stroke: 1pt),
+)

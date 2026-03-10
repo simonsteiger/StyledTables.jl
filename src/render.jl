@@ -3,11 +3,10 @@
 function render(tbl::StyledTable)
     df = tbl.data
 
-    # Remove row group column from displayed columns
-    display_cols = if tbl.row_group_col !== nothing
-        filter(!=(tbl.row_group_col), Symbol.(names(df)))
-    else
-        Symbol.(names(df))
+    # Determine base column order (respecting cols_move), then remove row_group_col and hidden_cols
+    base_order = tbl.col_order !== nothing ? tbl.col_order : Symbol.(names(df))
+    display_cols = filter(base_order) do col
+        col != tbl.row_group_col && col ∉ tbl.hidden_cols
     end
 
     n_cols = length(display_cols)
