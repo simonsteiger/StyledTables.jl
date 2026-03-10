@@ -5,6 +5,7 @@ version = "1.0.0-DEV"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 SummaryTables = "6ce4ecf0-73a7-4ce3-9fb4-80ebfe887b60"
 
 [compat]

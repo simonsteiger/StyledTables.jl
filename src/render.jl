@@ -3,11 +3,10 @@
 function render(tbl::StyledTable)
     df = tbl.data
 
-    # Remove row group column from displayed columns
-    display_cols = if tbl.row_group_col !== nothing
-        filter(!=(tbl.row_group_col), Symbol.(names(df)))
-    else
-        Symbol.(names(df))
+    # Determine base column order (respecting cols_move), then remove row_group_col and hidden_cols
+    base_order = tbl.col_order !== nothing ? tbl.col_order : Symbol.(names(df))
+    display_cols = filter(base_order) do col
+        col != tbl.row_group_col && col ∉ tbl.hidden_cols
     end
 
     n_cols = length(display_cols)
@@ -35,7 +34,33 @@ function render(tbl::StyledTable)
     push!(parts, body)
 
     cells = reduce(vcat, parts)
-    return Table(cells; header = n_header_rows, footnotes = tbl.footnotes)
+
+    # Append source notes as footer rows
+    footer_row_start = nothing
+    if !isempty(tbl.source_notes)
+        footer_rows = map(tbl.source_notes) do note
+            row = Vector{Cell}(undef, n_cols)
+            row[1] = Cell(note; merge = true, halign = :left)
+            for j in 2:n_cols
+                row[j] = Cell(nothing)
+            end
+            reshape(row, 1, n_cols)
+        end
+        footer_matrix = reduce(vcat, footer_rows)
+        cells = vcat(cells, footer_matrix)
+        footer_row_start = size(cells, 1) - length(tbl.source_notes) + 1
+    end
+
+    return Table(
+        cells;
+        header = n_header_rows,
+        footer = footer_row_start,
+        footnotes = tbl.footnotes,
+        postprocess = tbl.postprocessors,
+        round_digits = something(tbl.round_digits, 3),
+        round_mode = something(tbl.round_mode, :auto),
+        trailing_zeros = something(tbl.trailing_zeros, false),
+    )
 end
 
 function _build_title_rows(tbl::StyledTable, n_cols::Int)
@@ -54,12 +79,25 @@ function _build_title_rows(tbl::StyledTable, n_cols::Int)
     return rows
 end
 
+function _apply_formatter(value, tbl::StyledTable, col::Symbol)
+    haskey(tbl.col_formatters, col) || return value
+    return tbl.col_formatters[col](value)
+end
+
+function _apply_col_style(value, tbl::StyledTable, col::Symbol)
+    haskey(tbl.col_styles, col) || return value
+    s = tbl.col_styles[col]
+    return SummaryTables.Styled(value; s.color, s.bold, s.italic, s.underline)
+end
+
 function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Symbol})
     body = Matrix{Cell}(undef, nrow(df), length(colnames))
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
         for i in 1:nrow(df)
-            body[i, j] = Cell(df[i, col]; halign)
+            raw = _apply_formatter(df[i, col], tbl, col)
+            val = _apply_col_style(raw, tbl, col)
+            body[i, j] = Cell(val; halign)
         end
     end
     return body
@@ -93,7 +131,9 @@ function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::
         for (j, col) in enumerate(display_cols)
             halign = get(tbl.col_alignments, col, :left)
             indent_pt = j == 1 ? indent : 0.0
-            body[i + offset, j] = Cell(df[i, col]; halign, indent_pt)
+            raw = _apply_formatter(df[i, col], tbl, col)
+            val = _apply_col_style(raw, tbl, col)
+            body[i + offset, j] = Cell(val; halign, indent_pt)
         end
     end
 
@@ -127,9 +167,15 @@ end
 
 # Build a single header cell for a given column, applying label overrides and alignment
 function _header_cell(tbl::StyledTable, col::Symbol)
-    # Stub column has no header label
-    col == tbl.stub_col && return Cell(nothing)
+    if col == tbl.stub_col
+        label = tbl.stubhead_label
+        halign = get(tbl.col_alignments, col, :left)
+        return Cell(label; bold = label !== nothing, halign)
+    end
     label = get(tbl.col_labels, col, string(col))
     halign = get(tbl.col_alignments, col, :left)
+    if haskey(tbl.col_footnotes, col)
+        label = SummaryTables.Annotated(label, tbl.col_footnotes[col])
+    end
     return Cell(label; bold = true, halign)
 end

@@ -1,0 +1,17 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\textbf{x} & \textbf{y} \\
+\midrule
+1 & 3 \\
+2 & 4 \\
+\midrule
+Source: A &  \\
+Note: B &  \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}
