@@ -159,5 +159,8 @@ function _header_cell(tbl::StyledTable, col::Symbol)
     end
     label = get(tbl.col_labels, col, string(col))
     halign = get(tbl.col_alignments, col, :left)
+    if haskey(tbl.col_footnotes, col)
+        label = SummaryTables.Annotated(label, tbl.col_footnotes[col])
+    end
     return Cell(label; bold = true, halign)
 end

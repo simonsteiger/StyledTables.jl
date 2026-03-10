@@ -78,9 +78,21 @@ function tab_header(title; subtitle = nothing)
     end
 end
 
-function tab_footnote(text)
+# Usage: styled_table(df) |> tab_footnote("note")                          # table-level
+#        styled_table(df) |> tab_footnote("note"; columns = [:x, :y])     # annotates column headers
+function tab_footnote(text; columns::Union{Nothing,AbstractVector{Symbol}} = nothing)
     return function (tbl::StyledTable)
-        push!(tbl.footnotes, text)
+        if columns === nothing
+            push!(tbl.footnotes, text)
+        else
+            colnames = Symbol.(names(tbl.data))
+            for col in columns
+                col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+            end
+            for col in columns
+                tbl.col_footnotes[col] = text
+            end
+        end
         return tbl
     end
 end

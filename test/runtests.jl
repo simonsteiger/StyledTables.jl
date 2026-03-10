@@ -269,4 +269,21 @@ end
         @test_throws ArgumentError styled_table(df) |> tab_options(round_mode = :invalid)
     end
 
+    # -----------------------------------------------------------------------
+    @testset "tab_footnote column location" begin
+        df = DataFrame(x = [1, 2], y = [3, 4])
+
+        run_reftest(
+            styled_table(df) |> tab_footnote("See methods"; columns = [:x]),
+            "references/tab_footnote/col_single",
+        )
+
+        run_reftest(
+            styled_table(df) |> tab_footnote("Measured at baseline"; columns = [:x, :y]),
+            "references/tab_footnote/col_multiple",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> tab_footnote("Note"; columns = [:nonexistent])
+    end
+
 end
