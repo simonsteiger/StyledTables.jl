@@ -120,6 +120,26 @@ function tab_source_note(text)
     end
 end
 
+# Usage: styled_table(df) |> tab_style([:col]; color="#FF0000", bold=true, italic=false)
+function tab_style(
+    columns::AbstractVector{Symbol};
+    color::Union{Nothing,String} = nothing,
+    bold::Union{Nothing,Bool} = nothing,
+    italic::Union{Nothing,Bool} = nothing,
+    underline::Union{Nothing,Bool} = nothing,
+)
+    return function (tbl::StyledTable)
+        colnames = Symbol.(names(tbl.data))
+        for col in columns
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+        for col in columns
+            tbl.col_styles[col] = ColStyleOverride(color, bold, italic, underline)
+        end
+        return tbl
+    end
+end
+
 # Usage: styled_table(df) |> sub_missing()
 #        styled_table(df) |> sub_missing(with = "N/A")
 function sub_missing(; with::Any = "—")

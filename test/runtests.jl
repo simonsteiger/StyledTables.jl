@@ -286,4 +286,21 @@ end
         @test_throws ArgumentError styled_table(df) |> tab_footnote("Note"; columns = [:nonexistent])
     end
 
+    # -----------------------------------------------------------------------
+    @testset "tab_style" begin
+        df = DataFrame(label = ["A", "B"], value = [1.0, 2.0])
+
+        run_reftest(
+            styled_table(df) |> tab_style([:value]; bold = true),
+            "references/tab_style/bold_col",
+        )
+
+        run_reftest(
+            styled_table(df) |> tab_style([:label]; color = "#FF0000", italic = true),
+            "references/tab_style/color_italic",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> tab_style([:nonexistent]; bold = true)
+    end
+
 end
