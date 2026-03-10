@@ -94,6 +94,20 @@ function tab_row_group(col::Symbol; indent_pt::Real = 12)
     end
 end
 
+function tab_stubhead(label)
+    return function (tbl::StyledTable)
+        tbl.stubhead_label = label
+        return tbl
+    end
+end
+
+function tab_source_note(text)
+    return function (tbl::StyledTable)
+        push!(tbl.source_notes, text)
+        return tbl
+    end
+end
+
 # Usage: styled_table(df) |> cols_hide(:a, :b)
 function cols_hide(cols::Symbol...)
     return function (tbl::StyledTable)

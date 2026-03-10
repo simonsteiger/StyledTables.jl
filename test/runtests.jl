@@ -212,4 +212,29 @@ end
         @test_throws ArgumentError styled_table(df) |> cols_move([:c]; after = :c)
     end
 
+    # -----------------------------------------------------------------------
+    @testset "tab_stubhead" begin
+        df = DataFrame(rowname = ["Alice", "Bob"], score = [90, 85])
+
+        run_reftest(
+            styled_table(df) |> tab_stub(:rowname) |> tab_stubhead("Name"),
+            "references/tab_stubhead/basic",
+        )
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "tab_source_note" begin
+        df = DataFrame(x = [1, 2], y = [3, 4])
+
+        run_reftest(
+            styled_table(df) |> tab_source_note("Source: internal data"),
+            "references/tab_source_note/single",
+        )
+
+        run_reftest(
+            styled_table(df) |> tab_source_note("Source: A") |> tab_source_note("Note: B"),
+            "references/tab_source_note/multiple",
+        )
+    end
+
 end

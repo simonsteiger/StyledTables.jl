@@ -34,7 +34,24 @@ function render(tbl::StyledTable)
     push!(parts, body)
 
     cells = reduce(vcat, parts)
-    return Table(cells; header = n_header_rows, footnotes = tbl.footnotes)
+
+    # Append source notes as footer rows
+    footer_row_start = nothing
+    if !isempty(tbl.source_notes)
+        footer_rows = map(tbl.source_notes) do note
+            row = Vector{Cell}(undef, n_cols)
+            row[1] = Cell(note; merge = true, halign = :left)
+            for j in 2:n_cols
+                row[j] = Cell(nothing)
+            end
+            reshape(row, 1, n_cols)
+        end
+        footer_matrix = reduce(vcat, footer_rows)
+        cells = vcat(cells, footer_matrix)
+        footer_row_start = size(cells, 1) - length(tbl.source_notes) + 1
+    end
+
+    return Table(cells; header = n_header_rows, footer = footer_row_start, footnotes = tbl.footnotes)
 end
 
 function _build_title_rows(tbl::StyledTable, n_cols::Int)
@@ -126,8 +143,11 @@ end
 
 # Build a single header cell for a given column, applying label overrides and alignment
 function _header_cell(tbl::StyledTable, col::Symbol)
-    # Stub column has no header label
-    col == tbl.stub_col && return Cell(nothing)
+    if col == tbl.stub_col
+        label = tbl.stubhead_label
+        halign = get(tbl.col_alignments, col, :left)
+        return Cell(label; bold = label !== nothing, halign)
+    end
     label = get(tbl.col_labels, col, string(col))
     halign = get(tbl.col_alignments, col, :left)
     return Cell(label; bold = true, halign)
