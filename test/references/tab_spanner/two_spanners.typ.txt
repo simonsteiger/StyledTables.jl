@@ -1,0 +1,24 @@
+
+#table(
+    rows: 4,
+    columns: 3,
+    column-gutter: 0.25em,
+    align: (left, left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        table.cell(align: center)[*#"Participant"*],
+        table.cell(colspan: 2, align: center)[*#"Treatment"*],
+        [*#"name"*],
+        [*#"dose"*],
+        [*#"response"*],
+        table.hline(y: 2, stroke: 0.75pt),
+    ),
+    [#"Alice"],
+    [#"10"],
+    [#"0.9"],
+    [#"Bob"],
+    [#"20"],
+    [#"0.8"],
+    table.hline(y: 4, stroke: 1pt),
+)

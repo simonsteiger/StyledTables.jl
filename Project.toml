@@ -1,4 +1,4 @@
-name = "SummaryTablesExtras"
+name = "StyledTables"
 uuid = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
 authors = ["simonsteiger <simon.j.steiger@gmail.com> and contributors"]
 version = "1.0.0-DEV"
@@ -13,7 +13,8 @@ SummaryTables = "3.5.1"
 julia = "1.10"
 
 [extras]
+ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["ReferenceTests", "Test"]

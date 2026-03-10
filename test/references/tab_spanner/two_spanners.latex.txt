@@ -1,0 +1,15 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{3}{lll}}
+\toprule
+\multicolumn{1}{c}{\textbf{Participant}} & \multicolumn{2}{c}{\textbf{Treatment}} \\
+\textbf{name} & \textbf{dose} & \textbf{response} \\
+\midrule
+Alice & 10 & 0.9 \\
+Bob & 20 & 0.8 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}
