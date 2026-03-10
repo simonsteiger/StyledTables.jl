@@ -173,6 +173,8 @@ function cols_hide(cols::Symbol...)
         colnames = Symbol.(names(tbl.data))
         for col in cols
             col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+        for col in cols
             push!(tbl.hidden_cols, col)
         end
         return tbl
