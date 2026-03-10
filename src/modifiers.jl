@@ -48,15 +48,26 @@ end
 function styled_table(data)
     df = data isa DataFrame ? data : DataFrame(data)
     return StyledTable(
-        df,
-        Dict{Symbol,Any}(),
-        Dict{Symbol,Symbol}(),
-        Spanner[],
-        nothing,
-        12.0,
-        nothing,
-        nothing,
-        Any[],
+        df,                             # data
+        Dict{Symbol,Any}(),             # col_labels
+        Dict{Symbol,Symbol}(),          # col_alignments
+        Spanner[],                      # spanners
+        nothing,                        # row_group_col
+        12.0,                           # row_group_indent_pt
+        nothing,                        # stub_col
+        nothing,                        # header
+        Any[],                          # footnotes
+        Dict{Symbol,Function}(),        # col_formatters
+        Dict{Symbol,ColStyleOverride}(),# col_styles
+        Dict{Symbol,Any}(),             # col_footnotes
+        nothing,                        # col_order
+        Set{Symbol}(),                  # hidden_cols
+        nothing,                        # stubhead_label
+        Any[],                          # source_notes
+        Any[],                          # postprocessors
+        nothing,                        # round_digits
+        nothing,                        # round_mode
+        nothing,                        # trailing_zeros
     )
 end
 
