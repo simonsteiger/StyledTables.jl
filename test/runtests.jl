@@ -303,4 +303,50 @@ end
         @test_throws ArgumentError styled_table(df) |> tab_style([:nonexistent]; bold = true)
     end
 
+    # -----------------------------------------------------------------------
+    @testset "fmt_number" begin
+        df = DataFrame(x = [1.23456, 2.34567], y = [10.0, 20.0])
+
+        run_reftest(
+            styled_table(df) |> fmt_number([:x]; digits = 2),
+            "references/fmt/number_two_digits",
+        )
+
+        run_reftest(
+            styled_table(df) |> fmt_number([:x, :y]; digits = 1, trailing_zeros = true),
+            "references/fmt/number_trailing_zeros",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> fmt_number([:nonexistent]; digits = 2)
+    end
+
+    @testset "fmt_percent" begin
+        df = DataFrame(rate = [0.123, 0.456])
+
+        run_reftest(
+            styled_table(df) |> fmt_percent([:rate]; digits = 1),
+            "references/fmt/percent_default",
+        )
+    end
+
+    @testset "fmt_integer" begin
+        df = DataFrame(n = [1.7, 2.3])
+
+        run_reftest(
+            styled_table(df) |> fmt_integer([:n]),
+            "references/fmt/integer",
+        )
+    end
+
+    @testset "fmt (custom)" begin
+        df = DataFrame(x = [1.0, 2.0])
+
+        run_reftest(
+            styled_table(df) |> fmt([:x], x -> "≈$(round(Int, x))"),
+            "references/fmt/custom",
+        )
+
+        @test_throws ArgumentError styled_table(df) |> fmt([:nonexistent], identity)
+    end
+
 end

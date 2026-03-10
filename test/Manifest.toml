@@ -758,6 +758,12 @@ version = "0.4.4"
 uuid = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
 version = "1.11.0"
 
+[[deps.StyledTables]]
+deps = ["DataFrames", "Printf", "SummaryTables"]
+path = "/Users/simonsteiger/.julia/dev/SummaryTablesExtras"
+uuid = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
+version = "1.0.0-DEV"
+
 [[deps.SuiteSparse]]
 deps = ["Libdl", "LinearAlgebra", "Serialization", "SparseArrays"]
 uuid = "4607b0f0-06f3-5cda-b6b1-a6196a1729e9"
@@ -772,12 +778,6 @@ deps = ["CategoricalArrays", "DataFrames", "EnumX", "HypothesisTests", "Multiple
 git-tree-sha1 = "fe116dbedc63992961323b8c14a343ed57d16e52"
 uuid = "6ce4ecf0-73a7-4ce3-9fb4-80ebfe887b60"
 version = "3.5.1"
-
-[[deps.StyledTables]]
-deps = ["DataFrames", "SummaryTables"]
-path = "/Users/simonsteiger/.julia/dev/SummaryTablesExtras"
-uuid = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
-version = "1.0.0-DEV"
 
 [[deps.TOML]]
 deps = ["Dates"]

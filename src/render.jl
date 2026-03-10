@@ -79,6 +79,11 @@ function _build_title_rows(tbl::StyledTable, n_cols::Int)
     return rows
 end
 
+function _apply_formatter(value, tbl::StyledTable, col::Symbol)
+    haskey(tbl.col_formatters, col) || return value
+    return tbl.col_formatters[col](value)
+end
+
 function _apply_col_style(value, tbl::StyledTable, col::Symbol)
     haskey(tbl.col_styles, col) || return value
     s = tbl.col_styles[col]
@@ -90,7 +95,8 @@ function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Sym
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
         for i in 1:nrow(df)
-            val = _apply_col_style(df[i, col], tbl, col)
+            raw = _apply_formatter(df[i, col], tbl, col)
+            val = _apply_col_style(raw, tbl, col)
             body[i, j] = Cell(val; halign)
         end
     end
@@ -125,7 +131,8 @@ function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::
         for (j, col) in enumerate(display_cols)
             halign = get(tbl.col_alignments, col, :left)
             indent_pt = j == 1 ? indent : 0.0
-            val = _apply_col_style(df[i, col], tbl, col)
+            raw = _apply_formatter(df[i, col], tbl, col)
+            val = _apply_col_style(raw, tbl, col)
             body[i + offset, j] = Cell(val; halign, indent_pt)
         end
     end
