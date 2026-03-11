@@ -16,10 +16,28 @@ function _apply_formatter_modifier(cols, f::Function)
 end
 
 """
-    fmt_number(cols; digits=2, trailing_zeros=true)
+$TYPEDSIGNATURES
 
 Format numeric values in `cols` to a fixed number of decimal places.
-`cols` can be a `Symbol` or `AbstractVector{Symbol}`.
+
+`cols` can be a single `Symbol` or an `AbstractVector{Symbol}`.
+
+# Keywords
+
+- `digits`: number of decimal places (default `2`).
+- `trailing_zeros`: keep trailing zeros (default `true`).
+
+# Returns
+
+A closure `(tbl::StyledTable) -> StyledTable` for `|>` chaining.
+
+See also: [`fmt_percent`](@ref), [`fmt_integer`](@ref), [`fmt`](@ref), [`tab_options`](@ref).
+
+# Examples
+
+```julia
+df |> StyledTable() |> fmt_number([:x]; digits = 2) |> render()
+```
 """
 function fmt_number(cols; digits::Int = 2, trailing_zeros::Bool = true)
     fmt_str = Printf.Format("%.$(digits)f")
@@ -35,9 +53,29 @@ function fmt_number(cols; digits::Int = 2, trailing_zeros::Bool = true)
 end
 
 """
-    fmt_percent(cols; digits=1, scale=100, suffix="%")
+$TYPEDSIGNATURES
 
-Multiply values by `scale` and format as a percentage string.
+Format values in `cols` as percentage strings.
+
+Multiplies each value by `scale` and appends `suffix`.
+
+# Keywords
+
+- `digits`: decimal places for the percentage (default `1`).
+- `scale`: multiplier applied before formatting (default `100`).
+- `suffix`: string appended after the number (default `"%"`).
+
+# Returns
+
+A closure `(tbl::StyledTable) -> StyledTable` for `|>` chaining.
+
+See also: [`fmt_number`](@ref), [`fmt_integer`](@ref), [`fmt`](@ref).
+
+# Examples
+
+```julia
+df |> StyledTable() |> fmt_percent([:rate]; digits = 1) |> render()
+```
 """
 function fmt_percent(cols; digits::Int = 1, scale::Real = 100, suffix::String = "%")
     fmt_str = Printf.Format("%.$(digits)f")
@@ -46,9 +84,21 @@ function fmt_percent(cols; digits::Int = 1, scale::Real = 100, suffix::String = 
 end
 
 """
-    fmt_integer(cols)
+$TYPEDSIGNATURES
 
 Format numeric values in `cols` as integers (rounds to nearest).
+
+# Returns
+
+A closure `(tbl::StyledTable) -> StyledTable` for `|>` chaining.
+
+See also: [`fmt_number`](@ref), [`fmt_percent`](@ref), [`fmt`](@ref).
+
+# Examples
+
+```julia
+df |> StyledTable() |> fmt_integer([:count]) |> render()
+```
 """
 function fmt_integer(cols)
     f = x -> ismissing(x) ? x : string(round(Int, x))
@@ -56,9 +106,29 @@ function fmt_integer(cols)
 end
 
 """
-    fmt(cols, f::Function)
+$TYPEDSIGNATURES
 
-Apply a custom formatter function `f(value) -> Any` to values in `cols`.
+Apply a custom formatter function to values in `cols`.
+
+`f` receives the raw cell value and should return a display-ready value.
+Return `x` unchanged for `missing` if you want [`sub_missing`](@ref) to handle it.
+
+# Arguments
+
+- `cols`: column name(s) to format.
+- `f`: formatter with signature `f(value) -> Any`.
+
+# Returns
+
+A closure `(tbl::StyledTable) -> StyledTable` for `|>` chaining.
+
+See also: [`fmt_number`](@ref), [`fmt_percent`](@ref), [`fmt_integer`](@ref).
+
+# Examples
+
+```julia
+df |> StyledTable() |> fmt([:x], x -> "≈\$(round(Int, x))") |> render()
+```
 """
 function fmt(cols, f::Function)
     return _apply_formatter_modifier(cols, f)

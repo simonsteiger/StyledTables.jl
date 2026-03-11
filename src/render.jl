@@ -1,13 +1,27 @@
 """
-    render(tbl::StyledTable) -> SummaryTables.Table
+$TYPEDSIGNATURES
 
-Convert a `StyledTable` into a renderable `SummaryTables.Table`.
+Convert a [`StyledTable`](@ref) into a renderable `SummaryTables.Table`.
 
 Applies all modifiers registered on `tbl` (labels, spanners, formatters,
-styles, row groups, etc.) and assembles the cell matrix. The result supports
-`show(io, MIME"text/html"(), tbl)`, LaTeX, and Typst output.
+styles, row groups, etc.) and assembles the cell matrix. The result
+supports `show(io, MIME"text/html"(), ...)`, LaTeX, and Typst output.
+
+Calling `render` is optional in interactive contexts: `StyledTable` has
+`Base.show` methods that call `render` automatically.
+
+# Arguments
+
+- `tbl`: a [`StyledTable`](@ref) configured with modifier functions.
+
+# Returns
+
+A `SummaryTables.Table` (a `Matrix{Cell}` with header/footer metadata).
+
+See also: [`StyledTable`](@ref), [`tab_header`](@ref), [`cols_label`](@ref).
 
 # Examples
+
 ```julia
 using StyledTables, DataFrames
 df = DataFrame(a = [1, 2], b = ["x", "y"])
