@@ -7,7 +7,7 @@ highlight it with bold styling.
 
 ## The data
 
-```julia
+```@example cars
 using StyledTables, DataFrames
 
 cars = DataFrame(
@@ -26,8 +26,8 @@ cars = DataFrame(
 
 Group by `:origin` and hide the origin and year columns from view.
 
-```julia
-cars |> StyledTable() |>
+```@example cars
+cars |> StyledTable |>
     tab_row_group(:origin) |>
     cols_hide(:origin, :year) |>
     cols_label(
@@ -37,14 +37,13 @@ cars |> StyledTable() |>
         trq_nm   = "Torque (Nm)",
         mpg      = "MPG",
         msrp_eur = "MSRP (€)",
-    ) |>
-    render()
+    ) |> render
 ```
 
 ## Step 2: Add a spanner for performance metrics
 
-```julia
-cars |> StyledTable() |>
+```@example cars
+cars |> StyledTable |>
     tab_row_group(:origin) |>
     cols_hide(:origin, :year) |>
     cols_label(
@@ -55,8 +54,7 @@ cars |> StyledTable() |>
         mpg      = "MPG",
         msrp_eur = "MSRP (€)",
     ) |>
-    tab_spanner("Performance"; columns = [:hp, :trq_nm, :mpg]) |>
-    render()
+    tab_spanner("Performance"; columns = [:hp, :trq_nm, :mpg]) |> render
 ```
 
 ## Step 3: Reorder, format, and highlight
@@ -64,8 +62,8 @@ cars |> StyledTable() |>
 Move MSRP next to the model name, format it with a currency prefix, right-align
 the numeric columns, bold the price values, and add an annotated footnote on MPG.
 
-```julia
-cars |> StyledTable() |>
+```@example cars
+cars |> StyledTable |>
     tab_header("Sports Cars — 2022 Model Year"; subtitle = "Selected European manufacturers") |>
     tab_row_group(:origin) |>
     cols_hide(:origin, :year) |>
@@ -83,8 +81,7 @@ cars |> StyledTable() |>
     cols_align(:right, [:msrp_eur, :hp, :trq_nm, :mpg]) |>
     tab_style([:msrp_eur]; bold = true) |>
     tab_footnote("City/highway combined estimate"; columns = [:mpg]) |>
-    tab_source_note("Source: manufacturer specifications") |>
-    render()
+    tab_source_note("Source: manufacturer specifications") |> render
 ```
 
 The final table groups cars by origin country, shows a spanner over the three

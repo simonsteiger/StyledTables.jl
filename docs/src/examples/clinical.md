@@ -6,7 +6,7 @@ variables, missing data, and regulatory-style footnotes.
 
 ## The data
 
-```julia
+```@example clinical
 using StyledTables, DataFrames
 
 demo = DataFrame(
@@ -30,8 +30,8 @@ demo = DataFrame(
 Designate `:category` as the stub (row-label column), group rows by `:variable`,
 and add a spanner over each treatment arm column.
 
-```julia
-demo |> StyledTable() |>
+```@example clinical
+demo |> StyledTable |>
     tab_stub(:category) |>
     tab_row_group(:variable) |>
     cols_hide(:variable) |>
@@ -40,14 +40,13 @@ demo |> StyledTable() |>
     cols_label(
         placebo_n   = "n (%)",
         treatment_n = "n (%)",
-    ) |>
-    render()
+    ) |> render
 ```
 
 ## Step 2: Add header, stub label, missing handling, and notes
 
-```julia
-demo |> StyledTable() |>
+```@example clinical
+demo |> StyledTable |>
     tab_header(
         "Baseline Demographic Characteristics";
         subtitle = "Safety Analysis Population",
@@ -67,8 +66,7 @@ demo |> StyledTable() |>
         "Percentages computed on non-missing observations";
         columns = [:placebo_n, :treatment_n],
     ) |>
-    tab_source_note("Abbreviations: SD = standard deviation; N = total per arm") |>
-    render()
+    tab_source_note("Abbreviations: SD = standard deviation; N = total per arm") |> render
 ```
 
 The final table presents demographic data in the standard clinical format:

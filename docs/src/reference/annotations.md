@@ -11,16 +11,15 @@ Add a title (and optional subtitle) above the column headers.
 
 **Signature:** `tab_header(title; subtitle = nothing)`
 
-```julia
+```@example annotations
 using StyledTables, DataFrames
 
 df = DataFrame(country = ["US", "DE", "JP"], gdp = [25.5, 4.1, 4.2])
 
-df |> StyledTable() |>
+df |> StyledTable |>
     tab_header("GDP by Country"; subtitle = "Trillions USD, 2025") |>
     cols_label(country = "Country", gdp = "GDP") |>
-    fmt_number(:gdp; digits = 1) |>
-    render()
+    fmt_number(:gdp; digits = 1) |> render
 ```
 
 ```@docs
@@ -39,19 +38,17 @@ headers and the footnote text is listed below.
 - `tab_footnote(text)` — table-level footnote
 - `tab_footnote(text; columns = [:col1, :col2])` — column-annotated footnote
 
-```julia
-df |> StyledTable() |>
+```@example annotations
+df |> StyledTable |>
     tab_header("GDP by Country") |>
-    tab_footnote("Source: World Bank (2025)") |>
-    render()
+    tab_footnote("Source: World Bank (2025)") |> render
 ```
 
 Annotating a specific column:
 
-```julia
-df |> StyledTable() |>
-    tab_footnote("Purchasing power parity adjusted"; columns = [:gdp]) |>
-    render()
+```@example annotations
+df |> StyledTable |>
+    tab_footnote("Purchasing power parity adjusted"; columns = [:gdp]) |> render
 ```
 
 ```@docs
@@ -67,12 +64,11 @@ rows and span the full table width. Multiple calls stack additional lines.
 
 **Signature:** `tab_source_note(text)`
 
-```julia
-df |> StyledTable() |>
+```@example annotations
+df |> StyledTable |>
     tab_header("GDP by Country") |>
     tab_source_note("Data: World Bank Open Data") |>
-    tab_source_note("Values in trillions USD") |>
-    render()
+    tab_source_note("Values in trillions USD") |> render
 ```
 
 ```@docs

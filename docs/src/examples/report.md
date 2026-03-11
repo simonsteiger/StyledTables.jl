@@ -5,7 +5,7 @@ formatting, highlighted totals column, and annotated footnotes.
 
 ## The data
 
-```julia
+```@example report
 using StyledTables, DataFrames
 
 report = DataFrame(
@@ -23,8 +23,8 @@ report = DataFrame(
 Group the quarterly columns under a spanner, right-align all numeric columns,
 and format every number to two decimal places.
 
-```julia
-report |> StyledTable() |>
+```@example report
+report |> StyledTable |>
     tab_header("Annual Revenue by Region"; subtitle = "Figures in USD billions") |>
     cols_label(
         region = "Region",
@@ -33,8 +33,7 @@ report |> StyledTable() |>
     ) |>
     tab_spanner("Quarterly"; columns = [:q1, :q2, :q3, :q4]) |>
     cols_align(:right, [:q1, :q2, :q3, :q4, :total]) |>
-    fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |>
-    render()
+    fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |> render
 ```
 
 ## Step 2: Highlight the totals column and annotate Q4
@@ -42,8 +41,8 @@ report |> StyledTable() |>
 Bold the "Full Year" column to draw the eye, flag Q4 figures as preliminary,
 and credit the data source.
 
-```julia
-report |> StyledTable() |>
+```@example report
+report |> StyledTable |>
     tab_header("Annual Revenue by Region"; subtitle = "Figures in USD billions") |>
     cols_label(
         region = "Region",
@@ -55,8 +54,7 @@ report |> StyledTable() |>
     fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |>
     tab_style([:total]; bold = true) |>
     tab_footnote("Preliminary figures, subject to audit"; columns = [:q4]) |>
-    tab_source_note("Source: Internal Finance, March 2026") |>
-    render()
+    tab_source_note("Source: Internal Finance, March 2026") |> render
 ```
 
 The "Full Year" column is bolded to draw the eye to the aggregate. The Q4

@@ -20,7 +20,7 @@ See also: [`cols_align`](@ref), [`cols_hide`](@ref), [`cols_move`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> cols_label(bmi = "BMI (kg/m²)", sbp = "Systolic BP") |> render()
+df |> StyledTable |> cols_label(bmi = "BMI (kg/m²)", sbp = "Systolic BP") |> render
 ```
 """
 function cols_label(; kwargs...)
@@ -53,8 +53,8 @@ See also: [`cols_label`](@ref), [`cols_hide`](@ref), [`cols_move`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> cols_align(:right, [:x, :y]) |> render()
-df |> StyledTable() |> cols_align(:center) |> render()
+df |> StyledTable |> cols_align(:right, [:x, :y]) |> render
+df |> StyledTable |> cols_align(:center) |> render
 ```
 """
 function cols_align(halign::Symbol, columns=nothing)
@@ -94,7 +94,7 @@ See also: [`tab_header`](@ref), [`tab_stub`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_spanner("Outcomes"; columns = [:efficacy, :safety]) |> render()
+df |> StyledTable |> tab_spanner("Outcomes"; columns = [:efficacy, :safety]) |> render
 ```
 """
 function tab_spanner(label; columns::Vector{Symbol})
@@ -129,7 +129,7 @@ See also: [`tab_stubhead`](@ref), [`tab_row_group`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_stub(:drug) |> render()
+df |> StyledTable |> tab_stub(:drug) |> render
 ```
 """
 function tab_stub(col::Symbol)
@@ -162,7 +162,7 @@ See also: [`render`](@ref), [`cols_label`](@ref), [`tab_header`](@ref).
 
 ```julia
 df = DataFrame(a = [1, 2], b = ["x", "y"])
-df |> StyledTable() |> tab_header("My Table") |> render()
+df |> StyledTable |> tab_header("My Table") |> render
 ```
 """
 function StyledTable(data)
@@ -215,7 +215,7 @@ See also: [`tab_spanner`](@ref), [`tab_source_note`](@ref), [`tab_footnote`](@re
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_header("My Table"; subtitle = "Subtitle here") |> render()
+df |> StyledTable |> tab_header("My Table"; subtitle = "Subtitle here") |> render
 ```
 """
 function tab_header(title; subtitle = nothing)
@@ -251,8 +251,8 @@ See also: [`tab_source_note`](@ref), [`tab_header`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_footnote("Source: World Bank") |> render()
-df |> StyledTable() |> tab_footnote("PPP adjusted"; columns = [:gdp]) |> render()
+df |> StyledTable |> tab_footnote("Source: World Bank") |> render
+df |> StyledTable |> tab_footnote("PPP adjusted"; columns = [:gdp]) |> render
 ```
 """
 function tab_footnote(text; columns::Union{Nothing,AbstractVector{Symbol}} = nothing)
@@ -298,7 +298,7 @@ See also: [`cols_hide`](@ref), [`tab_stub`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_row_group(:category) |> cols_hide(:category) |> render()
+df |> StyledTable |> tab_row_group(:category) |> cols_hide(:category) |> render
 ```
 """
 function tab_row_group(col::Symbol; indent_pt::Real = 12)
@@ -330,7 +330,7 @@ See also: [`tab_stub`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_stub(:drug) |> tab_stubhead("Drug Name") |> render()
+df |> StyledTable |> tab_stub(:drug) |> tab_stubhead("Drug Name") |> render
 ```
 """
 function tab_stubhead(label)
@@ -361,7 +361,7 @@ See also: [`tab_footnote`](@ref), [`tab_header`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_source_note("Data: World Bank Open Data") |> render()
+df |> StyledTable |> tab_source_note("Data: World Bank Open Data") |> render
 ```
 """
 function tab_source_note(text)
@@ -398,7 +398,7 @@ See also: [`fmt`](@ref), [`cols_align`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_style([:pct]; color = "#1a7340", bold = true) |> render()
+df |> StyledTable |> tab_style([:pct]; color = "#1a7340", bold = true) |> render
 ```
 """
 function tab_style(
@@ -441,8 +441,8 @@ See also: [`tab_options`](@ref), [`fmt`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> sub_missing() |> render()
-df |> StyledTable() |> sub_missing(with = "N/A") |> render()
+df |> StyledTable |> sub_missing() |> render
+df |> StyledTable |> sub_missing(with = "N/A") |> render
 ```
 """
 function sub_missing(; with::Any = "—")
@@ -476,7 +476,7 @@ See also: [`fmt_number`](@ref), [`fmt_percent`](@ref), [`fmt_integer`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_options(round_digits = 2, round_mode = :digits) |> render()
+df |> StyledTable |> tab_options(round_digits = 2, round_mode = :digits) |> render
 ```
 """
 function tab_options(;
@@ -517,7 +517,7 @@ See also: [`cols_move`](@ref), [`tab_row_group`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> tab_row_group(:group) |> cols_hide(:group) |> render()
+df |> StyledTable |> tab_row_group(:group) |> cols_hide(:group) |> render
 ```
 """
 function cols_hide(cols::Symbol...)
@@ -558,8 +558,8 @@ See also: [`cols_hide`](@ref), [`cols_align`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> cols_move([:name]) |> render()
-df |> StyledTable() |> cols_move([:value]; after = :name) |> render()
+df |> StyledTable |> cols_move([:name]) |> render
+df |> StyledTable |> cols_move([:value]; after = :name) |> render
 ```
 """
 function cols_move(cols::AbstractVector{Symbol}; after::Union{Nothing,Symbol} = nothing)

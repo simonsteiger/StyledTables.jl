@@ -7,12 +7,12 @@ in Jupyter, Pluto, and Documenter pages, and saved to HTML, LaTeX, or Typst.
 
 **Signature:** `render(tbl::StyledTable) -> SummaryTables.Table`
 
-```julia
+```@example rendering
 using StyledTables, DataFrames
 
 df = DataFrame(a = [1, 2], b = ["x", "y"])
 
-tbl = df |> StyledTable() |> cols_label(a = "A", b = "B") |> render()
+tbl = df |> StyledTable |> cols_label(a = "A", b = "B") |> render
 ```
 
 The returned `SummaryTables.Table` supports:
@@ -22,10 +22,8 @@ The returned `SummaryTables.Table` supports:
 
 ### Saving to file
 
-```julia
-using StyledTables, DataFrames
-
-tbl = DataFrame(x = [1, 2, 3]) |> StyledTable() |> render()
+```@example rendering
+tbl = DataFrame(x = [1, 2, 3]) |> StyledTable |> render
 
 # HTML
 open("table.html", "w") do io

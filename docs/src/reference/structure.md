@@ -11,7 +11,7 @@ Add a spanning header above a group of columns.
 
 **Signature:** `tab_spanner(label; columns::Vector{Symbol})`
 
-```julia
+```@example structure
 using StyledTables, DataFrames
 
 df = DataFrame(
@@ -21,7 +21,7 @@ df = DataFrame(
     safety   = [0.91, 0.84, 0.88],
 )
 
-df |> StyledTable() |>
+df |> StyledTable |>
     tab_spanner("Outcomes"; columns = [:efficacy, :safety]) |>
     cols_label(
         drug     = "Drug",
@@ -29,17 +29,15 @@ df |> StyledTable() |>
         efficacy = "Efficacy",
         safety   = "Safety",
     ) |>
-    fmt_percent([:efficacy, :safety]; digits = 1) |>
-    render()
+    fmt_percent([:efficacy, :safety]; digits = 1) |> render
 ```
 
 Multiple spanners can be chained:
 
-```julia
-df |> StyledTable() |>
+```@example structure
+df |> StyledTable |>
     tab_spanner("Dosing"; columns = [:dose_mg]) |>
-    tab_spanner("Outcomes"; columns = [:efficacy, :safety]) |>
-    render()
+    tab_spanner("Outcomes"; columns = [:efficacy, :safety]) |> render
 ```
 
 ```@docs
@@ -55,11 +53,10 @@ formatting (no bold header by default, distinct from data columns).
 
 **Signature:** `tab_stub(col::Symbol)`
 
-```julia
-df |> StyledTable() |>
+```@example structure
+df |> StyledTable |>
     tab_stub(:drug) |>
-    cols_label(dose_mg = "Dose (mg)", efficacy = "Efficacy", safety = "Safety") |>
-    render()
+    cols_label(dose_mg = "Dose (mg)", efficacy = "Efficacy", safety = "Safety") |> render
 ```
 
 ```@docs
@@ -75,11 +72,10 @@ been applied.
 
 **Signature:** `tab_stubhead(label)`
 
-```julia
-df |> StyledTable() |>
+```@example structure
+df |> StyledTable |>
     tab_stub(:drug) |>
-    tab_stubhead("Drug Name") |>
-    render()
+    tab_stubhead("Drug Name") |> render
 ```
 
 ```@docs
@@ -95,27 +91,25 @@ each new group value. Data rows are indented.
 
 **Signature:** `tab_row_group(col::Symbol; indent_pt = 12)`
 
-```julia
+```@example structure
 df = DataFrame(
     category = ["Analgesic", "Analgesic", "NSAID", "NSAID"],
     drug     = ["Aspirin", "Paracetamol", "Ibuprofen", "Naproxen"],
     dose_mg  = [100, 500, 200, 250],
 )
 
-df |> StyledTable() |>
+df |> StyledTable |>
     tab_row_group(:category) |>
     cols_hide(:category) |>
-    cols_label(drug = "Drug", dose_mg = "Dose (mg)") |>
-    render()
+    cols_label(drug = "Drug", dose_mg = "Dose (mg)") |> render
 ```
 
 Increase indentation:
 
-```julia
-df |> StyledTable() |>
+```@example structure
+df |> StyledTable |>
     tab_row_group(:category; indent_pt = 20) |>
-    cols_hide(:category) |>
-    render()
+    cols_hide(:category) |> render
 ```
 
 ```@docs

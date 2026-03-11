@@ -36,7 +36,7 @@ See also: [`fmt_percent`](@ref), [`fmt_integer`](@ref), [`fmt`](@ref), [`tab_opt
 # Examples
 
 ```julia
-df |> StyledTable() |> fmt_number([:x]; digits = 2) |> render()
+df |> StyledTable |> fmt_number([:x]; digits = 2) |> render
 ```
 """
 function fmt_number(cols; digits::Int = 2, trailing_zeros::Bool = true)
@@ -74,7 +74,7 @@ See also: [`fmt_number`](@ref), [`fmt_integer`](@ref), [`fmt`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> fmt_percent([:rate]; digits = 1) |> render()
+df |> StyledTable |> fmt_percent([:rate]; digits = 1) |> render
 ```
 """
 function fmt_percent(cols; digits::Int = 1, scale::Real = 100, suffix::String = "%")
@@ -97,7 +97,7 @@ See also: [`fmt_number`](@ref), [`fmt_percent`](@ref), [`fmt`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> fmt_integer([:count]) |> render()
+df |> StyledTable |> fmt_integer([:count]) |> render
 ```
 """
 function fmt_integer(cols)
@@ -127,7 +127,7 @@ See also: [`fmt_number`](@ref), [`fmt_percent`](@ref), [`fmt_integer`](@ref).
 # Examples
 
 ```julia
-df |> StyledTable() |> fmt([:x], x -> "≈\$(round(Int, x))") |> render()
+df |> StyledTable |> fmt([:x], x -> "≈\$(round(Int, x))") |> render
 ```
 """
 function fmt(cols, f::Function)

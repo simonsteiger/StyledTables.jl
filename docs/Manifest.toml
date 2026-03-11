@@ -2,7 +2,7 @@
 
 julia_version = "1.11.9"
 manifest_format = "2.0"
-project_hash = "6ddd0758818d3c5be19c414092f36f5a81f49e64"
+project_hash = "62c625fa5c62571917ee07c4e7988d39d22c1222"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -767,7 +767,7 @@ uuid = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
 version = "1.11.0"
 
 [[deps.StyledTables]]
-deps = ["DataFrames", "Printf", "SummaryTables"]
+deps = ["DataFrames", "DocStringExtensions", "Printf", "SummaryTables"]
 path = "/Users/simonsteiger/.julia/dev/SummaryTablesExtras"
 uuid = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
 version = "1.0.0-DEV"

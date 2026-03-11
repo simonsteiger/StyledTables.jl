@@ -25,7 +25,7 @@ See also: [`StyledTable`](@ref), [`tab_header`](@ref), [`cols_label`](@ref).
 ```julia
 using StyledTables, DataFrames
 df = DataFrame(a = [1, 2], b = ["x", "y"])
-df |> StyledTable() |> cols_label(a = "A", b = "B") |> render()
+df |> StyledTable |> cols_label(a = "A", b = "B") |> render
 ```
 """
 function render(tbl::StyledTable)

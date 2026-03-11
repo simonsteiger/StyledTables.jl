@@ -23,7 +23,7 @@ Reference files are auto-created on first run if missing. To regenerate a stale 
 
 **Pipeline API:**
 ```julia
-df |> StyledTable() |> tab_spanner("Label"; columns=[:a,:b]) |> tab_header("Title") |> render()
+df |> StyledTable |> tab_spanner("Label"; columns=[:a,:b]) |> tab_header("Title") |> render()
 ```
 
 - `StyledTable(df)` — constructs a `StyledTable` (mutable struct wrapping a DataFrame + styling specs)

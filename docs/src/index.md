@@ -9,7 +9,7 @@ as the backend; StyledTables layers a declarative modifier API on top.
 
 ## Quick example
 
-```julia
+```@example index
 using StyledTables, DataFrames
 
 df = DataFrame(
@@ -18,12 +18,11 @@ df = DataFrame(
     grade = ["A", "B", "A"],
 )
 
-df |> StyledTable() |>
+df |> StyledTable |>
     tab_header("Student Results"; subtitle = "Spring 2026") |>
     cols_label(name = "Student", score = "Score", grade = "Grade") |>
     cols_align(:center, [:score, :grade]) |>
-    fmt_number(:score; digits = 1) |>
-    render()
+    fmt_number(:score; digits = 1) |> render
 ```
 
 ## Installation
