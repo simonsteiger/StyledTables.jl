@@ -167,6 +167,20 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
     return result
 end
 
+# Allow StyledTable to be displayed directly without an explicit render() call.
+# Delegates to render() and forwards to SummaryTables.Table's show methods.
+function Base.show(io::IO, mime::MIME"text/html", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
+function Base.show(io::IO, mime::MIME"text/latex", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
+function Base.show(io::IO, mime::MIME"text/typst", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
 function _build_spanner_row(tbl::StyledTable, colnames::Vector{Symbol})
     row = Cell[Cell(nothing) for _ in colnames]
     for (group_idx, spanner) in enumerate(tbl.spanners)

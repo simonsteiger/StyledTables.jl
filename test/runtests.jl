@@ -349,4 +349,18 @@ end
         @test_throws ArgumentError StyledTable(df) |> fmt([:nonexistent], identity)
     end
 
+    # -----------------------------------------------------------------------
+    @testset "Base.show methods" begin
+        df = DataFrame(a = [1, 2], b = ["x", "y"])
+        tbl = StyledTable(df)
+
+        buf = IOBuffer()
+        show(buf, MIME"text/html"(), tbl)
+        @test occursin("<table", String(take!(buf)))
+
+        buf = IOBuffer()
+        show(buf, MIME"text/latex"(), tbl)
+        @test occursin("tabular", String(take!(buf)))
+    end
+
 end
