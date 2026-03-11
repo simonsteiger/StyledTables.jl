@@ -1,0 +1,64 @@
+# Quarterly Financial Report Table
+
+This example shows a regional quarterly revenue table: consistent number
+formatting, highlighted totals column, and annotated footnotes.
+
+## The data
+
+```julia
+using StyledTables, DataFrames
+
+report = DataFrame(
+    region = ["North America", "Europe", "Asia-Pacific", "Latin America", "Total"],
+    q1     = [4.21, 2.83, 1.94, 0.72, 9.70],
+    q2     = [4.55, 3.02, 2.10, 0.81, 10.48],
+    q3     = [4.38, 2.91, 2.22, 0.79, 10.30],
+    q4     = [5.12, 3.45, 2.67, 0.94, 12.18],
+    total  = [18.26, 12.21, 8.93, 3.26, 42.66],
+)
+```
+
+## Step 1: Headers, spanner, alignment, and formatting
+
+Group the quarterly columns under a spanner, right-align all numeric columns,
+and format every number to two decimal places.
+
+```julia
+report |> StyledTable() |>
+    tab_header("Annual Revenue by Region"; subtitle = "Figures in USD billions") |>
+    cols_label(
+        region = "Region",
+        q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
+        total = "Full Year",
+    ) |>
+    tab_spanner("Quarterly"; columns = [:q1, :q2, :q3, :q4]) |>
+    cols_align(:right, [:q1, :q2, :q3, :q4, :total]) |>
+    fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |>
+    render()
+```
+
+## Step 2: Highlight the totals column and annotate Q4
+
+Bold the "Full Year" column to draw the eye, flag Q4 figures as preliminary,
+and credit the data source.
+
+```julia
+report |> StyledTable() |>
+    tab_header("Annual Revenue by Region"; subtitle = "Figures in USD billions") |>
+    cols_label(
+        region = "Region",
+        q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
+        total = "Full Year",
+    ) |>
+    tab_spanner("Quarterly"; columns = [:q1, :q2, :q3, :q4]) |>
+    cols_align(:right, [:q1, :q2, :q3, :q4, :total]) |>
+    fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |>
+    tab_style([:total]; bold = true) |>
+    tab_footnote("Preliminary figures, subject to audit"; columns = [:q4]) |>
+    tab_source_note("Source: Internal Finance, March 2026") |>
+    render()
+```
+
+The "Full Year" column is bolded to draw the eye to the aggregate. The Q4
+column header carries an auto-numbered superscript footnote flagging preliminary
+figures, and the source note credits the data origin.

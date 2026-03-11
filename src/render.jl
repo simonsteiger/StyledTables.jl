@@ -1,5 +1,19 @@
-# Rendering defined here
+"""
+    render(tbl::StyledTable) -> SummaryTables.Table
 
+Convert a `StyledTable` into a renderable `SummaryTables.Table`.
+
+Applies all modifiers registered on `tbl` (labels, spanners, formatters,
+styles, row groups, etc.) and assembles the cell matrix. The result supports
+`show(io, MIME"text/html"(), tbl)`, LaTeX, and Typst output.
+
+# Examples
+```julia
+using StyledTables, DataFrames
+df = DataFrame(a = [1, 2], b = ["x", "y"])
+df |> StyledTable() |> cols_label(a = "A", b = "B") |> render()
+```
+"""
 function render(tbl::StyledTable)
     df = tbl.data
 

@@ -1,4 +1,15 @@
-# Usage: StyledTable(df) |> cols_label(x = "X", y = "Y")
+"""
+    cols_label(; kwargs...)
+
+Rename columns for display. Each keyword argument maps a column `Symbol` to its
+display label (a plain string or any `SummaryTables.Cell`-compatible value).
+Column names in the underlying `DataFrame` are not changed.
+
+# Examples
+```julia
+df |> StyledTable() |> cols_label(bmi = "BMI (kg/m²)", sbp = "Systolic BP") |> render()
+```
+"""
 function cols_label(; kwargs...)
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
@@ -10,8 +21,18 @@ function cols_label(; kwargs...)
     end
 end
 
-# Usage: StyledTable(df) |> cols_align(:center, [:x, :y])
-# or:    StyledTable(df) |> cols_align(:right)   # applies to all columns
+"""
+    cols_align(halign, columns=nothing)
+
+Set horizontal alignment for columns. `halign` must be `:left`, `:center`, or `:right`.
+If `columns` is omitted, alignment is applied to all columns.
+
+# Examples
+```julia
+df |> StyledTable() |> cols_align(:right, [:x, :y]) |> render()
+df |> StyledTable() |> cols_align(:center) |> render()
+```
+"""
 function cols_align(halign::Symbol, columns=nothing)
     halign in (:left, :center, :right) || throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
     return function (tbl::StyledTable)
@@ -25,7 +46,17 @@ function cols_align(halign::Symbol, columns=nothing)
     end
 end
 
-# Usage: StyledTable(df) |> tab_spanner("Label"; columns = [:a, :b])
+"""
+    tab_spanner(label; columns::Vector{Symbol})
+
+Add a spanning header above a group of columns. Multiple calls create multiple
+spanners in the order they are added.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_spanner("Outcomes"; columns = [:efficacy, :safety]) |> render()
+```
+"""
 function tab_spanner(label; columns::Vector{Symbol})
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
@@ -37,6 +68,17 @@ function tab_spanner(label; columns::Vector{Symbol})
     end
 end
 
+"""
+    tab_stub(col::Symbol)
+
+Designate a column as the stub (row-label column). The stub header is not bolded
+by default; use `tab_stubhead` to set its label.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_stub(:drug) |> render()
+```
+"""
 function tab_stub(col::Symbol)
     return function (tbl::StyledTable)
         col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
@@ -71,6 +113,17 @@ function StyledTable(data)
     )
 end
 
+"""
+    tab_header(title; subtitle = nothing)
+
+Add a title (and optional subtitle) above the column headers. The title is bold;
+the subtitle is italic.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_header("My Table"; subtitle = "Subtitle here") |> render()
+```
+"""
 function tab_header(title; subtitle = nothing)
     return function (tbl::StyledTable)
         tbl.header = TableHeader(title, subtitle)
@@ -78,8 +131,19 @@ function tab_header(title; subtitle = nothing)
     end
 end
 
-# Usage: StyledTable(df) |> tab_footnote("note")                          # table-level
-#        StyledTable(df) |> tab_footnote("note"; columns = [:x, :y])     # annotates column headers
+"""
+    tab_footnote(text; columns = nothing)
+
+Add a footnote. Without `columns`, the text is a table-level note. With `columns`,
+an auto-numbered superscript is appended to those column headers and the text
+appears below the table.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_footnote("Source: World Bank") |> render()
+df |> StyledTable() |> tab_footnote("PPP adjusted"; columns = [:gdp]) |> render()
+```
+"""
 function tab_footnote(text; columns::Union{Nothing,AbstractVector{Symbol}} = nothing)
     return function (tbl::StyledTable)
         if columns === nothing
@@ -97,6 +161,17 @@ function tab_footnote(text; columns::Union{Nothing,AbstractVector{Symbol}} = not
     end
 end
 
+"""
+    tab_row_group(col::Symbol; indent_pt = 12)
+
+Group rows by the values of a column. A bold group-label row is inserted before
+each new group value; data rows are indented by `indent_pt` points.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_row_group(:category) |> cols_hide(:category) |> render()
+```
+"""
 function tab_row_group(col::Symbol; indent_pt::Real = 12)
     return function (tbl::StyledTable)
         col in Symbol.(names(tbl.data)) || throw(ArgumentError("Column :$col not found in DataFrame"))
@@ -106,6 +181,17 @@ function tab_row_group(col::Symbol; indent_pt::Real = 12)
     end
 end
 
+"""
+    tab_stubhead(label)
+
+Set the label for the stub column header. Only takes effect when `tab_stub` has
+been called.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_stub(:drug) |> tab_stubhead("Drug Name") |> render()
+```
+"""
 function tab_stubhead(label)
     return function (tbl::StyledTable)
         tbl.stubhead_label = label
@@ -113,6 +199,17 @@ function tab_stubhead(label)
     end
 end
 
+"""
+    tab_source_note(text)
+
+Add a source-note line in the table footer. Source notes span the full table
+width. Multiple calls stack additional lines.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_source_note("Data: World Bank Open Data") |> render()
+```
+"""
 function tab_source_note(text)
     return function (tbl::StyledTable)
         push!(tbl.source_notes, text)
@@ -120,7 +217,17 @@ function tab_source_note(text)
     end
 end
 
-# Usage: StyledTable(df) |> tab_style([:col]; color="#FF0000", bold=true, italic=false)
+"""
+    tab_style(columns; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+
+Apply inline styling to all body cells in the specified columns. `color` is a
+hex string (`"#RRGGBB"`). Any keyword left `nothing` is inherited from the cell default.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_style([:pct]; color = "#1a7340", bold = true) |> render()
+```
+"""
 function tab_style(
     columns::AbstractVector{Symbol};
     color::Union{Nothing,String} = nothing,
@@ -140,8 +247,17 @@ function tab_style(
     end
 end
 
-# Usage: StyledTable(df) |> sub_missing()
-#        StyledTable(df) |> sub_missing(with = "N/A")
+"""
+    sub_missing(; with = "—")
+
+Replace `missing` values with a display placeholder. Defaults to `"—"` (em dash).
+
+# Examples
+```julia
+df |> StyledTable() |> sub_missing() |> render()
+df |> StyledTable() |> sub_missing(with = "N/A") |> render()
+```
+"""
 function sub_missing(; with::Any = "—")
     return function (tbl::StyledTable)
         push!(tbl.postprocessors, SummaryTables.Replace(ismissing, with, true))
@@ -149,7 +265,17 @@ function sub_missing(; with::Any = "—")
     end
 end
 
-# Usage: StyledTable(df) |> tab_options(round_digits=2, round_mode=:digits)
+"""
+    tab_options(; round_digits=nothing, round_mode=nothing, trailing_zeros=nothing)
+
+Set global rounding options for all numeric cells. `round_mode` accepts `:auto`,
+`:digits`, or `:sigdigits`.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_options(round_digits = 2, round_mode = :digits) |> render()
+```
+"""
 function tab_options(;
     round_digits::Union{Nothing,Int} = nothing,
     round_mode::Union{Nothing,Symbol} = nothing,
@@ -167,7 +293,17 @@ function tab_options(;
     end
 end
 
-# Usage: StyledTable(df) |> cols_hide(:a, :b)
+"""
+    cols_hide(cols::Symbol...)
+
+Remove columns from the rendered table without dropping them from the `DataFrame`.
+Useful for grouping columns (e.g., `tab_row_group`) that should not appear in the output.
+
+# Examples
+```julia
+df |> StyledTable() |> tab_row_group(:group) |> cols_hide(:group) |> render()
+```
+"""
 function cols_hide(cols::Symbol...)
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
@@ -181,8 +317,18 @@ function cols_hide(cols::Symbol...)
     end
 end
 
-# Usage: StyledTable(df) |> cols_move([:c, :b])            # move :c, :b to start
-#        StyledTable(df) |> cols_move([:c]; after = :a)    # move :c after :a
+"""
+    cols_move(cols; after = nothing)
+
+Reorder columns. By default, `cols` are moved to the front. Pass `after = :col`
+to insert them after a specific column.
+
+# Examples
+```julia
+df |> StyledTable() |> cols_move([:name]) |> render()
+df |> StyledTable() |> cols_move([:value]; after = :name) |> render()
+```
+"""
 function cols_move(cols::AbstractVector{Symbol}; after::Union{Nothing,Symbol} = nothing)
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
