@@ -53,7 +53,10 @@ Construct with [`StyledTable`](@ref) and chain modifier functions before
 calling [`render`](@ref):
 
 ```julia
-df |> StyledTable |> cols_label(x = "X") |> tab_header("Title") |> render
+tbl = StyledTable(df)
+cols_label!(tbl, x = "X")
+tab_header!(tbl, "Title")
+render(tbl)
 ```
 
 $TYPEDFIELDS

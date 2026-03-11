@@ -18,14 +18,16 @@ Calling `render` is optional in interactive contexts: `StyledTable` has
 
 A `SummaryTables.Table` (a `Matrix{Cell}` with header/footer metadata).
 
-See also: [`StyledTable`](@ref), [`tab_header`](@ref), [`cols_label`](@ref).
+See also: [`StyledTable`](@ref), [`tab_header!`](@ref), [`cols_label!`](@ref).
 
 # Examples
 
 ```julia
 using StyledTables, DataFrames
 df = DataFrame(a = [1, 2], b = ["x", "y"])
-df |> StyledTable |> cols_label(a = "A", b = "B") |> render
+tbl = StyledTable(df)
+cols_label!(tbl, a = "A", b = "B")
+render(tbl)
 ```
 """
 function render(tbl::StyledTable)
