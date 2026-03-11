@@ -145,7 +145,7 @@ See also: [`fmt_number!`](@ref), [`fmt_percent!`](@ref), [`fmt_integer!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-fmt!(tbl, [:x], x -> "≈$(round(Int, x))")
+fmt!(tbl, [:x], x -> "≈\$(round(Int, x))")
 render(tbl)
 ```
 """
