@@ -4,7 +4,7 @@ These functions control column display names, alignment, visibility, and order.
 
 ---
 
-## `cols_label`
+## `cols_label!`
 
 Rename one or more columns for display. Column names in the underlying
 `DataFrame` are not changed.
@@ -30,7 +30,7 @@ StyledTables.cols_label!
 
 ---
 
-## `cols_align`
+## `cols_align!`
 
 Set horizontal alignment for one or more columns. Valid values: `:left`,
 `:center`, `:right`.
@@ -59,7 +59,7 @@ StyledTables.cols_align!
 
 ---
 
-## `cols_hide`
+## `cols_hide!`
 
 Remove columns from the rendered table without dropping them from the data.
 Useful when a column is needed for grouping (`tab_row_group`) but should not
@@ -89,7 +89,7 @@ StyledTables.cols_hide!
 
 ---
 
-## `cols_move`
+## `cols_move!`
 
 Reorder columns. By default, the specified columns are moved to the front.
 Use `after = :col` to insert them after a specific column.

@@ -5,7 +5,7 @@ footnotes at the bottom, and source notes in the footer.
 
 ---
 
-## `tab_header`
+## `tab_header!`
 
 Add a title (and optional subtitle) above the column headers.
 
@@ -29,7 +29,7 @@ StyledTables.tab_header!
 
 ---
 
-## `tab_footnote`
+## `tab_footnote!`
 
 Add a footnote. Without `columns`, the text appears as a table-level note.
 With `columns`, an auto-numbered superscript is appended to those column
@@ -60,7 +60,7 @@ StyledTables.tab_footnote!
 
 ---
 
-## `tab_source_note`
+## `tab_source_note!`
 
 Add a source-note line in the table footer. Source notes appear below any data
 rows and span the full table width. Multiple calls stack additional lines.

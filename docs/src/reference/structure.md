@@ -5,7 +5,7 @@ These functions control the high-level layout: grouped column headers, a stub
 
 ---
 
-## `tab_spanner`
+## `tab_spanner!`
 
 Add a spanning header above a group of columns.
 
@@ -48,7 +48,7 @@ StyledTables.tab_spanner!
 
 ---
 
-## `tab_stub`
+## `tab_stub!`
 
 Designate one column as the **stub** — a row-label column rendered with special
 formatting (no bold header by default, distinct from data columns).
@@ -68,7 +68,7 @@ StyledTables.tab_stub!
 
 ---
 
-## `tab_stubhead`
+## `tab_stubhead!`
 
 Set a label for the stub column header. Only takes effect when `tab_stub` has
 been applied.
@@ -88,7 +88,7 @@ StyledTables.tab_stubhead!
 
 ---
 
-## `tab_row_group`
+## `tab_row_group!`
 
 Group rows by the values of a column. A bold group-label row is inserted before
 each new group value. Data rows are indented.

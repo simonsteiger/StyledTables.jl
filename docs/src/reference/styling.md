@@ -2,7 +2,7 @@
 
 ---
 
-## `tab_style`
+## `tab_style!`
 
 Apply inline styling (color, bold, italic, underline) to all body cells in
 specified columns. Colors are hex strings (`"#RRGGBB"`).
@@ -41,7 +41,7 @@ StyledTables.tab_style!
 
 ---
 
-## `sub_missing`
+## `sub_missing!`
 
 Replace `missing` values with a placeholder string for display. Defaults to
 `"—"` (em dash).
@@ -73,7 +73,7 @@ StyledTables.sub_missing!
 
 ---
 
-## `tab_options`
+## `tab_options!`
 
 Set global rounding options for all numeric cells in the table.
 

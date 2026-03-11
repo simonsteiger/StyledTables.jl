@@ -9,7 +9,7 @@ columns.
 
 ---
 
-## `fmt_number`
+## `fmt_number!`
 
 Format to a fixed number of decimal places.
 
@@ -32,7 +32,7 @@ StyledTables.fmt_number!
 
 ---
 
-## `fmt_percent`
+## `fmt_percent!`
 
 Multiply by `scale` (default `100`) and append `suffix` (default `"%"`).
 
@@ -62,7 +62,7 @@ StyledTables.fmt_percent!
 
 ---
 
-## `fmt_integer`
+## `fmt_integer!`
 
 Round to the nearest integer and display without a decimal point.
 
@@ -82,7 +82,7 @@ StyledTables.fmt_integer!
 
 ---
 
-## `fmt`
+## `fmt!`
 
 Apply a fully custom formatter function.
 
