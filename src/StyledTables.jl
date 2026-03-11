@@ -2,6 +2,7 @@ module StyledTables
 
 using DataFrames
 using SummaryTables
+using DocStringExtensions
 
 include("types.jl")
 include("modifiers.jl")
