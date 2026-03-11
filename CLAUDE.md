@@ -23,11 +23,14 @@ Reference files are auto-created on first run if missing. To regenerate a stale 
 
 **Pipeline API:**
 ```julia
-df |> StyledTable |> tab_spanner("Label"; columns=[:a,:b]) |> tab_header("Title") |> render()
+tbl = StyledTable(df)
+tab_spanner!(tbl, "Label"; columns=[:a,:b])
+tab_header!(tbl, "Title")
+render(tbl)
 ```
 
 - `StyledTable(df)` — constructs a `StyledTable` (mutable struct wrapping a DataFrame + styling specs)
-- Modifier functions (`cols_label`, `cols_align`, `tab_spanner`, `tab_stub`, `tab_row_group`, `tab_header`, `tab_footnote`) return closures `(tbl::StyledTable) -> StyledTable`, mutating and returning `tbl` for `|>` chaining
+- Modifier functions (`cols_label!`, `cols_align!`, `tab_spanner!`, `tab_stub!`, `tab_row_group!`, `tab_header!`, `tab_footnote!`) mutate `tbl` in-place and return `nothing` for direct API usage
 - `render(tbl)` — converts `StyledTable` → `SummaryTables.Table` (a `Matrix{Cell}`)
 
 **File layout:**
