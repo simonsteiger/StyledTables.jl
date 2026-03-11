@@ -39,9 +39,9 @@ end
 @testset "StyledTables" begin
 
     # -----------------------------------------------------------------------
-    @testset "styled_table / basic render" begin
+    @testset "StyledTable / basic render" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])
-        run_reftest(styled_table(df), "references/styled_table/basic")
+        run_reftest(StyledTable(df), "references/styled_table/basic")
     end
 
     # -----------------------------------------------------------------------
@@ -49,17 +49,17 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            styled_table(df) |> cols_label(x = "Variable X", y = "Variable Y"),
+            StyledTable(df) |> cols_label(x = "Variable X", y = "Variable Y"),
             "references/cols_label/relabeled_two_cols",
         )
 
         run_reftest(
-            styled_table(df) |> cols_label(x = "Only X"),
+            StyledTable(df) |> cols_label(x = "Only X"),
             "references/cols_label/relabeled_one_col",
         )
 
         # Error path: unknown column name
-        @test_throws ArgumentError styled_table(df) |> cols_label(typo = "Label")
+        @test_throws ArgumentError StyledTable(df) |> cols_label(typo = "Label")
     end
 
     # -----------------------------------------------------------------------
@@ -67,23 +67,23 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            styled_table(df) |> cols_align(:center, [:x, :y]),
+            StyledTable(df) |> cols_align(:center, [:x, :y]),
             "references/cols_align/center_both",
         )
 
         run_reftest(
-            styled_table(df) |> cols_align(:right),
+            StyledTable(df) |> cols_align(:right),
             "references/cols_align/right_all",
         )
 
         run_reftest(
-            styled_table(df) |> cols_align(:left, [:x]),
+            StyledTable(df) |> cols_align(:left, [:x]),
             "references/cols_align/left_one_col",
         )
 
         # Error paths
         @test_throws ArgumentError cols_align(:centre)
-        @test_throws ArgumentError styled_table(df) |> cols_align(:left, [:nonexistent])
+        @test_throws ArgumentError StyledTable(df) |> cols_align(:left, [:nonexistent])
     end
 
     # -----------------------------------------------------------------------
@@ -91,18 +91,18 @@ end
         df = DataFrame(name = ["Alice", "Bob"], dose = [10, 20], response = [0.9, 0.8])
 
         run_reftest(
-            styled_table(df) |> tab_spanner("Treatment"; columns = [:dose, :response]),
+            StyledTable(df) |> tab_spanner("Treatment"; columns = [:dose, :response]),
             "references/tab_spanner/basic",
         )
 
         run_reftest(
-            styled_table(df) |> tab_spanner("Treatment"; columns = [:dose, :response])
+            StyledTable(df) |> tab_spanner("Treatment"; columns = [:dose, :response])
                     |> tab_spanner("Participant"; columns = [:name]),
             "references/tab_spanner/two_spanners",
         )
 
         # Error path: unknown column
-        @test_throws ArgumentError styled_table(df) |> tab_spanner("X"; columns = [:typo])
+        @test_throws ArgumentError StyledTable(df) |> tab_spanner("X"; columns = [:typo])
     end
 
     # -----------------------------------------------------------------------
@@ -110,12 +110,12 @@ end
         df = DataFrame(rowname = ["Alice", "Bob"], score = [90, 85])
 
         run_reftest(
-            styled_table(df) |> tab_stub(:rowname),
+            StyledTable(df) |> tab_stub(:rowname),
             "references/tab_stub/basic",
         )
 
         # Error path
-        @test_throws ArgumentError styled_table(df) |> tab_stub(:nonexistent)
+        @test_throws ArgumentError StyledTable(df) |> tab_stub(:nonexistent)
     end
 
     # -----------------------------------------------------------------------
@@ -123,17 +123,17 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            styled_table(df) |> tab_header("My Table"),
+            StyledTable(df) |> tab_header("My Table"),
             "references/tab_header/title_only",
         )
 
         run_reftest(
-            styled_table(df) |> tab_header("My Table"; subtitle = "A subtitle"),
+            StyledTable(df) |> tab_header("My Table"; subtitle = "A subtitle"),
             "references/tab_header/title_and_subtitle",
         )
 
         run_reftest(
-            styled_table(df) |> tab_header("My Table"; subtitle = "Subtitle")
+            StyledTable(df) |> tab_header("My Table"; subtitle = "Subtitle")
                     |> tab_spanner("XY"; columns = [:x, :y]),
             "references/tab_header/with_spanner",
         )
@@ -144,12 +144,12 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            styled_table(df) |> tab_footnote("Source: internal data"),
+            StyledTable(df) |> tab_footnote("Source: internal data"),
             "references/tab_footnote/single",
         )
 
         run_reftest(
-            styled_table(df) |> tab_footnote("Source: internal data") |> tab_footnote("n = 2"),
+            StyledTable(df) |> tab_footnote("Source: internal data") |> tab_footnote("n = 2"),
             "references/tab_footnote/multiple",
         )
     end
@@ -163,17 +163,17 @@ end
         )
 
         run_reftest(
-            styled_table(df) |> tab_row_group(:arm),
+            StyledTable(df) |> tab_row_group(:arm),
             "references/tab_row_group/basic",
         )
 
         run_reftest(
-            styled_table(df) |> tab_row_group(:arm; indent_pt = 24),
+            StyledTable(df) |> tab_row_group(:arm; indent_pt = 24),
             "references/tab_row_group/custom_indent",
         )
 
         # Error path
-        @test_throws ArgumentError styled_table(df) |> tab_row_group(:nonexistent)
+        @test_throws ArgumentError StyledTable(df) |> tab_row_group(:nonexistent)
     end
 
     # -----------------------------------------------------------------------
@@ -181,16 +181,16 @@ end
         df = DataFrame(a = [1, 2], b = [3, 4], c = [5, 6])
 
         run_reftest(
-            styled_table(df) |> cols_hide(:c),
+            StyledTable(df) |> cols_hide(:c),
             "references/cols_hide/single",
         )
 
         run_reftest(
-            styled_table(df) |> cols_hide(:a, :c),
+            StyledTable(df) |> cols_hide(:a, :c),
             "references/cols_hide/multiple",
         )
 
-        @test_throws ArgumentError styled_table(df) |> cols_hide(:nonexistent)
+        @test_throws ArgumentError StyledTable(df) |> cols_hide(:nonexistent)
     end
 
     # -----------------------------------------------------------------------
@@ -198,18 +198,18 @@ end
         df = DataFrame(a = [1, 2], b = [3, 4], c = [5, 6])
 
         run_reftest(
-            styled_table(df) |> cols_move([:c, :b]),
+            StyledTable(df) |> cols_move([:c, :b]),
             "references/cols_move/to_start",
         )
 
         run_reftest(
-            styled_table(df) |> cols_move([:c]; after = :a),
+            StyledTable(df) |> cols_move([:c]; after = :a),
             "references/cols_move/after_col",
         )
 
-        @test_throws ArgumentError styled_table(df) |> cols_move([:nonexistent])
-        @test_throws ArgumentError styled_table(df) |> cols_move([:c]; after = :nonexistent)
-        @test_throws ArgumentError styled_table(df) |> cols_move([:c]; after = :c)
+        @test_throws ArgumentError StyledTable(df) |> cols_move([:nonexistent])
+        @test_throws ArgumentError StyledTable(df) |> cols_move([:c]; after = :nonexistent)
+        @test_throws ArgumentError StyledTable(df) |> cols_move([:c]; after = :c)
     end
 
     # -----------------------------------------------------------------------
@@ -217,7 +217,7 @@ end
         df = DataFrame(rowname = ["Alice", "Bob"], score = [90, 85])
 
         run_reftest(
-            styled_table(df) |> tab_stub(:rowname) |> tab_stubhead("Name"),
+            StyledTable(df) |> tab_stub(:rowname) |> tab_stubhead("Name"),
             "references/tab_stubhead/basic",
         )
     end
@@ -227,12 +227,12 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            styled_table(df) |> tab_source_note("Source: internal data"),
+            StyledTable(df) |> tab_source_note("Source: internal data"),
             "references/tab_source_note/single",
         )
 
         run_reftest(
-            styled_table(df) |> tab_source_note("Source: A") |> tab_source_note("Note: B"),
+            StyledTable(df) |> tab_source_note("Source: A") |> tab_source_note("Note: B"),
             "references/tab_source_note/multiple",
         )
     end
@@ -242,12 +242,12 @@ end
         df = DataFrame(x = [1, missing, 3], y = ["a", "b", missing])
 
         run_reftest(
-            styled_table(df) |> sub_missing(),
+            StyledTable(df) |> sub_missing(),
             "references/sub_missing/default",
         )
 
         run_reftest(
-            styled_table(df) |> sub_missing(with = "N/A"),
+            StyledTable(df) |> sub_missing(with = "N/A"),
             "references/sub_missing/custom_text",
         )
     end
@@ -257,16 +257,16 @@ end
         df = DataFrame(x = [1.23456, 2.34567], y = [0.001, 999.9])
 
         run_reftest(
-            styled_table(df) |> tab_options(round_digits = 2, round_mode = :digits),
+            StyledTable(df) |> tab_options(round_digits = 2, round_mode = :digits),
             "references/tab_options/round_digits",
         )
 
         run_reftest(
-            styled_table(df) |> tab_options(round_digits = 4, round_mode = :sigdigits, trailing_zeros = true),
+            StyledTable(df) |> tab_options(round_digits = 4, round_mode = :sigdigits, trailing_zeros = true),
             "references/tab_options/sigdigits_trailing",
         )
 
-        @test_throws ArgumentError styled_table(df) |> tab_options(round_mode = :invalid)
+        @test_throws ArgumentError StyledTable(df) |> tab_options(round_mode = :invalid)
     end
 
     # -----------------------------------------------------------------------
@@ -274,16 +274,16 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         run_reftest(
-            styled_table(df) |> tab_footnote("See methods"; columns = [:x]),
+            StyledTable(df) |> tab_footnote("See methods"; columns = [:x]),
             "references/tab_footnote/col_single",
         )
 
         run_reftest(
-            styled_table(df) |> tab_footnote("Measured at baseline"; columns = [:x, :y]),
+            StyledTable(df) |> tab_footnote("Measured at baseline"; columns = [:x, :y]),
             "references/tab_footnote/col_multiple",
         )
 
-        @test_throws ArgumentError styled_table(df) |> tab_footnote("Note"; columns = [:nonexistent])
+        @test_throws ArgumentError StyledTable(df) |> tab_footnote("Note"; columns = [:nonexistent])
     end
 
     # -----------------------------------------------------------------------
@@ -291,16 +291,16 @@ end
         df = DataFrame(label = ["A", "B"], value = [1.0, 2.0])
 
         run_reftest(
-            styled_table(df) |> tab_style([:value]; bold = true),
+            StyledTable(df) |> tab_style([:value]; bold = true),
             "references/tab_style/bold_col",
         )
 
         run_reftest(
-            styled_table(df) |> tab_style([:label]; color = "#FF0000", italic = true),
+            StyledTable(df) |> tab_style([:label]; color = "#FF0000", italic = true),
             "references/tab_style/color_italic",
         )
 
-        @test_throws ArgumentError styled_table(df) |> tab_style([:nonexistent]; bold = true)
+        @test_throws ArgumentError StyledTable(df) |> tab_style([:nonexistent]; bold = true)
     end
 
     # -----------------------------------------------------------------------
@@ -308,23 +308,23 @@ end
         df = DataFrame(x = [1.23456, 2.34567], y = [10.0, 20.0])
 
         run_reftest(
-            styled_table(df) |> fmt_number([:x]; digits = 2),
+            StyledTable(df) |> fmt_number([:x]; digits = 2),
             "references/fmt/number_two_digits",
         )
 
         run_reftest(
-            styled_table(df) |> fmt_number([:x, :y]; digits = 1, trailing_zeros = true),
+            StyledTable(df) |> fmt_number([:x, :y]; digits = 1, trailing_zeros = true),
             "references/fmt/number_trailing_zeros",
         )
 
-        @test_throws ArgumentError styled_table(df) |> fmt_number([:nonexistent]; digits = 2)
+        @test_throws ArgumentError StyledTable(df) |> fmt_number([:nonexistent]; digits = 2)
     end
 
     @testset "fmt_percent" begin
         df = DataFrame(rate = [0.123, 0.456])
 
         run_reftest(
-            styled_table(df) |> fmt_percent([:rate]; digits = 1),
+            StyledTable(df) |> fmt_percent([:rate]; digits = 1),
             "references/fmt/percent_default",
         )
     end
@@ -333,7 +333,7 @@ end
         df = DataFrame(n = [1.7, 2.3])
 
         run_reftest(
-            styled_table(df) |> fmt_integer([:n]),
+            StyledTable(df) |> fmt_integer([:n]),
             "references/fmt/integer",
         )
     end
@@ -342,11 +342,11 @@ end
         df = DataFrame(x = [1.0, 2.0])
 
         run_reftest(
-            styled_table(df) |> fmt([:x], x -> "≈$(round(Int, x))"),
+            StyledTable(df) |> fmt([:x], x -> "≈$(round(Int, x))"),
             "references/fmt/custom",
         )
 
-        @test_throws ArgumentError styled_table(df) |> fmt([:nonexistent], identity)
+        @test_throws ArgumentError StyledTable(df) |> fmt([:nonexistent], identity)
     end
 
 end

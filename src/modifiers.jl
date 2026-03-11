@@ -1,4 +1,4 @@
-# Usage: styled_table(df) |> cols_label(x = "X", y = "Y")
+# Usage: StyledTable(df) |> cols_label(x = "X", y = "Y")
 function cols_label(; kwargs...)
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
@@ -10,8 +10,8 @@ function cols_label(; kwargs...)
     end
 end
 
-# Usage: styled_table(df) |> cols_align(:center, [:x, :y])
-# or:    styled_table(df) |> cols_align(:right)   # applies to all columns
+# Usage: StyledTable(df) |> cols_align(:center, [:x, :y])
+# or:    StyledTable(df) |> cols_align(:right)   # applies to all columns
 function cols_align(halign::Symbol, columns=nothing)
     halign in (:left, :center, :right) || throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
     return function (tbl::StyledTable)
@@ -25,7 +25,7 @@ function cols_align(halign::Symbol, columns=nothing)
     end
 end
 
-# Usage: styled_table(df) |> tab_spanner("Label"; columns = [:a, :b])
+# Usage: StyledTable(df) |> tab_spanner("Label"; columns = [:a, :b])
 function tab_spanner(label; columns::Vector{Symbol})
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
@@ -45,7 +45,7 @@ function tab_stub(col::Symbol)
     end
 end
 
-function styled_table(data)
+function StyledTable(data)
     df = data isa DataFrame ? data : DataFrame(data)
     return StyledTable(
         df,                             # data
@@ -78,8 +78,8 @@ function tab_header(title; subtitle = nothing)
     end
 end
 
-# Usage: styled_table(df) |> tab_footnote("note")                          # table-level
-#        styled_table(df) |> tab_footnote("note"; columns = [:x, :y])     # annotates column headers
+# Usage: StyledTable(df) |> tab_footnote("note")                          # table-level
+#        StyledTable(df) |> tab_footnote("note"; columns = [:x, :y])     # annotates column headers
 function tab_footnote(text; columns::Union{Nothing,AbstractVector{Symbol}} = nothing)
     return function (tbl::StyledTable)
         if columns === nothing
@@ -120,7 +120,7 @@ function tab_source_note(text)
     end
 end
 
-# Usage: styled_table(df) |> tab_style([:col]; color="#FF0000", bold=true, italic=false)
+# Usage: StyledTable(df) |> tab_style([:col]; color="#FF0000", bold=true, italic=false)
 function tab_style(
     columns::AbstractVector{Symbol};
     color::Union{Nothing,String} = nothing,
@@ -140,8 +140,8 @@ function tab_style(
     end
 end
 
-# Usage: styled_table(df) |> sub_missing()
-#        styled_table(df) |> sub_missing(with = "N/A")
+# Usage: StyledTable(df) |> sub_missing()
+#        StyledTable(df) |> sub_missing(with = "N/A")
 function sub_missing(; with::Any = "—")
     return function (tbl::StyledTable)
         push!(tbl.postprocessors, SummaryTables.Replace(ismissing, with, true))
@@ -149,7 +149,7 @@ function sub_missing(; with::Any = "—")
     end
 end
 
-# Usage: styled_table(df) |> tab_options(round_digits=2, round_mode=:digits)
+# Usage: StyledTable(df) |> tab_options(round_digits=2, round_mode=:digits)
 function tab_options(;
     round_digits::Union{Nothing,Int} = nothing,
     round_mode::Union{Nothing,Symbol} = nothing,
@@ -167,7 +167,7 @@ function tab_options(;
     end
 end
 
-# Usage: styled_table(df) |> cols_hide(:a, :b)
+# Usage: StyledTable(df) |> cols_hide(:a, :b)
 function cols_hide(cols::Symbol...)
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))
@@ -181,8 +181,8 @@ function cols_hide(cols::Symbol...)
     end
 end
 
-# Usage: styled_table(df) |> cols_move([:c, :b])            # move :c, :b to start
-#        styled_table(df) |> cols_move([:c]; after = :a)    # move :c after :a
+# Usage: StyledTable(df) |> cols_move([:c, :b])            # move :c, :b to start
+#        StyledTable(df) |> cols_move([:c]; after = :a)    # move :c after :a
 function cols_move(cols::AbstractVector{Symbol}; after::Union{Nothing,Symbol} = nothing)
     return function (tbl::StyledTable)
         colnames = Symbol.(names(tbl.data))

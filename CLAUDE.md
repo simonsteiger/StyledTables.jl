@@ -23,16 +23,16 @@ Reference files are auto-created on first run if missing. To regenerate a stale 
 
 **Pipeline API:**
 ```julia
-df |> styled_table() |> tab_spanner("Label"; columns=[:a,:b]) |> tab_header("Title") |> render()
+df |> StyledTable() |> tab_spanner("Label"; columns=[:a,:b]) |> tab_header("Title") |> render()
 ```
 
-- `styled_table(df)` — constructs a `StyledTable` (mutable struct wrapping a DataFrame + styling specs)
+- `StyledTable(df)` — constructs a `StyledTable` (mutable struct wrapping a DataFrame + styling specs)
 - Modifier functions (`cols_label`, `cols_align`, `tab_spanner`, `tab_stub`, `tab_row_group`, `tab_header`, `tab_footnote`) return closures `(tbl::StyledTable) -> StyledTable`, mutating and returning `tbl` for `|>` chaining
 - `render(tbl)` — converts `StyledTable` → `SummaryTables.Table` (a `Matrix{Cell}`)
 
 **File layout:**
 - `src/types.jl` — `Spanner`, `TableHeader`, `StyledTable` structs
-- `src/modifiers.jl` — all modifier functions + `styled_table()` constructor
+- `src/modifiers.jl` — all modifier functions + `StyledTable()` constructor
 - `src/render.jl` — `render()` and private `_build_*` helpers
 - `test/runtests.jl` — reference-based test suite using `ReferenceTests.jl`
 - `test/references/<feature>/<scenario>.{txt,latex.txt,typ.txt}` — golden files (HTML/LaTeX/Typst)
