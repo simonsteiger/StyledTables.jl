@@ -25,7 +25,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.cols_label
+StyledTables.cols_label!
 ```
 
 ---
@@ -54,7 +54,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.cols_align
+StyledTables.cols_align!
 ```
 
 ---
@@ -84,7 +84,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.cols_hide
+StyledTables.cols_hide!
 ```
 
 ---
@@ -115,5 +115,5 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.cols_move
+StyledTables.cols_move!
 ```

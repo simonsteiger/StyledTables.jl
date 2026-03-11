@@ -24,7 +24,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_header
+StyledTables.tab_header!
 ```
 
 ---
@@ -55,7 +55,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_footnote
+StyledTables.tab_footnote!
 ```
 
 ---
@@ -76,5 +76,5 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_source_note
+StyledTables.tab_source_note!
 ```

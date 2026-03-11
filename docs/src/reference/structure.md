@@ -43,7 +43,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_spanner
+StyledTables.tab_spanner!
 ```
 
 ---
@@ -63,7 +63,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_stub
+StyledTables.tab_stub!
 ```
 
 ---
@@ -83,7 +83,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_stubhead
+StyledTables.tab_stubhead!
 ```
 
 ---
@@ -119,5 +119,5 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_row_group
+StyledTables.tab_row_group!
 ```

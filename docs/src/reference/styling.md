@@ -36,7 +36,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_style
+StyledTables.tab_style!
 ```
 
 ---
@@ -68,7 +68,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.sub_missing
+StyledTables.sub_missing!
 ```
 
 ---
@@ -103,5 +103,5 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_options
+StyledTables.tab_options!
 ```

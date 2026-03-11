@@ -27,7 +27,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt_number
+StyledTables.fmt_number!
 ```
 
 ---
@@ -57,7 +57,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt_percent
+StyledTables.fmt_percent!
 ```
 
 ---
@@ -77,7 +77,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt_integer
+StyledTables.fmt_integer!
 ```
 
 ---
@@ -107,5 +107,5 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt
+StyledTables.fmt!
 ```
