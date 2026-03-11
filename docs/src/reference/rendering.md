@@ -12,7 +12,9 @@ using StyledTables, DataFrames
 
 df = DataFrame(a = [1, 2], b = ["x", "y"])
 
-tbl = df |> StyledTable |> cols_label(a = "A", b = "B") |> render
+tbl = StyledTable(df)
+cols_label!(tbl, a = "A", b = "B")
+render(tbl)
 ```
 
 The returned `SummaryTables.Table` supports:
@@ -23,16 +25,17 @@ The returned `SummaryTables.Table` supports:
 ### Saving to file
 
 ```@example rendering
-tbl = DataFrame(x = [1, 2, 3]) |> StyledTable |> render
+tbl = StyledTable(DataFrame(x = [1, 2, 3]))
+rendered = render(tbl)
 
 # HTML
 open("table.html", "w") do io
-    show(io, MIME"text/html"(), tbl)
+    show(io, MIME"text/html"(), rendered)
 end
 
 # LaTeX
 open("table.tex", "w") do io
-    show(io, MIME"text/latex"(), tbl)
+    show(io, MIME"text/latex"(), rendered)
 end
 ```
 

@@ -20,45 +20,50 @@ df = DataFrame(
     response  = [0.12, 0.38, 0.61],
 )
 
-df |> StyledTable |> render
+tbl = StyledTable(df)
+render(tbl)
 ```
 
-Piping a `DataFrame` through `StyledTable` wraps it. Calling `render()` converts it to
+Constructing a `StyledTable` wraps the DataFrame. Calling `render()` converts it to
 a `SummaryTables.Table`, which displays in Jupyter, Pluto, or any Documenter page.
 
 ## Adding a title
 
 ```@example gettingstarted
-df |> StyledTable |>
-    tab_header("Treatment Response"; subtitle = "Phase II Clinical Trial") |> render
+tbl = StyledTable(df)
+tab_header!(tbl, "Treatment Response"; subtitle = "Phase II Clinical Trial")
+render(tbl)
 ```
 
 ## Relabeling and aligning columns
 
 ```@example gettingstarted
-df |> StyledTable |>
-    tab_header("Treatment Response") |>
-    cols_label(treatment = "Treatment Arm", n = "N", response = "Response Rate") |>
-    cols_align(:center, [:n, :response]) |> render
+tbl = StyledTable(df)
+tab_header!(tbl, "Treatment Response")
+cols_label!(tbl, treatment = "Treatment Arm", n = "N", response = "Response Rate")
+cols_align!(tbl, :center, [:n, :response])
+render(tbl)
 ```
 
 ## Grouping columns under a spanner
 
 ```@example gettingstarted
-df |> StyledTable |>
-    tab_header("Treatment Response") |>
-    cols_label(treatment = "Treatment Arm", n = "N", response = "Response Rate") |>
-    tab_spanner("Results"; columns = [:n, :response]) |> render
+tbl = StyledTable(df)
+tab_header!(tbl, "Treatment Response")
+cols_label!(tbl, treatment = "Treatment Arm", n = "N", response = "Response Rate")
+tab_spanner!(tbl, "Results"; columns = [:n, :response])
+render(tbl)
 ```
 
 ## Formatting numbers
 
 ```@example gettingstarted
-df |> StyledTable |>
-    tab_header("Treatment Response") |>
-    cols_label(treatment = "Treatment Arm", n = "N", response = "Response Rate") |>
-    tab_spanner("Results"; columns = [:n, :response]) |>
-    fmt_percent(:response; digits = 1) |> render
+tbl = StyledTable(df)
+tab_header!(tbl, "Treatment Response")
+cols_label!(tbl, treatment = "Treatment Arm", n = "N", response = "Response Rate")
+tab_spanner!(tbl, "Results"; columns = [:n, :response])
+fmt_percent!(tbl, [:response]; digits = 1)
+render(tbl)
 ```
 
 ## Next steps

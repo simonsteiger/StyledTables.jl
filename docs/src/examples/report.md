@@ -24,16 +24,17 @@ Group the quarterly columns under a spanner, right-align all numeric columns,
 and format every number to two decimal places.
 
 ```@example report
-report |> StyledTable |>
-    tab_header("Annual Revenue by Region"; subtitle = "Figures in USD billions") |>
-    cols_label(
-        region = "Region",
-        q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
-        total = "Full Year",
-    ) |>
-    tab_spanner("Quarterly"; columns = [:q1, :q2, :q3, :q4]) |>
-    cols_align(:right, [:q1, :q2, :q3, :q4, :total]) |>
-    fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |> render
+tbl = StyledTable(report)
+tab_header!(tbl, "Annual Revenue by Region"; subtitle = "Figures in USD billions")
+cols_label!(tbl,
+    region = "Region",
+    q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
+    total = "Full Year",
+)
+tab_spanner!(tbl, "Quarterly"; columns = [:q1, :q2, :q3, :q4])
+cols_align!(tbl, :right, [:q1, :q2, :q3, :q4, :total])
+fmt_number!(tbl, [:q1, :q2, :q3, :q4, :total]; digits = 2)
+render(tbl)
 ```
 
 ## Step 2: Highlight the totals column and annotate Q4
@@ -42,19 +43,20 @@ Bold the "Full Year" column to draw the eye, flag Q4 figures as preliminary,
 and credit the data source.
 
 ```@example report
-report |> StyledTable |>
-    tab_header("Annual Revenue by Region"; subtitle = "Figures in USD billions") |>
-    cols_label(
-        region = "Region",
-        q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
-        total = "Full Year",
-    ) |>
-    tab_spanner("Quarterly"; columns = [:q1, :q2, :q3, :q4]) |>
-    cols_align(:right, [:q1, :q2, :q3, :q4, :total]) |>
-    fmt_number([:q1, :q2, :q3, :q4, :total]; digits = 2) |>
-    tab_style([:total]; bold = true) |>
-    tab_footnote("Preliminary figures, subject to audit"; columns = [:q4]) |>
-    tab_source_note("Source: Internal Finance, March 2026") |> render
+tbl = StyledTable(report)
+tab_header!(tbl, "Annual Revenue by Region"; subtitle = "Figures in USD billions")
+cols_label!(tbl,
+    region = "Region",
+    q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
+    total = "Full Year",
+)
+tab_spanner!(tbl, "Quarterly"; columns = [:q1, :q2, :q3, :q4])
+cols_align!(tbl, :right, [:q1, :q2, :q3, :q4, :total])
+fmt_number!(tbl, [:q1, :q2, :q3, :q4, :total]; digits = 2)
+tab_style!(tbl, [:total]; bold = true)
+tab_footnote!(tbl, "Preliminary figures, subject to audit"; columns = [:q4])
+tab_source_note!(tbl, "Source: Internal Finance, March 2026")
+render(tbl)
 ```
 
 The "Full Year" column is bolded to draw the eye to the aggregate. The Q4

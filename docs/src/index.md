@@ -1,6 +1,6 @@
 # StyledTables.jl
 
-**StyledTables.jl** is a GT-style table builder for Julia. It provides a pipe-friendly
+**StyledTables.jl** is a GT-style table builder for Julia. It provides a
 API for turning a `DataFrame` into a polished, publication-ready table rendered in
 HTML, LaTeX, and Typst.
 
@@ -18,11 +18,12 @@ df = DataFrame(
     grade = ["A", "B", "A"],
 )
 
-df |> StyledTable |>
-    tab_header("Student Results"; subtitle = "Spring 2026") |>
-    cols_label(name = "Student", score = "Score", grade = "Grade") |>
-    cols_align(:center, [:score, :grade]) |>
-    fmt_number(:score; digits = 1) |> render
+tbl = StyledTable(df)
+tab_header!(tbl, "Student Results"; subtitle = "Spring 2026")
+cols_label!(tbl, name = "Student", score = "Score", grade = "Grade")
+cols_align!(tbl, :center, [:score, :grade])
+fmt_number!(tbl, :score; digits = 1)
+render(tbl)
 ```
 
 ## Installation

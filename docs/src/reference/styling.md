@@ -9,7 +9,7 @@ specified columns. Colors are hex strings (`"#RRGGBB"`).
 
 **Signature:**
 ```julia
-tab_style(columns; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+tab_style!(tbl, columns; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
 
 ```@example styling
@@ -22,16 +22,17 @@ df = DataFrame(
     yoy_pct = [0.12, 0.08, 0.14],
 )
 
-df |> StyledTable |>
-    tab_header("Q2 2026 Financial Summary") |>
-    tab_style([:yoy_pct]; color = "#1a7340", bold = true) |>
-    fmt_percent(:yoy_pct; digits = 1) |>
-    cols_label(
-        metric  = "Metric",
-        q1      = "Q1 (€B)",
-        q2      = "Q2 (€B)",
-        yoy_pct = "YoY Change",
-    ) |> render
+tbl = StyledTable(df)
+tab_header!(tbl, "Q2 2026 Financial Summary")
+tab_style!(tbl, [:yoy_pct]; color = "#1a7340", bold = true)
+fmt_percent!(tbl, :yoy_pct; digits = 1)
+cols_label!(tbl,
+    metric  = "Metric",
+    q1      = "Q1 (€B)",
+    q2      = "Q2 (€B)",
+    yoy_pct = "YoY Change",
+)
+render(tbl)
 ```
 
 ```@docs
@@ -45,7 +46,7 @@ StyledTables.tab_style
 Replace `missing` values with a placeholder string for display. Defaults to
 `"—"` (em dash).
 
-**Signature:** `sub_missing(; with = "—")`
+**Signature:** `sub_missing!(tbl; with = "—")`
 
 ```@example styling
 df = DataFrame(
@@ -53,15 +54,17 @@ df = DataFrame(
     value = [1.2, missing, 3.4, missing],
 )
 
-df |> StyledTable |>
-    sub_missing() |> render
+tbl = StyledTable(df)
+sub_missing!(tbl)
+render(tbl)
 ```
 
 Custom placeholder:
 
 ```@example styling
-df |> StyledTable |>
-    sub_missing(with = "N/A") |> render
+tbl = StyledTable(df)
+sub_missing!(tbl, with = "N/A")
+render(tbl)
 ```
 
 ```@docs
@@ -76,7 +79,7 @@ Set global rounding options for all numeric cells in the table.
 
 **Signature:**
 ```julia
-tab_options(; round_digits=nothing, round_mode=nothing, trailing_zeros=nothing)
+tab_options!(tbl; round_digits=nothing, round_mode=nothing, trailing_zeros=nothing)
 ```
 
 - `round_digits` — number of decimal places or significant digits
@@ -87,14 +90,16 @@ tab_options(; round_digits=nothing, round_mode=nothing, trailing_zeros=nothing)
 df = DataFrame(a = [1.23456, 7.891], b = [100.0, 200.0])
 
 # Round to 2 significant digits
-df |> StyledTable |>
-    tab_options(round_digits = 2, round_mode = :sigdigits) |> render
+tbl = StyledTable(df)
+tab_options!(tbl, round_digits = 2, round_mode = :sigdigits)
+render(tbl)
 ```
 
 ```@example styling
 # Fixed 3 decimal places with trailing zeros
-df |> StyledTable |>
-    tab_options(round_digits = 3, round_mode = :digits, trailing_zeros = true) |> render
+tbl = StyledTable(df)
+tab_options!(tbl, round_digits = 3, round_mode = :digits, trailing_zeros = true)
+render(tbl)
 ```
 
 ```@docs
