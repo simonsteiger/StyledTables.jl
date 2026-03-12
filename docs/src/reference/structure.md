@@ -9,7 +9,7 @@ These functions control the high-level layout: grouped column headers, a stub
 
 Add a spanning header above a group of columns.
 
-**Signature:** `tab_spanner!(tbl, label; columns::Vector{Symbol})`
+**Signature:** `tab_spanner!(tbl, (label => colgroup)::Pair...)`
 
 ```@example structure
 using StyledTables, DataFrames
@@ -22,7 +22,7 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-tab_spanner!(tbl, "Outcomes"; columns = [:efficacy, :safety])
+tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 cols_label!(tbl,
     drug     = "Drug",
     dose_mg  = "Dose (mg)",
@@ -37,8 +37,8 @@ Multiple spanners can be chained:
 
 ```@example structure
 tbl = StyledTable(df)
-tab_spanner!(tbl, "Dosing"; columns = [:dose_mg])
-tab_spanner!(tbl, "Outcomes"; columns = [:efficacy, :safety])
+tab_spanner!(tbl, "Dosing" => [:dose_mg])
+tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 render(tbl)
 ```
 

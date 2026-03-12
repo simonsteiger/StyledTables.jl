@@ -10,6 +10,7 @@
         table.cell(colspan: 2, align: center)[*#"My Table"*],
         table.cell(colspan: 2, align: center)[_#"Subtitle"_],
         table.cell(colspan: 2, align: center)[*#"XY"*],
+        table.hline(y: 3, start: 0, end: 2, stroke: 0.75pt),
         [*#"x"*],
         [*#"y"*],
         table.hline(y: 4, stroke: 0.75pt),

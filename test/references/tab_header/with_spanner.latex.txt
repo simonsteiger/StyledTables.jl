@@ -7,6 +7,7 @@
 \multicolumn{2}{c}{\textbf{My Table}} \\
 \multicolumn{2}{c}{\textit{Subtitle}} \\
 \multicolumn{2}{c}{\textbf{XY}} \\
+\cmidrule{1-2}
 \textbf{x} & \textbf{y} \\
 \midrule
 1 & 3 \\

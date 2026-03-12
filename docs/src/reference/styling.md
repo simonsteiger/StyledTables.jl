@@ -1,4 +1,4 @@
-# Styling & Options
+# Styling and options
 
 ---
 

@@ -35,8 +35,8 @@ tbl = StyledTable(demo)
 tab_stub!(tbl, :category)
 tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
-tab_spanner!(tbl, "Placebo (N=50)"; columns = [:placebo_n])
-tab_spanner!(tbl, "Treatment (N=50)"; columns = [:treatment_n])
+tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n])
+tab_spanner!(tbl, "Treatment (N=50)" => [:treatment_n])
 cols_label!(tbl,
     placebo_n   = "n (%)",
     treatment_n = "n (%)",
@@ -56,8 +56,8 @@ tab_stub!(tbl, :category)
 tab_stubhead!(tbl, "Characteristic")
 tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
-tab_spanner!(tbl, "Placebo (N=50)"; columns = [:placebo_n])
-tab_spanner!(tbl, "Treatment (N=50)"; columns = [:treatment_n])
+tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n])
+tab_spanner!(tbl, "Treatment (N=50)" => [:treatment_n])
 cols_label!(tbl,
     placebo_n   = "n (%)",
     treatment_n = "n (%)",

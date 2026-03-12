@@ -76,15 +76,14 @@ end
         df = DataFrame(name = ["Alice", "Bob"], dose = [10, 20], response = [0.9, 0.8])
 
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Treatment"; columns = [:dose, :response])
+        tab_spanner!(tbl, "Treatment" => [:dose, :response], "Participant" => [:name])
         run_reftest(tbl, "references/tab_spanner/basic")
 
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Treatment"; columns = [:dose, :response])
-        tab_spanner!(tbl, "Participant"; columns = [:name])
+        tab_spanner!(tbl, Dict("Treatment" => [:dose, :response], "Participant" => [:name]))
         run_reftest(tbl, "references/tab_spanner/two_spanners")
 
-        @test_throws ArgumentError tab_spanner!(StyledTable(df), "X"; columns = [:typo])
+        @test_throws ArgumentError tab_spanner!(StyledTable(df), "X" => [:typo])
     end
 
     # -----------------------------------------------------------------------
@@ -112,7 +111,7 @@ end
 
         tbl = StyledTable(df)
         tab_header!(tbl, "My Table"; subtitle = "Subtitle")
-        tab_spanner!(tbl, "XY"; columns = [:x, :y])
+        tab_spanner!(tbl, "XY" => [:x, :y])
         run_reftest(tbl, "references/tab_header/with_spanner")
     end
 

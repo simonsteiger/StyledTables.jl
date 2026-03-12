@@ -5,6 +5,7 @@
 \begin{tabular}{@{\extracolsep{2ex}}*{3}{lll}}
 \toprule
 \multicolumn{1}{c}{\textbf{Participant}} & \multicolumn{2}{c}{\textbf{Treatment}} \\
+\cmidrule{1-1}\cmidrule{2-3}
 \textbf{name} & \textbf{dose} & \textbf{response} \\
 \midrule
 Alice & 10 & 0.9 \\

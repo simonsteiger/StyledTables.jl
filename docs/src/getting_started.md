@@ -51,7 +51,7 @@ render(tbl)
 tbl = StyledTable(df)
 tab_header!(tbl, "Treatment Response")
 cols_label!(tbl, treatment = "Treatment Arm", n = "N", response = "Response Rate")
-tab_spanner!(tbl, "Results"; columns = [:n, :response])
+tab_spanner!(tbl, "Results" => [:n, :response])
 render(tbl)
 ```
 
@@ -61,7 +61,7 @@ render(tbl)
 tbl = StyledTable(df)
 tab_header!(tbl, "Treatment Response")
 cols_label!(tbl, treatment = "Treatment Arm", n = "N", response = "Response Rate")
-tab_spanner!(tbl, "Results"; columns = [:n, :response])
+tab_spanner!(tbl, "Results" => [:n, :response])
 fmt_percent!(tbl, [:response]; digits = 1)
 render(tbl)
 ```

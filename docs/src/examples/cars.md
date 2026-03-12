@@ -55,7 +55,7 @@ cols_label!(tbl,
     mpg      = "MPG",
     msrp_eur = "MSRP (€)",
 )
-tab_spanner!(tbl, "Performance"; columns = [:hp, :trq_nm, :mpg])
+tab_spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
 render(tbl)
 ```
 
@@ -78,7 +78,7 @@ cols_label!(tbl,
     trq_nm   = "Torque (Nm)",
     mpg      = "MPG",
 )
-tab_spanner!(tbl, "Performance"; columns = [:hp, :trq_nm, :mpg])
+tab_spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
 fmt!(tbl, :msrp_eur, x -> "€" * replace(string(x), r"(\d)(?=(\d{3})+$)" => s"\1,"))
 cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])
 tab_style!(tbl, [:msrp_eur]; bold = true)

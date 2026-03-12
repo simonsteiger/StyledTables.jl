@@ -31,7 +31,7 @@ cols_label!(tbl,
     q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
     total = "Full Year",
 )
-tab_spanner!(tbl, "Quarterly"; columns = [:q1, :q2, :q3, :q4])
+tab_spanner!(tbl, "Quarterly" => [:q1, :q2, :q3, :q4])
 cols_align!(tbl, :right, [:q1, :q2, :q3, :q4, :total])
 fmt_number!(tbl, [:q1, :q2, :q3, :q4, :total]; digits = 2)
 render(tbl)
@@ -50,7 +50,7 @@ cols_label!(tbl,
     q1 = "Q1", q2 = "Q2", q3 = "Q3", q4 = "Q4",
     total = "Full Year",
 )
-tab_spanner!(tbl, "Quarterly"; columns = [:q1, :q2, :q3, :q4])
+tab_spanner!(tbl, "Quarterly" => [:q1, :q2, :q3, :q4])
 cols_align!(tbl, :right, [:q1, :q2, :q3, :q4, :total])
 fmt_number!(tbl, [:q1, :q2, :q3, :q4, :total]; digits = 2)
 tab_style!(tbl, [:total]; bold = true)

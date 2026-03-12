@@ -203,7 +203,7 @@ function _build_spanner_row(tbl::StyledTable, colnames::Vector{Symbol})
         for col in spanner.columns
             j = findfirst(==(col), colnames)
             j === nothing && continue
-            row[j] = Cell(spanner.label; bold = true, merge = true, mergegroup = group_idx)
+            row[j] = Cell(spanner.label; bold = true, merge = true, mergegroup = group_idx, border_bottom = true)
         end
     end
     return row

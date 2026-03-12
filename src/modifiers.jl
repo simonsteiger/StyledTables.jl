@@ -89,11 +89,8 @@ Multiple calls create multiple spanners, rendered left-to-right in the order add
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `label`: display text for the span (plain `String` or rich value).
-
-# Keywords
-
-- `columns`: column names covered by this spanner.
+- `d`: an `AbstractDict` or an `AbstractVector` of `Pair`s that maps 
+  the spanner labels to vectors of columns.
 
 # Returns
 
@@ -105,17 +102,28 @@ See also: [`tab_header!`](@ref), [`tab_stub!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_spanner!(tbl, "Outcomes"; columns = [:efficacy, :safety])
+tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 render(tbl)
 ```
 """
-function tab_spanner!(tbl::StyledTable, label; columns::Vector{Symbol})
+tab_spanner!(tbl::StyledTable, args::Pair...) = tab_spanner!(tbl, collect(args))
+
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}})
     colnames = Symbol.(names(tbl.data))
-    for col in columns
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+    for (label, columns) in d
+        for col in columns
+            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+        push!(tbl.spanners, Spanner(label, columns))
     end
-    push!(tbl.spanners, Spanner(label, columns))
-    return tbl
+end
+
+function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Vector{<:AbstractString}}},
+    AbstractVector{<:Pair{<:AbstractString, Vector{Symbol}}}, AbstractVector{<:Pair{<:AbstractString, Vector{<:AbstractString}}},
+    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractDict{Symbol, Symbol}, AbstractDict{Symbol, Vector{<:AbstractString}}, 
+    AbstractDict{<:AbstractString, Vector{Symbol}}, AbstractDict{<:AbstractString, Vector{<:AbstractString}}})
+    ps = [String(label) => Symbol.(columns) for (label, columns) in d]
+    tab_spanner!(tbl, ps)
 end
 
 """
