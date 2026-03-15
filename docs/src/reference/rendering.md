@@ -13,7 +13,7 @@ using StyledTables, DataFrames
 df = DataFrame(a = [1, 2], b = ["x", "y"])
 
 tbl = StyledTable(df)
-cols_label!(tbl, a = "A", b = "B")
+cols_label!(tbl, :a => "A", :b => "B")
 render(tbl)
 ```
 

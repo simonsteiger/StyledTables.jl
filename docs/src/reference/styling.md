@@ -9,7 +9,7 @@ specified columns. Colors are hex strings (`"#RRGGBB"`).
 
 **Signatures:**
 ```julia
-tab_style!(tbl, col::Symbol, cols::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+tab_style!(tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 tab_style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
 
@@ -37,7 +37,11 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_style!
+StyledTables.tab_style!(tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+```
+
+```@docs
+StyledTables.tab_style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
 
 ---

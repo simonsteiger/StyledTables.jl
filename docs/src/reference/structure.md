@@ -9,7 +9,12 @@ These functions control the high-level layout: grouped column headers, a stub
 
 Add a spanning header above a group of columns.
 
-**Signature:** `tab_spanner!(tbl, (label => colgroup)::Pair...)`
+**Signatures:**
+```julia
+tab_spanner!(tbl, (label => colgroup)::Pair...)
+tab_spanner!(tbl, d::AbstractDict)
+tab_spanner!(tbl, d::AbstractVector{<:Pair})
+```
 
 ```@example structure
 using StyledTables, DataFrames

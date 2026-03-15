@@ -27,7 +27,7 @@ StyledTables.cols_label!(tbl::StyledTable, args::Pair...)
 
 ```@docs
 StyledTables.cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
-    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractVector{<:Pair{Symbol, <:AbstractString}},  AbstractDict{Symbol, Symbol}, 
+    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol}, 
     AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
 ```
 

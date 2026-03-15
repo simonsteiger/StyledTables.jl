@@ -6,17 +6,13 @@ Change the columns names displayed in the output table.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-
-# Keywords
-
-- `kwargs`: pairs of `column_name = label`, where `label` is a plain `String`
-  or any value accepted by `SummaryTables.Cell`.
+- `args`: the pairs specifying columns and labels.
 
 # Returns
 
 `tbl` (modified in place).
 
-See also: [`cols_align!`](@ref), [`cols_hide!`](@ref), [`cols_move!`](@ref).
+See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
 
 # Examples
 
@@ -40,6 +36,29 @@ function cols_label!(tbl::StyledTable, d::AbstractVector{Pair{Symbol, String}})
     return tbl
 end
 
+"""
+$TYPEDSIGNATURES
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: a `Dict` specifying columns and their labels.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
+
+# Examples
+
+```julia
+label_dict = Dict(:bmi => "BMI (kg/m²)", :sbp => "Systolic BP")
+tbl = StyledTable(df)
+cols_label!(tbl, label_dict)
+render(tbl)
+```
+"""
 function cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
     AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol}, 
     AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
@@ -463,7 +482,7 @@ See also: [`fmt!`](@ref), [`cols_align!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_style!(tbl, [:pct]; color = "#1a7340", bold = true)
+tab_style!(tbl, [:pct, :n]; color = "#1a7340", bold = true)
 render(tbl)
 ```
 """
@@ -485,6 +504,17 @@ function tab_style!(
     return tbl
 end
 
+"""
+$TYPEDSIGNATURES
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_style!(tbl, :pct; color = "#1a7340", bold = true)
+render(tbl)
+```
+"""
 function tab_style!(
     tbl::StyledTable,
     columns::Symbol...;
@@ -501,9 +531,6 @@ end
 $TYPEDSIGNATURES
 
 Replace `missing` values with a display placeholder.
-
-Applies a `SummaryTables.Replace` postprocessor that substitutes all `missing`
-values before rendering.
 
 # Arguments
 

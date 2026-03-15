@@ -20,7 +20,7 @@ df = DataFrame(
 
 tbl = StyledTable(df)
 tab_header!(tbl, "Student Results"; subtitle = "Spring 2026")
-cols_label!(tbl, name = "Student", score = "Score", grade = "Grade")
+cols_label!(tbl, :name => "Student", :score => "Score", :grade => "Grade")
 cols_align!(tbl, :center, [:score, :grade])
 fmt_number!(tbl, :score; digits = 1)
 render(tbl)

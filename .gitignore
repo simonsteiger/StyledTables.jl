@@ -1,3 +1,2 @@
 /Manifest*.toml
-notes/**/*
-CLAUDE.md
+.claude/*

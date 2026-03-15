@@ -35,12 +35,8 @@ tbl = StyledTable(demo)
 tab_stub!(tbl, :category)
 tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
-tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n])
-tab_spanner!(tbl, "Treatment (N=50)" => [:treatment_n])
-cols_label!(tbl,
-    placebo_n   = "n (%)",
-    treatment_n = "n (%)",
-)
+tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n], "Treatment (N=50)" => [:treatment_n])
+cols_label!(tbl, :placebo_n => "n (%)", :treatment_n => "n (%)")
 render(tbl)
 ```
 
@@ -58,10 +54,7 @@ tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
 tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n])
 tab_spanner!(tbl, "Treatment (N=50)" => [:treatment_n])
-cols_label!(tbl,
-    placebo_n   = "n (%)",
-    treatment_n = "n (%)",
-)
+cols_label!(tbl, :placebo_n   => "n (%)", :treatment_n => "n (%)")
 sub_missing!(tbl, with = "—")
 tab_footnote!(tbl,
     "Percentages computed on non-missing observations";
