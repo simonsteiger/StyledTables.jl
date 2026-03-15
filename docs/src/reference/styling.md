@@ -7,9 +7,10 @@
 Apply inline styling (color, bold, italic, underline) to all body cells in
 specified columns. Colors are hex strings (`"#RRGGBB"`).
 
-**Signature:**
+**Signatures:**
 ```julia
-tab_style!(tbl, columns; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+tab_style!(tbl, col::Symbol, cols::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+tab_style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
 
 ```@example styling
@@ -24,13 +25,13 @@ df = DataFrame(
 
 tbl = StyledTable(df)
 tab_header!(tbl, "Q2 2026 Financial Summary")
-tab_style!(tbl, [:yoy_pct]; color = "#1a7340", bold = true)
+tab_style!(tbl, :yoy_pct; color = "#1a7340", bold = true)
 fmt_percent!(tbl, :yoy_pct; digits = 1)
 cols_label!(tbl,
-    metric  = "Metric",
-    q1      = "Q1 (€B)",
-    q2      = "Q2 (€B)",
-    yoy_pct = "YoY Change",
+    :metric  => "Metric",
+    :q1      => "Q1 (€B)",
+    :q2      => "Q2 (€B)",
+    :yoy_pct => "YoY Change",
 )
 render(tbl)
 ```
