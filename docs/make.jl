@@ -28,6 +28,9 @@ makedocs(;
             "Clinical Demographics" => "examples/clinical.md",
             "Quarterly Report" => "examples/report.md",
         ],
+        "Resources" => [
+            "API" => "resources/api.md",
+        ],
     ],
     warnonly = true,
 )
