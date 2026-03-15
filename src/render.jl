@@ -33,7 +33,7 @@ render(tbl)
 function render(tbl::StyledTable)
     df = tbl.data
 
-    # Determine base column order (respecting cols_move), then remove row_group_col and hidden_cols
+    # Determine base column order, then remove row_group_col and hidden_cols
     base_order = tbl.col_order !== nothing ? tbl.col_order : Symbol.(names(df))
     display_cols = filter(base_order) do col
         col != tbl.row_group_col && col ∉ tbl.hidden_cols

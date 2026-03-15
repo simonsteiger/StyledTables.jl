@@ -624,7 +624,7 @@ do not appear in the final table. Commonly paired with [`tab_row_group!`](@ref).
 
 `tbl` (modified in place).
 
-See also: [`cols_move!`](@ref), [`tab_row_group!`](@ref).
+See also: [`tab_row_group!`](@ref).
 
 # Examples
 
