@@ -1,10 +1,7 @@
 """
 $TYPEDSIGNATURES
 
-Rename columns for display.
-
-Each keyword argument maps a column `Symbol` to its display label.
-Column names in the underlying `DataFrame` are not changed.
+Change the columns names displayed in the output table.
 
 # Arguments
 
@@ -25,18 +22,29 @@ See also: [`cols_align!`](@ref), [`cols_hide!`](@ref), [`cols_move!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-cols_label!(tbl, bmi = "BMI (kg/m²)", sbp = "Systolic BP")
+cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP")
 render(tbl)
 ```
 """
-function cols_label!(tbl::StyledTable; kwargs...)
+function cols_label!(tbl::StyledTable, args::Pair...)
+    cols_label!(tbl, collect(args))
+    return tbl
+end
+
+function cols_label!(tbl::StyledTable, d::AbstractVector{Pair{Symbol, String}})
     colnames = Symbol.(names(tbl.data))
-    for (col, _) in kwargs
+    for (col, label) in d
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
-    end
-    for (col, label) in kwargs
         tbl.col_labels[col] = label
     end
+    return tbl
+end
+
+function cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
+    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol}, 
+    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
+    ps = [Symbol(col) => String(label) for (col, label) in d]
+    cols_label!(tbl, ps)
     return tbl
 end
 
@@ -54,8 +62,6 @@ Set horizontal alignment for one or more columns.
 # Returns
 
 `tbl` (modified in place).
-
-See also: [`cols_label!`](@ref), [`cols_hide!`](@ref), [`cols_move!`](@ref).
 
 # Examples
 
@@ -82,15 +88,13 @@ end
 """
 $TYPEDSIGNATURES
 
-Add a spanning header label above a group of columns.
-
-Multiple calls create multiple spanners, rendered left-to-right in the order added.
+Add a spanning header label above one or more groups of columns.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: an `AbstractDict` or an `AbstractVector` of `Pair`s that maps 
-  the spanner labels to vectors of columns.
+- `args`: any number of `Pair`s that maps the spanner labels
+  to vectors of columns.
 
 # Returns
 
@@ -106,7 +110,10 @@ tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 render(tbl)
 ```
 """
-tab_spanner!(tbl::StyledTable, args::Pair...) = tab_spanner!(tbl, collect(args))
+function tab_spanner!(tbl::StyledTable, args::Pair...)
+    tab_spanner!(tbl, collect(args))
+    return tbl
+end
 
 function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}})
     colnames = Symbol.(names(tbl.data))
@@ -116,12 +123,39 @@ function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Sy
         end
         push!(tbl.spanners, Spanner(label, columns))
     end
+    return tbl
 end
 
-function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Vector{<:AbstractString}}},
-    AbstractVector{<:Pair{<:AbstractString, Vector{Symbol}}}, AbstractVector{<:Pair{<:AbstractString, Vector{<:AbstractString}}},
-    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractDict{Symbol, Symbol}, AbstractDict{Symbol, Vector{<:AbstractString}}, 
-    AbstractDict{<:AbstractString, Vector{Symbol}}, AbstractDict{<:AbstractString, Vector{<:AbstractString}}})
+"""
+$TYPEDSIGNATURES
+
+Add a spanning header label above one or more groups of columns.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: an `AbstractDict` or an `AbstractVector` of `Pair`s that maps 
+  the spanner labels to vectors of columns.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_spanner!(tbl, Dict(
+    "Outcomes" => [:efficacy, :safety],
+    "Demographics" => [:age, :sex])
+)
+render(tbl)
+```
+"""
+function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}},
+    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}}, 
+    AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}}, 
+    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}) where T <: AbstractString
     ps = [String(label) => Symbol.(columns) for (label, columns) in d]
     tab_spanner!(tbl, ps)
 end
@@ -451,6 +485,18 @@ function tab_style!(
     return tbl
 end
 
+function tab_style!(
+    tbl::StyledTable,
+    columns::Symbol...;
+    color::Union{Nothing,String} = nothing,
+    bold::Union{Nothing,Bool} = nothing,
+    italic::Union{Nothing,Bool} = nothing,
+    underline::Union{Nothing,Bool} = nothing,
+)
+    tab_style!(tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
+    return tbl
+end
+
 """
 $TYPEDSIGNATURES
 
@@ -569,56 +615,6 @@ function cols_hide!(tbl::StyledTable, cols::Symbol...)
     end
     for col in cols
         push!(tbl.hidden_cols, col)
-    end
-    return tbl
-end
-
-"""
-$TYPEDSIGNATURES
-
-Reorder columns in the rendered output.
-
-By default, `cols` are moved to the front. Use `after` to insert them after
-a specific column.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `cols`: column names to move.
-
-# Keywords
-
-- `after`: column name to insert after, or `nothing` (move to front, default).
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`cols_hide!`](@ref), [`cols_align!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-cols_move!(tbl, [:name])
-render(tbl)
-```
-"""
-function cols_move!(tbl::StyledTable, cols::AbstractVector{Symbol}; after::Union{Nothing,Symbol} = nothing)
-    colnames = Symbol.(names(tbl.data))
-    for col in cols
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
-    end
-    if after !== nothing
-        after in colnames || throw(ArgumentError("Column :$after not found in DataFrame"))
-        after in cols && throw(ArgumentError("Column :$after cannot appear in both `cols` and `after`"))
-    end
-    remaining = filter(c -> c ∉ cols, colnames)
-    if after === nothing
-        tbl.col_order = vcat(cols, remaining)
-    else
-        idx = findfirst(==(after), remaining)
-        tbl.col_order = vcat(remaining[1:idx], collect(cols), remaining[idx+1:end])
     end
     return tbl
 end

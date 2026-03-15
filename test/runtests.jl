@@ -371,6 +371,28 @@ end
         run_reftest(tbl, "references/tab_style/color_italic")
 
         @test_throws ArgumentError tab_style!(StyledTable(df), [:nonexistent]; bold = true)
+
+        # varargs form — must produce identical output to vector form
+        let df = DataFrame(label = ["A", "B"], value = [1.0, 2.0])
+            ref = let tbl = StyledTable(df)
+                tab_style!(tbl, [:value]; bold = true)
+                html_str(tbl)
+            end
+
+            # single-symbol varargs
+            tbl = StyledTable(df)
+            tab_style!(tbl, :value; bold = true)
+            @test html_str(tbl) == ref
+
+            # multi-symbol varargs
+            tbl = StyledTable(df)
+            tab_style!(tbl, :label, :value; bold = true)
+            ref2 = let t = StyledTable(df)
+                tab_style!(t, [:label, :value]; bold = true)
+                html_str(t)
+            end
+            @test html_str(tbl) == ref2
+        end
     end
 
     # -----------------------------------------------------------------------
