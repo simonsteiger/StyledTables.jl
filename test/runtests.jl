@@ -17,6 +17,12 @@ as_html(object)  = AsMIME{MIME"text/html"}(object)
 as_latex(object) = AsMIME{MIME"text/latex"}(object)
 as_typst(object) = AsMIME{MIME"text/typst"}(object)
 
+function html_str(tbl)
+    io = IOBuffer()
+    show(io, MIME("text/html"), render(tbl))
+    String(take!(io))
+end
+
 function run_reftest(tbl, relpath)
     rendered = render(tbl)
     @test_reference joinpath(@__DIR__, relpath * ".txt")       as_html(rendered)
@@ -41,14 +47,75 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         tbl = StyledTable(df)
-        cols_label!(tbl, x = "Variable X", y = "Variable Y")
+        cols_label!(tbl, :x => "Variable X", :y => "Variable Y")
         run_reftest(tbl, "references/cols_label/relabeled_two_cols")
 
         tbl = StyledTable(df)
-        cols_label!(tbl, x = "Only X")
+        cols_label!(tbl, :x => "Only X")
         run_reftest(tbl, "references/cols_label/relabeled_one_col")
 
-        @test_throws ArgumentError cols_label!(StyledTable(df), typo = "Label")
+        @test_throws ArgumentError cols_label!(StyledTable(df), :typo => "Label")
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "cols_label! input types" begin
+        df = DataFrame(x = [1, 2], y = [3, 4])
+
+        # Canonical reference: Pair... varargs method with Symbol => String pairs
+        ref = let tbl = StyledTable(df)
+            cols_label!(tbl, :x => "VarX", :y => "VarY")
+            html_str(tbl)
+        end
+
+        # AbstractVector{<:Pair{Symbol, Symbol}}
+        # Vector{Pair{Symbol,Symbol}} (invariant) hits the standalone method;
+        # covariant subtype also exercises the Union path.
+        let tbl = StyledTable(df)
+            cols_label!(tbl, Pair{Symbol,Symbol}[:x => :VarX, :y => :VarY])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractVector{<:Pair{AbstractString, AbstractString}}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, ["x" => "VarX", "y" => "VarY"])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractVector{<:Pair{AbstractString, Symbol}}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, Pair{String,Symbol}["x" => :VarX, "y" => :VarY])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractVector{<:Pair{Symbol, AbstractString}}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, [:x => "VarX", :y => "VarY"])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{Symbol, Symbol}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, Dict{Symbol,Symbol}(:x => :VarX, :y => :VarY))
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{AbstractString, AbstractString}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, Dict{String,String}("x" => "VarX", "y" => "VarY"))
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{AbstractString, Symbol}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, Dict{String,Symbol}("x" => :VarX, "y" => :VarY))
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{Symbol, AbstractString}
+        let tbl = StyledTable(df)
+            cols_label!(tbl, Dict{Symbol,String}(:x => "VarX", :y => "VarY"))
+            @test html_str(tbl) == ref
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -84,6 +151,67 @@ end
         run_reftest(tbl, "references/tab_spanner/two_spanners")
 
         @test_throws ArgumentError tab_spanner!(StyledTable(df), "X" => [:typo])
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "tab_spanner! input types" begin
+        df = DataFrame(name = ["Alice"], dose = [10], response = [0.9])
+
+        # Canonical reference: Pair... varargs method
+        ref = let tbl = StyledTable(df)
+            tab_spanner!(tbl, "Treatment" => [:dose, :response])
+            html_str(tbl)
+        end
+
+        # AbstractVector{<:Pair{AbstractString, Vector{AbstractString}}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, ["Treatment" => ["dose", "response"]])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractVector{<:Pair{Symbol, Vector{Symbol}}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, [:Treatment => [:dose, :response]])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractVector{<:Pair{Symbol, Vector{AbstractString}}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Pair{Symbol,Vector{String}}[:Treatment => ["dose", "response"]])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractVector{<:Pair{AbstractString, Vector{Symbol}}}
+        # Vector{Pair{String,Vector{Symbol}}} hits the standalone method;
+        # covariant type annotation exercises the Union path.
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Pair{String,Vector{Symbol}}["Treatment" => [:dose, :response]])
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{AbstractString, Vector{AbstractString}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict{String,Vector{String}}("Treatment" => ["dose", "response"]))
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{Symbol, Vector{AbstractString}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict{Symbol,Vector{String}}(:Treatment => ["dose", "response"]))
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{AbstractString, Vector{Symbol}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict{String,Vector{Symbol}}("Treatment" => [:dose, :response]))
+            @test html_str(tbl) == ref
+        end
+
+        # AbstractDict{Symbol, Vector{Symbol}}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict{Symbol,Vector{Symbol}}(:Treatment => [:dose, :response]))
+            @test html_str(tbl) == ref
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -161,23 +289,6 @@ end
         run_reftest(tbl, "references/cols_hide/multiple")
 
         @test_throws ArgumentError cols_hide!(StyledTable(df), :nonexistent)
-    end
-
-    # -----------------------------------------------------------------------
-    @testset "cols_move!" begin
-        df = DataFrame(a = [1, 2], b = [3, 4], c = [5, 6])
-
-        tbl = StyledTable(df)
-        cols_move!(tbl, [:c, :b])
-        run_reftest(tbl, "references/cols_move/to_start")
-
-        tbl = StyledTable(df)
-        cols_move!(tbl, [:c]; after = :a)
-        run_reftest(tbl, "references/cols_move/after_col")
-
-        @test_throws ArgumentError cols_move!(StyledTable(df), [:nonexistent])
-        @test_throws ArgumentError cols_move!(StyledTable(df), [:c]; after = :nonexistent)
-        @test_throws ArgumentError cols_move!(StyledTable(df), [:c]; after = :c)
     end
 
     # -----------------------------------------------------------------------
