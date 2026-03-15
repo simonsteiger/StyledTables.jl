@@ -37,11 +37,11 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_style!(tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+StyledTables.tab_style!(::StyledTables.StyledTable, ::Symbol...)
 ```
 
 ```@docs
-StyledTables.tab_style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+StyledTables.tab_style!(::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
 ---

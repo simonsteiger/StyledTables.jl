@@ -9,7 +9,7 @@ makedocs(;
     modules = [StyledTables],
     format = DocumenterVitepress.MarkdownVitepress(
         repo = "github.com/simonsteiger/StyledTables.jl",
-        build_vitepress = false,
+        build_vitepress = get(ENV, "CI", nothing) !== nothing,
     ),
     pages = [
         "Home" => "index.md",
@@ -33,4 +33,9 @@ makedocs(;
         ],
     ],
     warnonly = true,
+)
+
+DocumenterVitepress.deploydocs(;
+    repo = "github.com/simonsteiger/StyledTables.jl",
+    push_preview = true,
 )
