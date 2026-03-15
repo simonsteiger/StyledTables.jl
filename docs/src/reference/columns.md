@@ -9,10 +9,7 @@ These functions control column display names, alignment, visibility, and order.
 Rename one or more columns for display. Column names in the underlying
 `DataFrame` are not changed.
 
-**Signature:** `cols_label!(tbl; kwargs...)`
-
-Each keyword argument maps a column `Symbol` to its display label. Labels can
-be plain strings or any value supported by `SummaryTables.Cell`.
+**Signature:** `cols_label!(tbl, (col => label)::Pair...)`
 
 ```@example columns
 using StyledTables, DataFrames
@@ -20,12 +17,18 @@ using StyledTables, DataFrames
 df = DataFrame(bmi = [22.1, 27.4, 31.0], sbp = [118, 135, 142])
 
 tbl = StyledTable(df)
-cols_label!(tbl, bmi = "BMI (kg/m²)", sbp = "Systolic BP (mmHg)")
+cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP (mmHg)")
 render(tbl)
 ```
 
 ```@docs
-StyledTables.cols_label!
+StyledTables.cols_label!(tbl::StyledTable, args::Pair...)
+```
+
+```@docs
+StyledTables.cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
+    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractVector{<:Pair{Symbol, <:AbstractString}},  AbstractDict{Symbol, Symbol}, 
+    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
 ```
 
 ---
@@ -78,42 +81,11 @@ df = DataFrame(
 tbl = StyledTable(df)
 tab_row_group!(tbl, :group)
 cols_hide!(tbl, :group)
-cols_label!(tbl, subject = "Subject", score = "Score", pct_score = "Score (%)")
+cols_label!(tbl, :subject => "Subject", :score => "Score", :pct_score => "Score (%)")
 fmt_percent!(tbl, :pct_score; digits = 0)
 render(tbl)
 ```
 
 ```@docs
 StyledTables.cols_hide!
-```
-
----
-
-## `cols_move!`
-
-Reorder columns. By default, the specified columns are moved to the front.
-Use `after = :col` to insert them after a specific column.
-
-**Signatures:**
-- `cols_move!(tbl, cols)` — move `cols` to the beginning
-- `cols_move!(tbl, cols; after = :anchor_col)` — move `cols` after `:anchor_col`
-
-```@example columns
-df = DataFrame(id = 1:3, name = ["A","B","C"], value = [10, 20, 30])
-
-# Move :name to front
-tbl = StyledTable(df)
-cols_move!(tbl, [:name])
-render(tbl)
-```
-
-```@example columns
-# Move :value after :name
-tbl = StyledTable(df)
-cols_move!(tbl, [:value]; after = :name)
-render(tbl)
-```
-
-```@docs
-StyledTables.cols_move!
 ```

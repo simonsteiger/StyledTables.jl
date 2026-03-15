@@ -24,26 +24,32 @@ df = DataFrame(
 tbl = StyledTable(df)
 tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 cols_label!(tbl,
-    drug     = "Drug",
-    dose_mg  = "Dose (mg)",
-    efficacy = "Efficacy",
-    safety   = "Safety",
+    :drug     => "Drug",
+    :dose_mg  => "Dose (mg)",
+    :efficacy => "Efficacy",
+    :safety   => "Safety",
 )
 fmt_percent!(tbl, [:efficacy, :safety]; digits = 1)
 render(tbl)
 ```
 
-Multiple spanners can be chained:
+Multiple spanners can be added at once:
 
 ```@example structure
 tbl = StyledTable(df)
-tab_spanner!(tbl, "Dosing" => [:dose_mg])
-tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
+tab_spanner!(tbl, "Dosing" => [:dose_mg], "Outcomes" => [:efficacy, :safety])
 render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_spanner!
+StyledTables.tab_spanner!(tbl::StyledTable, args::Pair...)
+```
+
+```@docs
+StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{<:AbstractString, Vector{<:AbstractString}}},
+    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{<:AbstractString}}}, 
+    AbstractVector{<:Pair{<:AbstractString, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{<:AbstractString, Vector{<:AbstractString}}, 
+    AbstractDict{Symbol, Vector{<:AbstractString}}, AbstractDict{<:AbstractString, Vector{Symbol}}})
 ```
 
 ---
@@ -58,7 +64,7 @@ formatting (no bold header by default, distinct from data columns).
 ```@example structure
 tbl = StyledTable(df)
 tab_stub!(tbl, :drug)
-cols_label!(tbl, dose_mg = "Dose (mg)", efficacy = "Efficacy", safety = "Safety")
+cols_label!(tbl, :dose_mg => "Dose (mg)", :efficacy => "Efficacy", :safety => "Safety")
 render(tbl)
 ```
 
@@ -105,7 +111,7 @@ df = DataFrame(
 tbl = StyledTable(df)
 tab_row_group!(tbl, :category)
 cols_hide!(tbl, :category)
-cols_label!(tbl, drug = "Drug", dose_mg = "Dose (mg)")
+cols_label!(tbl, :drug => "Drug", :dose_mg => "Dose (mg)")
 render(tbl)
 ```
 
