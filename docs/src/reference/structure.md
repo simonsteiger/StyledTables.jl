@@ -46,10 +46,7 @@ StyledTables.tab_spanner!(tbl::StyledTable, args::Pair...)
 ```
 
 ```@docs
-StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{<:AbstractString, Vector{<:AbstractString}}},
-    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{<:AbstractString}}}, 
-    AbstractVector{<:Pair{<:AbstractString, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{<:AbstractString, Vector{<:AbstractString}}, 
-    AbstractDict{Symbol, Vector{<:AbstractString}}, AbstractDict{<:AbstractString, Vector{Symbol}}})
+StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}}, AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}}, AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}}, AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}) where T<:AbstractString
 ```
 
 ---
