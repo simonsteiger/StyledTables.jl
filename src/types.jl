@@ -54,7 +54,7 @@ calling [`render`](@ref):
 
 ```julia
 tbl = StyledTable(df)
-cols_label!(tbl, x = "X")
+cols_label!(tbl, :x => "X")
 tab_header!(tbl, "Title")
 render(tbl)
 ```
