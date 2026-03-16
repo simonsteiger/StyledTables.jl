@@ -1,12 +1,16 @@
 """
 $TYPEDSIGNATURES
 
-Change the columns names displayed in the output table.
+Change the column names displayed in the output table.
+
+Column names in the underlying `DataFrame` are not changed.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: the pairs specifying columns and labels.
+- `args`: any number of `col => label` pairs. `col` must be a `Symbol` matching
+  a column name; `label` can be a plain `String` or any value accepted by
+  `SummaryTables.Cell`, including `SummaryTables.Multiline` for multi-line headers.
 
 # Returns
 
@@ -21,13 +25,22 @@ tbl = StyledTable(df)
 cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP")
 render(tbl)
 ```
+
+```julia
+# Multi-line column header
+tbl = StyledTable(df)
+cols_label!(tbl, :placebo_n => SummaryTables.Multiline("Placebo (N=50)", "n (%)"))
+render(tbl)
+```
 """
 function cols_label!(tbl::StyledTable, args::Pair...)
     cols_label!(tbl, collect(args))
     return tbl
 end
 
-function cols_label!(tbl::StyledTable, d::AbstractVector{Pair{Symbol, String}})
+# Note: Pair{Symbol, Symbol} inputs are captured by the more-specific Union method
+# below and converted to String labels. This method receives String and Multiline values.
+function cols_label!(tbl::StyledTable, d::AbstractVector{<:Pair{Symbol}})
     colnames = Symbol.(names(tbl.data))
     for (col, label) in d
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
