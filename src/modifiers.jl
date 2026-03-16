@@ -38,8 +38,10 @@ function cols_label!(tbl::StyledTable, args::Pair...)
     return tbl
 end
 
-# Note: Pair{Symbol, Symbol} inputs are captured by the more-specific Union method
-# below and converted to String labels. This method receives String and Multiline values.
+# Note: Pair{Symbol, Symbol} inputs are routed to the conversion method below because
+# AbstractVector{<:Pair{Symbol, Symbol}} is a subtype of (and therefore more specific than)
+# AbstractVector{<:Pair{Symbol}}. This method handles all remaining Symbol-keyed pairs,
+# including Multiline and any other value type.
 function cols_label!(tbl::StyledTable, d::AbstractVector{<:Pair{Symbol}})
     colnames = Symbol.(names(tbl.data))
     for (col, label) in d

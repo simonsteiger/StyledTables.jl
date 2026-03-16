@@ -137,7 +137,7 @@ end
         tbl2 = StyledTable(df)
         cols_label!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
         tab_footnote!(tbl2, "Percentages based on safety population"; columns = [:placebo_n])
-        @test render(tbl2) isa SummaryTables.Table
+        run_reftest(tbl2, "references/cols_label/multiline_label_annotated")
     end
 
     # -----------------------------------------------------------------------
