@@ -237,6 +237,15 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "tab_spanner! Multiline" begin
+        df = DataFrame(dose = [10, 20], response = [0.9, 0.8])
+
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+        run_reftest(tbl, "references/tab_spanner/multiline_label")
+    end
+
+    # -----------------------------------------------------------------------
     @testset "tab_stub!" begin
         df = DataFrame(rowname = ["Alice", "Bob"], score = [90, 85])
 
