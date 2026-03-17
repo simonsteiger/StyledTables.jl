@@ -1,13 +1,38 @@
-# StyledTables.jl
+````@raw html
+---
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
 
-**StyledTables.jl** is a GT-style table builder for Julia. It provides a
-API for turning a `DataFrame` into a polished, publication-ready table rendered in
-HTML, LaTeX, and Typst.
+hero:
+  name: StyledTables
+  text:
+  tagline: Apply custom formatting to tables in Julia - render to HTML, docx, LaTeX and Typst
+  image:
+    src: logo.svg
+    alt: StyledTables
+  actions:
+    - theme: alt
+      text: View on Github
+      link: https://github.com/simonsteiger/StyledTables.jl
+---
+````
 
-Rendering is handled by [SummaryTables.jl](https://github.com/PumasAI/SummaryTables.jl)
-as the backend; StyledTables layers a declarative modifier API on top.
+# StyledTables
 
-## Quick example
+The goal of StyledTables is to provide styling elements for summarised tables.
+Tables can be rendered in HTML, docx, LaTeX and Typst formats.
+The package directly builds on top of [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), while the API is loosely inspired by R's [gt](https://gt.rstudio.com/) package.
+
+## Installation
+
+SummaryTables is not yet registered in the General Registry and can be installed via url:
+
+```julia
+using Pkg
+Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
+```
+
+## Examples
 
 ```@example index
 using StyledTables, DataFrames
@@ -24,11 +49,4 @@ cols_label!(tbl, :name => "Student", :score => "Score", :grade => "Grade")
 cols_align!(tbl, :center, [:score, :grade])
 fmt_number!(tbl, :score; digits = 1)
 render(tbl)
-```
-
-## Installation
-
-```julia
-using Pkg
-Pkg.add("StyledTables")
 ```
