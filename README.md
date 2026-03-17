@@ -3,7 +3,7 @@
 <div align="center">
     <picture>
       <img alt="StyledTables.jl logo" 
-        src="/docs/src/assets/logo.svt" width="150">
+        src="/docs/src/assets/logo.svg" width="150">
     </picture>
 </div>
 
