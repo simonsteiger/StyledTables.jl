@@ -21,10 +21,9 @@ cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP (mmHg)")
 render(tbl)
 ```
 
-Multi-line column headers using `SummaryTables.Multiline`:
+Multi-line column headers using `Multiline`:
 
 ```@example columns
-using SummaryTables: Multiline
 tbl = StyledTable(df)
 cols_label!(tbl,
     :bmi => Multiline("BMI", "(kg/m²)"),

@@ -11,6 +11,7 @@ include("render.jl")
 
 export StyledTable
 export render
+export Multiline
 export cols_label!, cols_align!, cols_hide!
 export tab_spanner!, tab_row_group!, tab_stub!, tab_stubhead!
 export tab_header!, tab_footnote!, tab_source_note!

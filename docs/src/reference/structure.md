@@ -46,10 +46,9 @@ tab_spanner!(tbl, "Dosing" => [:dose_mg], "Outcomes" => [:efficacy, :safety])
 render(tbl)
 ```
 
-Multi-line spanner header using `SummaryTables.Multiline`:
+Multi-line spanner header using `Multiline`:
 
 ```@example structure
-using SummaryTables: Multiline
 tbl = StyledTable(df)
 tab_spanner!(tbl, Multiline("Outcomes", "(primary)") => [:efficacy, :safety])
 render(tbl)
