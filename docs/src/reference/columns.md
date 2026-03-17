@@ -12,12 +12,23 @@ Rename one or more columns for display. Column names in the underlying
 **Signature:** `cols_label!(tbl, (col => label)::Pair...)`
 
 ```@example columns
-using StyledTables, DataFrames
+using StyledTables, SummaryTables, DataFrames
 
 df = DataFrame(bmi = [22.1, 27.4, 31.0], sbp = [118, 135, 142])
 
 tbl = StyledTable(df)
 cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP (mmHg)")
+render(tbl)
+```
+
+Multi-line column headers using `Multiline`:
+
+```@example columns
+tbl = StyledTable(df)
+cols_label!(tbl,
+    :bmi => Multiline("BMI", "(kg/m²)"),
+    :sbp => Multiline("Systolic BP", "(mmHg)"),
+)
 render(tbl)
 ```
 

@@ -17,7 +17,7 @@ tab_spanner!(tbl, d::AbstractVector{<:Pair})
 ```
 
 ```@example structure
-using StyledTables, DataFrames
+using StyledTables, SummaryTables, DataFrames
 
 df = DataFrame(
     drug     = ["Aspirin", "Ibuprofen", "Naproxen"],
@@ -43,6 +43,14 @@ Multiple spanners can be added at once:
 ```@example structure
 tbl = StyledTable(df)
 tab_spanner!(tbl, "Dosing" => [:dose_mg], "Outcomes" => [:efficacy, :safety])
+render(tbl)
+```
+
+Multi-line spanner header using `Multiline`:
+
+```@example structure
+tbl = StyledTable(df)
+tab_spanner!(tbl, Multiline("Outcomes", "(primary)") => [:efficacy, :safety])
 render(tbl)
 ```
 

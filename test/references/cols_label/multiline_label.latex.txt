@@ -1,0 +1,14 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\textbf{\begin{tabular}{@{}l@{}}Placebo (N=50) \\ n (\%)\end{tabular}} & \textbf{\begin{tabular}{@{}l@{}}Treatment (N=50) \\ n (\%)\end{tabular}} \\
+\midrule
+12 (24\%) & 15 (30\%) \\
+18 (36\%) & 20 (40\%) \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

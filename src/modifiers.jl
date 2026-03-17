@@ -1,12 +1,16 @@
 """
 $TYPEDSIGNATURES
 
-Change the columns names displayed in the output table.
+Change the column names displayed in the output table.
+
+Column names in the underlying `DataFrame` are not changed.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: the pairs specifying columns and labels.
+- `args`: any number of `col => label` pairs. `col` must be a `Symbol` matching
+  a column name; `label` can be a plain `String` or any value accepted by
+  `SummaryTables.Cell`, including `Multiline` for multi-line headers.
 
 # Returns
 
@@ -27,7 +31,11 @@ function cols_label!(tbl::StyledTable, args::Pair...)
     return tbl
 end
 
-function cols_label!(tbl::StyledTable, d::AbstractVector{Pair{Symbol, String}})
+# Note: Pair{Symbol, Symbol} inputs are routed to the conversion method below because
+# AbstractVector{<:Pair{Symbol, Symbol}} is a subtype of (and therefore more specific than)
+# AbstractVector{<:Pair{Symbol}}. This method handles all remaining Symbol-keyed pairs,
+# including Multiline and any other value type.
+function cols_label!(tbl::StyledTable, d::AbstractVector{<:Pair{Symbol}})
     colnames = Symbol.(names(tbl.data))
     for (col, label) in d
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
@@ -112,8 +120,10 @@ Add a spanning header label above one or more groups of columns.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: any number of `Pair`s that maps the spanner labels
-  to vectors of columns.
+- `args`: any number of `label => columns` pairs. `label` is the spanner header
+  text — a plain `String` or any value accepted by `SummaryTables.Cell`, including
+  `Multiline` for multi-line spanner headers. `columns` is a
+  `Vector{Symbol}` of the column names to span.
 
 # Returns
 
@@ -128,13 +138,20 @@ tbl = StyledTable(df)
 tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 render(tbl)
 ```
+
+```julia
+using SummaryTables: Multiline
+tbl = StyledTable(df)
+tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+render(tbl)
+```
 """
 function tab_spanner!(tbl::StyledTable, args::Pair...)
     tab_spanner!(tbl, collect(args))
     return tbl
 end
 
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}})
+function _push_spanners!(tbl::StyledTable, d)
     colnames = Symbol.(names(tbl.data))
     for (label, columns) in d
         for col in columns
@@ -143,6 +160,18 @@ function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Sy
         push!(tbl.spanners, Spanner(label, columns))
     end
     return tbl
+end
+
+# Note: Pair{String, Vector{Symbol}} inputs arrive here from the conversion method below.
+# The exact (invariant) signature prevents Julia from routing them back through the
+# conversion method, which would cause a StackOverflow.
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}})
+    _push_spanners!(tbl, d)
+end
+
+# Handles Multiline and any other non-String, non-Symbol label keys.
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any, Vector{Symbol}}})
+    _push_spanners!(tbl, d)
 end
 
 """

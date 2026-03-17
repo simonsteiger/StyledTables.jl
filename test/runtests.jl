@@ -119,6 +119,28 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "cols_label! Multiline" begin
+        df = DataFrame(
+            placebo_n   = ["12 (24%)", "18 (36%)"],
+            treatment_n = ["15 (30%)", "20 (40%)"],
+        )
+
+        tbl = StyledTable(df)
+        cols_label!(tbl,
+            :placebo_n   => Multiline("Placebo (N=50)", "n (%)"),
+            :treatment_n => Multiline("Treatment (N=50)", "n (%)"),
+        )
+        run_reftest(tbl, "references/cols_label/multiline_label")
+
+        # Multiline label + column footnote: SummaryTables.Annotated(Multiline(...))
+        # renders correctly (verified: shows multiline text + superscript footnote number).
+        tbl2 = StyledTable(df)
+        cols_label!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
+        tab_footnote!(tbl2, "Percentages based on safety population"; columns = [:placebo_n])
+        run_reftest(tbl2, "references/cols_label/multiline_label_annotated")
+    end
+
+    # -----------------------------------------------------------------------
     @testset "cols_align!" begin
         df = DataFrame(x = [1, 2], y = [3, 4])
 
@@ -212,6 +234,15 @@ end
             tab_spanner!(tbl, Dict{Symbol,Vector{Symbol}}(:Treatment => [:dose, :response]))
             @test html_str(tbl) == ref
         end
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "tab_spanner! Multiline" begin
+        df = DataFrame(dose = [10, 20], response = [0.9, 0.8])
+
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+        run_reftest(tbl, "references/tab_spanner/multiline_label")
     end
 
     # -----------------------------------------------------------------------

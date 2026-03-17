@@ -25,18 +25,20 @@ demo = DataFrame(
 )
 ```
 
-## Step 1: Basic stub table with treatment spanners
+## Step 1: Basic stub table with multiline column labels
 
 Designate `:category` as the stub (row-label column), group rows by `:variable`,
-and add a spanner over each treatment arm column.
+and use `Multiline` to show the treatment arm name and statistic type on two lines.
 
 ```@example clinical
 tbl = StyledTable(demo)
 tab_stub!(tbl, :category)
 tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
-tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n], "Treatment (N=50)" => [:treatment_n])
-cols_label!(tbl, :placebo_n => "n (%)", :treatment_n => "n (%)")
+cols_label!(tbl,
+    :placebo_n   => Multiline("Placebo (N=50)", "n (%)"),
+    :treatment_n => Multiline("Treatment (N=50)", "n (%)"),
+)
 render(tbl)
 ```
 
@@ -52,9 +54,10 @@ tab_stub!(tbl, :category)
 tab_stubhead!(tbl, "Characteristic")
 tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
-tab_spanner!(tbl, "Placebo (N=50)" => [:placebo_n])
-tab_spanner!(tbl, "Treatment (N=50)" => [:treatment_n])
-cols_label!(tbl, :placebo_n   => "n (%)", :treatment_n => "n (%)")
+cols_label!(tbl,
+    :placebo_n   => Multiline("Placebo (N=50)", "n (%)"),
+    :treatment_n => Multiline("Treatment (N=50)", "n (%)"),
+)
 sub_missing!(tbl, with = "—")
 tab_footnote!(tbl,
     "Percentages computed on non-missing observations";
@@ -66,5 +69,5 @@ render(tbl)
 
 The final table presents demographic data in the standard clinical format:
 row groups label the variable category, the stub column names the subgroup,
-and spanner headers identify each treatment arm. The missing `Unknown` count
-in the Placebo arm is replaced with an em dash by `sub_missing`.
+and multiline column headers identify each treatment arm and statistic type.
+The missing `Unknown` count in the Placebo arm is replaced with an em dash by `sub_missing`.
