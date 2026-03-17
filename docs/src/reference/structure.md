@@ -17,7 +17,7 @@ tab_spanner!(tbl, d::AbstractVector{<:Pair})
 ```
 
 ```@example structure
-using StyledTables, DataFrames
+using StyledTables, SummaryTables, DataFrames
 
 df = DataFrame(
     drug     = ["Aspirin", "Ibuprofen", "Naproxen"],

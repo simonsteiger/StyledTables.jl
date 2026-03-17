@@ -10,7 +10,7 @@ Column names in the underlying `DataFrame` are not changed.
 - `tbl`: the [`StyledTable`](@ref) to modify.
 - `args`: any number of `col => label` pairs. `col` must be a `Symbol` matching
   a column name; `label` can be a plain `String` or any value accepted by
-  `SummaryTables.Cell`, including [`Multiline`](@ref) for multi-line headers.
+  `SummaryTables.Cell`, including `Multiline` for multi-line headers.
 
 # Returns
 
@@ -122,7 +122,7 @@ Add a spanning header label above one or more groups of columns.
 - `tbl`: the [`StyledTable`](@ref) to modify.
 - `args`: any number of `label => columns` pairs. `label` is the spanner header
   text — a plain `String` or any value accepted by `SummaryTables.Cell`, including
-  [`Multiline`](@ref) for multi-line spanner headers. `columns` is a
+  `Multiline` for multi-line spanner headers. `columns` is a
   `Vector{Symbol}` of the column names to span.
 
 # Returns
@@ -140,7 +140,7 @@ render(tbl)
 ```
 
 ```julia
-# Multi-line spanner header
+using SummaryTables: Multiline
 tbl = StyledTable(df)
 tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
 render(tbl)
