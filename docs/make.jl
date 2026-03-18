@@ -37,6 +37,7 @@ makedocs(;
 
 DocumenterVitepress.deploydocs(;
     repo = "github.com/simonsteiger/StyledTables.jl",
+    target = joinpath(@__DIR__, "build"),
     devbranch = "main",
     push_preview = true,
 )
