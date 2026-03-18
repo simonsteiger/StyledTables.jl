@@ -6,6 +6,10 @@
 .VPHero .VPImage {
     max-width: 200px;
 }
+
+.image-bg {
+  display: none !important;
+}
   
   /* Fonts */
   

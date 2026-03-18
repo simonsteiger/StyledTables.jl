@@ -7,7 +7,7 @@ variables, missing data, and regulatory-style footnotes.
 ## The data
 
 ```@example clinical
-using StyledTables, DataFrames
+using StyledTables, DataFrames, SummaryTables
 
 demo = DataFrame(
     variable  = [
@@ -45,19 +45,6 @@ render(tbl)
 ## Step 2: Add header, stub label, missing handling, and notes
 
 ```@example clinical
-tbl = StyledTable(demo)
-tab_header!(tbl,
-    "Baseline Demographic Characteristics";
-    subtitle = "Safety Analysis Population",
-)
-tab_stub!(tbl, :category)
-tab_stubhead!(tbl, "Characteristic")
-tab_row_group!(tbl, :variable)
-cols_hide!(tbl, :variable)
-cols_label!(tbl,
-    :placebo_n   => Multiline("Placebo (N=50)", "n (%)"),
-    :treatment_n => Multiline("Treatment (N=50)", "n (%)"),
-)
 sub_missing!(tbl, with = "—")
 tab_footnote!(tbl,
     "Percentages computed on non-missing observations";

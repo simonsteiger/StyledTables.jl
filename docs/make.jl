@@ -2,6 +2,7 @@ using Documenter
 using DocumenterVitepress
 using StyledTables
 using DataFrames
+using SummaryTables
 
 makedocs(;
     sitename = "StyledTables.jl",
@@ -9,7 +10,8 @@ makedocs(;
     modules = [StyledTables],
     format = DocumenterVitepress.MarkdownVitepress(
         repo = "github.com/simonsteiger/StyledTables.jl",
-        build_vitepress = get(ENV, "CI", nothing) !== nothing,
+        devbranch = "main",
+        devurl = "dev",
     ),
     pages = [
         "Home" => "index.md",

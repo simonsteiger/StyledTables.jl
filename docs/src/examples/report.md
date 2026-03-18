@@ -48,12 +48,6 @@ Bold the "Full Year" column to draw the eye, flag Q4 figures as preliminary,
 and credit the data source.
 
 ```@example report
-tbl = StyledTable(report)
-tab_header!(tbl, "Annual Revenue by Region"; subtitle = "Figures in USD billions")
-cols_label!(tbl, label_dict)
-tab_spanner!(tbl, "Quarterly" => [:q1, :q2, :q3, :q4])
-cols_align!(tbl, :right, [:q1, :q2, :q3, :q4, :total])
-fmt_number!(tbl, [:q1, :q2, :q3, :q4, :total]; digits = 2)
 tab_style!(tbl, :total; bold = true)
 tab_footnote!(tbl, "Preliminary figures, subject to audit"; columns = [:q4])
 tab_source_note!(tbl, "Source: Internal Finance, March 2026")

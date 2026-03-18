@@ -46,10 +46,6 @@ render(tbl)
 ## Step 2: Add a spanner for performance metrics
 
 ```@example cars
-tbl = StyledTable(cars)
-tab_row_group!(tbl, :origin)
-cols_hide!(tbl, :origin, :year)
-cols_label!(tbl, label_dict)
 tab_spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
 render(tbl)
 ```
@@ -60,13 +56,6 @@ Move MSRP next to the model name, format it with a currency prefix, right-align
 the numeric columns, bold the price values, and add an annotated footnote on MPG.
 
 ```@example cars
-tbl = StyledTable(cars)
-tab_header!(tbl, "Sports Cars — 2022 Model Year"; 
-    subtitle = "Selected European manufacturers")
-tab_row_group!(tbl, :origin)
-cols_hide!(tbl, :origin, :year)
-cols_label!(tbl, label_dict)
-tab_spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
 fmt!(tbl, :msrp_eur, 
     x -> replace(string(x), r"(\d)(?=(\d{3})+$)" => s"\1,") * "€")
 cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])

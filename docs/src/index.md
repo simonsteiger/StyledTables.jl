@@ -6,7 +6,7 @@ layout: home
 hero:
   name: StyledTables
   text:
-  tagline: Apply custom formatting to tables in Julia - render to HTML, docx, LaTeX and Typst
+  tagline: Apply custom formatting to tables in Julia - render HTML, docx, LaTeX and Typst
   image:
     src: logo.svg
     alt: StyledTables
