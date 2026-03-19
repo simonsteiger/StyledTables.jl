@@ -1,9 +1,7 @@
 # Sports Cars Performance Table
 
-This example builds a table comparing sports cars across performance metrics.
-We start with raw data, hide auxiliary columns, group rows by origin country,
-add a spanner for performance metrics, format the price column, and
-highlight it with bold styling.
+This example compares sports cars across performance metrics.
+We hide auxiliary columns, group by origin country, add a performance spanner, format prices, and highlight them with bold styling.
 
 ## The data
 
@@ -24,7 +22,7 @@ cars = DataFrame(
 
 ## Step 1: Basic table with row groups
 
-Group by `:origin` and hide the origin and year columns from view.
+Group by `:origin` and hide the origin and year columns.
 
 ```@example cars
 label_dict = Dict(
@@ -52,8 +50,7 @@ render(tbl)
 
 ## Step 3: Reorder, format, and highlight
 
-Move MSRP next to the model name, format it with a currency prefix, right-align
-the numeric columns, bold the price values, and add an annotated footnote on MPG.
+Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.
 
 ```@example cars
 fmt!(tbl, :msrp_eur, 
@@ -65,7 +62,4 @@ tab_source_note!(tbl, "Source: manufacturer specifications")
 render(tbl)
 ```
 
-The final table groups cars by origin country, shows a spanner over the three
-performance columns, formats MSRP with a currency prefix and thousands separator,
-and bolds those values to draw attention to price. The footnote on the MPG column
-clarifies the measurement basis.
+The table groups cars by origin, spans the three performance columns, formats MSRP with a thousands separator and currency symbol, and bolds prices for emphasis. The MPG footnote clarifies the measurement basis.

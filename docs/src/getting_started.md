@@ -24,8 +24,7 @@ tbl = StyledTable(df)
 render(tbl)
 ```
 
-Constructing a `StyledTable` wraps the DataFrame. Calling `render()` converts it to
-a `SummaryTables.Table`, which displays in Jupyter, Pluto, or any Documenter page.
+`StyledTable(df)` wraps the DataFrame. `render()` converts it to a `SummaryTables.Table` for display in Jupyter, Pluto, or Documenter.
 
 ## Adding a title
 
@@ -68,5 +67,5 @@ render(tbl)
 
 ## Next steps
 
-- See **Reference** for the full API.
-- See **Examples** for applied, real-world case studies.
+- **Reference** — full API documentation.
+- **Examples** — real-world use cases.

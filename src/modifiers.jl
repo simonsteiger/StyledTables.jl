@@ -1,9 +1,7 @@
 """
 $TYPEDSIGNATURES
 
-Change the column names displayed in the output table.
-
-Column names in the underlying `DataFrame` are not changed.
+Rename one or more columns in the rendered output.
 
 # Arguments
 
@@ -15,6 +13,10 @@ Column names in the underlying `DataFrame` are not changed.
 # Returns
 
 `tbl` (modified in place).
+
+# Notes
+
+The underlying `DataFrame` is unchanged.
 
 See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
 
@@ -47,10 +49,12 @@ end
 """
 $TYPEDSIGNATURES
 
+Rename columns using a dict or vector of pairs.
+
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: a `Dict` specifying columns and their labels.
+- `d`: a `Dict` or vector of `col => label` pairs specifying columns and their labels.
 
 # Returns
 
@@ -120,10 +124,9 @@ Add a spanning header label above one or more groups of columns.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: any number of `label => columns` pairs. `label` is the spanner header
-  text — a plain `String` or any value accepted by `SummaryTables.Cell`, including
-  `Multiline` for multi-line spanner headers. `columns` is a
-  `Vector{Symbol}` of the column names to span.
+- `args`: one or more `label => columns` pairs, where `label` is the spanner text
+  (a `String` or any value accepted by `SummaryTables.Cell`) and `columns` is a
+  `Vector{Symbol}` of column names to span.
 
 # Returns
 
@@ -177,12 +180,12 @@ end
 """
 $TYPEDSIGNATURES
 
-Add a spanning header label above one or more groups of columns.
+Add spanning headers from a dict or vector of pairs.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: an `AbstractDict` or an `AbstractVector` of `Pair`s that maps 
+- `d`: an `AbstractDict` or an `AbstractVector` of `Pair`s that maps
   the spanner labels to vectors of columns.
 
 # Returns
@@ -211,10 +214,9 @@ end
 """
 $TYPEDSIGNATURES
 
-Designate a column as the stub (row-label column).
+Mark a column as the stub (row-label column).
 
-The stub header cell is not bolded by default. Use [`tab_stubhead!`](@ref) to
-provide a label for it.
+The stub header is not bolded. Use [`tab_stubhead!`](@ref) to label it.
 
 # Arguments
 
@@ -245,7 +247,7 @@ end
 """
 $TYPEDSIGNATURES
 
-Construct a [`StyledTable`](@ref) from a `DataFrame` (or any Tables.jl-compatible source).
+Wrap a `DataFrame` (or any Tables.jl-compatible table) in a [`StyledTable`](@ref).
 
 Returns a `StyledTable` with default settings. Apply modifier functions and
 call [`render`](@ref) to produce a `SummaryTables.Table`.
@@ -299,7 +301,7 @@ $TYPEDSIGNATURES
 
 Add a title and optional subtitle above the column headers.
 
-The title is rendered bold; the subtitle is rendered italic.
+The title renders bold; the subtitle renders italic.
 
 # Arguments
 
@@ -334,9 +336,7 @@ $TYPEDSIGNATURES
 
 Add a footnote to the table.
 
-Without `columns`, `text` is a table-level note appended below the body.
-With `columns`, an auto-numbered superscript is attached to those column
-headers and `text` appears in the footnote area.
+Without `columns`, `text` appears as a table-level note. With `columns`, an auto-numbered superscript attaches to those column headers, and `text` appears in the footnote area.
 
 # Arguments
 
@@ -380,11 +380,9 @@ end
 """
 $TYPEDSIGNATURES
 
-Group rows by the values of a column.
+Group rows by distinct values in a column.
 
-A bold group-label row is inserted before each new group value. Data rows are
-indented by `indent_pt` points. The grouping column is typically hidden with
-[`cols_hide!`](@ref) afterwards.
+A bold group-label row precedes each new group value. Data rows are indented by `indent_pt` points. Hide the grouping column afterwards with [`cols_hide!`](@ref).
 
 # Arguments
 
@@ -421,9 +419,9 @@ end
 """
 $TYPEDSIGNATURES
 
-Set the label for the stub column header.
+Set the stub column header label.
 
-Only takes effect when [`tab_stub!`](@ref) has been called first.
+Requires a prior call to [`tab_stub!`](@ref).
 
 # Arguments
 
@@ -455,8 +453,7 @@ $TYPEDSIGNATURES
 
 Add a source-note line in the table footer.
 
-Source notes span the full table width and are left-aligned. Multiple calls
-stack additional lines in the order they are added.
+Source notes span the full table width and are left-aligned. Each call appends another line.
 
 # Arguments
 
@@ -536,6 +533,19 @@ end
 """
 $TYPEDSIGNATURES
 
+Apply inline styling to body cells in the listed columns (variadic form).
+
+# Returns
+
+`tbl` (modified in place).
+
+# Keywords
+
+- `color`: hex color string (`"#RRGGBB"`), or `nothing`.
+- `bold`: `true`/`false`, or `nothing`.
+- `italic`: `true`/`false`, or `nothing`.
+- `underline`: `true`/`false`, or `nothing`.
+
 # Examples
 
 ```julia
@@ -593,9 +603,7 @@ $TYPEDSIGNATURES
 
 Set global rounding options for all numeric cells.
 
-These options are forwarded to `SummaryTables.Table` at render time.
-Per-column formatters applied via [`fmt_number!`](@ref) or [`fmt!`](@ref) take
-precedence over these global settings.
+Options pass to `SummaryTables.Table` at render time. Per-column formatters (see [`fmt_number!`](@ref), [`fmt!`](@ref)) take precedence.
 
 # Arguments
 
@@ -641,8 +649,7 @@ $TYPEDSIGNATURES
 
 Remove columns from the rendered output without modifying the `DataFrame`.
 
-Hidden columns are still accessible for grouping or formatting; they just
-do not appear in the final table. Commonly paired with [`tab_row_group!`](@ref).
+Hidden columns remain accessible for grouping or formatting, but do not appear in the rendered table. Commonly paired with [`tab_row_group!`](@ref).
 
 # Arguments
 

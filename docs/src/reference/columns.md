@@ -1,13 +1,12 @@
 # Column Modifiers
 
-These functions control column display names, alignment, visibility, and order.
+These functions control column display names, alignment, and visibility.
 
 ---
 
 ## `cols_label!`
 
-Rename one or more columns for display. Column names in the underlying
-`DataFrame` are not changed.
+Rename one or more columns for display. The underlying `DataFrame` is unchanged.
 
 **Signature:** `cols_label!(tbl, (col => label)::Pair...)`
 
@@ -76,8 +75,7 @@ StyledTables.cols_align!
 ## `cols_hide!`
 
 Remove columns from the rendered table without dropping them from the data.
-Useful when a column is needed for grouping (`tab_row_group`) but should not
-appear in the output.
+Use this when a column drives grouping (via `tab_row_group!`) but should not appear.
 
 **Signature:** `cols_hide!(tbl, cols::Symbol...)`
 

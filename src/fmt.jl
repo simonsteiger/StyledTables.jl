@@ -16,13 +16,12 @@ end
 """
 $TYPEDSIGNATURES
 
-Format numeric values in `cols` to a fixed number of decimal places.
-
-`cols` can be a single `Symbol` or an `AbstractVector{Symbol}`.
+Format values in `cols` to a fixed number of decimal places.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
+- `cols`: column name(s) to format — a single `Symbol` or an `AbstractVector{Symbol}`.
 
 # Keywords
 
@@ -61,7 +60,7 @@ $TYPEDSIGNATURES
 
 Format values in `cols` as percentage strings.
 
-Multiplies each value by `scale` and appends `suffix`.
+Multiplies each value by `scale`, formats to `digits` decimal places, and appends `suffix`.
 
 # Arguments
 
@@ -96,7 +95,7 @@ end
 """
 $TYPEDSIGNATURES
 
-Format numeric values in `cols` as integers (rounds to nearest).
+Round values in `cols` to the nearest integer and format without a decimal point.
 
 # Arguments
 
@@ -126,14 +125,14 @@ $TYPEDSIGNATURES
 
 Apply a custom formatter function to values in `cols`.
 
-`f` receives the raw cell value and should return a display-ready value.
-Return `x` unchanged for `missing` if you want [`sub_missing!`](@ref) to handle it.
+`f` receives the raw cell value and returns a display-ready value.
+Return `x` unchanged for `missing` to let [`sub_missing!`](@ref) handle it.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
 - `cols`: column name(s) to format.
-- `f`: formatter with signature `f(value) -> Any`.
+- `f`: formatter: `f(value) -> Any`.
 
 # Returns
 

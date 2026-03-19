@@ -1,11 +1,8 @@
 # Formatting
 
-Formatter functions convert raw cell values to display strings **before** styling
-is applied. They are column-scoped: each formatter is associated with one or more
-columns.
+Formatters convert raw cell values to display strings **before** styling is applied. Each formatter applies to one or more columns.
 
-> `fmt_*` functions do not change the underlying `DataFrame` — they only affect
-> how values look in the rendered output.
+> `fmt_*` functions leave the underlying `DataFrame` unchanged — they affect only the rendered output.
 
 ---
 
@@ -46,7 +43,7 @@ fmt_percent!(tbl, :rate; digits = 1)
 render(tbl)
 ```
 
-Already-scaled values (e.g., stored as 12.3 meaning 12.3%):
+For already-scaled values (e.g., 12.3 stored as 12.3%):
 
 ```@example formatting
 df2 = DataFrame(rate = [12.3, 45.6, 78.9])
@@ -84,7 +81,7 @@ StyledTables.fmt_integer!
 
 ## `fmt!`
 
-Apply a fully custom formatter function.
+Apply a custom formatter function.
 
 **Signature:** `fmt!(tbl, cols, f::Function)`
 
@@ -96,7 +93,7 @@ fmt!(tbl, :p_value, x -> x < 0.05 ? "$(round(x; digits=3))*" : string(round(x; d
 render(tbl)
 ```
 
-Apply the same formatter to multiple columns at once:
+Apply one formatter to multiple columns:
 
 ```@example formatting
 df = DataFrame(a = [1.0, 2.0], b = [3.0, 4.0])

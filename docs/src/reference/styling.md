@@ -1,11 +1,10 @@
-# Styling and options
+# Styling and Options
 
 ---
 
 ## `tab_style!`
 
-Apply inline styling (color, bold, italic, underline) to all body cells in
-specified columns. Colors are hex strings (`"#RRGGBB"`).
+Apply inline styling to body cells in the specified columns. Colors are hex strings (`"#RRGGBB"`).
 
 **Signatures:**
 ```julia
@@ -64,7 +63,7 @@ sub_missing!(tbl)
 render(tbl)
 ```
 
-Custom placeholder:
+To use a custom placeholder:
 
 ```@example styling
 tbl = StyledTable(df)
@@ -80,7 +79,7 @@ StyledTables.sub_missing!
 
 ## `tab_options!`
 
-Set global rounding options for all numeric cells in the table.
+Set global rounding options for all numeric cells in the table. Per-column formatters (`fmt_number!`, `fmt!`) take precedence over these options.
 
 **Signature:**
 ```julia

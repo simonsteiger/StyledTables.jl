@@ -1,7 +1,6 @@
 # Annotations
 
-These functions add metadata to the table: a title and subtitle at the top,
-footnotes at the bottom, and source notes in the footer.
+These functions annotate the table: a title and subtitle at the top, footnotes and source notes at the bottom.
 
 ---
 
@@ -31,9 +30,7 @@ StyledTables.tab_header!
 
 ## `tab_footnote!`
 
-Add a footnote. Without `columns`, the text appears as a table-level note.
-With `columns`, an auto-numbered superscript is appended to those column
-headers and the footnote text is listed below.
+Add a footnote. Without `columns`, the text appears below the table. With `columns`, an auto-numbered superscript attaches to those column headers, and the text appears in the footnote area.
 
 **Signatures:**
 - `tab_footnote!(tbl, text)` — table-level footnote
@@ -46,7 +43,7 @@ tab_footnote!(tbl, "Source: World Bank (2025)")
 render(tbl)
 ```
 
-Annotating a specific column:
+Annotate a specific column:
 
 ```@example annotations
 tbl = StyledTable(df)
@@ -62,8 +59,7 @@ StyledTables.tab_footnote!
 
 ## `tab_source_note!`
 
-Add a source-note line in the table footer. Source notes appear below any data
-rows and span the full table width. Multiple calls stack additional lines.
+Add a source-note line in the footer. Source notes span the full table width and are left-aligned. Each call appends another line.
 
 **Signature:** `tab_source_note!(tbl, text)`
 
