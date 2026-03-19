@@ -19,13 +19,13 @@ hero:
 
 # StyledTables
 
-The goal of StyledTables is to provide styling elements for summarised tables.
-Tables can be rendered in HTML, docx, LaTeX and Typst formats.
-The package directly builds on top of [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), while the API is loosely inspired by R's [gt](https://gt.rstudio.com/) package.
+StyledTables adds GT-style formatting to summary tables.
+Tables render to HTML, docx, LaTeX, and Typst.
+It builds on [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), with an API inspired by R's [gt](https://gt.rstudio.com/) package.
 
 ## Installation
 
-SummaryTables is not yet registered in the General Registry and can be installed via url:
+StyledTables is not yet registered. Install from GitHub:
 
 ```julia
 using Pkg
