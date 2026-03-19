@@ -60,7 +60,7 @@ render(tbl)
 | `tab_footnote!` | Add a table-level or column-annotated footnote |
 | `tab_source_note!` | Add a source note below the table |
 | `tab_style!` | Apply color, bold, italic, or underline styling to column cells |
-| `sub_missing!` | Replace `missing` values with a display string |
+| `sub_missing!` | Replace `missing` values with a display value |
 | `tab_options!` | Set global rounding options (digits, mode, trailing zeros) |
 | `fmt_number!` | Format numeric columns to a fixed number of decimal places |
 | `fmt_percent!` | Format numeric columns as percentage strings |
