@@ -3,12 +3,11 @@ $TYPEDSIGNATURES
 
 Convert a [`StyledTable`](@ref) into a renderable `SummaryTables.Table`.
 
-Applies all modifiers registered on `tbl` (labels, spanners, formatters,
-styles, row groups, etc.) and assembles the cell matrix. The result
-supports `show(io, MIME"text/html"(), ...)`, LaTeX, and Typst output.
+Applies all registered modifiers (labels, spanners, formatters, styles, row groups)
+and assembles the cell matrix. The result renders to HTML, LaTeX, and Typst.
 
-Calling `render` is optional in interactive contexts: `StyledTable` has
-`Base.show` methods that call `render` automatically.
+In interactive contexts, `render` is optional: `StyledTable` defines `Base.show`
+methods that call it automatically.
 
 # Arguments
 
