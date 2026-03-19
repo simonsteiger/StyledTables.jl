@@ -1,7 +1,7 @@
 """
 $TYPEDEF
 
-A spanner: a label that spans a group of columns in the header row.
+A label spanning a group of columns in the header row.
 
 $TYPEDFIELDS
 """
@@ -22,7 +22,7 @@ $TYPEDFIELDS
 struct TableHeader
     "Title text, rendered bold."
     title::Any
-    "Subtitle text, rendered italic; or `nothing`."
+    "Subtitle text, rendered italic, or `nothing`."
     subtitle::Union{Nothing,Any}
 end
 
@@ -36,7 +36,7 @@ $TYPEDFIELDS
 struct ColStyleOverride
     "Hex color string (`\"#RRGGBB\"`), or `nothing` to inherit."
     color::Union{Nothing,String}
-    "`true` to bold; `nothing` inherits the default."
+    "`true` for bold; `nothing` inherits the default."
     bold::Union{Nothing,Bool}
     "`true` for italic; `nothing` inherits the default."
     italic::Union{Nothing,Bool}
@@ -93,7 +93,7 @@ mutable struct StyledTable
     stubhead_label::Union{Nothing,Any}
     "Source-note lines appended below the table body."
     source_notes::Vector{Any}
-    "Postprocessors applied during rendering."
+    "SummaryTables postprocessors applied during rendering."
     postprocessors::Vector{Any}
     "Digits to round to, or `nothing` (SummaryTables defaults to 3)."
     round_digits::Union{Nothing,Int}
