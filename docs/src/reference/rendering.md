@@ -2,8 +2,7 @@
 
 ## `render`
 
-Convert a `StyledTable` into a `SummaryTables.Table`, which can be displayed
-in Jupyter, Pluto, and Documenter pages, and saved to HTML, LaTeX, or Typst.
+Convert a `StyledTable` into a `SummaryTables.Table` for display in Jupyter, Pluto, or Documenter, or for saving to HTML, LaTeX, or Typst.
 
 **Signature:** `render(tbl::StyledTable) -> SummaryTables.Table`
 
@@ -18,9 +17,9 @@ render(tbl)
 ```
 
 The returned `SummaryTables.Table` supports:
-- `show(io, MIME"text/html"(), tbl)`
-- `show(io, MIME"text/latex"(), tbl)`
-- `show(io, MIME"text/typst"(), tbl)`
+- `show(io, MIME"text/html"(), rendered)`
+- `show(io, MIME"text/latex"(), rendered)`
+- `show(io, MIME"text/typst"(), rendered)`
 
 ### Saving to file
 

@@ -1,7 +1,6 @@
 # Table Structure
 
-These functions control the high-level layout: grouped column headers, a stub
-(row label) column, and grouped row sections.
+These functions control high-level layout: column spanners, the stub (row-label) column, and row groups.
 
 ---
 
@@ -66,8 +65,7 @@ StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Ve
 
 ## `tab_stub!`
 
-Designate one column as the **stub** — a row-label column rendered with special
-formatting (no bold header by default, distinct from data columns).
+Mark one column as the **stub**: a row-label column with no bold header, rendered apart from data columns.
 
 **Signature:** `tab_stub!(tbl, col::Symbol)`
 
@@ -86,8 +84,7 @@ StyledTables.tab_stub!
 
 ## `tab_stubhead!`
 
-Set a label for the stub column header. Only takes effect when `tab_stub` has
-been applied.
+Label the stub column header. Has no effect without a prior call to `tab_stub!`.
 
 **Signature:** `tab_stubhead!(tbl, label)`
 
@@ -106,8 +103,7 @@ StyledTables.tab_stubhead!
 
 ## `tab_row_group!`
 
-Group rows by the values of a column. A bold group-label row is inserted before
-each new group value. Data rows are indented.
+Group rows by distinct values in a column. A bold group-label row precedes each new group. Data rows are indented.
 
 **Signature:** `tab_row_group!(tbl, col::Symbol; indent_pt = 12)`
 
@@ -125,7 +121,7 @@ cols_label!(tbl, :drug => "Drug", :dose_mg => "Dose (mg)")
 render(tbl)
 ```
 
-Increase indentation:
+To increase indentation:
 
 ```@example structure
 tbl = StyledTable(df)
