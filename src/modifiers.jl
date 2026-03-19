@@ -9,11 +9,14 @@ Rename one or more columns in the rendered output.
 - `args`: any number of `col => label` pairs. `col` must be a `Symbol` matching
   a column name; `label` can be a plain `String` or any value accepted by
   `SummaryTables.Cell`, including `Multiline` for multi-line headers.
-- The underlying `DataFrame` is unchanged.
 
 # Returns
 
 `tbl` (modified in place).
+
+# Notes
+
+The underlying `DataFrame` is unchanged.
 
 See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
 
@@ -51,7 +54,7 @@ Rename columns using a dict or vector of pairs.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: a `Dict` specifying columns and their labels.
+- `d`: a `Dict` or vector of `col => label` pairs specifying columns and their labels.
 
 # Returns
 
@@ -121,7 +124,9 @@ Add a spanning header label above one or more groups of columns.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: One or more `label => columns` pairs. `label` is the spanner header text — a plain `String` or any value accepted by `SummaryTables.Cell`, including `Multiline` for multi-line spanner headers. `columns` is a `Vector{Symbol}` of the column names to span.
+- `args`: one or more `label => columns` pairs, where `label` is the spanner text
+  (a `String` or any value accepted by `SummaryTables.Cell`) and `columns` is a
+  `Vector{Symbol}` of column names to span.
 
 # Returns
 
@@ -416,7 +421,7 @@ $TYPEDSIGNATURES
 
 Set the stub column header label.
 
-Has no effect without a prior call to [`tab_stub!`](@ref).
+Requires a prior call to [`tab_stub!`](@ref).
 
 # Arguments
 
@@ -533,6 +538,13 @@ Apply inline styling to body cells in the listed columns (variadic form).
 # Returns
 
 `tbl` (modified in place).
+
+# Keywords
+
+- `color`: hex color string (`"#RRGGBB"`), or `nothing`.
+- `bold`: `true`/`false`, or `nothing`.
+- `italic`: `true`/`false`, or `nothing`.
+- `underline`: `true`/`false`, or `nothing`.
 
 # Examples
 
