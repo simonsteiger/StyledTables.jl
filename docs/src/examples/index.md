@@ -1,7 +1,6 @@
 # Applied Examples
 
-These examples demonstrate how to combine multiple StyledTables modifiers into
-production-quality tables for real-world use cases.
+These examples combine multiple StyledTables modifiers into production-quality tables.
 
 | Example | Features used |
 |---------|---------------|

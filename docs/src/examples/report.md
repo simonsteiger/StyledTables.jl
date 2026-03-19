@@ -1,7 +1,6 @@
 # Quarterly Financial Report Table
 
-This example shows a regional quarterly revenue table: consistent number
-formatting, highlighted totals column, and annotated footnotes.
+This example builds a regional quarterly revenue table with consistent number formatting, a highlighted totals column, and annotated footnotes.
 
 ## The data
 
@@ -20,8 +19,7 @@ report = DataFrame(
 
 ## Step 1: Headers, spanner, alignment, and formatting
 
-Group the quarterly columns under a spanner, right-align all numeric columns,
-and format every number to two decimal places.
+Group quarterly columns under a spanner, right-align numeric columns, and format every number to two decimal places.
 
 ```@example report
 label_dict = Dict(
@@ -44,8 +42,7 @@ render(tbl)
 
 ## Step 2: Highlight the totals column and annotate Q4
 
-Bold the "Full Year" column to draw the eye, flag Q4 figures as preliminary,
-and credit the data source.
+Bold the "Full Year" column, flag Q4 figures as preliminary, and credit the data source.
 
 ```@example report
 tab_style!(tbl, :total; bold = true)
@@ -54,6 +51,4 @@ tab_source_note!(tbl, "Source: Internal Finance, March 2026")
 render(tbl)
 ```
 
-The "Full Year" column is bolded to draw the eye to the aggregate. The Q4
-column header carries an auto-numbered superscript footnote flagging preliminary
-figures, and the source note credits the data origin.
+The bolded "Full Year" column draws the eye to the aggregate. An auto-numbered superscript on Q4 flags preliminary figures; the source note credits the data origin.
