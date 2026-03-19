@@ -2,7 +2,7 @@
 
 ## `render`
 
-Convert a `StyledTable` into a `SummaryTables.Table` for display in Jupyter, Pluto, or Documenter, or for saving to HTML, LaTeX, or Typst.
+Convert a `StyledTable` into a `SummaryTables.Table` for display in Jupyter, Pluto, or Documenter, or for saving to HTML, LaTeX, or Typst. In interactive contexts, calling `render` explicitly is optional; `StyledTable` calls it automatically via `Base.show`.
 
 **Signature:** `render(tbl::StyledTable) -> SummaryTables.Table`
 

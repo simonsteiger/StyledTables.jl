@@ -65,7 +65,7 @@ StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Ve
 
 ## `tab_stub!`
 
-Mark one column as the **stub**: a row-label column with no bold header, rendered apart from data columns.
+Mark one column as the **stub**: a row-label column rendered apart from data columns. By default the stub header is not bolded; it gains a bold label if `tab_stubhead!` is called.
 
 **Signature:** `tab_stub!(tbl, col::Symbol)`
 

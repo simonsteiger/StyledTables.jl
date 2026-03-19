@@ -59,7 +59,7 @@ StyledTables.tab_footnote!
 
 ## `tab_source_note!`
 
-Add a source-note line in the footer. Source notes span the full table width. Each call appends another line.
+Add a source-note line in the footer. Source notes span the full table width and are left-aligned. Each call appends another line.
 
 **Signature:** `tab_source_note!(tbl, text)`
 

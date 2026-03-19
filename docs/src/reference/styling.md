@@ -79,7 +79,7 @@ StyledTables.sub_missing!
 
 ## `tab_options!`
 
-Set global rounding options for all numeric cells in the table.
+Set global rounding options for all numeric cells in the table. Per-column formatters (`fmt_number!`, `fmt!`) take precedence over these options.
 
 **Signature:**
 ```julia
