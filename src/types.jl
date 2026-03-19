@@ -1,46 +1,46 @@
 """
 $TYPEDEF
 
-A column-spanning header label above a group of columns.
+A spanner: a label that spans a group of columns in the header row.
 
 $TYPEDFIELDS
 """
 struct Spanner
-    "Display label for the span."
+    "Display label."
     label::Any
-    "Column names covered by this spanner."
+    "Columns this label spans."
     columns::Vector{Symbol}
 end
 
 """
 $TYPEDEF
 
-Title and optional subtitle displayed above the column headers.
+A table title and optional subtitle, displayed above the column headers.
 
 $TYPEDFIELDS
 """
 struct TableHeader
-    "Main title text (rendered bold)."
+    "Title text, rendered bold."
     title::Any
-    "Subtitle text (rendered italic), or `nothing`."
+    "Subtitle text, rendered italic; or `nothing`."
     subtitle::Union{Nothing,Any}
 end
 
 """
 $TYPEDEF
 
-Inline style overrides applied to all body cells in a column.
+Inline style overrides for all body cells in a column.
 
 $TYPEDFIELDS
 """
 struct ColStyleOverride
     "Hex color string (`\"#RRGGBB\"`), or `nothing` to inherit."
     color::Union{Nothing,String}
-    "Bold override, or `nothing` to inherit."
+    "`true` to bold; `nothing` inherits the default."
     bold::Union{Nothing,Bool}
-    "Italic override, or `nothing` to inherit."
+    "`true` for italic; `nothing` inherits the default."
     italic::Union{Nothing,Bool}
-    "Underline override, or `nothing` to inherit."
+    "`true` for underline; `nothing` inherits the default."
     underline::Union{Nothing,Bool}
 end
 
@@ -49,8 +49,7 @@ $TYPEDEF
 
 A GT-style table builder backed by a `DataFrame`.
 
-Construct with [`StyledTable`](@ref) and chain modifier functions before
-calling [`render`](@ref):
+Construct with [`StyledTable`](@ref), apply modifier functions, then call [`render`](@ref):
 
 ```julia
 tbl = StyledTable(df)
@@ -92,14 +91,14 @@ mutable struct StyledTable
     hidden_cols::Set{Symbol}
     "Label for the stub column header, or `nothing`."
     stubhead_label::Union{Nothing,Any}
-    "Source-note lines appended after the table body."
+    "Source-note lines appended below the table body."
     source_notes::Vector{Any}
-    "SummaryTables postprocessors applied during rendering."
+    "Postprocessors applied during rendering."
     postprocessors::Vector{Any}
-    "Global rounding digit count, or `nothing` (use SummaryTables default of 3)."
+    "Digits to round to, or `nothing` (SummaryTables defaults to 3)."
     round_digits::Union{Nothing,Int}
     "Global rounding mode (`:auto`, `:digits`, `:sigdigits`), or `nothing`."
     round_mode::Union{Nothing,Symbol}
-    "Whether to keep trailing zeros when rounding, or `nothing`."
+    "`true` to pad with trailing zeros when rounding; `nothing` defers to SummaryTables."
     trailing_zeros::Union{Nothing,Bool}
 end
