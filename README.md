@@ -36,7 +36,7 @@ tbl = StyledTable(df)
 
 tab_header!(tbl, "Results Summary"; subtitle = "Groups A and B")
 cols_label!(tbl, :name => "Item", :value => "Value", :rate => "Rate")
-tab_spanner!(tbl, "Measurements", columns = [:value, :rate])
+tab_spanner!(tbl, "Measurements" => [:value, :rate])
 tab_row_group!(tbl, :group)
 fmt_number!(tbl, [:value]; digits = 2)
 fmt_percent!(tbl, [:rate]; digits = 1)
@@ -57,11 +57,11 @@ render(tbl)
 | `tab_spanner!` | Add a spanner label spanning multiple columns |
 | `tab_stub!` | Designate a row-label (stub) column |
 | `tab_row_group!` | Group rows by a categorical column |
-| `tab_footnote!` | Attach a footnote to a column header or specific cells |
+| `tab_footnote!` | Add a table-level or column-annotated footnote |
 | `tab_source_note!` | Add a source note below the table |
-| `tab_style!` | Apply bold, italic, color, or alignment to specific cells |
+| `tab_style!` | Apply color, bold, italic, or underline styling to column cells |
 | `sub_missing!` | Replace `missing` values with a display string |
-| `tab_options!` | Set table-wide defaults such as rounding and alignment |
+| `tab_options!` | Set global rounding options (digits, mode, trailing zeros) |
 | `fmt_number!` | Format numeric columns to a fixed number of decimal places |
 | `fmt_percent!` | Format numeric columns as percentage strings |
 | `fmt_integer!` | Format numeric columns as integers |
