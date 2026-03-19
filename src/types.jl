@@ -47,7 +47,7 @@ end
 """
 $TYPEDEF
 
-A GT-style table builder backed by a `DataFrame`.
+Contains table build specifications for the `DataFrame` to be rendered.
 
 Construct with [`StyledTable`](@ref), apply modifier functions, then call [`render`](@ref):
 
