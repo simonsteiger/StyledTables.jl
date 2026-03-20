@@ -38,10 +38,13 @@ function render(tbl::StyledTable)
         col != tbl.row_group_col && col ∉ tbl.hidden_cols
     end
 
+    _validate_spanners(tbl.spanners)
+
     n_cols = length(display_cols)
     has_spanners = !isempty(tbl.spanners)
 
-    spanner_row  = has_spanners ? _build_spanner_row(tbl, display_cols) : nothing
+    spanner_rows = has_spanners ? _build_spanner_rows(tbl, display_cols) : Vector{Cell}[]
+    n_spanner_rows = length(spanner_rows)
     header_row   = [_header_cell(tbl, col) for col in display_cols]
 
     body = if tbl.row_group_col !== nothing
@@ -54,11 +57,14 @@ function render(tbl::StyledTable)
     has_subtitle = has_title && tbl.header.subtitle !== nothing
     title_rows = _build_title_rows(tbl, n_cols)
 
-    n_header_rows = (has_title ? 1 : 0) + (has_subtitle ? 1 : 0) + (has_spanners ? 1 : 0) + 1
+    n_header_rows = (has_title ? 1 : 0) + (has_subtitle ? 1 : 0) + n_spanner_rows + 1
 
     parts = Matrix{Cell}[]
     append!(parts, title_rows)
-    has_spanners && push!(parts, reshape(spanner_row, 1, n_cols))
+    # Highest level goes at the top (furthest from column labels), so reverse before appending.
+    for row in reverse(spanner_rows)
+        push!(parts, reshape(row, 1, n_cols))
+    end
     push!(parts, reshape(header_row, 1, n_cols))
     push!(parts, body)
 
@@ -182,30 +188,78 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
     return result
 end
 
-# Allow StyledTable to be displayed directly without an explicit render() call.
-# Delegates to render() and forwards to SummaryTables.Table's show methods.
-function Base.show(io::IO, mime::MIME"text/html", tbl::StyledTable)
-    show(io, mime, render(tbl))
-end
+function _validate_spanners(spanners::Vector{Spanner})
+    isempty(spanners) && return
 
-function Base.show(io::IO, mime::MIME"text/latex", tbl::StyledTable)
-    show(io, mime, render(tbl))
-end
+    levels = sort(unique(s.level for s in spanners))
 
-function Base.show(io::IO, mime::MIME"text/typst", tbl::StyledTable)
-    show(io, mime, render(tbl))
-end
+    # Check 1: contiguous levels starting from 1
+    expected = collect(1:maximum(levels))
+    if levels != expected
+        missing_levels = setdiff(expected, levels)
+        throw(ArgumentError(
+            "Spanner levels must be contiguous starting from 1. " *
+            "Missing level(s): $(join(missing_levels, ", "))."
+        ))
+    end
 
-function _build_spanner_row(tbl::StyledTable, colnames::Vector{Symbol})
-    row = Cell[Cell(nothing) for _ in colnames]
-    for (group_idx, spanner) in enumerate(tbl.spanners)
-        for col in spanner.columns
-            j = findfirst(==(col), colnames)
-            j === nothing && continue
-            row[j] = Cell(spanner.label; bold = true, merge = true, mergegroup = group_idx, border_bottom = true)
+    # Check 2: same-level spanners must be fully disjoint
+    for lvl in levels
+        same = filter(s -> s.level == lvl, spanners)
+        for i in 1:length(same)-1, j in i+1:length(same)
+            overlap = intersect(same[i].columns, same[j].columns)
+            isempty(overlap) && continue
+            throw(ArgumentError(
+                "Two spanners at level $lvl share columns $(overlap): " *
+                "\"$(same[i].label)\" and \"$(same[j].label)\"."
+            ))
         end
     end
-    return row
+
+    # Check 3: cross-level pairs must be disjoint or one a subset of the other
+    for i in 1:length(spanners)-1, j in i+1:length(spanners)
+        si, sj = spanners[i], spanners[j]
+        si.level == sj.level && continue
+        a, b = Set(si.columns), Set(sj.columns)
+        inter = intersect(a, b)
+        isempty(inter) && continue   # disjoint: ok
+        a ⊆ b && continue            # a inside b: ok
+        b ⊆ a && continue            # b inside a: ok
+        throw(ArgumentError(
+            "Spanners at levels $(si.level) and $(sj.level) partially overlap. " *
+            "\"$(si.label)\" covers $(sort(collect(a))) and " *
+            "\"$(sj.label)\" covers $(sort(collect(b))). " *
+            "Column sets must be disjoint or one must fully contain the other."
+        ))
+    end
+end
+
+# Returns one Vector{Cell} per spanner level, ordered level 1 first (bottom-most).
+# render() reverses this order before assembling so the highest level appears at the top.
+#
+# mergegroup_counter is a single counter across ALL levels so that no two spanners
+# share a mergegroup value.
+function _build_spanner_rows(tbl::StyledTable, colnames::Vector{Symbol})
+    levels = sort(unique(s.level for s in tbl.spanners))
+    rows = Vector{Cell}[]
+    mergegroup_counter = 0
+    for lvl in levels
+        row = Cell[Cell(nothing) for _ in colnames]
+        level_spanners = filter(s -> s.level == lvl, tbl.spanners)
+        for spanner in level_spanners
+            mergegroup_counter += 1
+            for col in spanner.columns
+                j = findfirst(==(col), colnames)
+                j === nothing && continue
+                row[j] = Cell(spanner.label;
+                    bold = true, merge = true,
+                    mergegroup = mergegroup_counter,
+                    border_bottom = true)
+            end
+        end
+        push!(rows, row)
+    end
+    return rows  # [level_1_row, level_2_row, ..., level_N_row]
 end
 
 # Build a single header cell for a given column, applying label overrides and alignment
@@ -221,4 +275,18 @@ function _header_cell(tbl::StyledTable, col::Symbol)
         label = SummaryTables.Annotated(label, tbl.col_footnotes[col])
     end
     return Cell(label; bold = true, halign)
+end
+
+# Allow StyledTable to be displayed directly without an explicit render() call.
+# Delegates to render() and forwards to SummaryTables.Table's show methods.
+function Base.show(io::IO, mime::MIME"text/html", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
+function Base.show(io::IO, mime::MIME"text/latex", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
+function Base.show(io::IO, mime::MIME"text/typst", tbl::StyledTable)
+    show(io, mime, render(tbl))
 end

@@ -1,0 +1,18 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{5}{lllll}}
+\toprule
+ & \multicolumn{4}{c}{\textbf{Physical measurements}} \\
+\cmidrule{2-5}
+ & \multicolumn{3}{c}{\textbf{Length (mm)}} &  \\
+\cmidrule{2-4}
+\textbf{species} & \textbf{bill\_len} & \textbf{bill\_depth} & \textbf{flipper\_len} & \textbf{body\_mass} \\
+\midrule
+Adelie & 38.9 & 17.8 & 181 & 3750 \\
+Chinstrap & 48.7 & 18.3 & 195 & 3800 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

@@ -168,6 +168,14 @@ end
         tab_spanner!(tbl, "Treatment" => [:dose, :response], "Participant" => [:name])
         run_reftest(tbl, "references/tab_spanner/basic")
 
+        tbl2 = StyledTable(df)
+        tab_spanner!(tbl2, "Treatment" => [:dose, :response])
+        @test tbl2.spanners[1].level == 1
+
+        tbl3 = StyledTable(df)
+        tab_spanner!(tbl3, "Treatment" => [:dose, :response]; level = 2)
+        @test tbl3.spanners[1].level == 2
+
         tbl = StyledTable(df)
         tab_spanner!(tbl, Dict("Treatment" => [:dose, :response], "Participant" => [:name]))
         run_reftest(tbl, "references/tab_spanner/two_spanners")
@@ -234,6 +242,57 @@ end
             tab_spanner!(tbl, Dict{Symbol,Vector{Symbol}}(:Treatment => [:dose, :response]))
             @test html_str(tbl) == ref
         end
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "tab_spanner! nested" begin
+        df = DataFrame(
+            species    = ["Adelie", "Chinstrap"],
+            bill_len   = [38.9, 48.7],
+            bill_depth = [17.8, 18.3],
+            flipper_len = [181, 195],
+            body_mass  = [3750, 3800],
+        )
+
+        # Error: non-contiguous levels (1 and 3, no level 2)
+        @test_throws ArgumentError begin
+            tbl = StyledTable(df)
+            tab_spanner!(tbl, "A"; columns = [:bill_len], level = 1)
+            tab_spanner!(tbl, "B"; columns = [:bill_depth], level = 3)
+            render(tbl)
+        end
+
+        # Error: same-level partial overlap
+        @test_throws ArgumentError begin
+            tbl = StyledTable(df)
+            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth])
+            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len])
+            render(tbl)
+        end
+
+        # Error: cross-level partial overlap
+        @test_throws ArgumentError begin
+            tbl = StyledTable(df)
+            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth, :flipper_len])
+            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len, :body_mass], level = 2)
+            render(tbl)
+        end
+
+        # Scenario A: level-2 spanner covers exactly the same columns as level-1
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "Length (mm)";
+            columns = [:bill_len, :bill_depth, :flipper_len])
+        tab_spanner!(tbl, "Physical measurements";
+            columns = [:bill_len, :bill_depth, :flipper_len], level = 2)
+        run_reftest(tbl, "references/tab_spanner/nested_two_levels")
+
+        # Scenario B: level-2 spanner covers level-1 columns PLUS an extra ungrouped column
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "Length (mm)";
+            columns = [:bill_len, :bill_depth, :flipper_len])
+        tab_spanner!(tbl, "Physical measurements";
+            columns = [:bill_len, :bill_depth, :flipper_len, :body_mass], level = 2)
+        run_reftest(tbl, "references/tab_spanner/nested_uncovered_col")
     end
 
     # -----------------------------------------------------------------------
