@@ -38,6 +38,8 @@ function render(tbl::StyledTable)
         col != tbl.row_group_col && col ∉ tbl.hidden_cols
     end
 
+    _validate_spanners(tbl.spanners)
+
     n_cols = length(display_cols)
     has_spanners = !isempty(tbl.spanners)
 
@@ -182,18 +184,50 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
     return result
 end
 
-# Allow StyledTable to be displayed directly without an explicit render() call.
-# Delegates to render() and forwards to SummaryTables.Table's show methods.
-function Base.show(io::IO, mime::MIME"text/html", tbl::StyledTable)
-    show(io, mime, render(tbl))
-end
+function _validate_spanners(spanners::Vector{Spanner})
+    isempty(spanners) && return
 
-function Base.show(io::IO, mime::MIME"text/latex", tbl::StyledTable)
-    show(io, mime, render(tbl))
-end
+    levels = sort(unique(s.level for s in spanners))
 
-function Base.show(io::IO, mime::MIME"text/typst", tbl::StyledTable)
-    show(io, mime, render(tbl))
+    # Check 1: contiguous levels starting from 1
+    expected = collect(1:maximum(levels))
+    if levels != expected
+        missing_levels = setdiff(expected, levels)
+        throw(ArgumentError(
+            "Spanner levels must be contiguous starting from 1. " *
+            "Missing level(s): $(join(missing_levels, ", "))."
+        ))
+    end
+
+    # Check 2: same-level spanners must be fully disjoint
+    for lvl in levels
+        same = filter(s -> s.level == lvl, spanners)
+        for i in 1:length(same)-1, j in i+1:length(same)
+            overlap = intersect(same[i].columns, same[j].columns)
+            isempty(overlap) && continue
+            throw(ArgumentError(
+                "Two spanners at level $lvl share columns $(overlap): " *
+                "\"$(same[i].label)\" and \"$(same[j].label)\"."
+            ))
+        end
+    end
+
+    # Check 3: cross-level pairs must be disjoint or one a subset of the other
+    for i in 1:length(spanners)-1, j in i+1:length(spanners)
+        si, sj = spanners[i], spanners[j]
+        si.level == sj.level && continue
+        a, b = Set(si.columns), Set(sj.columns)
+        inter = intersect(a, b)
+        isempty(inter) && continue   # disjoint: ok
+        a ⊆ b && continue            # a inside b: ok
+        b ⊆ a && continue            # b inside a: ok
+        throw(ArgumentError(
+            "Spanners at levels $(si.level) and $(sj.level) partially overlap. " *
+            "\"$(si.label)\" covers $(sort(collect(a))) and " *
+            "\"$(sj.label)\" covers $(sort(collect(b))). " *
+            "Column sets must be disjoint or one must fully contain the other."
+        ))
+    end
 end
 
 function _build_spanner_row(tbl::StyledTable, colnames::Vector{Symbol})
@@ -221,4 +255,18 @@ function _header_cell(tbl::StyledTable, col::Symbol)
         label = SummaryTables.Annotated(label, tbl.col_footnotes[col])
     end
     return Cell(label; bold = true, halign)
+end
+
+# Allow StyledTable to be displayed directly without an explicit render() call.
+# Delegates to render() and forwards to SummaryTables.Table's show methods.
+function Base.show(io::IO, mime::MIME"text/html", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
+function Base.show(io::IO, mime::MIME"text/latex", tbl::StyledTable)
+    show(io, mime, render(tbl))
+end
+
+function Base.show(io::IO, mime::MIME"text/typst", tbl::StyledTable)
+    show(io, mime, render(tbl))
 end

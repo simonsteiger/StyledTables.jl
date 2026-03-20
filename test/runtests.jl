@@ -245,6 +245,41 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "tab_spanner! nested" begin
+        df = DataFrame(
+            species    = ["Adelie", "Chinstrap"],
+            bill_len   = [38.9, 48.7],
+            bill_depth = [17.8, 18.3],
+            flipper_len = [181, 195],
+            body_mass  = [3750, 3800],
+        )
+
+        # Error: non-contiguous levels (1 and 3, no level 2)
+        @test_throws ArgumentError begin
+            tbl = StyledTable(df)
+            tab_spanner!(tbl, "A"; columns = [:bill_len], level = 1)
+            tab_spanner!(tbl, "B"; columns = [:bill_depth], level = 3)
+            render(tbl)
+        end
+
+        # Error: same-level partial overlap
+        @test_throws ArgumentError begin
+            tbl = StyledTable(df)
+            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth])
+            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len])
+            render(tbl)
+        end
+
+        # Error: cross-level partial overlap
+        @test_throws ArgumentError begin
+            tbl = StyledTable(df)
+            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth, :flipper_len])
+            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len, :body_mass], level = 2)
+            render(tbl)
+        end
+    end
+
+    # -----------------------------------------------------------------------
     @testset "tab_spanner! Multiline" begin
         df = DataFrame(dose = [10, 20], response = [0.9, 0.8])
 
