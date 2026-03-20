@@ -43,7 +43,8 @@ function render(tbl::StyledTable)
     n_cols = length(display_cols)
     has_spanners = !isempty(tbl.spanners)
 
-    spanner_row  = has_spanners ? _build_spanner_row(tbl, display_cols) : nothing
+    spanner_rows = has_spanners ? _build_spanner_rows(tbl, display_cols) : Vector{Cell}[]
+    n_spanner_rows = length(spanner_rows)
     header_row   = [_header_cell(tbl, col) for col in display_cols]
 
     body = if tbl.row_group_col !== nothing
@@ -56,11 +57,14 @@ function render(tbl::StyledTable)
     has_subtitle = has_title && tbl.header.subtitle !== nothing
     title_rows = _build_title_rows(tbl, n_cols)
 
-    n_header_rows = (has_title ? 1 : 0) + (has_subtitle ? 1 : 0) + (has_spanners ? 1 : 0) + 1
+    n_header_rows = (has_title ? 1 : 0) + (has_subtitle ? 1 : 0) + n_spanner_rows + 1
 
     parts = Matrix{Cell}[]
     append!(parts, title_rows)
-    has_spanners && push!(parts, reshape(spanner_row, 1, n_cols))
+    # Highest level goes at the top (furthest from column labels), so reverse before appending.
+    for row in reverse(spanner_rows)
+        push!(parts, reshape(row, 1, n_cols))
+    end
     push!(parts, reshape(header_row, 1, n_cols))
     push!(parts, body)
 
@@ -230,16 +234,32 @@ function _validate_spanners(spanners::Vector{Spanner})
     end
 end
 
-function _build_spanner_row(tbl::StyledTable, colnames::Vector{Symbol})
-    row = Cell[Cell(nothing) for _ in colnames]
-    for (group_idx, spanner) in enumerate(tbl.spanners)
-        for col in spanner.columns
-            j = findfirst(==(col), colnames)
-            j === nothing && continue
-            row[j] = Cell(spanner.label; bold = true, merge = true, mergegroup = group_idx, border_bottom = true)
+# Returns one Vector{Cell} per spanner level, ordered level 1 first (bottom-most).
+# render() reverses this order before assembling so the highest level appears at the top.
+#
+# mergegroup_counter is a single counter across ALL levels so that no two spanners
+# share a mergegroup value.
+function _build_spanner_rows(tbl::StyledTable, colnames::Vector{Symbol})
+    levels = sort(unique(s.level for s in tbl.spanners))
+    rows = Vector{Cell}[]
+    mergegroup_counter = 0
+    for lvl in levels
+        row = Cell[Cell(nothing) for _ in colnames]
+        level_spanners = filter(s -> s.level == lvl, tbl.spanners)
+        for spanner in level_spanners
+            mergegroup_counter += 1
+            for col in spanner.columns
+                j = findfirst(==(col), colnames)
+                j === nothing && continue
+                row[j] = Cell(spanner.label;
+                    bold = true, merge = true,
+                    mergegroup = mergegroup_counter,
+                    border_bottom = true)
+            end
         end
+        push!(rows, row)
     end
-    return row
+    return rows  # [level_1_row, level_2_row, ..., level_N_row]
 end
 
 # Build a single header cell for a given column, applying label overrides and alignment
