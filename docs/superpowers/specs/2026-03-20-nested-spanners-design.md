@@ -52,6 +52,9 @@ end
 
 `StyledTable.spanners` remains `Vector{Spanner}`. No change to the field type.
 
+The `Spanner` struct carries no field default; the `level = 1` default is enforced by
+`tab_spanner!`'s keyword argument.
+
 ## Validation (at `render()` time)
 
 Two checks, raised as `ArgumentError` with descriptive messages:
@@ -59,6 +62,8 @@ Two checks, raised as `ArgumentError` with descriptive messages:
 1. **No partial overlaps** — for any two spanners at *different* levels, their column sets
    must be either fully disjoint or one must be a strict subset of the other. Partial overlaps
    (e.g., level-1 covers `[:a, :b, :c]` while level-2 covers `[:b, :c, :d]`) are invalid.
+   Spanners at the *same* level must have fully disjoint column sets; this constraint is
+   unchanged from the single-level implementation.
 
 2. **Contiguous levels** — if the highest level in use is N, every integer 1…N must have at
    least one spanner. Gaps (e.g., level 1 and level 3 present but level 2 absent) are invalid.
