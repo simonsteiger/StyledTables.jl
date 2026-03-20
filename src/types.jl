@@ -10,6 +10,8 @@ struct Spanner
     label::Any
     "Columns this label spans."
     columns::Vector{Symbol}
+    "Spanner row level (1 = immediately above column headers)."
+    level::Int
 end
 
 """

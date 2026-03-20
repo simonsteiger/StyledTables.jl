@@ -155,12 +155,13 @@ function tab_spanner!(tbl::StyledTable, args::Pair...)
 end
 
 function _push_spanners!(tbl::StyledTable, d)
+    level = 1  # temporary — replaced in Task 2
     colnames = Symbol.(names(tbl.data))
     for (label, columns) in d
         for col in columns
             col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
         end
-        push!(tbl.spanners, Spanner(label, columns))
+        push!(tbl.spanners, Spanner(label, columns, level))
     end
     return tbl
 end
