@@ -149,13 +149,12 @@ tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
 render(tbl)
 ```
 """
-function tab_spanner!(tbl::StyledTable, args::Pair...)
-    tab_spanner!(tbl, collect(args))
+function tab_spanner!(tbl::StyledTable, args::Pair...; level::Int = 1)
+    tab_spanner!(tbl, collect(args); level)
     return tbl
 end
 
-function _push_spanners!(tbl::StyledTable, d)
-    level = 1  # temporary — replaced in Task 2
+function _push_spanners!(tbl::StyledTable, d; level::Int = 1)
     colnames = Symbol.(names(tbl.data))
     for (label, columns) in d
         for col in columns
@@ -166,16 +165,21 @@ function _push_spanners!(tbl::StyledTable, d)
     return tbl
 end
 
+function tab_spanner!(tbl::StyledTable, label; columns::AbstractVector{Symbol}, level::Int = 1)
+    _push_spanners!(tbl, [label => columns]; level)
+    return tbl
+end
+
 # Note: Pair{String, Vector{Symbol}} inputs arrive here from the conversion method below.
 # The exact (invariant) signature prevents Julia from routing them back through the
 # conversion method, which would cause a StackOverflow.
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}})
-    _push_spanners!(tbl, d)
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}}; level::Int = 1)
+    _push_spanners!(tbl, d; level)
 end
 
 # Handles Multiline and any other non-String, non-Symbol label keys.
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any, Vector{Symbol}}})
-    _push_spanners!(tbl, d)
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any, Vector{Symbol}}}; level::Int = 1)
+    _push_spanners!(tbl, d; level)
 end
 
 """
@@ -205,11 +209,11 @@ render(tbl)
 ```
 """
 function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}},
-    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}}, 
-    AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}}, 
-    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}) where T <: AbstractString
+    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}},
+    AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}},
+    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}; level::Int = 1) where T <: AbstractString
     ps = [String(label) => Symbol.(columns) for (label, columns) in d]
-    tab_spanner!(tbl, ps)
+    tab_spanner!(tbl, ps; level)
 end
 
 """

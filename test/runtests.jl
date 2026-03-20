@@ -172,6 +172,10 @@ end
         tab_spanner!(tbl2, "Treatment" => [:dose, :response])
         @test tbl2.spanners[1].level == 1
 
+        tbl3 = StyledTable(df)
+        tab_spanner!(tbl3, "Treatment" => [:dose, :response]; level = 2)
+        @test tbl3.spanners[1].level == 2
+
         tbl = StyledTable(df)
         tab_spanner!(tbl, Dict("Treatment" => [:dose, :response], "Participant" => [:name]))
         run_reftest(tbl, "references/tab_spanner/two_spanners")
