@@ -119,14 +119,22 @@ end
 """
 $TYPEDSIGNATURES
 
-Add a spanning header label above one or more groups of columns.
+Add one or more spanning header labels above groups of columns.
+
+Each spanner is given as a `label => columns` pair, where `label` is the spanner text
+(a `String`, `SummaryTables.Multiline`, or any value accepted by `SummaryTables.Cell`)
+and `columns` is a `Vector{Symbol}` of column names to span.
+
+Use the `level` keyword to stack spanners in multiple rows: `level = 1` (the default) is
+the bottom-most row, closest to the column labels; `level = 2` sits above it, and so on.
+A higher-level spanner's column set must fully contain every lower-level spanner it overlaps.
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: one or more `label => columns` pairs, where `label` is the spanner text
-  (a `String` or any value accepted by `SummaryTables.Cell`) and `columns` is a
-  `Vector{Symbol}` of column names to span.
+- `args`: one or more `label => columns` pairs.
+- `level`: spanner row (default `1`). Alternatively, use the single-label form
+  `tab_spanner!(tbl, label; columns = [...], level = N)`.
 
 # Returns
 
@@ -137,8 +145,17 @@ See also: [`tab_header!`](@ref), [`tab_stub!`](@ref).
 # Examples
 
 ```julia
+# Single spanner
 tbl = StyledTable(df)
 tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
+render(tbl)
+```
+
+```julia
+# Two levels: "Length (mm)" at level 1, "Physical measurements" above it at level 2
+tbl = StyledTable(df)
+tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
 render(tbl)
 ```
 
@@ -165,6 +182,38 @@ function _push_spanners!(tbl::StyledTable, d; level::Int = 1)
     return tbl
 end
 
+"""
+$TYPEDSIGNATURES
+
+Add a single spanning header label above a group of columns, using keyword arguments.
+
+This is a convenience alternative to the `label => columns` pair form. Both forms accept
+the `level` keyword for stacking spanners in multiple header rows.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `label`: the spanner text (a `String`, `SummaryTables.Multiline`, or any value accepted
+  by `SummaryTables.Cell`).
+- `columns`: columns to span (`Vector{Symbol}`). Required.
+- `level`: spanner row (default `1`). `1` = bottom-most row; higher values sit above.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_spanner!(tbl, "Length (mm)"; columns = [:bill_len, :bill_depth, :flipper_len])
+tab_spanner!(tbl, "Physical measurements";
+    columns = [:bill_len, :bill_depth, :flipper_len, :body_mass], level = 2)
+render(tbl)
+```
+"""
 function tab_spanner!(tbl::StyledTable, label; columns::AbstractVector{Symbol}, level::Int = 1)
     _push_spanners!(tbl, [label => columns]; level)
     return tbl
@@ -190,19 +239,22 @@ Add spanning headers from a dict or vector of pairs.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: an `AbstractDict` or an `AbstractVector` of `Pair`s that maps
-  the spanner labels to vectors of columns.
+- `d`: an `AbstractDict` or `AbstractVector` of `Pair`s mapping spanner labels to column
+  name vectors.
+- `level`: spanner row applied to every entry in `d` (default `1`).
 
 # Returns
 
 `tbl` (modified in place).
+
+See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
 tab_spanner!(tbl, Dict(
-    "Outcomes" => [:efficacy, :safety],
+    "Outcomes"     => [:efficacy, :safety],
     "Demographics" => [:age, :sex])
 )
 render(tbl)
