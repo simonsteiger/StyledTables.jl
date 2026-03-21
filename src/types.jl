@@ -85,6 +85,8 @@ mutable struct StyledTable
     col_formatters::Dict{Symbol,Function}
     "Per-column inline style overrides."
     col_styles::Dict{Symbol,ColStyleOverride}
+    "Per-column conditional style functions `f(raw_value) -> Union{Nothing, NamedTuple}`."
+    col_style_fns::Dict{Symbol,Function}
     "Per-column footnote annotations."
     col_footnotes::Dict{Symbol,Any}
     "Explicit column display order, or `nothing` (use DataFrame order)."

@@ -363,6 +363,7 @@ function StyledTable(data)
         Any[],                           # footnotes
         Dict{Symbol,Function}(),         # col_formatters
         Dict{Symbol,ColStyleOverride}(), # col_styles
+        Dict{Symbol,Function}(),         # col_style_fns
         Dict{Symbol,Any}(),              # col_footnotes
         nothing,                         # col_order
         Set{Symbol}(),                   # hidden_cols
