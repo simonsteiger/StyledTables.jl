@@ -35,18 +35,26 @@ Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
 ## Examples
 
 ```@example index
-using StyledTables, DataFrames
+using StyledTables, DataFrames, PalmerPenguins, Chain
+using Statistics: mean
 
-df = DataFrame(
-    name  = ["Alice", "Bob", "Carol"],
-    score = [92.5, 87.0, 95.3],
-    grade = ["A", "B", "A"],
-)
+df = @chain DataFrame(PalmerPenguins.load()) begin
+    dropmissing(_)
+    groupby(_, [:island, :species])
+    combine(_, Cols(r"bill") .=> mean => identity)
+end
 
 tbl = StyledTable(df)
-tab_header!(tbl, "Student Results"; subtitle = "Spring 2026")
-cols_label!(tbl, :name => "Student", :score => "Score", :grade => "Grade")
-cols_align!(tbl, :center, [:score, :grade])
-fmt_number!(tbl, :score; digits = 1)
+tab_row_group!(tbl, :island)
+cols_hide!(tbl, :island)
+tab_spanner!(tbl, "Bill measures" => [:bill_length_mm, :bill_depth_mm])
+
+labels = [
+    :species => "Species", 
+    :bill_length_mm => "Length", 
+    :bill_depth_mm => "Depth"
+]
+
+cols_label!(tbl, labels)
 render(tbl)
 ```

@@ -26,6 +26,7 @@ makedocs(;
         ],
         "Examples" => [
             "Overview" => "examples/index.md",
+            "Multilevel spanners" => "examples/penguins.md",
             "Sports Cars Table" => "examples/cars.md",
             "Clinical Demographics" => "examples/clinical.md",
             "Quarterly Report" => "examples/report.md",
