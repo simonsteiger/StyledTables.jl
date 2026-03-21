@@ -1,6 +1,7 @@
 # Clinical Demographics Table
 
-Demographic summary tables appear in nearly every clinical trial report. This example builds one from scratch with two treatment arms, categorical and continuous variables, missing data, and regulatory-style footnotes.
+Demographic summary tables appear in nearly every clinical trial report. 
+This example builds one from scratch with two treatment arms, categorical and continuous variables, missing data, and regulatory-style footnotes.
 
 ## The data
 

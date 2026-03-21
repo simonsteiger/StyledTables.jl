@@ -17,7 +17,7 @@ StyledTables is not yet registered in the Julia General Registry. Install it dir
 
 ```julia
 using Pkg
-Pkg.add(url = "https://github.com/simonsteiger/StyledTables.jl")
+Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
 ```
 
 ## Quick Start
@@ -34,12 +34,12 @@ df = DataFrame(
 
 tbl = StyledTable(df)
 
-tab_header!(tbl, "Results Summary"; subtitle = "Groups A and B")
+tab_header!(tbl, "Results Summary"; subtitle="Groups A and B")
 cols_label!(tbl, :name => "Item", :value => "Value", :rate => "Rate")
 tab_spanner!(tbl, "Measurements" => [:value, :rate])
 tab_row_group!(tbl, :group)
-fmt_number!(tbl, [:value]; digits = 2)
-fmt_percent!(tbl, [:rate]; digits = 1)
+fmt_number!(tbl, [:value]; digits=2)
+fmt_percent!(tbl, [:rate]; digits=1)
 
 render(tbl)
 ```
