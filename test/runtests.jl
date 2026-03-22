@@ -769,44 +769,42 @@ end
 
     # -----------------------------------------------------------------------
     @testset "_noncontiguous_spanner_gaps" begin
-        using StyledTables: _noncontiguous_spanner_gaps, Spanner
-
         display_cols = [:a, :b, :c, :d]
 
         # Basic gap: :b sits between :a and :c but is not in the spanner
-        s_gap = Spanner("AB", [:a, :c], 1)
-        result = _noncontiguous_spanner_gaps([s_gap], display_cols)
+        s_gap = StyledTables.Spanner("AB", [:a, :c], 1)
+        result = StyledTables._noncontiguous_spanner_gaps([s_gap], display_cols)
         @test length(result) == 1
         @test result[1][1] == "AB"
         @test result[1][2] == [:b]
 
         # Contiguous spanner: no gap
-        s_ok = Spanner("AB", [:a, :b], 1)
-        @test isempty(_noncontiguous_spanner_gaps([s_ok], display_cols))
+        s_ok = StyledTables.Spanner("AB", [:a, :b], 1)
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_ok], display_cols))
 
         # Single-column spanner: no gap possible
-        s_single = Spanner("A", [:a], 1)
-        @test isempty(_noncontiguous_spanner_gaps([s_single], display_cols))
+        s_single = StyledTables.Spanner("A", [:a], 1)
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_single], display_cols))
 
         # All spanner columns hidden (absent from display_cols): no warning
-        s_hidden = Spanner("XY", [:x, :y], 1)
-        @test isempty(_noncontiguous_spanner_gaps([s_hidden], display_cols))
+        s_hidden = StyledTables.Spanner("XY", [:x, :y], 1)
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_hidden], display_cols))
 
         # Multiple non-contiguous spanners: both reported
-        s1 = Spanner("AC", [:a, :c], 1)
-        s2 = Spanner("BD", [:b, :d], 1)
-        result2 = _noncontiguous_spanner_gaps([s1, s2], display_cols)
+        s1 = StyledTables.Spanner("AC", [:a, :c], 1)
+        s2 = StyledTables.Spanner("BD", [:b, :d], 1)
+        result2 = StyledTables._noncontiguous_spanner_gaps([s1, s2], display_cols)
         @test length(result2) == 2
 
         # Column order in spanner is irrelevant: [:c, :a] same as [:a, :c]
-        s_rev = Spanner("CA", [:c, :a], 1)
-        result3 = _noncontiguous_spanner_gaps([s_rev], display_cols)
+        s_rev = StyledTables.Spanner("CA", [:c, :a], 1)
+        result3 = StyledTables._noncontiguous_spanner_gaps([s_rev], display_cols)
         @test length(result3) == 1
         @test result3[1][2] == [:b]
 
         # Hiding the gap column makes remaining spanner columns contiguous: no warning
         display_no_b = [:a, :c, :d]
-        @test isempty(_noncontiguous_spanner_gaps([s_gap], display_no_b))
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_gap], display_no_b))
     end
 
 end
