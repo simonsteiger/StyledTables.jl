@@ -861,4 +861,129 @@ end
         @test_logs min_level=Logging.Warn render(tbl3)
     end
 
+    # -----------------------------------------------------------------------
+    @testset "Base.show" begin
+        df = DataFrame(a = 1:3, b = ["x", "y", "z"], c = [1.0, 2.0, 3.0])
+
+        # Unconfigured: single-line output
+        tbl = StyledTable(df)
+        @test sprint(show, tbl) == "StyledTable  3 × 3  (unconfigured)"
+
+        # Header: shows label and truncated title
+        tbl = StyledTable(df)
+        tab_header!(tbl, "My Title")
+        out = sprint(show, tbl)
+        @test contains(out, "header")
+        @test contains(out, "\"My Title\"")
+        @test !contains(out, "(unconfigured)")
+
+        # Header: title longer than 20 chars is truncated
+        tbl = StyledTable(df)
+        tab_header!(tbl, "A very long title that exceeds twenty")
+        out = sprint(show, tbl)
+        @test contains(out, "\"A very long title th…\"")
+
+        # Header: subtitle appended after /
+        tbl = StyledTable(df)
+        tab_header!(tbl, "Title"; subtitle = "Sub")
+        out = sprint(show, tbl)
+        @test contains(out, "\"Title\" / \"Sub\"")
+
+        # Spanners: single level shows count and col count
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "Group"; columns = [:a, :b])
+        out = sprint(show, tbl)
+        @test contains(out, "span")
+        @test contains(out, "1 (2 cols)")
+
+        # Spanners: multiple levels show per-level breakdown
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "L1a"; columns = [:a, :b], level = 1)
+        tab_spanner!(tbl, "L2";  columns = [:a, :b, :c], level = 2)
+        out = sprint(show, tbl)
+        @test contains(out, "L1: 2 cols")
+        @test contains(out, "L2: 3 cols")
+
+        # Stub and groups
+        tbl = StyledTable(df)
+        tab_stub!(tbl, :a)
+        out = sprint(show, tbl)
+        @test contains(out, "stub")
+        @test contains(out, ":a")
+
+        tbl = StyledTable(df)
+        tab_row_group!(tbl, :b)
+        out = sprint(show, tbl)
+        @test contains(out, "groups")
+        @test contains(out, ":b")
+
+        # Column counts: labels, align, fmt, hidden
+        tbl = StyledTable(df)
+        cols_label!(tbl, :a => "A", :b => "B")
+        out = sprint(show, tbl)
+        @test contains(out, "labels")
+        @test contains(out, "2 cols")
+
+        tbl = StyledTable(df)
+        cols_label!(tbl, :a => "A")
+        out = sprint(show, tbl)
+        @test contains(out, "1 col")
+
+        tbl = StyledTable(df)
+        cols_hide!(tbl, :c)
+        out = sprint(show, tbl)
+        @test contains(out, "hidden")
+        @test contains(out, "1 col")
+
+        # Notes: singular and plural
+        tbl = StyledTable(df)
+        tab_footnote!(tbl, "Note 1")
+        out = sprint(show, tbl)
+        @test contains(out, "1 note")
+        @test !contains(out, "notes")
+
+        tbl = StyledTable(df)
+        tab_footnote!(tbl, "Note 1")
+        tab_footnote!(tbl, "Note 2")
+        out = sprint(show, tbl)
+        @test contains(out, "2 notes")
+
+        # Source notes
+        tbl = StyledTable(df)
+        tab_source_note!(tbl, "Source A")
+        out = sprint(show, tbl)
+        @test contains(out, "1 source")
+
+        # Round: digits only
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_digits = 3)
+        out = sprint(show, tbl)
+        @test contains(out, "round")
+        @test contains(out, "3 digits")
+
+        # Round: mode only
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_mode = :sigdigits)
+        out = sprint(show, tbl)
+        @test contains(out, "(sigdigits)")
+
+        # Round: digits + mode
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_digits = 3, round_mode = :auto)
+        out = sprint(show, tbl)
+        @test contains(out, "3 digits (auto)")
+
+        # Round: digits + trailing zeros
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_digits = 3, trailing_zeros = true)
+        out = sprint(show, tbl)
+        @test contains(out, "3 digits · trailing zeros")
+
+        # Round: all three
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_digits = 2, round_mode = :auto, trailing_zeros = true)
+        out = sprint(show, tbl)
+        @test contains(out, "2 digits (auto) · trailing zeros")
+    end
+
 end
