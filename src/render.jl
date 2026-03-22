@@ -222,6 +222,21 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
     return result
 end
 
+# Returns a Vector of (spanner_label, gap_cols) tuples for each spanner
+# whose columns are non-contiguous in display_cols.
+function _noncontiguous_spanner_gaps(spanners, display_cols)
+    results = Vector{Tuple{Any, Vector{Symbol}}}()
+    col_pos = Dict(col => i for (i, col) in enumerate(display_cols))
+    for s in spanners
+        positions = [col_pos[c] for c in s.columns if haskey(col_pos, c)]
+        length(positions) < 2 && continue
+        lo, hi = extrema(positions)
+        gap_cols = [display_cols[p] for p in lo:hi if display_cols[p] ∉ s.columns]
+        isempty(gap_cols) || push!(results, (s.label, gap_cols))
+    end
+    return results
+end
+
 function _validate_spanners(spanners::Vector{Spanner})
     isempty(spanners) && return
 
