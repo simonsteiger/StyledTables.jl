@@ -807,4 +807,36 @@ end
         @test isempty(StyledTables._noncontiguous_spanner_gaps([s_gap], display_no_b))
     end
 
+    # -----------------------------------------------------------------------
+    @testset "_duplicate_group_labels" begin
+        # Unsorted: "A" appears again after "B"
+        df_unsorted = DataFrame(g = ["A", "B", "A"], x = [1, 2, 3])
+        tbl_unsorted = StyledTable(df_unsorted)
+        tab_row_group!(tbl_unsorted, :g)
+        @test StyledTables._duplicate_group_labels(tbl_unsorted) == ["A"]
+
+        # Sorted with adjacent repeats: no duplicates
+        df_sorted = DataFrame(g = ["A", "A", "B", "B"], x = [1, 2, 3, 4])
+        tbl_sorted = StyledTable(df_sorted)
+        tab_row_group!(tbl_sorted, :g)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_sorted))
+
+        # Fully unique: no duplicates
+        df_unique = DataFrame(g = ["A", "B", "C"], x = [1, 2, 3])
+        tbl_unique = StyledTable(df_unique)
+        tab_row_group!(tbl_unique, :g)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_unique))
+
+        # No row_group_col set: returns empty
+        df_no_group = DataFrame(x = [1, 2])
+        tbl_no_group = StyledTable(df_no_group)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_no_group))
+
+        # Adjacent repeated values are not duplicates
+        df_adj = DataFrame(g = ["A", "A", "B"], x = [1, 2, 3])
+        tbl_adj = StyledTable(df_adj)
+        tab_row_group!(tbl_adj, :g)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_adj))
+    end
+
 end
