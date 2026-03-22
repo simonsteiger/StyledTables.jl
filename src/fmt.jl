@@ -1,15 +1,29 @@
 using Printf
 
 # Internal helper: validates cols and stores formatter function on tbl
-function _apply_formatter!(tbl::StyledTable, cols, f::Function)
-    col_vec = cols isa Symbol ? Symbol[cols] : collect(Symbol, cols)
+function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{Symbol}, f::Function)
     colnames = Symbol.(names(tbl.data))
-    for col in col_vec
+    for col in cols
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
-    for col in col_vec
+    for col in cols
         tbl.col_formatters[col] = f
     end
+    return tbl
+end
+
+function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{<:AbstractString}, f::Function)
+    _apply_formatter!(tbl, Symbol.(cols), f)
+    return tbl
+end
+
+function _apply_formatter!(tbl::StyledTable, cols::AbstractString, f::Function)
+    _apply_formatter!(tbl, Symbol(cols), f)
+    return tbl
+end
+
+function _apply_formatter!(tbl::StyledTable, cols::Symbol, f::Function)
+    _apply_formatter!(tbl, [cols], f)
     return tbl
 end
 
@@ -130,9 +144,9 @@ Return `x` unchanged for `missing` to let [`sub_missing!`](@ref) handle it.
 
 # Arguments
 
+- `f`: formatter: `f(value) -> Any`.
 - `tbl`: the [`StyledTable`](@ref) to modify.
 - `cols`: column name(s) to format.
-- `f`: formatter: `f(value) -> Any`.
 
 # Returns
 
@@ -144,10 +158,11 @@ See also: [`fmt_number!`](@ref), [`fmt_percent!`](@ref), [`fmt_integer!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-fmt!(tbl, [:x], x -> "≈\$(round(Int, x))")
+fmt!(x -> "≈\$(round(Int, x))", tbl, [:x])
 render(tbl)
 ```
 """
-function fmt!(tbl::StyledTable, cols, f::Function)
-    return _apply_formatter!(tbl, cols, f)
+function fmt!(f, tbl::StyledTable, cols)
+    _apply_formatter!(tbl, cols, f)
+    return tbl
 end

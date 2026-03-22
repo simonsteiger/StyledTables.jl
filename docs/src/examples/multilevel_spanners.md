@@ -84,5 +84,6 @@ label_dict = Dict(
 )
 
 cols_label!(tbl, label_dict)
+fmt_integer!(tbl, [male_ordered..., female_ordered...])
 render(tbl)
 ```

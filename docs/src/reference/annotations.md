@@ -2,8 +2,6 @@
 
 These functions annotate the table: a title and subtitle at the top, footnotes and source notes at the bottom.
 
----
-
 ## `tab_header!`
 
 Add a title (and optional subtitle) above the column headers.
