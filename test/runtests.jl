@@ -559,6 +559,42 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "tab_style! function form — call time" begin
+        df = DataFrame(change = [-0.1, 0.0, 0.3])
+        f = val -> val > 0 ? (; color=:green) : nothing
+
+        # Column validation
+        @test_throws ArgumentError tab_style!(x -> nothing, StyledTable(df), [:nonexistent])
+
+        # Function is stored
+        tbl = StyledTable(df)
+        tab_style!(f, tbl, :change)
+        @test haskey(tbl.col_style_fns, :change)
+        @test tbl.col_style_fns[:change] === f
+
+        # Static baseline stored alongside function
+        tbl2 = StyledTable(df)
+        tab_style!(f, tbl2, :change; bold=true)
+        @test haskey(tbl2.col_style_fns, :change)
+        @test haskey(tbl2.col_styles, :change)
+        @test tbl2.col_styles[:change].bold == true
+
+        # Function-only call leaves previous static baseline intact
+        tbl3 = StyledTable(df)
+        tab_style!(tbl3, :change; bold=true)
+        tab_style!(x -> nothing, tbl3, :change)
+        @test haskey(tbl3.col_styles, :change)
+        @test tbl3.col_styles[:change].bold == true
+
+        # Static-only call leaves previous function intact
+        tbl4 = StyledTable(df)
+        tab_style!(f, tbl4, :change)
+        tab_style!(tbl4, :change; bold=true)
+        @test haskey(tbl4.col_style_fns, :change)
+        @test tbl4.col_style_fns[:change] === f
+    end
+
+    # -----------------------------------------------------------------------
     @testset "_resolve_color" begin
         @test StyledTables._resolve_color(nothing) === nothing
         @test StyledTables._resolve_color(:red) isa String
