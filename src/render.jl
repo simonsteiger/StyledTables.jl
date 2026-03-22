@@ -119,10 +119,37 @@ function _apply_formatter(value, tbl::StyledTable, col::Symbol)
     return tbl.col_formatters[col](value)
 end
 
-function _apply_col_style(value, tbl::StyledTable, col::Symbol)
-    haskey(tbl.col_styles, col) || return value
-    s = tbl.col_styles[col]
-    return SummaryTables.Styled(value; s.color, s.bold, s.italic, s.underline)
+function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
+    has_static = haskey(tbl.col_styles, col)
+    has_fn     = haskey(tbl.col_style_fns, col)
+    !has_static && !has_fn && return formatted
+
+    # Read static baseline
+    color     = has_static ? tbl.col_styles[col].color     : nothing
+    bold      = has_static ? tbl.col_styles[col].bold      : nothing
+    italic    = has_static ? tbl.col_styles[col].italic    : nothing
+    underline = has_static ? tbl.col_styles[col].underline : nothing
+
+    # Apply function override
+    if has_fn
+        result = tbl.col_style_fns[col](cell_raw)
+        if result !== nothing
+            for key in keys(result)
+                key in (:color, :bold, :italic, :underline) || throw(ArgumentError(
+                    "tab_style! function for column :$col returned NamedTuple with " *
+                    "unrecognised key :$key. Valid keys: :color, :bold, :italic, :underline."
+                ))
+            end
+            hasproperty(result, :color)     && (color     = _resolve_color(result.color))
+            hasproperty(result, :bold)      && (bold      = result.bold)
+            hasproperty(result, :italic)    && (italic    = result.italic)
+            hasproperty(result, :underline) && (underline = result.underline)
+        end
+    end
+
+    color === nothing && bold === nothing && italic === nothing && underline === nothing &&
+        return formatted
+    return SummaryTables.Styled(formatted; color, bold, italic, underline)
 end
 
 function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Symbol})
@@ -130,9 +157,10 @@ function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Sym
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
         for i in 1:nrow(df)
-            raw = _apply_formatter(df[i, col], tbl, col)
-            val = _apply_col_style(raw, tbl, col)
-            body[i, j] = Cell(val; halign)
+            cell_raw  = df[i, col]
+            formatted = _apply_formatter(cell_raw, tbl, col)
+            styled    = _apply_col_style(formatted, cell_raw, tbl, col)
+            body[i, j] = Cell(styled; halign)
         end
     end
     return body
@@ -166,9 +194,10 @@ function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::
         for (j, col) in enumerate(display_cols)
             halign = get(tbl.col_alignments, col, :left)
             indent_pt = j == 1 ? indent : 0.0
-            raw = _apply_formatter(df[i, col], tbl, col)
-            val = _apply_col_style(raw, tbl, col)
-            body[i + offset, j] = Cell(val; halign, indent_pt)
+            cell_raw  = df[i, col]
+            formatted = _apply_formatter(cell_raw, tbl, col)
+            styled    = _apply_col_style(formatted, cell_raw, tbl, col)
+            body[i + offset, j] = Cell(styled; halign, indent_pt)
         end
     end
 
