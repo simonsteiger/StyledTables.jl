@@ -573,7 +573,8 @@ Any keyword left as `nothing` is inherited from the cell default.
 
 # Keywords
 
-- `color`: hex color string (`"#RRGGBB"`), or `nothing`.
+- `color`: color value — hex string (`"#RRGGBB"`), CSS name (`"green"`), symbol (`:green`),
+  or a `Colors.Colorant`. `nothing` inherits the default. Alpha channels are silently dropped.
 - `bold`: `true`/`false`, or `nothing`.
 - `italic`: `true`/`false`, or `nothing`.
 - `underline`: `true`/`false`, or `nothing`.
@@ -595,7 +596,7 @@ render(tbl)
 function tab_style!(
     tbl::StyledTable,
     columns::AbstractVector{Symbol};
-    color::Union{Nothing,String} = nothing,
+    color = nothing,
     bold::Union{Nothing,Bool} = nothing,
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
@@ -605,7 +606,7 @@ function tab_style!(
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
     for col in columns
-        tbl.col_styles[col] = ColStyleOverride(color, bold, italic, underline)
+        tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
     end
     return tbl
 end
@@ -621,7 +622,8 @@ Apply inline styling to body cells in the listed columns (variadic form).
 
 # Keywords
 
-- `color`: hex color string (`"#RRGGBB"`), or `nothing`.
+- `color`: color value — hex string (`"#RRGGBB"`), CSS name (`"green"`), symbol (`:green`),
+  or a `Colors.Colorant`. `nothing` inherits the default. Alpha channels are silently dropped.
 - `bold`: `true`/`false`, or `nothing`.
 - `italic`: `true`/`false`, or `nothing`.
 - `underline`: `true`/`false`, or `nothing`.
@@ -637,7 +639,7 @@ render(tbl)
 function tab_style!(
     tbl::StyledTable,
     columns::Symbol...;
-    color::Union{Nothing,String} = nothing,
+    color = nothing,
     bold::Union{Nothing,Bool} = nothing,
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,

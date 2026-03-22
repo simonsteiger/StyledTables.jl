@@ -542,6 +542,23 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "tab_style! static — widened color type" begin
+        df = DataFrame(x = [1, 2, 3])
+
+        tbl = StyledTable(df)
+        tab_style!(tbl, :x; color=:red)
+        @test tbl.col_styles[:x].color isa String
+        @test startswith(tbl.col_styles[:x].color, "#")
+
+        tbl2 = StyledTable(df)
+        tab_style!(tbl2, :x; color=colorant"#1a7340")
+        @test tbl2.col_styles[:x].color isa String
+        @test startswith(tbl2.col_styles[:x].color, "#")
+
+        @test_throws ArgumentError tab_style!(StyledTable(df), :x; color=42)
+    end
+
+    # -----------------------------------------------------------------------
     @testset "_resolve_color" begin
         @test StyledTables._resolve_color(nothing) === nothing
         @test StyledTables._resolve_color(:red) isa String
