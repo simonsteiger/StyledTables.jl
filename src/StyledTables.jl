@@ -3,6 +3,7 @@ module StyledTables
 using DataFrames
 using SummaryTables
 using DocStringExtensions
+using Colors
 
 include("types.jl")
 include("modifiers.jl")

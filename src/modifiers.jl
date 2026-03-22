@@ -1,3 +1,25 @@
+# Resolve a user-provided color value to a "#RRGGBB" hex string, or nothing.
+_resolve_color(::Nothing) = nothing
+
+function _resolve_color(c::Symbol)
+    return "#" * Colors.hex(Colors.RGB(Colors.parse(Colors.Colorant, string(c))))
+end
+
+function _resolve_color(c::AbstractString)
+    return "#" * Colors.hex(Colors.RGB(Colors.parse(Colors.Colorant, c)))
+end
+
+function _resolve_color(c::Colors.Colorant)
+    return "#" * Colors.hex(Colors.RGB(c))
+end
+
+function _resolve_color(c)
+    throw(ArgumentError(
+        "_resolve_color received unsupported type $(typeof(c)). " *
+        "Accepted: nothing, Symbol, AbstractString, Colors.Colorant."
+    ))
+end
+
 """
 $TYPEDSIGNATURES
 
@@ -341,6 +363,7 @@ function StyledTable(data)
         Any[],                           # footnotes
         Dict{Symbol,Function}(),         # col_formatters
         Dict{Symbol,ColStyleOverride}(), # col_styles
+        Dict{Symbol,Function}(),         # col_style_fns
         Dict{Symbol,Any}(),              # col_footnotes
         nothing,                         # col_order
         Set{Symbol}(),                   # hidden_cols
@@ -550,7 +573,8 @@ Any keyword left as `nothing` is inherited from the cell default.
 
 # Keywords
 
-- `color`: hex color string (`"#RRGGBB"`), or `nothing`.
+- `color`: color value — hex string (`"#RRGGBB"`), CSS name (`"green"`), symbol (`:green`),
+  or a `Colors.Colorant`. `nothing` inherits the default. Alpha channels are silently dropped.
 - `bold`: `true`/`false`, or `nothing`.
 - `italic`: `true`/`false`, or `nothing`.
 - `underline`: `true`/`false`, or `nothing`.
@@ -572,7 +596,7 @@ render(tbl)
 function tab_style!(
     tbl::StyledTable,
     columns::AbstractVector{Symbol};
-    color::Union{Nothing,String} = nothing,
+    color = nothing,
     bold::Union{Nothing,Bool} = nothing,
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
@@ -582,7 +606,7 @@ function tab_style!(
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
     for col in columns
-        tbl.col_styles[col] = ColStyleOverride(color, bold, italic, underline)
+        tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
     end
     return tbl
 end
@@ -598,7 +622,8 @@ Apply inline styling to body cells in the listed columns (variadic form).
 
 # Keywords
 
-- `color`: hex color string (`"#RRGGBB"`), or `nothing`.
+- `color`: color value — hex string (`"#RRGGBB"`), CSS name (`"green"`), symbol (`:green`),
+  or a `Colors.Colorant`. `nothing` inherits the default. Alpha channels are silently dropped.
 - `bold`: `true`/`false`, or `nothing`.
 - `italic`: `true`/`false`, or `nothing`.
 - `underline`: `true`/`false`, or `nothing`.
@@ -614,12 +639,90 @@ render(tbl)
 function tab_style!(
     tbl::StyledTable,
     columns::Symbol...;
-    color::Union{Nothing,String} = nothing,
+    color = nothing,
     bold::Union{Nothing,Bool} = nothing,
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
 )
     tab_style!(tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Apply conditional inline styling to body cells in the listed columns.
+
+`f(raw_value) -> Union{Nothing, NamedTuple}` receives each cell's raw DataFrame value
+(before any formatter) and returns either `nothing` (no conditional style) or a `NamedTuple`
+with any subset of `color`, `bold`, `italic`, `underline`. A key set to `nothing` explicitly
+clears the static baseline for that property.
+
+Optional kwargs set a static per-column baseline. The function result overrides any
+baseline property whose key is present in the returned `NamedTuple`.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Keywords
+
+- `color`: baseline color — hex string, CSS name, `Symbol`, or `Colors.Colorant`.
+- `bold`: `true`/`false`, or `nothing`.
+- `italic`: `true`/`false`, or `nothing`.
+- `underline`: `true`/`false`, or `nothing`.
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_style!(tbl, :change) do val
+    val > 0 ? (; color=:green, bold=true) :
+    val < 0 ? (; color=:red) :
+    nothing
+end
+render(tbl)
+```
+"""
+function tab_style!(
+    f,
+    tbl::StyledTable,
+    columns::AbstractVector{Symbol};
+    color = nothing,
+    bold::Union{Nothing,Bool} = nothing,
+    italic::Union{Nothing,Bool} = nothing,
+    underline::Union{Nothing,Bool} = nothing,
+)
+    colnames = Symbol.(names(tbl.data))
+    for col in columns
+        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+    end
+    for col in columns
+        tbl.col_style_fns[col] = f
+        if any(!isnothing, (color, bold, italic, underline))
+            tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
+        end
+    end
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Apply conditional inline styling to body cells (variadic / do-block form).
+
+See the vector form for full documentation.
+"""
+function tab_style!(
+    f,
+    tbl::StyledTable,
+    columns::Symbol...;
+    color = nothing,
+    bold::Union{Nothing,Bool} = nothing,
+    italic::Union{Nothing,Bool} = nothing,
+    underline::Union{Nothing,Bool} = nothing,
+)
+    tab_style!(f, tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
     return tbl
 end
 
