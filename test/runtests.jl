@@ -839,4 +839,26 @@ end
         @test isempty(StyledTables._duplicate_group_labels(tbl_adj))
     end
 
+    # -----------------------------------------------------------------------
+    @testset "render() warnings" begin
+        # Non-contiguous spanner: warn
+        df = DataFrame(x = [1], y = [2], z = [3])
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "XZ" => [:x, :z])
+        @test_logs (:warn, r"gap") render(tbl)
+
+        # Unsorted row groups: warn
+        df2 = DataFrame(g = ["A", "B", "A"], v = [1, 2, 3])
+        tbl2 = StyledTable(df2)
+        tab_row_group!(tbl2, :g)
+        @test_logs (:warn, r"not sorted") render(tbl2)
+
+        # Well-formed table: no warnings
+        df3 = DataFrame(a = [1, 2], b = [3, 4], g = ["X", "X"])
+        tbl3 = StyledTable(df3)
+        tab_spanner!(tbl3, "AB" => [:a, :b])
+        tab_row_group!(tbl3, :g)
+        @test_logs min_level=Logging.Warn render(tbl3)
+    end
+
 end
