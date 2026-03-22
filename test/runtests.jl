@@ -4,6 +4,7 @@ using DataFrames
 using Test
 using ReferenceTests
 using Colors
+using Logging
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -764,6 +765,100 @@ end
         @test StyledTables._resolve_color(colorant"blue") isa String
         @test startswith(StyledTables._resolve_color(colorant"blue"), "#")
         @test_throws ArgumentError StyledTables._resolve_color(42)
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "_noncontiguous_spanner_gaps" begin
+        display_cols = [:a, :b, :c, :d]
+
+        # Basic gap: :b sits between :a and :c but is not in the spanner
+        s_gap = StyledTables.Spanner("AB", [:a, :c], 1)
+        result = StyledTables._noncontiguous_spanner_gaps([s_gap], display_cols)
+        @test length(result) == 1
+        @test result[1][1] == "AB"
+        @test result[1][2] == [:b]
+
+        # Contiguous spanner: no gap
+        s_ok = StyledTables.Spanner("AB", [:a, :b], 1)
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_ok], display_cols))
+
+        # Single-column spanner: no gap possible
+        s_single = StyledTables.Spanner("A", [:a], 1)
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_single], display_cols))
+
+        # All spanner columns hidden (absent from display_cols): no warning
+        s_hidden = StyledTables.Spanner("XY", [:x, :y], 1)
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_hidden], display_cols))
+
+        # Multiple non-contiguous spanners: both reported
+        s1 = StyledTables.Spanner("AC", [:a, :c], 1)
+        s2 = StyledTables.Spanner("BD", [:b, :d], 1)
+        result2 = StyledTables._noncontiguous_spanner_gaps([s1, s2], display_cols)
+        @test length(result2) == 2
+
+        # Column order in spanner is irrelevant: [:c, :a] same as [:a, :c]
+        s_rev = StyledTables.Spanner("CA", [:c, :a], 1)
+        result3 = StyledTables._noncontiguous_spanner_gaps([s_rev], display_cols)
+        @test length(result3) == 1
+        @test result3[1][2] == [:b]
+
+        # Hiding the gap column makes remaining spanner columns contiguous: no warning
+        display_no_b = [:a, :c, :d]
+        @test isempty(StyledTables._noncontiguous_spanner_gaps([s_gap], display_no_b))
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "_duplicate_group_labels" begin
+        # Unsorted: "A" appears again after "B"
+        df_unsorted = DataFrame(g = ["A", "B", "A"], x = [1, 2, 3])
+        tbl_unsorted = StyledTable(df_unsorted)
+        tab_row_group!(tbl_unsorted, :g)
+        @test StyledTables._duplicate_group_labels(tbl_unsorted) == ["A"]
+
+        # Sorted with adjacent repeats: no duplicates
+        df_sorted = DataFrame(g = ["A", "A", "B", "B"], x = [1, 2, 3, 4])
+        tbl_sorted = StyledTable(df_sorted)
+        tab_row_group!(tbl_sorted, :g)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_sorted))
+
+        # Fully unique: no duplicates
+        df_unique = DataFrame(g = ["A", "B", "C"], x = [1, 2, 3])
+        tbl_unique = StyledTable(df_unique)
+        tab_row_group!(tbl_unique, :g)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_unique))
+
+        # No row_group_col set: returns empty
+        df_no_group = DataFrame(x = [1, 2])
+        tbl_no_group = StyledTable(df_no_group)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_no_group))
+
+        # Adjacent repeated values are not duplicates
+        df_adj = DataFrame(g = ["A", "A", "B"], x = [1, 2, 3])
+        tbl_adj = StyledTable(df_adj)
+        tab_row_group!(tbl_adj, :g)
+        @test isempty(StyledTables._duplicate_group_labels(tbl_adj))
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "render() warnings" begin
+        # Non-contiguous spanner: warn
+        df = DataFrame(x = [1], y = [2], z = [3])
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "XZ" => [:x, :z])
+        @test_logs (:warn, r"gap") render(tbl)
+
+        # Unsorted row groups: warn
+        df2 = DataFrame(g = ["A", "B", "A"], v = [1, 2, 3])
+        tbl2 = StyledTable(df2)
+        tab_row_group!(tbl2, :g)
+        @test_logs (:warn, r"not sorted") render(tbl2)
+
+        # Well-formed table: no warnings
+        df3 = DataFrame(a = [1, 2], b = [3, 4], g = ["X", "X"])
+        tbl3 = StyledTable(df3)
+        tab_spanner!(tbl3, "AB" => [:a, :b])
+        tab_row_group!(tbl3, :g)
+        @test_logs min_level=Logging.Warn render(tbl3)
     end
 
 end

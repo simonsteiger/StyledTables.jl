@@ -39,6 +39,7 @@ function render(tbl::StyledTable)
     end
 
     _validate_spanners(tbl.spanners)
+    _warn_render_issues(tbl, display_cols)
 
     n_cols = length(display_cols)
     has_spanners = !isempty(tbl.spanners)
@@ -220,6 +221,54 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
         end
     end
     return result
+end
+
+# Returns a Vector of (spanner_label, gap_cols) tuples for each spanner
+# whose columns are non-contiguous in display_cols.
+function _noncontiguous_spanner_gaps(spanners, display_cols)
+    results = Vector{Tuple{Any, Vector{Symbol}}}()
+    col_pos = Dict(col => i for (i, col) in enumerate(display_cols))
+    for s in spanners
+        positions = [col_pos[c] for c in s.columns if haskey(col_pos, c)]
+        length(positions) < 2 && continue
+        lo, hi = extrema(positions)
+        gap_cols = [display_cols[p] for p in lo:hi if display_cols[p] ∉ s.columns]
+        isempty(gap_cols) || push!(results, (s.label, gap_cols))
+    end
+    return results
+end
+
+# Returns a Vector of group labels that appear more than once (non-adjacently).
+function _duplicate_group_labels(tbl)
+    tbl.row_group_col === nothing && return String[]
+    vals = string.(tbl.data[!, tbl.row_group_col])
+    seen = Set{String}()
+    dupes = String[]
+    prev = nothing
+    for v in vals
+        if v != prev && v in seen
+            push!(dupes, v)
+        end
+        push!(seen, v)
+        prev = v
+    end
+    return unique(dupes)
+end
+
+function _warn_render_issues(tbl, display_cols)
+    gaps = _noncontiguous_spanner_gaps(tbl.spanners, display_cols)
+    for (label, gap_cols) in gaps
+        n = length(gap_cols)
+        col_str = n == 1 ? "column :$(gap_cols[1])" : "columns $(join((":$c" for c in gap_cols), ", "))"
+        verb = n == 1 ? "lies" : "lie"
+        @warn "Spanner \"$label\" has a gap: $col_str $verb between its outermost spanned columns but are not part of this spanner."
+    end
+
+    dupes = _duplicate_group_labels(tbl)
+    if !isempty(dupes)
+        @warn "Row group column :$(tbl.row_group_col) is not sorted: " *
+              "group label(s) $(join(("\"$d\"" for d in dupes), ", ")) appear more than once."
+    end
 end
 
 function _validate_spanners(spanners::Vector{Spanner})

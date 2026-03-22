@@ -23,22 +23,13 @@ StyledTables adds GT-style formatting to summary tables.
 Tables render to HTML, docx, LaTeX, and Typst.
 It builds on [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), with an API inspired by R's [gt](https://gt.rstudio.com/) package.
 
-## Installation
-
-StyledTables is not yet registered. Install from GitHub:
-
-```julia
-using Pkg
-Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
-```
-
 ## Examples
 
 ```@example index
-using StyledTables, DataFrames, PalmerPenguins, Chain
+using StyledTables, DataFrames, Chain
 using Statistics: mean
 
-df = @chain DataFrame(PalmerPenguins.load()) begin
+df = @chain DataFrame(StyledTables.penguins()) begin
     dropmissing(_)
     groupby(_, [:island, :species])
     combine(_, Cols(r"bill") .=> mean => identity)
@@ -57,4 +48,13 @@ labels = [
 
 cols_label!(tbl, labels)
 render(tbl)
+```
+
+## Installation
+
+StyledTables is not yet registered. Install from GitHub:
+
+```julia
+using Pkg
+Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
 ```
