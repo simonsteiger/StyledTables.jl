@@ -20,7 +20,7 @@ makedocs(;
             "Column Modifiers" => "reference/columns.md",
             "Table Structure" => "reference/structure.md",
             "Annotations" => "reference/annotations.md",
-            "Styling & Options" => "reference/styling.md",
+            "Styling" => "reference/styling.md",
             "Formatting" => "reference/formatting.md",
             "Rendering" => "reference/rendering.md",
         ],

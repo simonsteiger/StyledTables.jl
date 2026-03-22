@@ -38,21 +38,21 @@ underscore-replacement rule:
 df2 = DataFrame(bmi_score = [22.1, 27.4], sbp_mmhg = [118, 135])
 
 tbl = StyledTable(df2)
-cols_label!(tbl) do col
-    titlecase(replace(col, "_" => " "))
-end
+cols_label!(col -> titlecase(replace(col, "_" => " ")), tbl)
 render(tbl)
 ```
 
-Restrict the transformation to a subset of columns with a Symbol or String vector selector:
+Restrict to a subset of columns with a `Symbol`, `String` or `Vector`s thereof:
 
 ```@example columns
 tbl = StyledTable(df2)
-cols_label!(tbl, [:bmi_score]) do col
+cols_label!(tbl, :bmi_score) do col
     titlecase(replace(col, "_" => " "))
 end
 render(tbl)
 ```
+
+More complicated transformations can make use of `do` blocks.
 
 ```@docs
 StyledTables.cols_label!(tbl::StyledTable, args::Pair...)

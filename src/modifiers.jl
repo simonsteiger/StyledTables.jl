@@ -109,14 +109,12 @@ Relabel columns by applying a function to each column name.
 `f(col::String) -> label` receives the column name as a `String` and returns any value
 accepted by the pair form: a `String`, or any `Cell`-compatible value such as `Multiline`.
 
-`f` is the first positional argument so it can be supplied via a do-block.
-
 # Arguments
 
-- `f`: callable mapping a column name `String` to a label value.
+- `f`: function mapping a column name `String` to a label value.
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `columns`: optional column selector. Pass a `Vector{Symbol}` or `Vector{String}` to
-  restrict which columns are relabeled; omit to apply `f` to all columns.
+- `columns`: optional column selector. Pass a `Symbol`, `String`, or a `Vector` of either 
+  to restrict which columns are relabeled; omit to apply `f` to all columns.
 
 # Returns
 
@@ -154,6 +152,9 @@ function cols_label!(f, tbl::StyledTable, columns::AbstractVector{<:AbstractStri
     cols_label!(f, tbl, Symbol.(columns))
     return tbl
 end
+
+cols_label!(f, tbl::StyledTable, column::Symbol) = cols_label!(f, tbl, [column])
+cols_label!(f, tbl::StyledTable, column::AbstractString) = cols_label!(f, tbl, Symbol(column))
 
 function cols_label!(f, tbl::StyledTable)
     cols_label!(f, tbl, Symbol.(names(tbl.data)))
