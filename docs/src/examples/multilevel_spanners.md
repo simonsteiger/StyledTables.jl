@@ -34,6 +34,7 @@ summary = @chain df begin
     unstack(_, :sex_variable, :value)
     transform(_, :island => ByRow(x -> "$x Is.") => identity)
     select(_, :island, :species, male_ordered..., female_ordered...)
+    sort(_, :island)
 end
 ```
 
