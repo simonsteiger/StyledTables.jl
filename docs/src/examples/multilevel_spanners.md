@@ -4,12 +4,13 @@ The following example shows how layouts with several tiers of column spanners ca
 
 ## The data
 
-We will use the [`PalmerPenguins`](https://github.com/devmotion/PalmerPenguins.jl) data.
+We will use the [`PalmerPenguins`](https://allisonhorst.github.io/palmerpenguins/) data.
 
 ```@example penguins
-using DataFrames, PalmerPenguins
+using DataFrames, Chain, StyledTables
+using Statistics: mean
 
-df = DataFrame(PalmerPenguins.load())
+df = DataFrame(StyledTables.penguins())
 
 describe(df)
 ```
@@ -17,9 +18,6 @@ describe(df)
 Our goal is to summarise the data by island, species, and sex. 
 
 ```@example penguins
-using Chain
-using Statistics: mean
-
 bill_cols = [:bill_length_mm, :bill_depth_mm]
 number_cols = [string.(bill_cols)..., "flipper_length_mm"] # , "body_mass_g"
 male_ordered = ["male_" * colname for colname in number_cols]
@@ -46,8 +44,6 @@ Finally, a higher-order column spanner will indicate which measurements are from
 ## Step 1: Row groups
 
 ```@example penguins
-using StyledTables
-
 tbl = StyledTable(summary)
 tab_row_group!(tbl, :island)
 cols_hide!(tbl, :island)
