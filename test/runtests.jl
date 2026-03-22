@@ -574,7 +574,7 @@ end
     end
 
     # -----------------------------------------------------------------------
-    @testset "Base.show methods" begin
+    @testset "MIME show" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])
         tbl = StyledTable(df)
 
@@ -984,6 +984,20 @@ end
         tab_options!(tbl; round_digits = 2, round_mode = :auto, trailing_zeros = true)
         out = sprint(show, tbl)
         @test contains(out, "2 digits (auto) · trailing zeros")
+
+        # cols_align: produces align row
+        tbl = StyledTable(df)
+        cols_align!(tbl, :right, [:a])
+        out = sprint(show, tbl)
+        @test contains(out, "align")
+        @test contains(out, "1 col")
+
+        # Source notes: plural
+        tbl = StyledTable(df)
+        tab_source_note!(tbl, "Source A")
+        tab_source_note!(tbl, "Source B")
+        out = sprint(show, tbl)
+        @test contains(out, "2 sources")
     end
 
 end

@@ -2,8 +2,7 @@
 
 function _truncate20(val)
     s = string(val)
-    chars = collect(s)
-    length(chars) <= 20 ? s : String(chars[1:20]) * "…"
+    length(s) <= 20 ? s : first(s, 20) * "…"
 end
 
 _ncols_str(n) = n == 1 ? "1 col" : "$n cols"
@@ -32,7 +31,7 @@ end
 
 function _spanner_str(spanners::Vector{Spanner})
     total  = length(spanners)
-    levels = sort!(unique(s.level for s in spanners))
+    levels = sort(unique(s.level for s in spanners))
     if length(levels) == 1
         unique_cols = length(reduce(union, s.columns for s in spanners))
         return "$total ($unique_cols cols)"
