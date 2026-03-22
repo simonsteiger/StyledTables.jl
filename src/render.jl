@@ -134,6 +134,10 @@ function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
     if has_fn
         result = tbl.col_style_fns[col](cell_raw)
         if result !== nothing
+            result isa NamedTuple || throw(ArgumentError(                                                                                                                                                                                 
+                "tab_style! function for column :$col must return `nothing` or a NamedTuple, " *
+                "got $(typeof(result)). Did you forget an explicit `nothing` in the else branch? "
+            ))
             for key in keys(result)
                 key in (:color, :bold, :italic, :underline) || throw(ArgumentError(
                     "tab_style! function for column :$col returned NamedTuple with " *

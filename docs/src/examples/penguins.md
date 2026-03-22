@@ -86,3 +86,12 @@ label_dict = Dict(
 cols_label!(tbl, label_dict)
 render(tbl)
 ```
+
+## Step 5: Styling
+
+```@example penguins
+tab_style!(tbl, :female_bill_length_mm) do v
+    all_vals = tbl.data.female_bill_length_mm
+    v == minimum(all_vals) ? (; bold=true, color=:red) : nothing
+end
+```
