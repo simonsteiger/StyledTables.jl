@@ -595,6 +595,100 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "tab_style! reference tests" begin
+        df = DataFrame(
+            label  = ["A", "B", "C"],
+            change = [-0.12, 0.0, 0.34],
+            score  = [0.2, 0.5, 0.9],
+        )
+
+        # Conditional color only
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change) do val
+            val > 0 ? (; color=:green) : val < 0 ? (; color=:red) : nothing
+        end
+        run_reftest(tbl, "references/tab_style/conditional_color")
+
+        # Conditional bold only (no color)
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change) do val
+            val > 0 ? (; bold=true) : nothing
+        end
+        run_reftest(tbl, "references/tab_style/conditional_bold")
+
+        # Composition: static bold baseline + conditional color
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; bold=true) do val
+            val > 0 ? (; color=:green) : val < 0 ? (; color=:red) : nothing
+        end
+        run_reftest(tbl, "references/tab_style/composition_bold_and_color")
+
+        # Function explicitly clears baseline bold on the zero cell
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; bold=true) do val
+            val == 0.0 ? (; bold=nothing) : nothing
+        end
+        run_reftest(tbl, "references/tab_style/clear_baseline_bold")
+
+        # Function explicitly clears baseline color on negative cells
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; color=:green) do val
+            val < 0 ? (; color=nothing) : nothing
+        end
+        run_reftest(tbl, "references/tab_style/clear_baseline_color")
+
+        # Gradient via Colors.jl range
+        GRADIENT = range(colorant"white", stop=colorant"#1a7340", length=100)
+        tbl = StyledTable(df)
+        tab_style!(tbl, :score) do val
+            idx = round(Int, clamp(val, 0.0, 1.0) * 99) + 1
+            (; color=GRADIENT[idx])
+        end
+        run_reftest(tbl, "references/tab_style/gradient")
+
+        # Static Symbol color input
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; color=:blue)
+        run_reftest(tbl, "references/tab_style/static_symbol_color")
+
+        # Static AbstractString color input (CSS name)
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; color="green")
+        run_reftest(tbl, "references/tab_style/static_string_color")
+
+        # Static Colorant input
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; color=colorant"#1a7340")
+        run_reftest(tbl, "references/tab_style/static_colorant")
+
+        # Function returns nothing on all cells; static baseline still applies
+        tbl = StyledTable(df)
+        tab_style!(tbl, :change; color=:blue) do val
+            nothing
+        end
+        run_reftest(tbl, "references/tab_style/fn_nothing_with_baseline")
+
+        # Repeated calls: second function-only call overwrites function, static baseline survives
+        tbl = StyledTable(df)
+        f1 = val -> (; color=:red)
+        f2 = val -> (; color=:green)
+        tab_style!(f1, tbl, :change; bold=true)
+        tab_style!(f2, tbl, :change)
+        @test tbl.col_style_fns[:change] === f2
+        @test tbl.col_styles[:change].bold == true
+        run_reftest(tbl, "references/tab_style/repeated_fn_overwrites")
+
+        # Repeated calls: second static-only call updates style, previous function survives
+        tbl = StyledTable(df)
+        f = val -> (; color=:green)
+        tab_style!(f, tbl, :change; bold=true)
+        tab_style!(tbl, :change; bold=false)
+        @test tbl.col_style_fns[:change] === f
+        @test tbl.col_styles[:change].bold == false
+        run_reftest(tbl, "references/tab_style/repeated_static_overwrites")
+    end
+
+    # -----------------------------------------------------------------------
     @testset "tab_style! render-time errors" begin
         df = DataFrame(x = [1, 2, 3])
 
