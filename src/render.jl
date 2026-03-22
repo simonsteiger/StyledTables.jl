@@ -237,6 +237,23 @@ function _noncontiguous_spanner_gaps(spanners, display_cols)
     return results
 end
 
+# Returns a Vector of group labels that appear more than once (non-adjacently).
+function _duplicate_group_labels(tbl)
+    tbl.row_group_col === nothing && return String[]
+    vals = string.(tbl.data[!, tbl.row_group_col])
+    seen = Set{String}()
+    dupes = String[]
+    prev = nothing
+    for v in vals
+        if v != prev && v in seen
+            push!(dupes, v)
+        end
+        push!(seen, v)
+        prev = v
+    end
+    return unique(dupes)
+end
+
 function _validate_spanners(spanners::Vector{Spanner})
     isempty(spanners) && return
 
