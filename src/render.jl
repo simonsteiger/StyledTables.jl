@@ -39,6 +39,7 @@ function render(tbl::StyledTable)
     end
 
     _validate_spanners(tbl.spanners)
+    _warn_render_issues(tbl, display_cols)
 
     n_cols = length(display_cols)
     has_spanners = !isempty(tbl.spanners)
@@ -252,6 +253,22 @@ function _duplicate_group_labels(tbl)
         prev = v
     end
     return unique(dupes)
+end
+
+function _warn_render_issues(tbl, display_cols)
+    gaps = _noncontiguous_spanner_gaps(tbl.spanners, display_cols)
+    for (label, gap_cols) in gaps
+        n = length(gap_cols)
+        col_str = n == 1 ? "column :$(gap_cols[1])" : "columns $(join((":$c" for c in gap_cols), ", "))"
+        verb = n == 1 ? "lies" : "lie"
+        @warn "Spanner \"$label\" has a gap: $col_str $verb between its outermost spanned columns but are not part of this spanner."
+    end
+
+    dupes = _duplicate_group_labels(tbl)
+    if !isempty(dupes)
+        @warn "Row group column :$(tbl.row_group_col) is not sorted: " *
+              "group label(s) $(join(("\"$d\"" for d in dupes), ", ")) appear more than once."
+    end
 end
 
 function _validate_spanners(spanners::Vector{Spanner})
