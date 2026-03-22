@@ -595,6 +595,25 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "tab_style! render-time errors" begin
+        df = DataFrame(x = [1, 2, 3])
+
+        # Unrecognised NamedTuple key
+        tbl = StyledTable(df)
+        tab_style!(tbl, :x) do val
+            (; color=:red, align=:center)
+        end
+        @test_throws ArgumentError render(tbl)
+
+        # Unsupported color type in function return value
+        tbl2 = StyledTable(df)
+        tab_style!(tbl2, :x) do val
+            (; color=42)
+        end
+        @test_throws ArgumentError render(tbl2)
+    end
+
+    # -----------------------------------------------------------------------
     @testset "_resolve_color" begin
         @test StyledTables._resolve_color(nothing) === nothing
         @test StyledTables._resolve_color(:red) isa String
