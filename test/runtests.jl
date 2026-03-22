@@ -142,6 +142,51 @@ end
     end
 
     # -----------------------------------------------------------------------
+    @testset "cols_label! function form" begin
+        df = DataFrame(first_name = ["Alice", "Bob"], last_name = ["Smith", "Jones"])
+
+        # Reference test 1: uppercase applied to all columns
+        tbl = StyledTable(df)
+        cols_label!(uppercase, tbl)
+        run_reftest(tbl, "references/cols_label/fn_uppercase_all")
+
+        # Reference test 2: do-block with titlecase + underscore replacement, all columns
+        tbl = StyledTable(df)
+        cols_label!(tbl) do col
+            titlecase(replace(col, "_" => " "))
+        end
+        run_reftest(tbl, "references/cols_label/fn_titlecase_all")
+
+        # Reference test 3: Symbol selector — relabel only a subset
+        tbl = StyledTable(df)
+        cols_label!(tbl, [:first_name]) do col
+            titlecase(replace(col, "_" => " "))
+        end
+        run_reftest(tbl, "references/cols_label/fn_symbol_selector")
+
+        # Equality test: String selector produces same output as Symbol selector
+        ref = let t = StyledTable(df)
+            cols_label!(t, [:first_name]) do col
+                titlecase(replace(col, "_" => " "))
+            end
+            html_str(t)
+        end
+        tbl = StyledTable(df)
+        cols_label!(tbl, ["first_name"]) do col
+            titlecase(replace(col, "_" => " "))
+        end
+        @test html_str(tbl) == ref
+
+        # Unit test: unknown column in selector → ArgumentError
+        @test_throws ArgumentError cols_label!(uppercase, StyledTable(df), [:typo])
+
+        # Unit test: empty selector is a silent no-op (no entries written to col_labels)
+        tbl = StyledTable(df)
+        cols_label!(uppercase, tbl, Symbol[])
+        @test isempty(tbl.col_labels)
+    end
+
+    # -----------------------------------------------------------------------
     @testset "cols_align!" begin
         df = DataFrame(x = [1, 2], y = [3, 4])
 

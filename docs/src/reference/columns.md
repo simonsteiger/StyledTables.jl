@@ -31,14 +31,41 @@ cols_label!(tbl,
 render(tbl)
 ```
 
+Apply a function uniformly to all column names — useful for `titlecase`, `uppercase`, or any
+underscore-replacement rule:
+
+```@example columns
+df2 = DataFrame(bmi_score = [22.1, 27.4], sbp_mmhg = [118, 135])
+
+tbl = StyledTable(df2)
+cols_label!(col -> titlecase(replace(col, "_" => " ")), tbl)
+render(tbl)
+```
+
+Restrict to a subset of columns with a `Symbol`, `String` or `Vector`s thereof:
+
+```@example columns
+tbl = StyledTable(df2)
+cols_label!(tbl, :bmi_score) do col
+    titlecase(replace(col, "_" => " "))
+end
+render(tbl)
+```
+
+More complicated transformations can make use of `do` blocks.
+
 ```@docs
 StyledTables.cols_label!(tbl::StyledTable, args::Pair...)
 ```
 
 ```@docs
-StyledTables.cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
-    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol}, 
+StyledTables.cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}},
+    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol},
     AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
+```
+
+```@docs
+StyledTables.cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
 ```
 
 ---
