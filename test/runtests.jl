@@ -569,7 +569,7 @@ end
         fmt!(x -> "≈$(round(Int, x))", tbl, :x)
         run_reftest(tbl, "references/fmt/custom")
 
-        @test_throws ArgumentError fmt!(StyledTable(df), :nonexistent, identity)
+        @test_throws ArgumentError fmt!(identity, StyledTable(df), :nonexistent)
     end
 
     # -----------------------------------------------------------------------
