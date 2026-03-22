@@ -151,8 +151,9 @@ function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
         end
     end
 
-    color === nothing && bold === nothing && italic === nothing && underline === nothing &&
+    if color === nothing && bold === nothing && italic === nothing && underline === nothing
         return formatted
+    end
     return SummaryTables.Styled(formatted; color, bold, italic, underline)
 end
 
