@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Formatting | StyledTables.jl</title>
+    <meta name="description" content="Documentation for StyledTables.jl">
+    <meta name="generator" content="VitePress v1.6.4">
+    <link rel="preload stylesheet" href="/StyledTables.jl/previews/PR14/assets/style.LMgsF_kB.css" as="style">
+    <link rel="preload stylesheet" href="/StyledTables.jl/previews/PR14/vp-icons.css" as="style">
+    
+    <script type="module" src="/StyledTables.jl/previews/PR14/assets/app.BJzWPg4m.js"></script>
+    <link rel="preload" href="/StyledTables.jl/previews/PR14/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR14/assets/chunks/theme.BBLz-hhM.js">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR14/assets/chunks/framework.BIBj-VWg.js">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR14/assets/reference_formatting.md.EzgFSeqr.lean.js">
+    <link rel="icon" href="/StyledTables.jl/previews/PR14/favicon.ico">
+    <script src="/StyledTables.jl/versions.js"></script>
+    <script src="/StyledTables.jl/previews/PR14/siteinfo.js"></script>
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+  </head>
+  <body>
+    <div id="app"><div class="Layout" data-v-a9a9e638><!--[--><!--]--><!--[--><span tabindex="-1" data-v-492508fc></span><a href="#VPContent" class="VPSkipLink visually-hidden" data-v-492508fc>Skip to content</a><!--]--><!----><header class="VPNav" data-v-a9a9e638 data-v-f1e365da><div class="VPNavBar" data-v-f1e365da data-v-822684d1><div class="wrapper" data-v-822684d1><div class="container" data-v-822684d1><div class="title" data-v-822684d1><div class="VPNavBarTitle has-sidebar" data-v-822684d1 data-v-0f4f798b><a class="title" href="/StyledTables.jl/previews/PR14/" data-v-0f4f798b><!--[--><!--]--><!--[--><img class="VPImage logo" src="/StyledTables.jl/previews/PR14/logo.svg" width="24" height="24" alt data-v-35a7d0b8><!--]--><span data-v-0f4f798b>StyledTables.jl</span><!--[--><!--]--></a></div></div><div class="content" data-v-822684d1><div class="content-body" data-v-822684d1><!--[--><!--]--><div class="VPNavBarSearch search" data-v-822684d1><!--[--><!----><div id="local-search"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search"><span class="DocSearch-Button-Container"><span class="vp-icon DocSearch-Search-Icon"></span><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"><kbd class="DocSearch-Button-Key"></kbd><kbd class="DocSearch-Button-Key">K</kbd></span></button></div><!--]--></div><nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu menu" data-v-822684d1 data-v-e6d46098><span id="main-nav-aria-label" class="visually-hidden" data-v-e6d46098> Main Navigation </span><!--[--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/StyledTables.jl/previews/PR14/index" tabindex="0" data-v-e6d46098 data-v-956ec74c><!--[--><span data-v-956ec74c>Home</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/StyledTables.jl/previews/PR14/getting_started" tabindex="0" data-v-e6d46098 data-v-956ec74c><!--[--><span data-v-956ec74c>Getting Started</span><!--]--></a><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup active" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Reference</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/reference/columns" data-v-acbfed09><!--[--><span data-v-acbfed09>Column Modifiers</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/reference/structure" data-v-acbfed09><!--[--><span data-v-acbfed09>Table Structure</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/reference/annotations" data-v-acbfed09><!--[--><span data-v-acbfed09>Annotations</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/reference/styling" data-v-acbfed09><!--[--><span data-v-acbfed09>Styling</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link active" href="/StyledTables.jl/previews/PR14/reference/formatting" data-v-acbfed09><!--[--><span data-v-acbfed09>Formatting</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/reference/rendering" data-v-acbfed09><!--[--><span data-v-acbfed09>Rendering</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Examples</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuGroup" data-v-7dd3104a data-v-48c802d0><p class="title" data-v-48c802d0>Basic use</p><!--[--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/examples/cars" data-v-acbfed09><!--[--><span data-v-acbfed09>Sports Cars Table</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/examples/clinical" data-v-acbfed09><!--[--><span data-v-acbfed09>Clinical Demographics</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/examples/report" data-v-acbfed09><!--[--><span data-v-acbfed09>Quarterly Report</span><!--]--></a></div><!--]--><!--]--></div><!--]--><!--[--><div class="VPMenuGroup" data-v-7dd3104a data-v-48c802d0><p class="title" data-v-48c802d0>Advanced options</p><!--[--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/examples/multilevel_spanners" data-v-acbfed09><!--[--><span data-v-acbfed09>Multilevel spanners</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/examples/color_gradients" data-v-acbfed09><!--[--><span data-v-acbfed09>Color gradients</span><!--]--></a></div><!--]--><!--]--></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Resources</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR14/resources/api" data-v-acbfed09><!--[--><span data-v-acbfed09>API</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><!----><!--]--><!--]--></nav><!----><div class="VPNavBarAppearance appearance" data-v-822684d1 data-v-af096f4a><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-af096f4a data-v-e40a8bb6 data-v-4a1c76db><span class="check" data-v-4a1c76db><span class="icon" data-v-4a1c76db><!--[--><span class="vpi-sun sun" data-v-e40a8bb6></span><span class="vpi-moon moon" data-v-e40a8bb6></span><!--]--></span></span></button></div><div class="VPSocialLinks VPNavBarSocialLinks social-links" data-v-822684d1 data-v-164c457f data-v-ee7a9424><!--[--><a class="VPSocialLink no-icon" href="https://github.com/simonsteiger/StyledTables.jl" aria-label="github" target="_blank" rel="noopener" data-v-ee7a9424 data-v-d26d30cb><span class="vpi-social-github"></span></a><!--]--></div><div class="VPFlyout VPNavBarExtra extra" data-v-822684d1 data-v-925effce data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" aria-label="extra navigation" data-v-04f5c5e9><span class="vpi-more-horizontal icon" data-v-04f5c5e9></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><!----><!--[--><!--[--><!----><div class="group" data-v-925effce><div class="item appearance" data-v-925effce><p class="label" data-v-925effce>Appearance</p><div class="appearance-action" data-v-925effce><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-925effce data-v-e40a8bb6 data-v-4a1c76db><span class="check" data-v-4a1c76db><span class="icon" data-v-4a1c76db><!--[--><span class="vpi-sun sun" data-v-e40a8bb6></span><span class="vpi-moon moon" data-v-e40a8bb6></span><!--]--></span></span></button></div></div></div><div class="group" data-v-925effce><div class="item social-links" data-v-925effce><div class="VPSocialLinks social-links-list" data-v-925effce data-v-ee7a9424><!--[--><a class="VPSocialLink no-icon" href="https://github.com/simonsteiger/StyledTables.jl" aria-label="github" target="_blank" rel="noopener" data-v-ee7a9424 data-v-d26d30cb><span class="vpi-social-github"></span></a><!--]--></div></div></div><!--]--><!--]--></div></div></div><!--[--><!--[--><!--[--><div class="VPFlyout VPNolebaseEnhancedReadabilitiesMenu VPNolebaseEnhancedReadabilitiesMenuFlyout" aria-label="Enhanced Readability" role="menuitem" data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><span class="i-icon-park-outline:book-open option-icon" data-v-04f5c5e9></span><!----><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><!----><!--[--><!--]--></div></div></div><!--]--><!--]--><!--]--><button type="button" class="VPNavBarHamburger hamburger" aria-label="mobile navigation" aria-expanded="false" aria-controls="VPNavScreen" data-v-822684d1 data-v-5dea55bf><span class="container" data-v-5dea55bf><span class="top" data-v-5dea55bf></span><span class="middle" data-v-5dea55bf></span><span class="bottom" data-v-5dea55bf></span></span></button></div></div></div></div><div class="divider" data-v-822684d1><div class="divider-line" data-v-822684d1></div></div></div><!----></header><div class="VPLocalNav has-sidebar empty" data-v-a9a9e638 data-v-070ab83d><div class="container" data-v-070ab83d><button class="menu" aria-expanded="false" aria-controls="VPSidebarNav" data-v-070ab83d><span class="vpi-align-left menu-icon" data-v-070ab83d></span><span class="menu-text" data-v-070ab83d>Menu</span></button><div class="VPLocalNavOutlineDropdown" style="--vp-vh:0px;" data-v-070ab83d data-v-168ddf5d><button data-v-168ddf5d>Return to top</button><!----></div></div></div><aside class="VPSidebar" data-v-a9a9e638 data-v-18756405><div class="curtain" data-v-18756405></div><nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1" data-v-18756405><span class="visually-hidden" id="sidebar-aria-label" data-v-18756405> Sidebar Navigation </span><!--[--><!--]--><!--[--><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0" data-v-9e426adc data-v-a4b0d9bf><!----><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/index" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Home</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/getting_started" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Getting Started</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible has-active" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Reference</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/reference/columns" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Column Modifiers</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/reference/structure" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Table Structure</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/reference/annotations" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Annotations</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/reference/styling" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Styling</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/reference/formatting" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Formatting</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/reference/rendering" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Rendering</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Examples</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><section class="VPSidebarItem level-1 collapsible" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h3 class="text" data-v-a4b0d9bf>Basic use</h3><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/examples/cars" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Sports Cars Table</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/examples/clinical" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Clinical Demographics</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/examples/report" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Quarterly Report</p><!--]--></a><!----></div><!----></div><!--]--></div></section><section class="VPSidebarItem level-1 collapsible" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h3 class="text" data-v-a4b0d9bf>Advanced options</h3><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/examples/multilevel_spanners" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Multilevel spanners</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/examples/color_gradients" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Color gradients</p><!--]--></a><!----></div><!----></div><!--]--></div></section><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Resources</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR14/resources/api" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>API</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><!--]--><!--[--><!--]--></nav></aside><div class="VPContent has-sidebar" id="VPContent" data-v-a9a9e638 data-v-91765379><div class="VPDoc has-sidebar has-aside" data-v-91765379 data-v-83890dd9><!--[--><!--]--><div class="container" data-v-83890dd9><div class="aside" data-v-83890dd9><div class="aside-curtain" data-v-83890dd9></div><div class="aside-container" data-v-83890dd9><div class="aside-content" data-v-83890dd9><div class="VPDocAside" data-v-83890dd9 data-v-6d7b3c46><!--[--><!--]--><!--[--><!--]--><nav aria-labelledby="doc-outline-aria-label" class="VPDocAsideOutline" data-v-6d7b3c46 data-v-b38bf2ff><div class="content" data-v-b38bf2ff><div class="outline-marker" data-v-b38bf2ff></div><div aria-level="2" class="outline-title" id="doc-outline-aria-label" role="heading" data-v-b38bf2ff>On this page</div><ul class="VPDocOutlineItem root" data-v-b38bf2ff data-v-3f927ebe><!--[--><!--]--></ul></div></nav><!--[--><!--]--><div class="spacer" data-v-6d7b3c46></div><!--[--><!--]--><!----><!--[--><!--]--><!--[--><!--]--></div></div></div></div><div class="content" data-v-83890dd9><div class="content-container" data-v-83890dd9><!--[--><!--]--><main class="main" data-v-83890dd9><div style="position:relative;" class="vp-doc _StyledTables_jl_previews_PR14_reference_formatting" data-v-83890dd9><div><h1 id="Formatting" tabindex="-1">Formatting <a class="header-anchor" href="#Formatting" aria-label="Permalink to &quot;Formatting {#Formatting}&quot;">​</a></h1><p>Formatters convert raw cell values to display strings <strong>before</strong> styling is applied. Each formatter applies to one or more columns.</p><blockquote><p><code>fmt_*</code> functions leave the underlying <code>DataFrame</code> unchanged — they affect only the rendered output.</p></blockquote><hr><h2 id="fmt_number!" tabindex="-1"><code>fmt_number!</code> <a class="header-anchor" href="#fmt_number!" aria-label="Permalink to &quot;`fmt_number!` {#fmt_number!}&quot;">​</a></h2><p>Format to a fixed number of decimal places.</p><p><strong>Signature:</strong> <code>fmt_number!(tbl, cols; digits=2, trailing_zeros=true)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(x </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1.2345</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">6.789</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">], y </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">100.0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.001</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_number!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:x</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 3</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_number!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:y</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-d7f652b3">
+    <style>
+        #st-d7f652b3 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-d7f652b3 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-d7f652b3 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-d7f652b3 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-d7f652b3 sub {
+            line-height: 0;
+        }
+        #st-d7f652b3 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">x</td>
+        <td style="font-weight:bold;text-align:left;">y</td>
+    </tr>
+        <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">1.234</td>
+        <td style="text-align:left;">100.00</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">6.789</td>
+        <td style="text-align:left;">0.00</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.fmt_number!" href="#StyledTables.fmt_number!"><span class="jlbinding">StyledTables.fmt_number!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_number!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    cols;</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    digits,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    trailing_zeros</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Any</span></span></code></pre></div><p>Format values in <code>cols</code> to a fixed number of decimal places.</p><p><strong>Arguments</strong></p><ul><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR14/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>cols</code>: column name(s) to format — a single <code>Symbol</code> or an <code>AbstractVector{Symbol}</code>.</p></li></ul><p><strong>Keywords</strong></p><ul><li><p><code>digits</code>: number of decimal places (default <code>2</code>).</p></li><li><p><code>trailing_zeros</code>: keep trailing zeros (default <code>true</code>).</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_percent!"><code>fmt_percent!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_integer!"><code>fmt_integer!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt!"><code>fmt!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/styling#tab_options!"><code>tab_options!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_number!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:x</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/7ba626a52e22d1830ea27514f7a81bc90200a5fb/src/fmt.jl#L30" target="_blank" rel="noreferrer">source</a><!--]--></span></details><hr><h2 id="fmt_percent!" tabindex="-1"><code>fmt_percent!</code> <a class="header-anchor" href="#fmt_percent!" aria-label="Permalink to &quot;`fmt_percent!` {#fmt_percent!}&quot;">​</a></h2><p>Multiply by <code>scale</code> (default <code>100</code>) and append <code>suffix</code> (default <code>&quot;%&quot;</code>).</p><p><strong>Signature:</strong> <code>fmt_percent!(tbl, cols; digits=1, scale=100, suffix=&quot;%&quot;)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(rate </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.123</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.456</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.789</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_percent!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:rate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-04268ea9">
+    <style>
+        #st-04268ea9 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-04268ea9 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-04268ea9 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-04268ea9 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-04268ea9 sub {
+            line-height: 0;
+        }
+        #st-04268ea9 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">rate</td>
+    </tr>
+        <tr><td colspan="1" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">12.3%</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">45.6%</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">78.9%</td>
+    </tr>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><p>For already-scaled values (e.g., 12.3 stored as 12.3%):</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df2 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(rate </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">12.3</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">45.6</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">78.9</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df2)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_percent!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:rate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, scale </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-04268ea9">
+    <style>
+        #st-04268ea9 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-04268ea9 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-04268ea9 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-04268ea9 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-04268ea9 sub {
+            line-height: 0;
+        }
+        #st-04268ea9 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">rate</td>
+    </tr>
+        <tr><td colspan="1" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">12.3%</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">45.6%</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">78.9%</td>
+    </tr>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.fmt_percent!" href="#StyledTables.fmt_percent!"><span class="jlbinding">StyledTables.fmt_percent!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_percent!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    cols;</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    digits,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    scale,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    suffix</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Any</span></span></code></pre></div><p>Format values in <code>cols</code> as percentage strings.</p><p>Multiplies each value by <code>scale</code>, formats to <code>digits</code> decimal places, and appends <code>suffix</code>.</p><p><strong>Arguments</strong></p><ul><li><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR14/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</li></ul><p><strong>Keywords</strong></p><ul><li><p><code>digits</code>: decimal places for the percentage (default <code>1</code>).</p></li><li><p><code>scale</code>: multiplier applied before formatting (default <code>100</code>).</p></li><li><p><code>suffix</code>: string appended after the number (default <code>&quot;%&quot;</code>).</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_number!"><code>fmt_number!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_integer!"><code>fmt_integer!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt!"><code>fmt!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_percent!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:rate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/7ba626a52e22d1830ea27514f7a81bc90200a5fb/src/fmt.jl#L72" target="_blank" rel="noreferrer">source</a><!--]--></span></details><hr><h2 id="fmt_integer!" tabindex="-1"><code>fmt_integer!</code> <a class="header-anchor" href="#fmt_integer!" aria-label="Permalink to &quot;`fmt_integer!` {#fmt_integer!}&quot;">​</a></h2><p>Round to the nearest integer and display without a decimal point.</p><p><strong>Signature:</strong> <code>fmt_integer!(tbl, cols)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(count </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">12.6</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">7.2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">100.9</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_integer!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:count</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-f7d85d67">
+    <style>
+        #st-f7d85d67 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-f7d85d67 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-f7d85d67 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-f7d85d67 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-f7d85d67 sub {
+            line-height: 0;
+        }
+        #st-f7d85d67 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">count</td>
+    </tr>
+        <tr><td colspan="1" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">13</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">7</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">101</td>
+    </tr>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.fmt_integer!" href="#StyledTables.fmt_integer!"><span class="jlbinding">StyledTables.fmt_integer!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_integer!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, cols) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Any</span></span></code></pre></div><p>Round values in <code>cols</code> to the nearest integer and format without a decimal point.</p><p><strong>Arguments</strong></p><ul><li><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR14/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_number!"><code>fmt_number!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_percent!"><code>fmt_percent!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt!"><code>fmt!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_integer!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:count</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/7ba626a52e22d1830ea27514f7a81bc90200a5fb/src/fmt.jl#L109" target="_blank" rel="noreferrer">source</a><!--]--></span></details><hr><h2 id="fmt!" tabindex="-1"><code>fmt!</code> <a class="header-anchor" href="#fmt!" aria-label="Permalink to &quot;`fmt!` {#fmt!}&quot;">​</a></h2><p>Apply a custom formatter function.</p><p><strong>Signature:</strong> <code>fmt!(f, tbl, cols)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(p_value </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.032</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.001</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.245</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:p_value</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">do</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> pval</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    pval </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0.05</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> ?</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;&lt; 0.05&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> :</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;n.s.&quot;</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">end</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-d9e84e8e">
+    <style>
+        #st-d9e84e8e {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-d9e84e8e tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-d9e84e8e tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-d9e84e8e br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-d9e84e8e sub {
+            line-height: 0;
+        }
+        #st-d9e84e8e sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">p_value</td>
+    </tr>
+        <tr><td colspan="1" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">&lt; 0.05</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">&lt; 0.05</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">n.s.</td>
+    </tr>
+    <tr><td colspan="1" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><p>Apply one formatter to multiple columns:</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(a </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1.0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">2.0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">], b </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">3.0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">4.0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:a</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:b</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">do</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> x</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    &quot;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$(round(Int, x))</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> pts&quot;</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">end</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-de309a8c">
+    <style>
+        #st-de309a8c {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-de309a8c tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-de309a8c tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-de309a8c br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-de309a8c sub {
+            line-height: 0;
+        }
+        #st-de309a8c sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">a</td>
+        <td style="font-weight:bold;text-align:left;">b</td>
+    </tr>
+        <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">1 pts</td>
+        <td style="text-align:left;">3 pts</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">2 pts</td>
+        <td style="text-align:left;">4 pts</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.fmt!" href="#StyledTables.fmt!"><span class="jlbinding">StyledTables.fmt!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(f, tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, cols) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTable</span></span></code></pre></div><p>Apply a custom formatter function to values in <code>cols</code>.</p><p><code>f</code> receives the raw cell value and returns a display-ready value. Return <code>x</code> unchanged for <code>missing</code> to let <a href="/StyledTables.jl/previews/PR14/reference/styling#sub_missing!"><code>sub_missing!</code></a> handle it.</p><p><strong>Arguments</strong></p><ul><li><p><code>f</code>: formatter: <code>f(value) -&gt; Any</code>.</p></li><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR14/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>cols</code>: column name(s) to format.</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_number!"><code>fmt_number!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_percent!"><code>fmt_percent!</code></a>, <a href="/StyledTables.jl/previews/PR14/reference/formatting#fmt_integer!"><code>fmt_integer!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(x </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;≈</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$(round(Int, x))</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, tbl, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:x</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/7ba626a52e22d1830ea27514f7a81bc90200a5fb/src/fmt.jl#L137" target="_blank" rel="noreferrer">source</a><!--]--></span></details></div></div></main><footer class="VPDocFooter" data-v-83890dd9 data-v-4f9813fa><!--[--><!--]--><div class="edit-info" data-v-4f9813fa><div class="edit-link" data-v-4f9813fa><a class="VPLink link vp-external-link-icon no-icon edit-link-button" href="https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/reference/formatting.md" target="_blank" rel="noreferrer" data-v-4f9813fa><!--[--><span class="vpi-square-pen edit-link-icon" data-v-4f9813fa></span> Edit this page<!--]--></a></div><!----></div><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-4f9813fa><span class="visually-hidden" id="doc-footer-aria-label" data-v-4f9813fa>Pager</span><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link prev" href="/StyledTables.jl/previews/PR14/reference/styling" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Previous page</span><span class="title" data-v-4f9813fa>Styling</span><!--]--></a></div><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link next" href="/StyledTables.jl/previews/PR14/reference/rendering" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Next page</span><span class="title" data-v-4f9813fa>Rendering</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter has-sidebar" data-v-a9a9e638 data-v-c970a860><div class="container" data-v-c970a860><p class="message" data-v-c970a860>Made with <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/" target="_blank"><strong>DocumenterVitepress.jl</strong></a><br></p><p class="copyright" data-v-c970a860>© Copyright 2026.</p></div></footer><!--[--><!--]--></div></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"examples_cars.md\":\"fUST9kDs\",\"examples_clinical.md\":\"DDa5qftW\",\"examples_color_gradients.md\":\"D7xZOdee\",\"examples_multilevel_spanners.md\":\"zZ1XQV-d\",\"examples_report.md\":\"BO80I90M\",\"getting_started.md\":\"ByUhNmrv\",\"index.md\":\"BnaNBtbD\",\"reference_annotations.md\":\"C0TAHsrZ\",\"reference_columns.md\":\"TfRHLr4l\",\"reference_formatting.md\":\"EzgFSeqr\",\"reference_rendering.md\":\"oLkFogfW\",\"reference_structure.md\":\"z1obNwZa\",\"reference_styling.md\":\"C0MfPv7C\",\"resources_api.md\":\"UWttOGBu\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"StyledTables.jl\",\"description\":\"Documentation for StyledTables.jl\",\"base\":\"/StyledTables.jl/previews/PR14/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"outline\":\"deep\",\"logo\":{\"src\":\"/logo.svg\",\"width\":24,\"height\":24},\"search\":{\"provider\":\"local\",\"options\":{\"detailedView\":true}},\"nav\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/columns\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"API\",\"link\":\"/resources/api\"}]},{\"component\":\"VersionPicker\"}],\"sidebar\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/columns\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"API\",\"link\":\"/resources/api\"}]}],\"editLink\":{\"pattern\":\"https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/:path\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/simonsteiger/StyledTables.jl\"}],\"footer\":{\"message\":\"Made with <a href=\\\"https://luxdl.github.io/DocumenterVitepress.jl/dev/\\\" target=\\\"_blank\\\"><strong>DocumenterVitepress.jl</strong></a><br>\",\"copyright\":\"© Copyright 2026.\"}},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
+    
+  </body>
+</html>
