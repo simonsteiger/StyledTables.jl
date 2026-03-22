@@ -9,6 +9,7 @@ include("types.jl")
 include("modifiers.jl")
 include("fmt.jl")
 include("render.jl")
+include("show.jl")
 include("testdata.jl")
 
 export StyledTable

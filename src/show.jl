@@ -1,0 +1,1 @@
+# Display logic for StyledTable
