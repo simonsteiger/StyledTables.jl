@@ -566,10 +566,10 @@ end
         df = DataFrame(x = [1.0, 2.0])
 
         tbl = StyledTable(df)
-        fmt!(tbl, [:x], x -> "≈$(round(Int, x))")
+        fmt!(x -> "≈$(round(Int, x))", tbl, :x)
         run_reftest(tbl, "references/fmt/custom")
 
-        @test_throws ArgumentError fmt!(StyledTable(df), [:nonexistent], identity)
+        @test_throws ArgumentError fmt!(identity, StyledTable(df), :nonexistent)
     end
 
     # -----------------------------------------------------------------------

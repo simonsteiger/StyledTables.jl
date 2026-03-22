@@ -2,8 +2,6 @@
 
 These functions control high-level layout: column spanners, the stub (row-label) column, and row groups.
 
----
-
 ## `tab_spanner!`
 
 Add a spanning header above a group of columns.

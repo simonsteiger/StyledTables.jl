@@ -83,13 +83,15 @@ StyledTables.fmt_integer!
 
 Apply a custom formatter function.
 
-**Signature:** `fmt!(tbl, cols, f::Function)`
+**Signature:** `fmt!(f, tbl, cols)`
 
 ```@example formatting
 df = DataFrame(p_value = [0.032, 0.001, 0.245])
 
 tbl = StyledTable(df)
-fmt!(tbl, :p_value, x -> x < 0.05 ? "$(round(x; digits=3))*" : string(round(x; digits=3)))
+fmt!(tbl, :p_value) do pval
+    pval < 0.05 ? "< 0.05" : "n.s."
+end
 render(tbl)
 ```
 
@@ -99,7 +101,9 @@ Apply one formatter to multiple columns:
 df = DataFrame(a = [1.0, 2.0], b = [3.0, 4.0])
 
 tbl = StyledTable(df)
-fmt!(tbl, [:a, :b], x -> "$(Int(x)) pts")
+fmt!(tbl, [:a, :b]) do x
+    "$(round(Int, x)) pts"
+end
 render(tbl)
 ```
 

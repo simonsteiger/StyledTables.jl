@@ -25,11 +25,15 @@ makedocs(;
             "Rendering" => "reference/rendering.md",
         ],
         "Examples" => [
-            "Overview" => "examples/index.md",
-            "Multilevel spanners" => "examples/penguins.md",
-            "Sports Cars Table" => "examples/cars.md",
-            "Clinical Demographics" => "examples/clinical.md",
-            "Quarterly Report" => "examples/report.md",
+            "Basic use" => [
+                "Sports Cars Table" => "examples/cars.md",
+                "Clinical Demographics" => "examples/clinical.md",
+                "Quarterly Report" => "examples/report.md",
+            ],
+            "Advanced options" => [
+                "Multilevel spanners" => "examples/multilevel_spanners.md",
+                "Color gradients" => "examples/color_gradients.md",
+            ],
         ],
         "Resources" => [
             "API" => "resources/api.md",

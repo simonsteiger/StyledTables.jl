@@ -1,7 +1,5 @@
 # Styling and Options
 
----
-
 ## `tab_style!`
 
 Apply inline styling to body cells in the specified columns. Colors are hex strings (`"#RRGGBB"`).

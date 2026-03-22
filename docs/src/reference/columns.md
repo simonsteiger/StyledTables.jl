@@ -2,8 +2,6 @@
 
 These functions control column display names, alignment, and visibility.
 
----
-
 ## `cols_label!`
 
 Rename one or more columns for display. The underlying `DataFrame` is unchanged.

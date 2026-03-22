@@ -53,8 +53,9 @@ render(tbl)
 Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.
 
 ```@example cars
-fmt!(tbl, :msrp_eur, 
-    x -> replace(string(x), r"(\d)(?=(\d{3})+$)" => s"\1,") * "€")
+fmt!(tbl, :msrp_eur) do x
+    replace(string(x), r"(\d)(?=(\d{3})+$)" => s"\1,") * "€"
+end
 cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])
 tab_style!(tbl, :msrp_eur; bold = true)
 tab_footnote!(tbl, "City/highway combined estimate"; columns = [:mpg])
