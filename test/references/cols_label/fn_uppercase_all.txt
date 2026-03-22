@@ -1,0 +1,46 @@
+<table id="st-25bb7833">
+    <style>
+        #st-25bb7833 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-25bb7833 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-25bb7833 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-25bb7833 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-25bb7833 sub {
+            line-height: 0;
+        }
+        #st-25bb7833 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">FIRST_NAME</td>
+        <td style="font-weight:bold;text-align:left;">LAST_NAME</td>
+    </tr>
+        <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Alice</td>
+        <td style="text-align:left;">Smith</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Bob</td>
+        <td style="text-align:left;">Jones</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table>

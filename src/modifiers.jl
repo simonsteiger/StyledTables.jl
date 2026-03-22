@@ -104,6 +104,65 @@ end
 """
 $TYPEDSIGNATURES
 
+Relabel columns by applying a function to each column name.
+
+`f(col::String) -> label` receives the column name as a `String` and returns any value
+accepted by the pair form: a `String`, or any `Cell`-compatible value such as `Multiline`.
+
+`f` is the first positional argument so it can be supplied via a do-block.
+
+# Arguments
+
+- `f`: callable mapping a column name `String` to a label value.
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `columns`: optional column selector. Pass a `Vector{Symbol}` or `Vector{String}` to
+  restrict which columns are relabeled; omit to apply `f` to all columns.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
+
+# Examples
+
+```julia
+# Apply uppercase to every column header
+tbl = StyledTable(df)
+cols_label!(uppercase, tbl)
+
+# do-block: titlecase + underscore removal for selected columns
+tbl = StyledTable(df)
+cols_label!(tbl, [:bmi_score, :sbp_mmhg]) do col
+    titlecase(replace(col, "_" => " "))
+end
+render(tbl)
+```
+"""
+function cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
+    colnames = Symbol.(names(tbl.data))
+    for col in columns
+        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+    end
+    for col in columns
+        tbl.col_labels[col] = f(string(col))
+    end
+    return tbl
+end
+
+function cols_label!(f, tbl::StyledTable, columns::AbstractVector{<:AbstractString})
+    cols_label!(f, tbl, Symbol.(columns))
+    return tbl
+end
+
+function cols_label!(f, tbl::StyledTable)
+    cols_label!(f, tbl, Symbol.(names(tbl.data)))
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
 Set horizontal alignment for one or more columns.
 
 # Arguments
