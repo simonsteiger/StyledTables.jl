@@ -33,6 +33,7 @@ df = @chain DataFrame(StyledTables.penguins()) begin
     dropmissing(_)
     groupby(_, [:island, :species])
     combine(_, Cols(r"bill") .=> mean => identity)
+    sort(_, :island)
 end
 
 tbl = StyledTable(df)
