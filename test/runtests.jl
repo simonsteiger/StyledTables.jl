@@ -190,6 +190,22 @@ end
         tbl = StyledTable(df)
         cols_label!(uppercase, tbl, Symbol[])
         @test isempty(tbl.col_labels)
+
+        # Scalar Symbol selector — delegates to vector form
+        let df = DataFrame(first_name = ["Alice"], last_name = ["Smith"])
+            tbl = StyledTable(df)
+            cols_label!(uppercase, tbl, :first_name)
+            @test tbl.col_labels[:first_name] == "FIRST_NAME"
+            @test !haskey(tbl.col_labels, :last_name)
+        end
+
+        # Scalar String selector — delegates to Symbol then vector form
+        let df = DataFrame(first_name = ["Alice"], last_name = ["Smith"])
+            tbl = StyledTable(df)
+            cols_label!(uppercase, tbl, "first_name")
+            @test tbl.col_labels[:first_name] == "FIRST_NAME"
+            @test !haskey(tbl.col_labels, :last_name)
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -627,6 +643,14 @@ end
         run_reftest(tbl, "references/tab_options/sigdigits_trailing")
 
         @test_throws ArgumentError tab_options!(StyledTable(df), round_mode = :invalid)
+
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_mode = :auto)
+        run_reftest(tbl, "references/tab_options/round_auto")
+
+        tbl = StyledTable(df)
+        tab_options!(tbl; round_digits = 2, trailing_zeros = false)
+        run_reftest(tbl, "references/tab_options/trailing_zeros_false")
     end
 
     # -----------------------------------------------------------------------
