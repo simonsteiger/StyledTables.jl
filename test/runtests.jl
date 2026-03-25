@@ -355,24 +355,24 @@ end
         # Error: non-contiguous levels (1 and 3, no level 2)
         @test_throws ArgumentError begin
             tbl = StyledTable(df)
-            tab_spanner!(tbl, "A"; columns = [:bill_len], level = 1)
-            tab_spanner!(tbl, "B"; columns = [:bill_depth], level = 3)
+            tab_spanner!(tbl, "A" => [:bill_len]; level = 1)
+            tab_spanner!(tbl, "B" => [:bill_depth]; level = 3)
             render(tbl)
         end
 
         # Error: same-level partial overlap
         @test_throws ArgumentError begin
             tbl = StyledTable(df)
-            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth])
-            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len])
+            tab_spanner!(tbl, "A" => [:bill_len, :bill_depth])
+            tab_spanner!(tbl, "B" => [:bill_depth, :flipper_len])
             render(tbl)
         end
 
         # Error: cross-level partial overlap
         @test_throws ArgumentError begin
             tbl = StyledTable(df)
-            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth, :flipper_len])
-            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len, :body_mass], level = 2)
+            tab_spanner!(tbl, "A" => [:bill_len, :bill_depth, :flipper_len])
+            tab_spanner!(tbl, "B" => [:bill_depth, :flipper_len, :body_mass]; level = 2)
             render(tbl)
         end
 
@@ -1029,15 +1029,15 @@ end
 
         # Spanners: single level shows count and col count
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Group"; columns = [:a, :b])
+        tab_spanner!(tbl, "Group" => [:a, :b])
         out = sprint(show, tbl)
         @test contains(out, "span")
         @test contains(out, "1 (2 cols)")
 
         # Spanners: multiple levels show per-level breakdown
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "L1a"; columns = [:a, :b], level = 1)
-        tab_spanner!(tbl, "L2";  columns = [:a, :b, :c], level = 2)
+        tab_spanner!(tbl, "L1a" => [:a, :b]; level = 1)
+        tab_spanner!(tbl, "L2" => [:a, :b, :c]; level = 2)
         out = sprint(show, tbl)
         @test contains(out, "L1: 2 cols")
         @test contains(out, "L2: 3 cols")
