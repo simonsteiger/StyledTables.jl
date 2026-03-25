@@ -252,15 +252,6 @@ function tab_spanner!(tbl::StyledTable, args::Pair...; level=1)
     return tbl
 end
 
-# I still wonder if we should allow Symbol as `first` of the Pair
-# or only support `String`
-function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, T}}, AbstractVector{<:Pair{Symbol, T}}, 
-    AbstractVector{<:Pair{T, Symbol}}, AbstractVector{<:Pair{Symbol, Symbol}}, AbstractDict{T, T}, AbstractDict{Symbol, T}, 
-    AbstractDict{T, Symbol}, AbstractDict{Symbol, Symbol}}; level=1) where T <: AbstractString
-    tab_spanner!(tbl, d...; level)
-    return tbl
-end
-
 function _push_spanners!(tbl::StyledTable, d; level=1)
     colnames = Symbol.(names(tbl.data))
     for (label, columns) in d
@@ -313,10 +304,41 @@ render(tbl)
 function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}},
     AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}},
     AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}},
-    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}; level=1) where T <: AbstractString
-    ps = [String(label) => Symbol.(columns) for (label, columns) in d]
+    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}, AbstractVector{<:Pair{T, T}}, 
+    AbstractVector{<:Pair{Symbol, T}}, AbstractVector{<:Pair{T, Symbol}}, AbstractVector{<:Pair{Symbol, Symbol}}, 
+    AbstractDict{T, T}, AbstractDict{Symbol, T}, AbstractDict{T, Symbol}, 
+    AbstractDict{Symbol, Symbol}, AbstractVector{<:Pair{Multiline, Symbol}}, AbstractVector{<:Pair{Multiline, T}}, 
+    AbstractDict{Multiline, Symbol}, AbstractDict{Multiline, T}}; level=1) where T <: AbstractString
+    # I still wonder if we should allow Symbol as `first` of the Pair
+    # or only support `String`
+    ps = [_sanitize_lab(label) => _sanitize_cols(col_or_cols) for (label, col_or_cols) in d]
     tab_spanner!(tbl, ps; level)
     return tbl
+end
+
+_sanitize_cols(col_or_cols) = Symbol.(col_or_cols isa AbstractVector ? col_or_cols : [col_or_cols])
+_sanitize_lab(label) = label isa Multiline ? label : String(label)
+
+function _throw_if_mixed_spanner_values(vtypes, tbl, d)
+    if length(vtypes) > 1
+        throw(ArgumentError(
+            "tab_spanner! received mixed value types: $(join(vtypes, ", ", " and ")). " *
+            "All values must share the same type. " *
+            "Tip: wrap single columns in a vector, e.g., " *
+            "\"spanner\" => [:col], or split into separate tab_spanner! calls."
+        ))
+    end
+    throw(MethodError(tab_spanner!, (tbl, d)))
+end
+
+function tab_spanner!(tbl::StyledTable, d::AbstractDict; level=1)
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_if_mixed_spanner_values(vtypes, tbl, d)
+end
+
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level=1)
+    vtypes = unique(typeof(v) for (_, v) in d)
+    _throw_if_mixed_spanner_values(vtypes, tbl, d)
 end
 
 """
