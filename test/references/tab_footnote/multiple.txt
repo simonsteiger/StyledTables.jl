@@ -1,6 +1,6 @@
-<table id="st-50b0317b">
+<table id="st-c7fa3617">
     <style>
-        #st-50b0317b {
+        #st-c7fa3617 {
             border: none;
             margin: 0 auto;
             padding: 0.25rem;
@@ -8,40 +8,40 @@
             border-spacing: 0.85em 0.2em;
             line-height: 1.2em;
         }
-        #st-50b0317b tr {
+        #st-c7fa3617 tr {
             background-color: transparent;
             border: none;
         }
-        #st-50b0317b tr td {
+        #st-c7fa3617 tr td {
             vertical-align: top;
             padding: 0;
             border: none;
             background-color: transparent;
         }
-        #st-50b0317b br {
+        #st-c7fa3617 br {
             line-height: 0em;
             margin: 0;
         }
-        #st-50b0317b sub {
+        #st-c7fa3617 sub {
             line-height: 0;
         }
-        #st-50b0317b sup {
+        #st-c7fa3617 sup {
             line-height: 0;
         }
     </style>
     <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
     <tr>
-        <td style="font-weight:bold;text-align:left;">Placebo (N=50)<br>n (%)<sup>1</sup></td>
-        <td style="font-weight:bold;text-align:left;">treatment_n</td>
+        <td style="font-weight:bold;text-align:left;">x<sup>1</sup></td>
+        <td style="font-weight:bold;text-align:left;">y<sup>2</sup></td>
     </tr>
         <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">12 (24%)</td>
-        <td style="text-align:left;">15 (30%)</td>
+        <td style="text-align:left;">1</td>
+        <td style="text-align:left;">3</td>
     </tr>
     <tr>
-        <td style="text-align:left;">18 (36%)</td>
-        <td style="text-align:left;">20 (40%)</td>
+        <td style="text-align:left;">2</td>
+        <td style="text-align:left;">4</td>
     </tr>
     <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr><td colspan="2" style="font-size: 0.8em;"><sup>1</sup> Percentages based on safety population</td></tr>
+    <tr><td colspan="2" style="font-size: 0.8em;"><sup>1</sup> Note X<br/><sup>2</sup> Note Y</td></tr>
 </table>

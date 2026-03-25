@@ -102,8 +102,8 @@ function Base.show(io::IO, tbl::StyledTable)
     !isempty(tbl.hidden_cols) &&
         push!(rows, "hidden" => _ncols_str(length(tbl.hidden_cols)))
 
-    if !isempty(tbl.footnotes)
-        n = length(tbl.footnotes)
+    if !isempty(tbl.col_footnotes)
+        n = length(tbl.col_footnotes)
         push!(rows, "note" => (n == 1 ? "1 note" : "$n notes"))
     end
 
