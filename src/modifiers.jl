@@ -309,8 +309,6 @@ function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector
     AbstractDict{T, T}, AbstractDict{Symbol, T}, AbstractDict{T, Symbol}, 
     AbstractDict{Symbol, Symbol}, AbstractVector{<:Pair{Multiline, Symbol}}, AbstractVector{<:Pair{Multiline, T}}, 
     AbstractDict{Multiline, Symbol}, AbstractDict{Multiline, T}}; level=1) where T <: AbstractString
-    # I still wonder if we should allow Symbol as `first` of the Pair
-    # or only support `String`
     ps = [_sanitize_lab(label) => _sanitize_cols(col_or_cols) for (label, col_or_cols) in d]
     tab_spanner!(tbl, ps; level)
     return tbl
