@@ -19,9 +19,11 @@ hero:
 
 # StyledTables
 
-StyledTables adds GT-style formatting to summary tables.
-Tables render to HTML, docx, LaTeX, and Typst.
-It builds on [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), with an API inspired by R's [gt](https://gt.rstudio.com/) package.
+StyledTables provides flexible formatting functionality for tabular data.
+Tables can be exported as HTML, docx, LaTeX, and Typst files.
+It builds on data structures defined in [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), with an API inspired by R's [gt](https://gt.rstudio.com/) package.
+
+The premise of `StyledTables.jl` is that your data come summarised; this package only includes formatting and styling functionality and never modifies the underlying dataset.
 
 ## Examples
 

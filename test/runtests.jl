@@ -254,39 +254,85 @@ end
 
         # AbstractVector{<:Pair{Symbol, Vector{AbstractString}}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Pair{Symbol,Vector{String}}[:Treatment => ["dose", "response"]])
+            tab_spanner!(tbl, :Treatment => ["dose", "response"])
             @test html_str(tbl) == ref
         end
 
-        # AbstractVector{<:Pair{AbstractString, Vector{Symbol}}}
-        # Vector{Pair{String,Vector{Symbol}}} hits the standalone method;
-        # covariant type annotation exercises the Union path.
+
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Pair{String,Vector{Symbol}}["Treatment" => [:dose, :response]])
+            tab_spanner!(tbl, "Treatment" => [:dose, :response])
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{AbstractString, Vector{AbstractString}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{String,Vector{String}}("Treatment" => ["dose", "response"]))
+            tab_spanner!(tbl, Dict("Treatment" => ["dose", "response"]))
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{Symbol, Vector{AbstractString}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{Symbol,Vector{String}}(:Treatment => ["dose", "response"]))
+            tab_spanner!(tbl, Dict(:Treatment => ["dose", "response"]))
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{AbstractString, Vector{Symbol}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{String,Vector{Symbol}}("Treatment" => [:dose, :response]))
+            tab_spanner!(tbl, Dict("Treatment" => [:dose, :response]))
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{Symbol, Vector{Symbol}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{Symbol,Vector{Symbol}}(:Treatment => [:dose, :response]))
+            tab_spanner!(tbl, Dict(:Treatment => [:dose, :response]))
+            @test html_str(tbl) == ref
+        end
+
+        # Single pair
+        ref = let tbl = StyledTable(df)
+            tab_spanner!(tbl, "Treatment" => :dose)
+            html_str(tbl)
+        end
+        
+        # AbstractDict{Symbol, Symbol}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict(:Treatment => :dose))
+            @test html_str(tbl) == ref
+        end
+        
+        # AbstractDict{String, Symbol}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict(:Treatment => :dose))
+            @test html_str(tbl) == ref
+        end
+        
+        # AbstractDict{String, String}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict("Treatment" => "dose"))
+            @test html_str(tbl) == ref
+        end
+        
+        # AbstractDict{Symbol, String}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict("Treatment" => :dose))
+            @test html_str(tbl) == ref
+        end
+
+        # Single Multiline spanner
+        ref = let tbl = StyledTable(df)
+            tab_spanner!(tbl, Multiline("Treatment", "(mg)") => :dose)
+            html_str(tbl)
+        end
+        
+        # Single Multiline inside Dict
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict(Multiline("Treatment", "(mg)") => :dose))
+            @test html_str(tbl) == ref
+        end
+        
+        # Single Multiline inside Vector
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, [Multiline("Treatment", "(mg)") => :dose])
             @test html_str(tbl) == ref
         end
     end
@@ -385,13 +431,14 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         tbl = StyledTable(df)
-        tab_footnote!(tbl, "Source: internal data")
+        tab_footnote!(tbl, "Fascinating values" => :x)
         run_reftest(tbl, "references/tab_footnote/single")
 
         tbl = StyledTable(df)
-        tab_footnote!(tbl, "Source: internal data")
-        tab_footnote!(tbl, "n = 2")
+        tab_footnote!(tbl, "Fascinating values" => :x, "You won't believe it" => :y)
         run_reftest(tbl, "references/tab_footnote/multiple")
+
+        @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => :nonexistent)
     end
 
     # -----------------------------------------------------------------------
@@ -478,21 +525,6 @@ end
         run_reftest(tbl, "references/tab_options/sigdigits_trailing")
 
         @test_throws ArgumentError tab_options!(StyledTable(df), round_mode = :invalid)
-    end
-
-    # -----------------------------------------------------------------------
-    @testset "tab_footnote! column location" begin
-        df = DataFrame(x = [1, 2], y = [3, 4])
-
-        tbl = StyledTable(df)
-        tab_footnote!(tbl, "See methods"; columns = [:x])
-        run_reftest(tbl, "references/tab_footnote/col_single")
-
-        tbl = StyledTable(df)
-        tab_footnote!(tbl, "Measured at baseline"; columns = [:x, :y])
-        run_reftest(tbl, "references/tab_footnote/col_multiple")
-
-        @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note"; columns = [:nonexistent])
     end
 
     # -----------------------------------------------------------------------

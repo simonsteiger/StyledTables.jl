@@ -36,6 +36,8 @@ makedocs(;
             ],
         ],
         "Resources" => [
+            "Why StyledTables?" => "resources/design.md",
+            "Export" => "resources/export.md",
             "API" => "resources/api.md",
         ],
     ],

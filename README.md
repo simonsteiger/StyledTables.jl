@@ -9,7 +9,9 @@
 
 [![Build Status](https://github.com/simonsteiger/StyledTables.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/simonsteiger/StyledTables.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
-StyledTables renders styled, publication-ready tables from Julia DataFrames to HTML, LaTeX, Typst, and docx. It builds on [SummaryTables.jl](https://github.com/PumasAI/SummaryTables.jl) for output rendering and draws its API design from R's [gt](https://gt.rstudio.com/) package.
+StyledTables provides flexible formatting functionality for tabular data.
+Tables can be exported as HTML, docx, LaTeX, and Typst files.
+It builds on data structures defined in [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), with an API inspired by R's [gt](https://gt.rstudio.com/) package.
 
 ## Installation
 
