@@ -46,7 +46,7 @@ function render(tbl::StyledTable)
 
     spanner_rows = has_spanners ? _build_spanner_rows(tbl, display_cols) : Vector{Cell}[]
     n_spanner_rows = length(spanner_rows)
-    header_row   = [_header_cell(tbl, col) for col in display_cols]
+    header_row = [_header_cell(tbl, col) for col in display_cols]
 
     body = if tbl.row_group_col !== nothing
         _build_body_with_groups(tbl, df, display_cols)
@@ -62,7 +62,8 @@ function render(tbl::StyledTable)
 
     parts = Matrix{Cell}[]
     append!(parts, title_rows)
-    # Highest level goes at the top (furthest from column labels), so reverse before appending.
+    # Highest level goes at the top (furthest from column labels),
+    # so reverse before appending.
     for row in reverse(spanner_rows)
         push!(parts, reshape(row, 1, n_cols))
     end
@@ -122,22 +123,24 @@ end
 
 function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
     has_static = haskey(tbl.col_styles, col)
-    has_fn     = haskey(tbl.col_style_fns, col)
+    has_fn = haskey(tbl.col_style_fns, col)
     !has_static && !has_fn && return formatted
 
     # Read static baseline
-    color     = has_static ? tbl.col_styles[col].color     : nothing
-    bold      = has_static ? tbl.col_styles[col].bold      : nothing
-    italic    = has_static ? tbl.col_styles[col].italic    : nothing
+    color = has_static ? tbl.col_styles[col].color : nothing
+    bold = has_static ? tbl.col_styles[col].bold : nothing
+    italic = has_static ? tbl.col_styles[col].italic : nothing
     underline = has_static ? tbl.col_styles[col].underline : nothing
 
     # Apply function override
     if has_fn
         result = tbl.col_style_fns[col](cell_raw)
         if result !== nothing
-            result isa NamedTuple || throw(ArgumentError(                                                                                                                                                                                 
-                "tab_style! function for column :$col must return `nothing` or a NamedTuple, " *
-                "got $(typeof(result)). Did you forget an explicit `nothing` in the else branch? "
+            result isa NamedTuple || throw(ArgumentError(
+                "tab_style! function for column :$col must return " *
+                "`nothing` or a NamedTuple, " *
+                "got $(typeof(result)). " *
+                "Did you forget an explicit `nothing` in the else branch?"
             ))
             for key in keys(result)
                 key in (:color, :bold, :italic, :underline) || throw(ArgumentError(
@@ -145,9 +148,9 @@ function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
                     "unrecognised key :$key. Valid keys: :color, :bold, :italic, :underline."
                 ))
             end
-            hasproperty(result, :color)     && (color     = _resolve_color(result.color))
-            hasproperty(result, :bold)      && (bold      = result.bold)
-            hasproperty(result, :italic)    && (italic    = result.italic)
+            hasproperty(result, :color) && (color = _resolve_color(result.color))
+            hasproperty(result, :bold) && (bold = result.bold)
+            hasproperty(result, :italic) && (italic = result.italic)
             hasproperty(result, :underline) && (underline = result.underline)
         end
     end
@@ -163,16 +166,18 @@ function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Sym
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
         for i in 1:nrow(df)
-            cell_raw  = df[i, col]
+            cell_raw = df[i, col]
             formatted = _apply_formatter(cell_raw, tbl, col)
-            styled    = _apply_col_style(formatted, cell_raw, tbl, col)
+            styled = _apply_col_style(formatted, cell_raw, tbl, col)
             body[i, j] = Cell(styled; halign)
         end
     end
     return body
 end
 
-function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::Vector{Symbol})
+function _build_body_with_groups(
+    tbl::StyledTable, df::DataFrame, display_cols::Vector{Symbol}
+)
     group_col = tbl.row_group_col
     indent = tbl.row_group_indent_pt
     group_vals = string.(df[!, group_col])
@@ -190,7 +195,9 @@ function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::
             label = group_insert_positions[i]
             for j in 1:n_cols
                 if j == 1
-                    body[i + offset, j] = Cell(label; bold = true, indent_pt = 0, halign = :left)
+                    body[i + offset, j] = Cell(
+                        label; bold=true, indent_pt=0, halign=:left
+                    )
                 else
                     body[i + offset, j] = Cell(nothing)
                 end
@@ -200,9 +207,9 @@ function _build_body_with_groups(tbl::StyledTable, df::DataFrame, display_cols::
         for (j, col) in enumerate(display_cols)
             halign = get(tbl.col_alignments, col, :left)
             indent_pt = j == 1 ? indent : 0.0
-            cell_raw  = df[i, col]
+            cell_raw = df[i, col]
             formatted = _apply_formatter(cell_raw, tbl, col)
-            styled    = _apply_col_style(formatted, cell_raw, tbl, col)
+            styled = _apply_col_style(formatted, cell_raw, tbl, col)
             body[i + offset, j] = Cell(styled; halign, indent_pt)
         end
     end
@@ -259,15 +266,21 @@ function _warn_render_issues(tbl, display_cols)
     gaps = _noncontiguous_spanner_gaps(tbl.spanners, display_cols)
     for (label, gap_cols) in gaps
         n = length(gap_cols)
-        col_str = n == 1 ? "column :$(gap_cols[1])" : "columns $(join((":$c" for c in gap_cols), ", "))"
+        col_str = if n == 1
+            "column :$(gap_cols[1])"
+        else
+            "columns $(join((":$c" for c in gap_cols), ", "))"
+        end
         verb = n == 1 ? "lies" : "lie"
-        @warn "Spanner \"$label\" has a gap: $col_str $verb between its outermost spanned columns but are not part of this spanner."
+        @warn "Spanner \"$label\" has a gap: $col_str $verb between its " *
+              "outermost spanned columns but are not part of this spanner."
     end
 
     dupes = _duplicate_group_labels(tbl)
     if !isempty(dupes)
         @warn "Row group column :$(tbl.row_group_col) is not sorted: " *
-              "group label(s) $(join(("\"$d\"" for d in dupes), ", ")) appear more than once."
+              "group label(s) " *
+              "$(join(("\"$d\"" for d in dupes), ", ")) appear more than once."
     end
 end
 
