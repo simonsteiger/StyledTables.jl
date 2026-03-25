@@ -112,6 +112,11 @@ function Base.show(io::IO, tbl::StyledTable)
         push!(rows, "source" => (n == 1 ? "1 source" : "$n sources"))
     end
 
+    if !isempty(tbl.postprocessors)
+        n = length(tbl.postprocessors)
+        push!(rows, "postprocessors" => (n == 1 ? "1 postprocessor" : "$n postprocessors"))
+    end
+
     (tbl.round_digits !== nothing || tbl.round_mode !== nothing || tbl.trailing_zeros !== nothing) &&
         push!(rows, "round" => _round_str(tbl))
 

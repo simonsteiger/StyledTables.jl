@@ -42,6 +42,14 @@ end
     @testset "StyledTable / basic render" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])
         run_reftest(StyledTable(df), "references/styled_table/basic")
+
+        # Non-DataFrame Tables.jl-compatible input is converted to DataFrame
+        let nt = [(x = 1, y = 2), (x = 3, y = 4)]
+            tbl = StyledTable(nt)
+            @test tbl.data isa DataFrame
+            @test names(tbl.data) == ["x", "y"]
+            @test nrow(tbl.data) == 2
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -1192,6 +1200,27 @@ end
         tab_source_note!(tbl, "Source B")
         out = sprint(show, tbl)
         @test contains(out, "2 sources")
+
+        # fmt row appears when col_formatters is non-empty
+        let tbl = StyledTable(df)
+            fmt_number!(tbl, [:a]; digits = 2)
+            out = sprint(show, tbl)
+            @test contains(out, "fmt")
+        end
+
+        # styles row appears when col_styles or col_style_fns is non-empty
+        let tbl = StyledTable(df)
+            tab_style!(tbl, [:a]; bold = true)
+            out = sprint(show, tbl)
+            @test contains(out, "styles")
+        end
+
+        # postprocessors row appears when postprocessors is non-empty
+        let tbl = StyledTable(df)
+            sub_missing!(tbl)
+            out = sprint(show, tbl)
+            @test contains(out, "postprocessors")
+        end
     end
 
 end
