@@ -378,18 +378,14 @@ end
 
         # Scenario A: level-2 spanner covers exactly the same columns as level-1
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Length (mm)";
-            columns = [:bill_len, :bill_depth, :flipper_len])
-        tab_spanner!(tbl, "Physical measurements";
-            columns = [:bill_len, :bill_depth, :flipper_len], level = 2)
+        tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+        tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len]; level = 2)
         run_reftest(tbl, "references/tab_spanner/nested_two_levels")
 
         # Scenario B: level-2 spanner covers level-1 columns PLUS an extra ungrouped column
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Length (mm)";
-            columns = [:bill_len, :bill_depth, :flipper_len])
-        tab_spanner!(tbl, "Physical measurements";
-            columns = [:bill_len, :bill_depth, :flipper_len, :body_mass], level = 2)
+        tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+        tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
         run_reftest(tbl, "references/tab_spanner/nested_uncovered_col")
     end
 
