@@ -143,15 +143,11 @@ end
         run_reftest(tbl, "references/cols_label/multiline_label")
 
         # Multiline label + column footnote: SummaryTables.Annotated(Multiline(...))
-        # renders correctly (verified: shows multiline text + superscript footnote number).
-        # Broken: "text" => :col (single Symbol) causes stack overflow in current dispatch.
-        # Remove @test_broken once dispatch is fixed.
-        @test_broken let
-            tbl2 = StyledTable(df)
+        # renders correctly (shows multiline text + superscript footnote number).
+        let tbl2 = StyledTable(df)
             cols_label!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
             tab_footnote!(tbl2, "Percentages based on safety population" => :placebo_n)
             run_reftest(tbl2, "references/cols_label/multiline_label_annotated")
-            true  # remove when @test_broken is removed
         end
     end
 
