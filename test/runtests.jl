@@ -360,6 +360,18 @@ end
             tab_spanner!(tbl, [Multiline("Treatment", "(mg)") => :dose])
             @test html_str(tbl) == ref
         end
+
+        # Mixed value types — Dict{String, Any} → ArgumentError
+        @test_throws ArgumentError tab_spanner!(
+            StyledTable(df),
+            Dict("Treatment" => [:dose, :response], "Participant" => :name)
+        )
+
+        # Mixed value types — Vector{Pair{String, Any}} → ArgumentError
+        @test_throws ArgumentError tab_spanner!(
+            StyledTable(df),
+            Pair["Treatment" => [:dose, :response], "Participant" => :name]
+        )
     end
 
     # -----------------------------------------------------------------------
