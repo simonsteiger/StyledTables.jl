@@ -93,9 +93,18 @@ cols_label!(tbl, label_dict)
 render(tbl)
 ```
 """
-function cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
-    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol}, 
-    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
+function cols_label!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{Symbol, Symbol}},
+        AbstractVector{<:Pair{<:AbstractString, <:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString, Symbol}},
+        AbstractDict{Symbol, Symbol},
+        AbstractDict{<:AbstractString, <:AbstractString},
+        AbstractDict{<:AbstractString, Symbol},
+        AbstractDict{Symbol, <:AbstractString},
+    },
+)
     ps = [Symbol(col) => String(label) for (col, label) in d]
     cols_label!(tbl, ps)
     return tbl
@@ -154,7 +163,9 @@ function cols_label!(f, tbl::StyledTable, columns::AbstractVector{<:AbstractStri
 end
 
 cols_label!(f, tbl::StyledTable, column::Symbol) = cols_label!(f, tbl, [column])
-cols_label!(f, tbl::StyledTable, column::AbstractString) = cols_label!(f, tbl, Symbol(column))
+function cols_label!(f, tbl::StyledTable, column::AbstractString)
+    return cols_label!(f, tbl, Symbol(column))
+end
 
 function cols_label!(f, tbl::StyledTable)
     cols_label!(f, tbl, Symbol.(names(tbl.data)))
@@ -263,13 +274,17 @@ function _push_spanners!(tbl::StyledTable, d; level=1)
     return tbl
 end
 
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}}; level=1)
+function tab_spanner!(
+    tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}}; level=1
+)
     _push_spanners!(tbl, d; level)
 end
 
 
 # Handles Multiline
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{Multiline, Vector{Symbol}}}; level=1)
+function tab_spanner!(
+    tbl::StyledTable, d::AbstractVector{Pair{Multiline, Vector{Symbol}}}; level=1
+)
     _push_spanners!(tbl, d; level)
 end
 
@@ -301,20 +316,40 @@ tab_spanner!(tbl, Dict(
 render(tbl)
 ```
 """
-function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}},
-    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}},
-    AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}},
-    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}, AbstractVector{<:Pair{T, T}}, 
-    AbstractVector{<:Pair{Symbol, T}}, AbstractVector{<:Pair{T, Symbol}}, AbstractVector{<:Pair{Symbol, Symbol}}, 
-    AbstractDict{T, T}, AbstractDict{Symbol, T}, AbstractDict{T, Symbol}, 
-    AbstractDict{Symbol, Symbol}, AbstractVector{<:Pair{Multiline, Symbol}}, AbstractVector{<:Pair{Multiline, T}}, 
-    AbstractDict{Multiline, Symbol}, AbstractDict{Multiline, T}}; level=1) where T <: AbstractString
+function tab_spanner!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{T, Vector{T}}},
+        AbstractVector{<:Pair{Symbol, Vector{Symbol}}},
+        AbstractVector{<:Pair{Symbol, Vector{T}}},
+        AbstractVector{<:Pair{T, Vector{Symbol}}},
+        AbstractDict{Symbol, Vector{Symbol}},
+        AbstractDict{T, Vector{T}},
+        AbstractDict{Symbol, Vector{T}},
+        AbstractDict{T, Vector{Symbol}},
+        AbstractVector{<:Pair{T, T}},
+        AbstractVector{<:Pair{Symbol, T}},
+        AbstractVector{<:Pair{T, Symbol}},
+        AbstractVector{<:Pair{Symbol, Symbol}},
+        AbstractDict{T, T},
+        AbstractDict{Symbol, T},
+        AbstractDict{T, Symbol},
+        AbstractDict{Symbol, Symbol},
+        AbstractVector{<:Pair{Multiline, Symbol}},
+        AbstractVector{<:Pair{Multiline, T}},
+        AbstractDict{Multiline, Symbol},
+        AbstractDict{Multiline, T},
+    };
+    level=1,
+) where {T <: AbstractString}
     ps = [_sanitize_lab(label) => _sanitize_cols(col_or_cols) for (label, col_or_cols) in d]
     tab_spanner!(tbl, ps; level)
     return tbl
 end
 
-_sanitize_cols(col_or_cols) = Symbol.(col_or_cols isa AbstractVector ? col_or_cols : [col_or_cols])
+function _sanitize_cols(col_or_cols)
+    return Symbol.(col_or_cols isa AbstractVector ? col_or_cols : [col_or_cols])
+end
 _sanitize_lab(label) = label isa Multiline ? label : String(label)
 
 function _throw_if_mixed_spanner_values(vtypes, tbl, d)
@@ -402,7 +437,7 @@ tab_header!(tbl, "My Table"; subtitle = "Subtitle here")
 render(tbl)
 ```
 """
-function tab_header!(tbl::StyledTable, title; subtitle = nothing)
+function tab_header!(tbl::StyledTable, title; subtitle=nothing)
     tbl.header = TableHeader(title, subtitle)
     return tbl
 end
@@ -438,8 +473,15 @@ function tab_footnote!(tbl::StyledTable, args::Pair...)
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, T}}, AbstractVector{<:Pair{T, Symbol}},
-    AbstractDict{T, T}, AbstractDict{T, Symbol}}) where T <: AbstractString
+function tab_footnote!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{T, T}},
+        AbstractVector{<:Pair{T, Symbol}},
+        AbstractDict{T, T},
+        AbstractDict{T, Symbol},
+    },
+) where {T <: AbstractString}
     ps = [String(text) => [col isa Symbol ? col : Symbol(col)] for (text, col) in d]
     _push_footnotes!(tbl, ps)
     return tbl
@@ -492,9 +534,15 @@ tab_footnote(tbl, Dict(
 render(tbl)
 ```
 """
-function tab_footnote!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}},
-    AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{T, Vector{T}},
-    AbstractDict{T, Vector{Symbol}}}) where T <: AbstractString
+function tab_footnote!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{T, Vector{T}}},
+        AbstractVector{<:Pair{T, Vector{Symbol}}},
+        AbstractDict{T, Vector{T}},
+        AbstractDict{T, Vector{Symbol}},
+    },
+) where {T <: AbstractString}
     ps = [String(text) => Symbol.(columns) for (text, columns) in d]
     tab_footnote!(tbl, ps)
     return tbl
@@ -531,7 +579,7 @@ cols_hide!(tbl, :category)
 render(tbl)
 ```
 """
-function tab_row_group!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12)
+function tab_row_group!(tbl::StyledTable, col::Symbol; indent_pt::Real=12)
     col in Symbol.(names(tbl.data)) ||
         throw(ArgumentError("Column :$col not found in DataFrame"))
     tbl.row_group_col = col
@@ -639,17 +687,19 @@ render(tbl)
 function tab_style!(
     tbl::StyledTable,
     columns::AbstractVector{Symbol};
-    color = nothing,
-    bold::Union{Nothing,Bool} = nothing,
-    italic::Union{Nothing,Bool} = nothing,
-    underline::Union{Nothing,Bool} = nothing,
+    color=nothing,
+    bold::Union{Nothing,Bool}=nothing,
+    italic::Union{Nothing,Bool}=nothing,
+    underline::Union{Nothing,Bool}=nothing,
 )
     colnames = Symbol.(names(tbl.data))
     for col in columns
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
     for col in columns
-        tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
+        tbl.col_styles[col] = ColStyleOverride(
+            _resolve_color(color), bold, italic, underline
+        )
     end
     return tbl
 end
@@ -682,12 +732,14 @@ render(tbl)
 function tab_style!(
     tbl::StyledTable,
     columns::Symbol...;
-    color = nothing,
-    bold::Union{Nothing,Bool} = nothing,
-    italic::Union{Nothing,Bool} = nothing,
-    underline::Union{Nothing,Bool} = nothing,
+    color=nothing,
+    bold::Union{Nothing,Bool}=nothing,
+    italic::Union{Nothing,Bool}=nothing,
+    underline::Union{Nothing,Bool}=nothing,
 )
-    tab_style!(tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
+    tab_style!(
+        tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline
+    )
     return tbl
 end
 
@@ -732,10 +784,10 @@ function tab_style!(
     f,
     tbl::StyledTable,
     columns::AbstractVector{Symbol};
-    color = nothing,
-    bold::Union{Nothing,Bool} = nothing,
-    italic::Union{Nothing,Bool} = nothing,
-    underline::Union{Nothing,Bool} = nothing,
+    color=nothing,
+    bold::Union{Nothing,Bool}=nothing,
+    italic::Union{Nothing,Bool}=nothing,
+    underline::Union{Nothing,Bool}=nothing,
 )
     colnames = Symbol.(names(tbl.data))
     for col in columns
@@ -744,7 +796,9 @@ function tab_style!(
     for col in columns
         tbl.col_style_fns[col] = f
         if any(!isnothing, (color, bold, italic, underline))
-            tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
+            tbl.col_styles[col] = ColStyleOverride(
+                _resolve_color(color), bold, italic, underline
+            )
         end
     end
     return tbl
@@ -761,12 +815,14 @@ function tab_style!(
     f,
     tbl::StyledTable,
     columns::Symbol...;
-    color = nothing,
-    bold::Union{Nothing,Bool} = nothing,
-    italic::Union{Nothing,Bool} = nothing,
-    underline::Union{Nothing,Bool} = nothing,
+    color=nothing,
+    bold::Union{Nothing,Bool}=nothing,
+    italic::Union{Nothing,Bool}=nothing,
+    underline::Union{Nothing,Bool}=nothing,
 )
-    tab_style!(f, tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
+    tab_style!(
+        f, tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline
+    )
     return tbl
 end
 
@@ -797,7 +853,7 @@ sub_missing!(tbl)
 render(tbl)
 ```
 """
-function sub_missing!(tbl::StyledTable; with::Any = "—")
+function sub_missing!(tbl::StyledTable; with::Any="—")
     push!(tbl.postprocessors, SummaryTables.Replace(ismissing, with, true))
     return tbl
 end
@@ -834,13 +890,15 @@ render(tbl)
 ```
 """
 function tab_options!(tbl::StyledTable;
-    round_digits::Union{Nothing,Int} = nothing,
-    round_mode::Union{Nothing,Symbol} = nothing,
-    trailing_zeros::Union{Nothing,Bool} = nothing,
+    round_digits::Union{Nothing,Int}=nothing,
+    round_mode::Union{Nothing,Symbol}=nothing,
+    trailing_zeros::Union{Nothing,Bool}=nothing,
 )
     if round_mode !== nothing
         round_mode in (:auto, :digits, :sigdigits) ||
-            throw(ArgumentError("round_mode must be :auto, :digits, or :sigdigits, got :$round_mode"))
+            throw(ArgumentError(
+                "round_mode must be :auto, :digits, or :sigdigits, got :$round_mode"
+            ))
     end
     round_digits !== nothing && (tbl.round_digits = round_digits)
     round_mode !== nothing && (tbl.round_mode = round_mode)
