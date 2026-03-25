@@ -436,14 +436,11 @@ end
         df = DataFrame(x = [1, 2], y = [3, 4])
 
         # ── Single-column pair, Symbol col ──────────────────────────────
-        # Broken: "text" => :col → stack overflow via method 2.
-        # Remove @test_broken once dispatch is fixed.
-        @test_broken let
-            tbl = StyledTable(df)
+        let tbl = StyledTable(df)
             tab_footnote!(tbl, "Fascinating values" => :x)
-            haskey(tbl.col_footnotes, :x) &&
-                tbl.col_footnotes[:x] == "Fascinating values" &&
-                !haskey(tbl.col_footnotes, :y)
+            @test haskey(tbl.col_footnotes, :x)
+            @test tbl.col_footnotes[:x] == "Fascinating values"
+            @test !haskey(tbl.col_footnotes, :y)
         end
 
         # ── Multi-column pair, Vector{Symbol} ───────────────────────────
@@ -476,16 +473,15 @@ end
             @test haskey(tbl.col_footnotes, :y)
         end
 
-        # ── Error cases ──────────────────────────────────────────────────
-        # Single-Symbol col: broken dispatch (stack overflow before ArgumentError)
-        @test_broken let
-            try
-                tab_footnote!(StyledTable(df), "Note" => :nonexistent)
-                false
-            catch e
-                e isa ArgumentError
-            end
+        # ── Multiline key form ────────────────────────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, [Multiline("measured", "monthly") => [:x, :y]])
+            @test haskey(tbl.col_footnotes, :x)
+            @test haskey(tbl.col_footnotes, :y)
         end
+
+        # ── Error cases ──────────────────────────────────────────────────
+        @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => :nonexistent)
         # Vector{Symbol} col error — correct path via _push_footnotes!
         @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => [:nonexistent])
         @test_throws ArgumentError tab_footnote!(StyledTable(df), Dict("Note" => [:nonexistent]))
@@ -532,18 +528,17 @@ end
             @test html_str(tbl) == ref_multi
         end
 
-        # Single-Symbol col — broken (stack overflow)
-        @test_broken let
-            tbl = StyledTable(df)
+        # ── Single-column canonical: varargs with Symbol ─────────────────
+        # Replaces the @test_broken blocks — dispatch is fixed.
+        ref_single = let tbl = StyledTable(df)
             tab_footnote!(tbl, "Note" => :x)
-            tbl.col_footnotes[:x] == "Note"
+            html_str(tbl)
         end
 
-        # Single String col — also broken
-        @test_broken let
-            tbl = StyledTable(df)
+        # Single String col → same output
+        let tbl = StyledTable(df)
             tab_footnote!(tbl, "Note" => "x")
-            tbl.col_footnotes[:x] == "Note"
+            @test html_str(tbl) == ref_single
         end
 
         # Symbol key rejected (varargs path)

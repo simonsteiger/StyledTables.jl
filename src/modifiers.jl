@@ -254,8 +254,8 @@ end
 
 # I still wonder if we should allow Symbol as `first` of the Pair
 # or only support `String`
-function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{T, T}, AbstractVector{Symbol, T}, 
-    AbstractVector{T, Symbol}, AbstractVector{Symbol, Symbol}, AbstractDict{T, T}, AbstractDict{Symbol, T}, 
+function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, T}}, AbstractVector{<:Pair{Symbol, T}}, 
+    AbstractVector{<:Pair{T, Symbol}}, AbstractVector{<:Pair{Symbol, Symbol}}, AbstractDict{T, T}, AbstractDict{Symbol, T}, 
     AbstractDict{T, Symbol}, AbstractDict{Symbol, Symbol}}; level=1) where T <: AbstractString
     tab_spanner!(tbl, d...; level)
     return tbl
@@ -418,9 +418,10 @@ function tab_footnote!(tbl::StyledTable, args::Pair...)
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::Union{AbstractVector{T, T}, AbstractVector{T, Symbol},
+function tab_footnote!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, T}}, AbstractVector{<:Pair{T, Symbol}},
     AbstractDict{T, T}, AbstractDict{T, Symbol}}) where T <: AbstractString
-    tab_spanner!(tbl, d...)
+    ps = [String(text) => [col isa Symbol ? col : Symbol(col)] for (text, col) in d]
+    _push_footnotes!(tbl, ps)
     return tbl
 end
 
