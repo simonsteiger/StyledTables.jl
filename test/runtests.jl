@@ -38,6 +38,10 @@ end
 
 @testset "StyledTables" begin
 
+    @testset "Aqua.jl" begin
+        include("Aqua.jl")
+    end
+
     # -----------------------------------------------------------------------
     @testset "StyledTable / basic render" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])

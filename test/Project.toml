@@ -6,3 +6,7 @@ ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
 StyledTables = "b1e5a2b9-85de-45c7-a260-4d8dda977783"
 SummaryTables = "6ce4ecf0-73a7-4ce3-9fb4-80ebfe887b60"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+
+[compat]
+Aqua = "0.8"

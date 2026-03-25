@@ -16,7 +16,7 @@ end
 function _resolve_color(c)
     throw(ArgumentError(
         "_resolve_color received unsupported type $(typeof(c)). " *
-        "Accepted: nothing, Symbol, AbstractString, Colors.Colorant."
+        "Pass one of: `nothing`, `Symbol`, `AbstractString`, `Colors.Colorant`."
     ))
 end
 
@@ -62,7 +62,10 @@ end
 function cols_label!(tbl::StyledTable, d::AbstractVector{<:Pair{Symbol}})
     colnames = Symbol.(names(tbl.data))
     for (col, label) in d
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+
         tbl.col_labels[col] = label
     end
     return tbl
@@ -107,6 +110,7 @@ function cols_label!(
 )
     ps = [Symbol(col) => String(label) for (col, label) in d]
     cols_label!(tbl, ps)
+    
     return tbl
 end
 
@@ -148,12 +152,15 @@ render(tbl)
 """
 function cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
     colnames = Symbol.(names(tbl.data))
+    
     for col in columns
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
-    end
-    for col in columns
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+
         tbl.col_labels[col] = f(string(col))
     end
+
     return tbl
 end
 
@@ -196,16 +203,21 @@ render(tbl)
 ```
 """
 function cols_align!(tbl::StyledTable, halign::Symbol, columns=nothing)
-    halign in (:left, :center, :right) ||
+    if halign ∉ (:left, :center, :right)
         throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
-    colnames = Symbol.(names(tbl.data))
-    cols = columns === nothing ? colnames : columns
-    for col in cols
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
-    for col in cols
+
+    colnames = Symbol.(names(tbl.data))
+    target_cols = columns === nothing ? colnames : columns
+
+    for col in target_cols
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+        
         tbl.col_alignments[col] = halign
     end
+
     return tbl
 end
 
@@ -267,7 +279,9 @@ function _push_spanners!(tbl::StyledTable, d; level=1)
     colnames = Symbol.(names(tbl.data))
     for (label, columns) in d
         for col in columns
-            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+            if col ∉ colnames
+                throw(ArgumentError("Column :$col not found in DataFrame"))
+            end
         end
         push!(tbl.spanners, Spanner(label, columns, level))
     end
@@ -281,7 +295,6 @@ function tab_spanner!(
 end
 
 
-# Handles Multiline
 function tab_spanner!(
     tbl::StyledTable, d::AbstractVector{Pair{Multiline, Vector{Symbol}}}; level=1
 )
@@ -319,29 +332,29 @@ render(tbl)
 function tab_spanner!(
     tbl::StyledTable,
     d::Union{
-        AbstractVector{<:Pair{T, Vector{T}}},
+        AbstractVector{<:Pair{<:AbstractString, Vector{<:AbstractString}}},
         AbstractVector{<:Pair{Symbol, Vector{Symbol}}},
-        AbstractVector{<:Pair{Symbol, Vector{T}}},
-        AbstractVector{<:Pair{T, Vector{Symbol}}},
+        AbstractVector{<:Pair{Symbol, Vector{<:AbstractString}}},
+        AbstractVector{<:Pair{<:AbstractString, Vector{Symbol}}},
         AbstractDict{Symbol, Vector{Symbol}},
-        AbstractDict{T, Vector{T}},
-        AbstractDict{Symbol, Vector{T}},
-        AbstractDict{T, Vector{Symbol}},
-        AbstractVector{<:Pair{T, T}},
-        AbstractVector{<:Pair{Symbol, T}},
-        AbstractVector{<:Pair{T, Symbol}},
+        AbstractDict{<:AbstractString, Vector{<:AbstractString}},
+        AbstractDict{Symbol, Vector{<:AbstractString}},
+        AbstractDict{<:AbstractString, Vector{Symbol}},
+        AbstractVector{<:Pair{<:AbstractString, <:AbstractString}},
+        AbstractVector{<:Pair{Symbol, <:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString, Symbol}},
         AbstractVector{<:Pair{Symbol, Symbol}},
-        AbstractDict{T, T},
-        AbstractDict{Symbol, T},
-        AbstractDict{T, Symbol},
+        AbstractDict{<:AbstractString, <:AbstractString},
+        AbstractDict{Symbol, <:AbstractString},
+        AbstractDict{<:AbstractString, Symbol},
         AbstractDict{Symbol, Symbol},
         AbstractVector{<:Pair{Multiline, Symbol}},
-        AbstractVector{<:Pair{Multiline, T}},
+        AbstractVector{<:Pair{Multiline, <:AbstractString}},
         AbstractDict{Multiline, Symbol},
-        AbstractDict{Multiline, T},
+        AbstractDict{Multiline, <:AbstractString},
     };
     level=1,
-) where {T <: AbstractString}
+)
     ps = [_sanitize_lab(label) => _sanitize_cols(col_or_cols) for (label, col_or_cols) in d]
     tab_spanner!(tbl, ps; level)
     return tbl
@@ -401,8 +414,10 @@ render(tbl)
 ```
 """
 function tab_stub!(tbl::StyledTable, col::Symbol)
-    col in Symbol.(names(tbl.data)) ||
+    if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
+    end
+
     tbl.stub_col = col
     return tbl
 end
@@ -476,12 +491,12 @@ end
 function tab_footnote!(
     tbl::StyledTable,
     d::Union{
-        AbstractVector{<:Pair{T, T}},
-        AbstractVector{<:Pair{T, Symbol}},
-        AbstractDict{T, T},
-        AbstractDict{T, Symbol},
+        AbstractVector{<:Pair{<:AbstractString, <:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString, Symbol}},
+        AbstractDict{<:AbstractString, <:AbstractString},
+        AbstractDict{<:AbstractString, Symbol},
     },
-) where {T <: AbstractString}
+)
     ps = [String(text) => [col isa Symbol ? col : Symbol(col)] for (text, col) in d]
     _push_footnotes!(tbl, ps)
     return tbl
@@ -491,7 +506,9 @@ function _push_footnotes!(tbl::StyledTable, d)
     colnames = Symbol.(names(tbl.data))
     for (text, columns) in d
         for col in columns
-            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+            if col ∉ colnames
+                throw(ArgumentError("Column :$col not found in DataFrame"))
+            end
             tbl.col_footnotes[col] = text
         end
     end
@@ -502,7 +519,6 @@ function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{S
     _push_footnotes!(tbl, d)
 end
 
-# Handles Multiline
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline, Vector{Symbol}}})
     _push_footnotes!(tbl, d)
 end
@@ -529,7 +545,7 @@ See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
 tbl = StyledTable(df)
 tab_footnote(tbl, Dict(
     "measured each month" => [:efficacy, :safety],
-    "in years" => :age)
+    "in years" => [:age])
 )
 render(tbl)
 ```
@@ -537,12 +553,10 @@ render(tbl)
 function tab_footnote!(
     tbl::StyledTable,
     d::Union{
-        AbstractVector{<:Pair{T, Vector{T}}},
-        AbstractVector{<:Pair{T, Vector{Symbol}}},
-        AbstractDict{T, Vector{T}},
-        AbstractDict{T, Vector{Symbol}},
+        AbstractVector{<:Pair{<:AbstractString, <:Union{Vector{<:AbstractString}, Vector{Symbol}}}},
+        AbstractDict{<:AbstractString, <:Union{Vector{<:AbstractString}, Vector{Symbol}}},
     },
-) where {T <: AbstractString}
+)
     ps = [String(text) => Symbol.(columns) for (text, columns) in d]
     tab_footnote!(tbl, ps)
     return tbl
@@ -580,10 +594,13 @@ render(tbl)
 ```
 """
 function tab_row_group!(tbl::StyledTable, col::Symbol; indent_pt::Real=12)
-    col in Symbol.(names(tbl.data)) ||
+    if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
+    end
+
     tbl.row_group_col = col
     tbl.row_group_indent_pt = Float64(indent_pt)
+    
     return tbl
 end
 
@@ -694,7 +711,9 @@ function tab_style!(
 )
     colnames = Symbol.(names(tbl.data))
     for col in columns
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
     end
     for col in columns
         tbl.col_styles[col] = ColStyleOverride(
@@ -737,9 +756,8 @@ function tab_style!(
     italic::Union{Nothing,Bool}=nothing,
     underline::Union{Nothing,Bool}=nothing,
 )
-    tab_style!(
-        tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline
-    )
+    tab_style!(tbl, collect(columns); color, bold, italic, underline)
+
     return tbl
 end
 
@@ -790,9 +808,13 @@ function tab_style!(
     underline::Union{Nothing,Bool}=nothing,
 )
     colnames = Symbol.(names(tbl.data))
+
     for col in columns
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
     end
+    
     for col in columns
         tbl.col_style_fns[col] = f
         if any(!isnothing, (color, bold, italic, underline))
@@ -801,6 +823,7 @@ function tab_style!(
             )
         end
     end
+
     return tbl
 end
 
@@ -820,9 +843,7 @@ function tab_style!(
     italic::Union{Nothing,Bool}=nothing,
     underline::Union{Nothing,Bool}=nothing,
 )
-    tab_style!(
-        f, tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline
-    )
+    tab_style!(f, tbl, collect(columns); color, bold, italic, underline)
     return tbl
 end
 
@@ -885,7 +906,7 @@ See also: [`fmt_number!`](@ref), [`fmt_percent!`](@ref), [`fmt_integer!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_options!(tbl, round_digits = 2, round_mode = :digits)
+tab_options!(tbl, round_digits=2, round_mode=:digits)
 render(tbl)
 ```
 """
@@ -894,15 +915,25 @@ function tab_options!(tbl::StyledTable;
     round_mode::Union{Nothing,Symbol}=nothing,
     trailing_zeros::Union{Nothing,Bool}=nothing,
 )
-    if round_mode !== nothing
-        round_mode in (:auto, :digits, :sigdigits) ||
-            throw(ArgumentError(
-                "round_mode must be :auto, :digits, or :sigdigits, got :$round_mode"
-            ))
+    if round_mode !== nothing && round_mode ∉ (:auto, :digits, :sigdigits)
+        throw(ArgumentError(
+            "`round_mode` must be `:auto`, `:digits`, or `:sigdigits`, " * 
+            "got `:$(round_mode)`"
+        ))
     end
-    round_digits !== nothing && (tbl.round_digits = round_digits)
-    round_mode !== nothing && (tbl.round_mode = round_mode)
-    trailing_zeros !== nothing && (tbl.trailing_zeros = trailing_zeros)
+
+    if round_digits !== nothing
+        tbl.round_digits = round_digits
+    end
+    
+    if round_mode !== nothing
+        tbl.round_mode = round_mode
+    end
+    
+    if trailing_zeros !== nothing
+        tbl.trailing_zeros = trailing_zeros
+    end
+    
     return tbl
 end
 
@@ -935,11 +966,16 @@ render(tbl)
 """
 function cols_hide!(tbl::StyledTable, cols::Symbol...)
     colnames = Symbol.(names(tbl.data))
+    
     for col in cols
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
     end
+
     for col in cols
         push!(tbl.hidden_cols, col)
     end
+    
     return tbl
 end
