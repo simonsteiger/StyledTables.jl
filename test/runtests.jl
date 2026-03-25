@@ -143,7 +143,7 @@ end
             cols_label!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
             tab_footnote!(tbl2, "Percentages based on safety population" => :placebo_n)
             run_reftest(tbl2, "references/cols_label/multiline_label_annotated")
-            true
+            true  # remove when @test_broken is removed
         end
     end
 
