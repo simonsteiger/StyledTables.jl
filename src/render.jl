@@ -33,8 +33,7 @@ function render(tbl::StyledTable)
     df = tbl.data
 
     # Determine base column order, then remove row_group_col and hidden_cols
-    base_order = tbl.col_order !== nothing ? tbl.col_order : Symbol.(names(df))
-    display_cols = filter(base_order) do col
+    display_cols = filter(Symbol.(names(df))) do col
         col != tbl.row_group_col && col ∉ tbl.hidden_cols
     end
 
@@ -78,7 +77,7 @@ function render(tbl::StyledTable)
         footer_rows = map(tbl.source_notes) do note
             row = Vector{Cell}(undef, n_cols)
             row[1] = Cell(note; merge = true, halign = :left)
-            for j in 2:n_cols
+            for j = 2:n_cols
                 row[j] = Cell(nothing)
             end
             reshape(row, 1, n_cols)
@@ -105,11 +104,11 @@ function _build_title_rows(tbl::StyledTable, n_cols::Int)
     hdr = tbl.header
     hdr === nothing && return rows
 
-    title_row = [Cell(hdr.title; bold = true, merge = true) for _ in 1:n_cols]
+    title_row = [Cell(hdr.title; bold = true, merge = true) for _ = 1:n_cols]
     push!(rows, reshape(title_row, 1, n_cols))
 
     if hdr.subtitle !== nothing
-        subtitle_row = [Cell(hdr.subtitle; italic = true, merge = true) for _ in 1:n_cols]
+        subtitle_row = [Cell(hdr.subtitle; italic = true, merge = true) for _ = 1:n_cols]
         push!(rows, reshape(subtitle_row, 1, n_cols))
     end
 
@@ -136,17 +135,21 @@ function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
     if has_fn
         result = tbl.col_style_fns[col](cell_raw)
         if result !== nothing
-            result isa NamedTuple || throw(ArgumentError(
-                "tab_style! function for column :$col must return " *
-                "`nothing` or a NamedTuple, " *
-                "got $(typeof(result)). " *
-                "Did you forget an explicit `nothing` in the else branch?"
-            ))
+            result isa NamedTuple || throw(
+                ArgumentError(
+                    "tab_style! function for column :$col must return " *
+                    "`nothing` or a NamedTuple, " *
+                    "got $(typeof(result)). " *
+                    "Did you forget an explicit `nothing` in the else branch?",
+                ),
+            )
             for key in keys(result)
-                key in (:color, :bold, :italic, :underline) || throw(ArgumentError(
-                    "tab_style! function for column :$col returned NamedTuple with " *
-                    "unrecognised key :$key. Valid keys: :color, :bold, :italic, :underline."
-                ))
+                key in (:color, :bold, :italic, :underline) || throw(
+                    ArgumentError(
+                        "tab_style! function for column :$col returned NamedTuple with " *
+                        "unrecognised key :$key. Valid keys: :color, :bold, :italic, :underline.",
+                    ),
+                )
             end
             hasproperty(result, :color) && (color = _resolve_color(result.color))
             hasproperty(result, :bold) && (bold = result.bold)
@@ -165,7 +168,7 @@ function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Sym
     body = Matrix{Cell}(undef, nrow(df), length(colnames))
     for (j, col) in enumerate(colnames)
         halign = get(tbl.col_alignments, col, :left)
-        for i in 1:nrow(df)
+        for i = 1:nrow(df)
             cell_raw = df[i, col]
             formatted = _apply_formatter(cell_raw, tbl, col)
             styled = _apply_col_style(formatted, cell_raw, tbl, col)
@@ -176,7 +179,9 @@ function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Sym
 end
 
 function _build_body_with_groups(
-    tbl::StyledTable, df::DataFrame, display_cols::Vector{Symbol}
+    tbl::StyledTable,
+    df::DataFrame,
+    display_cols::Vector{Symbol},
 )
     group_col = tbl.row_group_col
     indent = tbl.row_group_indent_pt
@@ -190,16 +195,15 @@ function _build_body_with_groups(
     body = Matrix{Cell}(undef, n_display_rows, n_cols)
     offset = 0
 
-    for i in 1:nrow(df)
+    for i = 1:nrow(df)
         if haskey(group_insert_positions, i)
             label = group_insert_positions[i]
-            for j in 1:n_cols
+            for j = 1:n_cols
                 if j == 1
-                    body[i + offset, j] = Cell(
-                        label; bold=true, indent_pt=0, halign=:left
-                    )
+                    body[i+offset, j] =
+                        Cell(label; bold = true, indent_pt = 0, halign = :left)
                 else
-                    body[i + offset, j] = Cell(nothing)
+                    body[i+offset, j] = Cell(nothing)
                 end
             end
             offset += 1
@@ -210,7 +214,7 @@ function _build_body_with_groups(
             cell_raw = df[i, col]
             formatted = _apply_formatter(cell_raw, tbl, col)
             styled = _apply_col_style(formatted, cell_raw, tbl, col)
-            body[i + offset, j] = Cell(styled; halign, indent_pt)
+            body[i+offset, j] = Cell(styled; halign, indent_pt)
         end
     end
 
@@ -227,21 +231,23 @@ function _find_group_boundaries(group_vals::Vector{<:AbstractString})
             prev = v
         end
     end
+
     return result
 end
 
 # Returns a Vector of (spanner_label, gap_cols) tuples for each spanner
 # whose columns are non-contiguous in display_cols.
 function _noncontiguous_spanner_gaps(spanners, display_cols)
-    results = Vector{Tuple{Any, Vector{Symbol}}}()
+    results = Vector{Tuple{Any,Vector{Symbol}}}()
     col_pos = Dict(col => i for (i, col) in enumerate(display_cols))
     for s in spanners
         positions = [col_pos[c] for c in s.columns if haskey(col_pos, c)]
         length(positions) < 2 && continue
         lo, hi = extrema(positions)
-        gap_cols = [display_cols[p] for p in lo:hi if display_cols[p] ∉ s.columns]
+        gap_cols = [display_cols[p] for p = lo:hi if display_cols[p] ∉ s.columns]
         isempty(gap_cols) || push!(results, (s.label, gap_cols))
     end
+
     return results
 end
 
@@ -259,6 +265,7 @@ function _duplicate_group_labels(tbl)
         push!(seen, v)
         prev = v
     end
+
     return unique(dupes)
 end
 
@@ -293,27 +300,31 @@ function _validate_spanners(spanners::Vector{Spanner})
     expected = collect(1:maximum(levels))
     if levels != expected
         missing_levels = setdiff(expected, levels)
-        throw(ArgumentError(
-            "Spanner levels must be contiguous starting from 1. " *
-            "Missing level(s): $(join(missing_levels, ", "))."
-        ))
+        throw(
+            ArgumentError(
+                "Spanner levels must be contiguous starting from 1. " *
+                "Missing level(s): $(join(missing_levels, ", ")).",
+            ),
+        )
     end
 
     # Check 2: same-level spanners must be fully disjoint
     for lvl in levels
         same = filter(s -> s.level == lvl, spanners)
-        for i in 1:length(same)-1, j in i+1:length(same)
+        for i = 1:(length(same)-1), j = (i+1):length(same)
             overlap = intersect(same[i].columns, same[j].columns)
             isempty(overlap) && continue
-            throw(ArgumentError(
-                "Two spanners at level $lvl share columns $(overlap): " *
-                "\"$(same[i].label)\" and \"$(same[j].label)\"."
-            ))
+            throw(
+                ArgumentError(
+                    "Two spanners at level $lvl share columns $(overlap): " *
+                    "\"$(same[i].label)\" and \"$(same[j].label)\".",
+                ),
+            )
         end
     end
 
     # Check 3: cross-level pairs must be disjoint or one a subset of the other
-    for i in 1:length(spanners)-1, j in i+1:length(spanners)
+    for i = 1:(length(spanners)-1), j = (i+1):length(spanners)
         si, sj = spanners[i], spanners[j]
         si.level == sj.level && continue
         a, b = Set(si.columns), Set(sj.columns)
@@ -321,12 +332,14 @@ function _validate_spanners(spanners::Vector{Spanner})
         isempty(inter) && continue   # disjoint: ok
         a ⊆ b && continue            # a inside b: ok
         b ⊆ a && continue            # b inside a: ok
-        throw(ArgumentError(
-            "Spanners at levels $(si.level) and $(sj.level) partially overlap. " *
-            "\"$(si.label)\" covers $(sort(collect(a))) and " *
-            "\"$(sj.label)\" covers $(sort(collect(b))). " *
-            "Column sets must be disjoint or one must fully contain the other."
-        ))
+        throw(
+            ArgumentError(
+                "Spanners at levels $(si.level) and $(sj.level) partially overlap. " *
+                "\"$(si.label)\" covers $(sort(collect(a))) and " *
+                "\"$(sj.label)\" covers $(sort(collect(b))). " *
+                "Column sets must be disjoint or one must fully contain the other.",
+            ),
+        )
     end
 end
 
@@ -339,6 +352,7 @@ function _build_spanner_rows(tbl::StyledTable, colnames::Vector{Symbol})
     levels = sort(unique(s.level for s in tbl.spanners))
     rows = Vector{Cell}[]
     mergegroup_counter = 0
+
     for lvl in levels
         row = Cell[Cell(nothing) for _ in colnames]
         level_spanners = filter(s -> s.level == lvl, tbl.spanners)
@@ -347,14 +361,18 @@ function _build_spanner_rows(tbl::StyledTable, colnames::Vector{Symbol})
             for col in spanner.columns
                 j = findfirst(==(col), colnames)
                 j === nothing && continue
-                row[j] = Cell(spanner.label;
-                    bold = true, merge = true,
+                row[j] = Cell(
+                    spanner.label;
+                    bold = true,
+                    merge = true,
                     mergegroup = mergegroup_counter,
-                    border_bottom = true)
+                    border_bottom = true,
+                )
             end
         end
         push!(rows, row)
     end
+
     return rows  # [level_1_row, level_2_row, ..., level_N_row]
 end
 
@@ -365,11 +383,14 @@ function _header_cell(tbl::StyledTable, col::Symbol)
         halign = get(tbl.col_alignments, col, :left)
         return Cell(label; bold = label !== nothing, halign)
     end
+
     label = get(tbl.col_labels, col, string(col))
     halign = get(tbl.col_alignments, col, :left)
+    
     if haskey(tbl.col_footnotes, col)
         label = SummaryTables.Annotated(label, tbl.col_footnotes[col])
     end
+    
     return Cell(label; bold = true, halign)
 end
 

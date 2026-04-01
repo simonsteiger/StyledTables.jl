@@ -9,24 +9,23 @@ _ncols_str(n) = n == 1 ? "1 col" : "$n cols"
 
 function _is_unconfigured(tbl::StyledTable)
     isempty(tbl.col_labels) &&
-    isempty(tbl.col_alignments) &&
-    isempty(tbl.col_formatters) &&
-    isempty(tbl.col_styles) &&
-    isempty(tbl.col_style_fns) &&
-    isempty(tbl.col_footnotes) &&
-    isempty(tbl.hidden_cols) &&
-    isempty(tbl.spanners) &&
-    isempty(tbl.footnotes) &&
-    isempty(tbl.source_notes) &&
-    isempty(tbl.postprocessors) &&
-    tbl.row_group_col === nothing &&
-    tbl.stub_col === nothing &&
-    tbl.header === nothing &&
-    tbl.col_order === nothing &&
-    tbl.stubhead_label === nothing &&
-    tbl.round_digits === nothing &&
-    tbl.round_mode === nothing &&
-    tbl.trailing_zeros === nothing
+        isempty(tbl.col_alignments) &&
+        isempty(tbl.col_formatters) &&
+        isempty(tbl.col_styles) &&
+        isempty(tbl.col_style_fns) &&
+        isempty(tbl.col_footnotes) &&
+        isempty(tbl.hidden_cols) &&
+        isempty(tbl.spanners) &&
+        isempty(tbl.footnotes) &&
+        isempty(tbl.source_notes) &&
+        isempty(tbl.postprocessors) &&
+        tbl.row_group_col === nothing &&
+        tbl.stub_col === nothing &&
+        tbl.header === nothing &&
+        tbl.stubhead_label === nothing &&
+        tbl.round_digits === nothing &&
+        tbl.round_mode === nothing &&
+        tbl.trailing_zeros === nothing
 end
 
 function _spanner_str(spanners::Vector{Spanner})
@@ -77,17 +76,13 @@ function Base.show(io::IO, tbl::StyledTable)
         push!(rows, "header" => title_str)
     end
 
-    !isempty(tbl.spanners) &&
-        push!(rows, "span" => _spanner_str(tbl.spanners))
+    !isempty(tbl.spanners) && push!(rows, "span" => _spanner_str(tbl.spanners))
 
-    tbl.stub_col !== nothing &&
-        push!(rows, "stub" => ":$(tbl.stub_col)")
+    tbl.stub_col !== nothing && push!(rows, "stub" => ":$(tbl.stub_col)")
 
-    tbl.row_group_col !== nothing &&
-        push!(rows, "groups" => ":$(tbl.row_group_col)")
+    tbl.row_group_col !== nothing && push!(rows, "groups" => ":$(tbl.row_group_col)")
 
-    !isempty(tbl.col_labels) &&
-        push!(rows, "labels" => _ncols_str(length(tbl.col_labels)))
+    !isempty(tbl.col_labels) && push!(rows, "labels" => _ncols_str(length(tbl.col_labels)))
 
     !isempty(tbl.col_alignments) &&
         push!(rows, "align" => _ncols_str(length(tbl.col_alignments)))
@@ -117,10 +112,11 @@ function Base.show(io::IO, tbl::StyledTable)
         push!(rows, "postprocessors" => (n == 1 ? "1 postprocessor" : "$n postprocessors"))
     end
 
-    (tbl.round_digits !== nothing ||
+    (
+        tbl.round_digits !== nothing ||
         tbl.round_mode !== nothing ||
-        tbl.trailing_zeros !== nothing) &&
-        push!(rows, "round" => _round_str(tbl))
+        tbl.trailing_zeros !== nothing
+    ) && push!(rows, "round" => _round_str(tbl))
 
     # Guard: if no displayable fields, fall back to single-line format
     if isempty(rows)

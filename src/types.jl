@@ -89,8 +89,6 @@ $TYPEDFIELDS
     col_style_fns::Dict{Symbol,Function}
     "Per-column footnote annotations."
     col_footnotes::Dict{Symbol,Any}
-    "Explicit column display order, or `nothing` (use DataFrame order)."
-    col_order::Union{Nothing,Vector{Symbol}}
     "Columns excluded from the rendered output."
     hidden_cols::Set{Symbol}
     "Label for the stub column header, or `nothing`."
@@ -149,7 +147,6 @@ function StyledTable(data)
         col_styles = Dict{Symbol,ColStyleOverride}(),
         col_style_fns = Dict{Symbol,Function}(),
         col_footnotes = Dict{Symbol,Any}(),
-        col_order = nothing,
         hidden_cols = Set{Symbol}(),
         stubhead_label = nothing,
         source_notes = Any[],
