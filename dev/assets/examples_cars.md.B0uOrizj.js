@@ -1,4 +1,4 @@
-import{_ as s,o as i,c as n,aA as e}from"./chunks/framework.DeH5H0ZK.js";const y=JSON.parse('{"title":"Sports Cars Performance Table","description":"","frontmatter":{},"headers":[],"relativePath":"examples/cars.md","filePath":"examples/cars.md","lastUpdated":null}'),a={name:"examples/cars.md"};function l(d,t,h,r,p,g){return i(),n("div",null,[...t[0]||(t[0]=[e(`<h1 id="Sports-Cars-Performance-Table" tabindex="-1">Sports Cars Performance Table <a class="header-anchor" href="#Sports-Cars-Performance-Table" aria-label="Permalink to &quot;Sports Cars Performance Table {#Sports-Cars-Performance-Table}&quot;">​</a></h1><p>This example compares sports cars across performance metrics. We hide auxiliary columns, group by origin country, add a performance spanner, format prices, and highlight them with bold styling.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames</span></span>
+import{_ as s,o as i,c as a,aA as e}from"./chunks/framework.DeH5H0ZK.js";const y=JSON.parse('{"title":"Sports Cars Performance Table","description":"","frontmatter":{},"headers":[],"relativePath":"examples/cars.md","filePath":"examples/cars.md","lastUpdated":null}'),n={name:"examples/cars.md"};function l(d,t,h,r,p,k){return i(),a("div",null,[...t[0]||(t[0]=[e(`<h1 id="Sports-Cars-Performance-Table" tabindex="-1">Sports Cars Performance Table <a class="header-anchor" href="#Sports-Cars-Performance-Table" aria-label="Permalink to &quot;Sports Cars Performance Table {#Sports-Cars-Performance-Table}&quot;">​</a></h1><p>This example compares sports cars across performance metrics. We hide auxiliary columns, group by origin country, add a performance spanner, format prices, and highlight them with bold styling.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames</span></span>
 <span class="line"></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">cars </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    origin   </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Italy&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Italy&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Germany&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Germany&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;UK&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;UK&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
@@ -255,141 +255,11 @@ import{_ as s,o as i,c as n,aA as e}from"./chunks/framework.DeH5H0ZK.js";const y
         <td style="text-align:left;">20</td>
     </tr>
     <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-</table></div><h2 id="Step-3:-Reorder,-format,-and-highlight" tabindex="-1">Step 3: Reorder, format, and highlight <a class="header-anchor" href="#Step-3:-Reorder,-format,-and-highlight" aria-label="Permalink to &quot;Step 3: Reorder, format, and highlight {#Step-3:-Reorder,-format,-and-highlight}&quot;">​</a></h2><p>Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">do</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> x</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    replace</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(x), </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">r&quot;</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">(</span><span style="--shiki-light:#22863A;--shiki-light-font-weight:bold;--shiki-dark:#85E89D;--shiki-dark-font-weight:bold;">\\d</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">)(?=(</span><span style="--shiki-light:#22863A;--shiki-light-font-weight:bold;--shiki-dark:#85E89D;--shiki-dark-font-weight:bold;">\\d</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">{3})+$)</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> s</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">\\1</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">,&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;€&quot;</span></span>
-<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">end</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_align!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:right</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:hp</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:trq_nm</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:mpg</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_style!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; bold </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;City/highway combined estimate&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; columns </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:mpg</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_source_note!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Source: manufacturer specifications&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-2af5ee94">
-    <style>
-        #st-2af5ee94 {
-            border: none;
-            margin: 0 auto;
-            padding: 0.25rem;
-            border-collapse: separate;
-            border-spacing: 0.85em 0.2em;
-            line-height: 1.2em;
-        }
-        #st-2af5ee94 tr {
-            background-color: transparent;
-            border: none;
-        }
-        #st-2af5ee94 tr td {
-            vertical-align: top;
-            padding: 0;
-            border: none;
-            background-color: transparent;
-        }
-        #st-2af5ee94 br {
-            line-height: 0em;
-            margin: 0;
-        }
-        #st-2af5ee94 sub {
-            line-height: 0;
-        }
-        #st-2af5ee94 sup {
-            line-height: 0;
-        }
-    </style>
-    <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td colspan="3" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Performance</td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold;text-align:left;">Make</td>
-        <td style="font-weight:bold;text-align:left;">Model</td>
-        <td style="font-weight:bold;text-align:right;">MSRP (€)</td>
-        <td style="font-weight:bold;text-align:right;">HP</td>
-        <td style="font-weight:bold;text-align:right;">Torque (Nm)</td>
-        <td style="font-weight:bold;text-align:right;">MPG<sup>1</sup></td>
-    </tr>
-        <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="font-weight:bold;text-align:left;">Italy</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Ferrari</td>
-        <td style="text-align:left;">488 GTB</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">280,000€</span></td>
-        <td style="text-align:right;">660</td>
-        <td style="text-align:right;">760</td>
-        <td style="text-align:right;">15</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Lamborghini</td>
-        <td style="text-align:left;">Huracán</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">210,000€</span></td>
-        <td style="text-align:right;">610</td>
-        <td style="text-align:right;">560</td>
-        <td style="text-align:right;">13</td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold;text-align:left;">Germany</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Porsche</td>
-        <td style="text-align:left;">911 GT3</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">180,000€</span></td>
-        <td style="text-align:right;">503</td>
-        <td style="text-align:right;">470</td>
-        <td style="text-align:right;">22</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">BMW</td>
-        <td style="text-align:left;">M8</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">130,000€</span></td>
-        <td style="text-align:right;">617</td>
-        <td style="text-align:right;">750</td>
-        <td style="text-align:right;">19</td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold;text-align:left;">UK</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">McLaren</td>
-        <td style="text-align:left;">720S</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">220,000€</span></td>
-        <td style="text-align:right;">710</td>
-        <td style="text-align:right;">770</td>
-        <td style="text-align:right;">21</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Aston Martin</td>
-        <td style="text-align:left;">Vantage</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">155,000€</span></td>
-        <td style="text-align:right;">503</td>
-        <td style="text-align:right;">625</td>
-        <td style="text-align:right;">20</td>
-    </tr>
-    <tfoot>
-        <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">Source: manufacturer specifications</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr><td colspan="6" style="font-size: 0.8em;"><sup>1</sup> City/highway combined estimate</td></tr>
-    </tfoot>
-</table></div><p>The table groups cars by origin, spans the three performance columns, formats MSRP with a thousands separator and currency symbol, and bolds prices for emphasis. The MPG footnote clarifies the measurement basis.</p>`,17)])])}const o=s(a,[["render",l]]);export{y as __pageData,o as default};
+</table></div><h2 id="Step-3:-Reorder,-format,-and-highlight" tabindex="-1">Step 3: Reorder, format, and highlight <a class="header-anchor" href="#Step-3:-Reorder,-format,-and-highlight" aria-label="Permalink to &quot;Step 3: Reorder, format, and highlight {#Step-3:-Reorder,-format,-and-highlight}&quot;">​</a></h2><p>Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.</p><div class="language-@example vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">@example</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>fmt!(tbl, :msrp_eur) do x</span></span>
+<span class="line"><span>    replace(string(x), r&quot;(\\d)(?=(\\d{3})+$)&quot; =&gt; s&quot;\\1,&quot;) * &quot;€&quot;</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span>cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])</span></span>
+<span class="line"><span>tab_style!(tbl, :msrp_eur; bold = true)</span></span>
+<span class="line"><span>tab_footnote!(tbl, &quot;City/highway combined estimate&quot;; columns = [:mpg])</span></span>
+<span class="line"><span>tab_source_note!(tbl, &quot;Source: manufacturer specifications&quot;)</span></span>
+<span class="line"><span>render(tbl)</span></span></code></pre></div><p>The table groups cars by origin, spans the three performance columns, formats MSRP with a thousands separator and currency symbol, and bolds prices for emphasis. The MPG footnote clarifies the measurement basis.</p>`,16)])])}const o=s(n,[["render",l]]);export{y as __pageData,o as default};

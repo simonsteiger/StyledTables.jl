@@ -1,4 +1,4 @@
-import{_ as s,o as i,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o=JSON.parse('{"title":"Clinical Demographics Table","description":"","frontmatter":{},"headers":[],"relativePath":"examples/clinical.md","filePath":"examples/clinical.md","lastUpdated":null}'),l={name:"examples/clinical.md"};function e(d,t,h,p,r,k){return i(),a("div",null,[...t[0]||(t[0]=[n(`<h1 id="Clinical-Demographics-Table" tabindex="-1">Clinical Demographics Table <a class="header-anchor" href="#Clinical-Demographics-Table" aria-label="Permalink to &quot;Clinical Demographics Table {#Clinical-Demographics-Table}&quot;">​</a></h1><p>Demographic summary tables appear in nearly every clinical trial report. This example builds one from scratch with two treatment arms, categorical and continuous variables, missing data, and regulatory-style footnotes.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames, SummaryTables</span></span>
+import{_ as s,o as i,c as a,aA as l}from"./chunks/framework.DeH5H0ZK.js";const o=JSON.parse('{"title":"Clinical Demographics Table","description":"","frontmatter":{},"headers":[],"relativePath":"examples/clinical.md","filePath":"examples/clinical.md","lastUpdated":null}'),e={name:"examples/clinical.md"};function n(h,t,d,p,k,r){return i(),a("div",null,[...t[0]||(t[0]=[l(`<h1 id="Clinical-Demographics-Table" tabindex="-1">Clinical Demographics Table <a class="header-anchor" href="#Clinical-Demographics-Table" aria-label="Permalink to &quot;Clinical Demographics Table {#Clinical-Demographics-Table}&quot;">​</a></h1><p>Demographic summary tables appear in nearly every clinical trial report. This example builds one from scratch with two treatment arms, categorical and continuous variables, missing data, and regulatory-style footnotes.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames, SummaryTables</span></span>
 <span class="line"></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">demo </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    variable  </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span></span>
@@ -124,121 +124,10 @@ import{_ as s,o as i,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o
         <td style="text-align:left;">4</td>
     </tr>
     <tr><td colspan="3" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-</table></div><h2 id="Step-2:-Add-header,-stub-label,-missing-handling,-and-notes" tabindex="-1">Step 2: Add header, stub label, missing handling, and notes <a class="header-anchor" href="#Step-2:-Add-header,-stub-label,-missing-handling,-and-notes" aria-label="Permalink to &quot;Step 2: Add header, stub label, missing handling, and notes {#Step-2:-Add-header,-stub-label,-missing-handling,-and-notes}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">sub_missing!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, with </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;—&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl,</span></span>
-<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    &quot;Percentages computed on non-missing observations&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">;</span></span>
-<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    columns </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:placebo_n</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:treatment_n</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
-<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_source_note!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Abbreviations: SD = standard deviation; N = total per arm&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-13fca9f2">
-    <style>
-        #st-13fca9f2 {
-            border: none;
-            margin: 0 auto;
-            padding: 0.25rem;
-            border-collapse: separate;
-            border-spacing: 0.85em 0.2em;
-            line-height: 1.2em;
-        }
-        #st-13fca9f2 tr {
-            background-color: transparent;
-            border: none;
-        }
-        #st-13fca9f2 tr td {
-            vertical-align: top;
-            padding: 0;
-            border: none;
-            background-color: transparent;
-        }
-        #st-13fca9f2 br {
-            line-height: 0em;
-            margin: 0;
-        }
-        #st-13fca9f2 sub {
-            line-height: 0;
-        }
-        #st-13fca9f2 sup {
-            line-height: 0;
-        }
-    </style>
-    <tr><td colspan="3" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr>
-        <td style="text-align:left;"></td>
-        <td style="font-weight:bold;text-align:left;">Placebo (N=50)<br>n (%)<sup>1</sup></td>
-        <td style="font-weight:bold;text-align:left;">Treatment (N=50)<br>n (%)<sup>1</sup></td>
-    </tr>
-        <tr><td colspan="3" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="font-weight:bold;text-align:left;">Sex</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Male</td>
-        <td style="text-align:left;">22</td>
-        <td style="text-align:left;">19</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Female</td>
-        <td style="text-align:left;">28</td>
-        <td style="text-align:left;">30</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Unknown</td>
-        <td style="text-align:left;">—</td>
-        <td style="text-align:left;">1</td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold;text-align:left;">Age (years)</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Mean (SD)</td>
-        <td style="text-align:left;">48.3 (12.1)</td>
-        <td style="text-align:left;">49.7 (11.8)</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Median</td>
-        <td style="text-align:left;">47</td>
-        <td style="text-align:left;">50</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Range</td>
-        <td style="text-align:left;">24–72</td>
-        <td style="text-align:left;">22–74</td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold;text-align:left;">Race</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">White</td>
-        <td style="text-align:left;">36</td>
-        <td style="text-align:left;">32</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Black or African American</td>
-        <td style="text-align:left;">8</td>
-        <td style="text-align:left;">9</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Asian</td>
-        <td style="text-align:left;">3</td>
-        <td style="text-align:left;">5</td>
-    </tr>
-    <tr>
-        <td style="padding-left:12.0pt;text-align:left;">Other/Unknown</td>
-        <td style="text-align:left;">3</td>
-        <td style="text-align:left;">4</td>
-    </tr>
-    <tfoot>
-        <tr><td colspan="3" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">Abbreviations: SD = standard deviation; N = total per arm</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr><td colspan="3" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr><td colspan="3" style="font-size: 0.8em;"><sup>1</sup> Percentages computed on non-missing observations</td></tr>
-    </tfoot>
-</table></div><p>Row groups label the variable category, the stub column names each subgroup, and multiline headers identify each treatment arm and statistic type. The missing Placebo <code>Unknown</code> count appears as an em dash.</p>`,13)])])}const E=s(l,[["render",e]]);export{o as __pageData,E as default};
+</table></div><h2 id="Step-2:-Add-header,-stub-label,-missing-handling,-and-notes" tabindex="-1">Step 2: Add header, stub label, missing handling, and notes <a class="header-anchor" href="#Step-2:-Add-header,-stub-label,-missing-handling,-and-notes" aria-label="Permalink to &quot;Step 2: Add header, stub label, missing handling, and notes {#Step-2:-Add-header,-stub-label,-missing-handling,-and-notes}&quot;">​</a></h2><div class="language-@example vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">@example</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>sub_missing!(tbl, with = &quot;—&quot;)</span></span>
+<span class="line"><span>tab_footnote!(tbl,</span></span>
+<span class="line"><span>    &quot;Percentages computed on non-missing observations&quot;;</span></span>
+<span class="line"><span>    columns = [:placebo_n, :treatment_n],</span></span>
+<span class="line"><span>)</span></span>
+<span class="line"><span>tab_source_note!(tbl, &quot;Abbreviations: SD = standard deviation; N = total per arm&quot;)</span></span>
+<span class="line"><span>render(tbl)</span></span></code></pre></div><p>Row groups label the variable category, the stub column names each subgroup, and multiline headers identify each treatment arm and statistic type. The missing Placebo <code>Unknown</code> count appears as an em dash.</p>`,12)])])}const E=s(e,[["render",n]]);export{o as __pageData,E as default};

@@ -1,4 +1,4 @@
-import{_ as i,o as s,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o=JSON.parse('{"title":"Quarterly Financial Report Table","description":"","frontmatter":{},"headers":[],"relativePath":"examples/report.md","filePath":"examples/report.md","lastUpdated":null}'),l={name:"examples/report.md"};function e(h,t,d,r,p,k){return s(),a("div",null,[...t[0]||(t[0]=[n(`<h1 id="Quarterly-Financial-Report-Table" tabindex="-1">Quarterly Financial Report Table <a class="header-anchor" href="#Quarterly-Financial-Report-Table" aria-label="Permalink to &quot;Quarterly Financial Report Table {#Quarterly-Financial-Report-Table}&quot;">​</a></h1><p>This example builds a regional quarterly revenue table with consistent number formatting, a highlighted totals column, and annotated footnotes.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames</span></span>
+import{_ as i,o as s,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const E=JSON.parse('{"title":"Quarterly Financial Report Table","description":"","frontmatter":{},"headers":[],"relativePath":"examples/report.md","filePath":"examples/report.md","lastUpdated":null}'),l={name:"examples/report.md"};function e(h,t,k,p,r,d){return s(),a("div",null,[...t[0]||(t[0]=[n(`<h1 id="Quarterly-Financial-Report-Table" tabindex="-1">Quarterly Financial Report Table <a class="header-anchor" href="#Quarterly-Financial-Report-Table" aria-label="Permalink to &quot;Quarterly Financial Report Table {#Quarterly-Financial-Report-Table}&quot;">​</a></h1><p>This example builds a regional quarterly revenue table with consistent number formatting, a highlighted totals column, and annotated footnotes.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, DataFrames</span></span>
 <span class="line"></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">report </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    region </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;North America&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Europe&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Asia-Pacific&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Latin America&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Total&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
@@ -114,110 +114,7 @@ import{_ as i,o as s,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o
         <td style="text-align:right;">42.66</td>
     </tr>
     <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-</table></div><h2 id="Step-2:-Highlight-the-totals-column-and-annotate-Q4" tabindex="-1">Step 2: Highlight the totals column and annotate Q4 <a class="header-anchor" href="#Step-2:-Highlight-the-totals-column-and-annotate-Q4" aria-label="Permalink to &quot;Step 2: Highlight the totals column and annotate Q4 {#Step-2:-Highlight-the-totals-column-and-annotate-Q4}&quot;">​</a></h2><p>Bold the &quot;Full Year&quot; column, flag Q4 figures as preliminary, and credit the data source.</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_style!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:total</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; bold </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Preliminary figures, subject to audit&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; columns </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:q4</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_source_note!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Source: Internal Finance, March 2026&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-8d77b87b">
-    <style>
-        #st-8d77b87b {
-            border: none;
-            margin: 0 auto;
-            padding: 0.25rem;
-            border-collapse: separate;
-            border-spacing: 0.85em 0.2em;
-            line-height: 1.2em;
-        }
-        #st-8d77b87b tr {
-            background-color: transparent;
-            border: none;
-        }
-        #st-8d77b87b tr td {
-            vertical-align: top;
-            padding: 0;
-            border: none;
-            background-color: transparent;
-        }
-        #st-8d77b87b br {
-            line-height: 0em;
-            margin: 0;
-        }
-        #st-8d77b87b sub {
-            line-height: 0;
-        }
-        #st-8d77b87b sup {
-            line-height: 0;
-        }
-    </style>
-    <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr>
-        <td colspan="6" style="font-weight:bold;text-align:center;">Annual Revenue by Region</td>
-    </tr>
-    <tr>
-        <td colspan="6" style="font-style:italic;text-align:center;">Figures in USD billions</td>
-    </tr>
-    <tr>
-        <td style="text-align:center;"></td>
-        <td colspan="4" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Quarterly</td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold;text-align:left;">Region</td>
-        <td style="font-weight:bold;text-align:right;">Q1</td>
-        <td style="font-weight:bold;text-align:right;">Q2</td>
-        <td style="font-weight:bold;text-align:right;">Q3</td>
-        <td style="font-weight:bold;text-align:right;">Q4<sup>1</sup></td>
-        <td style="font-weight:bold;text-align:right;">Full Year</td>
-    </tr>
-        <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">North America</td>
-        <td style="text-align:right;">4.21</td>
-        <td style="text-align:right;">4.55</td>
-        <td style="text-align:right;">4.38</td>
-        <td style="text-align:right;">5.12</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">18.26</span></td>
-    </tr>
-    <tr>
-        <td style="text-align:left;">Europe</td>
-        <td style="text-align:right;">2.83</td>
-        <td style="text-align:right;">3.02</td>
-        <td style="text-align:right;">2.91</td>
-        <td style="text-align:right;">3.45</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">12.21</span></td>
-    </tr>
-    <tr>
-        <td style="text-align:left;">Asia-Pacific</td>
-        <td style="text-align:right;">1.94</td>
-        <td style="text-align:right;">2.10</td>
-        <td style="text-align:right;">2.22</td>
-        <td style="text-align:right;">2.67</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">8.93</span></td>
-    </tr>
-    <tr>
-        <td style="text-align:left;">Latin America</td>
-        <td style="text-align:right;">0.72</td>
-        <td style="text-align:right;">0.81</td>
-        <td style="text-align:right;">0.79</td>
-        <td style="text-align:right;">0.94</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">3.26</span></td>
-    </tr>
-    <tr>
-        <td style="text-align:left;">Total</td>
-        <td style="text-align:right;">9.70</td>
-        <td style="text-align:right;">10.48</td>
-        <td style="text-align:right;">10.30</td>
-        <td style="text-align:right;">12.18</td>
-        <td style="text-align:right;"><span style="font-weight:bold;">42.66</span></td>
-    </tr>
-    <tfoot>
-        <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">Source: Internal Finance, March 2026</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-    </tr>
-    <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-    <tr><td colspan="6" style="font-size: 0.8em;"><sup>1</sup> Preliminary figures, subject to audit</td></tr>
-    </tfoot>
-</table></div><p>The bolded &quot;Full Year&quot; column draws the eye to the aggregate. An auto-numbered superscript on Q4 flags preliminary figures; the source note credits the data origin.</p>`,14)])])}const E=i(l,[["render",e]]);export{o as __pageData,E as default};
+</table></div><h2 id="Step-2:-Highlight-the-totals-column-and-annotate-Q4" tabindex="-1">Step 2: Highlight the totals column and annotate Q4 <a class="header-anchor" href="#Step-2:-Highlight-the-totals-column-and-annotate-Q4" aria-label="Permalink to &quot;Step 2: Highlight the totals column and annotate Q4 {#Step-2:-Highlight-the-totals-column-and-annotate-Q4}&quot;">​</a></h2><p>Bold the &quot;Full Year&quot; column, flag Q4 figures as preliminary, and credit the data source.</p><div class="language-@example vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">@example</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>tab_style!(tbl, :total; bold = true)</span></span>
+<span class="line"><span>tab_footnote!(tbl, &quot;Preliminary figures, subject to audit&quot;; columns = [:q4])</span></span>
+<span class="line"><span>tab_source_note!(tbl, &quot;Source: Internal Finance, March 2026&quot;)</span></span>
+<span class="line"><span>render(tbl)</span></span></code></pre></div><p>The bolded &quot;Full Year&quot; column draws the eye to the aggregate. An auto-numbered superscript on Q4 flags preliminary figures; the source note credits the data origin.</p>`,13)])])}const o=i(l,[["render",e]]);export{E as __pageData,o as default};
