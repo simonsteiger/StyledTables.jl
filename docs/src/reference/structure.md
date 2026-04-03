@@ -52,11 +52,7 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_spanner!(tbl::StyledTable, args::Pair...)
-```
-
-```@docs
-StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}}, AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}}, AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}}, AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}) where T<:AbstractString
+StyledTables.tab_spanner!
 ```
 
 ---
