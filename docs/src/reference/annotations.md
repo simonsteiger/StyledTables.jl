@@ -34,10 +34,10 @@ below the table. For general notes not attached to any column, use
 [`tab_source_note!`](@ref).
 
 **Signatures:**
-- `tab_footnote!(tbl, text => col)` — annotate a single column
-- `tab_footnote!(tbl, text => [col1, col2])` — same text on multiple columns
-- `tab_footnote!(tbl, text1 => col1, text2 => col2, ...)` — multiple footnotes at once
-- `tab_footnote!(tbl, d::AbstractDict)` — dict form
+- `tab_footnote!(tbl, text => col)`
+- `tab_footnote!(tbl, text => [col1, col2])`
+- `tab_footnote!(tbl, text1 => col1, text2 => col2, ...)`
+- `tab_footnote!(tbl, d::AbstractDict)`
 
 ```@example annotations
 tbl = StyledTable(df)
