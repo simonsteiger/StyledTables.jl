@@ -331,13 +331,13 @@ render(tbl)
 function tab_spanner!(
     tbl::StyledTable,
     d::Union{
-        AbstractVector{<:Pair{<:AbstractString,Vector{<:AbstractString}}},
+        AbstractVector{<:Pair{<:AbstractString,<:AbstractVector{<:AbstractString}}},
         AbstractVector{<:Pair{Symbol,Vector{Symbol}}},
-        AbstractVector{<:Pair{Symbol,Vector{<:AbstractString}}},
+        AbstractVector{<:Pair{Symbol,<:AbstractVector{<:AbstractString}}},
         AbstractVector{<:Pair{<:AbstractString,Vector{Symbol}}},
         AbstractDict{Symbol,Vector{Symbol}},
-        AbstractDict{<:AbstractString,Vector{<:AbstractString}},
-        AbstractDict{Symbol,Vector{<:AbstractString}},
+        AbstractDict{<:AbstractString,<:AbstractVector{<:AbstractString}},
+        AbstractDict{Symbol,<:AbstractVector{<:AbstractString}},
         AbstractDict{<:AbstractString,Vector{Symbol}},
         AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
         AbstractVector{<:Pair{Symbol,<:AbstractString}},
