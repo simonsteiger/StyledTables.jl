@@ -58,7 +58,7 @@ fmt!(tbl, :msrp_eur) do x
 end
 cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])
 tab_style!(tbl, :msrp_eur; bold = true)
-tab_footnote!(tbl, "City/highway combined estimate"; columns = [:mpg])
+tab_footnote!(tbl, "City/highway combined estimate" => [:mpg])
 tab_source_note!(tbl, "Source: manufacturer specifications")
 render(tbl)
 ```

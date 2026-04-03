@@ -44,10 +44,7 @@ render(tbl)
 
 ```@example clinical
 sub_missing!(tbl, with = "—")
-tab_footnote!(tbl,
-    "Percentages computed on non-missing observations";
-    columns = [:placebo_n, :treatment_n],
-)
+tab_footnote!(tbl, "Percentages computed on non-missing observations" => [:placebo_n, :treatment_n])
 tab_source_note!(tbl, "Abbreviations: SD = standard deviation; N = total per arm")
 render(tbl)
 ```
