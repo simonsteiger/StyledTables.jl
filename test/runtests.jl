@@ -38,10 +38,22 @@ end
 
 @testset "StyledTables" begin
 
+    @testset "Aqua.jl" begin
+        include("Aqua.jl")
+    end
+
     # -----------------------------------------------------------------------
     @testset "StyledTable / basic render" begin
         df = DataFrame(a = [1, 2], b = ["x", "y"])
         run_reftest(StyledTable(df), "references/styled_table/basic")
+
+        # Non-DataFrame Tables.jl-compatible input is converted to DataFrame
+        let nt = [(x = 1, y = 2), (x = 3, y = 4)]
+            tbl = StyledTable(nt)
+            @test tbl.data isa DataFrame
+            @test names(tbl.data) == ["x", "y"]
+            @test nrow(tbl.data) == 2
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -135,11 +147,12 @@ end
         run_reftest(tbl, "references/cols_label/multiline_label")
 
         # Multiline label + column footnote: SummaryTables.Annotated(Multiline(...))
-        # renders correctly (verified: shows multiline text + superscript footnote number).
-        tbl2 = StyledTable(df)
-        cols_label!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
-        tab_footnote!(tbl2, "Percentages based on safety population"; columns = [:placebo_n])
-        run_reftest(tbl2, "references/cols_label/multiline_label_annotated")
+        # renders correctly (shows multiline text + superscript footnote number).
+        let tbl2 = StyledTable(df)
+            cols_label!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
+            tab_footnote!(tbl2, "Percentages based on safety population" => :placebo_n)
+            run_reftest(tbl2, "references/cols_label/multiline_label_annotated")
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -185,6 +198,22 @@ end
         tbl = StyledTable(df)
         cols_label!(uppercase, tbl, Symbol[])
         @test isempty(tbl.col_labels)
+
+        # Scalar Symbol selector — delegates to vector form
+        let df = DataFrame(first_name = ["Alice"], last_name = ["Smith"])
+            tbl = StyledTable(df)
+            cols_label!(uppercase, tbl, :first_name)
+            @test tbl.col_labels[:first_name] == "FIRST_NAME"
+            @test !haskey(tbl.col_labels, :last_name)
+        end
+
+        # Scalar String selector — delegates to Symbol then vector form
+        let df = DataFrame(first_name = ["Alice"], last_name = ["Smith"])
+            tbl = StyledTable(df)
+            cols_label!(uppercase, tbl, "first_name")
+            @test tbl.col_labels[:first_name] == "FIRST_NAME"
+            @test !haskey(tbl.col_labels, :last_name)
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -254,41 +283,99 @@ end
 
         # AbstractVector{<:Pair{Symbol, Vector{AbstractString}}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Pair{Symbol,Vector{String}}[:Treatment => ["dose", "response"]])
+            tab_spanner!(tbl, :Treatment => ["dose", "response"])
             @test html_str(tbl) == ref
         end
 
-        # AbstractVector{<:Pair{AbstractString, Vector{Symbol}}}
-        # Vector{Pair{String,Vector{Symbol}}} hits the standalone method;
-        # covariant type annotation exercises the Union path.
+
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Pair{String,Vector{Symbol}}["Treatment" => [:dose, :response]])
+            tab_spanner!(tbl, "Treatment" => [:dose, :response])
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{AbstractString, Vector{AbstractString}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{String,Vector{String}}("Treatment" => ["dose", "response"]))
+            tab_spanner!(tbl, Dict("Treatment" => ["dose", "response"]))
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{Symbol, Vector{AbstractString}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{Symbol,Vector{String}}(:Treatment => ["dose", "response"]))
+            tab_spanner!(tbl, Dict(:Treatment => ["dose", "response"]))
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{AbstractString, Vector{Symbol}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{String,Vector{Symbol}}("Treatment" => [:dose, :response]))
+            tab_spanner!(tbl, Dict("Treatment" => [:dose, :response]))
             @test html_str(tbl) == ref
         end
 
         # AbstractDict{Symbol, Vector{Symbol}}
         let tbl = StyledTable(df)
-            tab_spanner!(tbl, Dict{Symbol,Vector{Symbol}}(:Treatment => [:dose, :response]))
+            tab_spanner!(tbl, Dict(:Treatment => [:dose, :response]))
             @test html_str(tbl) == ref
         end
+
+        # Single pair
+        ref = let tbl = StyledTable(df)
+            tab_spanner!(tbl, "Treatment" => :dose)
+            html_str(tbl)
+        end
+        
+        # AbstractDict{Symbol, Symbol}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict(:Treatment => :dose))
+            @test html_str(tbl) == ref
+        end
+        
+        # AbstractDict{String, Symbol}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict(:Treatment => :dose))
+            @test html_str(tbl) == ref
+        end
+        
+        # AbstractDict{String, String}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict("Treatment" => "dose"))
+            @test html_str(tbl) == ref
+        end
+        
+        # AbstractDict{Symbol, String}
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict("Treatment" => :dose))
+            @test html_str(tbl) == ref
+        end
+
+        # Single Multiline spanner
+        ref = let tbl = StyledTable(df)
+            tab_spanner!(tbl, Multiline("Treatment", "(mg)") => :dose)
+            html_str(tbl)
+        end
+        
+        # Single Multiline inside Dict
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, Dict(Multiline("Treatment", "(mg)") => :dose))
+            @test html_str(tbl) == ref
+        end
+        
+        # Single Multiline inside Vector
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, [Multiline("Treatment", "(mg)") => :dose])
+            @test html_str(tbl) == ref
+        end
+
+        # Mixed value types — Dict{String, Any} → ArgumentError
+        @test_throws ArgumentError tab_spanner!(
+            StyledTable(df),
+            Dict("Treatment" => [:dose, :response], "Participant" => :name)
+        )
+
+        # Mixed value types — Vector{Pair{String, Any}} → ArgumentError
+        @test_throws ArgumentError tab_spanner!(
+            StyledTable(df),
+            Pair["Treatment" => [:dose, :response], "Participant" => :name]
+        )
     end
 
     # -----------------------------------------------------------------------
@@ -304,41 +391,37 @@ end
         # Error: non-contiguous levels (1 and 3, no level 2)
         @test_throws ArgumentError begin
             tbl = StyledTable(df)
-            tab_spanner!(tbl, "A"; columns = [:bill_len], level = 1)
-            tab_spanner!(tbl, "B"; columns = [:bill_depth], level = 3)
+            tab_spanner!(tbl, "A" => [:bill_len]; level = 1)
+            tab_spanner!(tbl, "B" => [:bill_depth]; level = 3)
             render(tbl)
         end
 
         # Error: same-level partial overlap
         @test_throws ArgumentError begin
             tbl = StyledTable(df)
-            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth])
-            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len])
+            tab_spanner!(tbl, "A" => [:bill_len, :bill_depth])
+            tab_spanner!(tbl, "B" => [:bill_depth, :flipper_len])
             render(tbl)
         end
 
         # Error: cross-level partial overlap
         @test_throws ArgumentError begin
             tbl = StyledTable(df)
-            tab_spanner!(tbl, "A"; columns = [:bill_len, :bill_depth, :flipper_len])
-            tab_spanner!(tbl, "B"; columns = [:bill_depth, :flipper_len, :body_mass], level = 2)
+            tab_spanner!(tbl, "A" => [:bill_len, :bill_depth, :flipper_len])
+            tab_spanner!(tbl, "B" => [:bill_depth, :flipper_len, :body_mass]; level = 2)
             render(tbl)
         end
 
         # Scenario A: level-2 spanner covers exactly the same columns as level-1
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Length (mm)";
-            columns = [:bill_len, :bill_depth, :flipper_len])
-        tab_spanner!(tbl, "Physical measurements";
-            columns = [:bill_len, :bill_depth, :flipper_len], level = 2)
+        tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+        tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len]; level = 2)
         run_reftest(tbl, "references/tab_spanner/nested_two_levels")
 
         # Scenario B: level-2 spanner covers level-1 columns PLUS an extra ungrouped column
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Length (mm)";
-            columns = [:bill_len, :bill_depth, :flipper_len])
-        tab_spanner!(tbl, "Physical measurements";
-            columns = [:bill_len, :bill_depth, :flipper_len, :body_mass], level = 2)
+        tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+        tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
         run_reftest(tbl, "references/tab_spanner/nested_uncovered_col")
     end
 
@@ -384,14 +467,116 @@ end
     @testset "tab_footnote!" begin
         df = DataFrame(x = [1, 2], y = [3, 4])
 
-        tbl = StyledTable(df)
-        tab_footnote!(tbl, "Source: internal data")
-        run_reftest(tbl, "references/tab_footnote/single")
+        # ── Single-column pair, Symbol col ──────────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Fascinating values" => :x)
+            @test haskey(tbl.col_footnotes, :x)
+            @test tbl.col_footnotes[:x] == "Fascinating values"
+            @test !haskey(tbl.col_footnotes, :y)
+        end
 
-        tbl = StyledTable(df)
-        tab_footnote!(tbl, "Source: internal data")
-        tab_footnote!(tbl, "n = 2")
-        run_reftest(tbl, "references/tab_footnote/multiple")
+        # ── Multi-column pair, Vector{Symbol} ───────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Both columns" => [:x, :y])
+            @test haskey(tbl.col_footnotes, :x)
+            @test haskey(tbl.col_footnotes, :y)
+            run_reftest(tbl, "references/tab_footnote/single")
+        end
+
+        # ── Multiple pairs (varargs) ────────────────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Note X" => [:x], "Note Y" => [:y])
+            @test tbl.col_footnotes[:x] == "Note X"
+            @test tbl.col_footnotes[:y] == "Note Y"
+            run_reftest(tbl, "references/tab_footnote/multiple")
+        end
+
+        # ── Vector-of-pairs form ─────────────────────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, ["Both columns" => [:x, :y]])
+            @test haskey(tbl.col_footnotes, :x)
+            @test haskey(tbl.col_footnotes, :y)
+        end
+
+        # ── Dict form ────────────────────────────────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, Dict("Both columns" => [:x, :y]))
+            @test haskey(tbl.col_footnotes, :x)
+            @test haskey(tbl.col_footnotes, :y)
+        end
+
+        # ── Multiline key form ────────────────────────────────────────────
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, [Multiline("measured", "monthly") => [:x, :y]])
+            @test haskey(tbl.col_footnotes, :x)
+            @test haskey(tbl.col_footnotes, :y)
+        end
+
+        # ── Error cases ──────────────────────────────────────────────────
+        @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => :nonexistent)
+        # Vector{Symbol} col error — correct path via _push_footnotes!
+        @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => [:nonexistent])
+        @test_throws ArgumentError tab_footnote!(StyledTable(df), Dict("Note" => [:nonexistent]))
+        @test_throws ArgumentError tab_footnote!(StyledTable(df), ["Note" => [:nonexistent]])
+    end
+
+    # -----------------------------------------------------------------------
+    @testset "tab_footnote! input types" begin
+        df = DataFrame(x = [1, 2], y = [3, 4])
+
+        # Canonical reference: varargs with Vector{Symbol} → method 4
+        ref_multi = let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Note" => [:x, :y])
+            html_str(tbl)
+        end
+
+        # Vector{String} cols (method 6 conversion) → same output
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Note" => ["x", "y"])
+            @test html_str(tbl) == ref_multi
+        end
+
+        # Vector-of-pairs with Vector{Symbol} (method 4)
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, ["Note" => [:x, :y]])
+            @test html_str(tbl) == ref_multi
+        end
+
+        # Vector-of-pairs with Vector{String} (method 6 conversion)
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, ["Note" => ["x", "y"]])
+            @test html_str(tbl) == ref_multi
+        end
+
+        # Dict{String,Vector{Symbol}} (method 6 conversion)
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, Dict("Note" => [:x, :y]))
+            @test html_str(tbl) == ref_multi
+        end
+
+        # Dict{String,Vector{String}} (method 6 conversion)
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, Dict("Note" => ["x", "y"]))
+            @test html_str(tbl) == ref_multi
+        end
+
+        # ── Single-column canonical: varargs with Symbol ─────────────────
+        # Replaces the @test_broken blocks — dispatch is fixed.
+        ref_single = let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Note" => :x)
+            html_str(tbl)
+        end
+
+        # Single String col → same output
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "Note" => "x")
+            @test html_str(tbl) == ref_single
+        end
+
+        # Symbol key rejected (varargs path)
+        @test_throws MethodError tab_footnote!(StyledTable(df), :note => :x)
+        # Symbol key rejected (vector path — old <:Any bypass is closed)
+        @test_throws MethodError tab_footnote!(StyledTable(df), [:note => [:x]])
     end
 
     # -----------------------------------------------------------------------
@@ -478,21 +663,14 @@ end
         run_reftest(tbl, "references/tab_options/sigdigits_trailing")
 
         @test_throws ArgumentError tab_options!(StyledTable(df), round_mode = :invalid)
-    end
-
-    # -----------------------------------------------------------------------
-    @testset "tab_footnote! column location" begin
-        df = DataFrame(x = [1, 2], y = [3, 4])
 
         tbl = StyledTable(df)
-        tab_footnote!(tbl, "See methods"; columns = [:x])
-        run_reftest(tbl, "references/tab_footnote/col_single")
+        tab_options!(tbl; round_mode = :auto)
+        run_reftest(tbl, "references/tab_options/round_auto")
 
         tbl = StyledTable(df)
-        tab_footnote!(tbl, "Measured at baseline"; columns = [:x, :y])
-        run_reftest(tbl, "references/tab_footnote/col_multiple")
-
-        @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note"; columns = [:nonexistent])
+        tab_options!(tbl; round_digits = 2, trailing_zeros = false)
+        run_reftest(tbl, "references/tab_options/trailing_zeros_false")
     end
 
     # -----------------------------------------------------------------------
@@ -545,6 +723,28 @@ end
         run_reftest(tbl, "references/fmt/number_trailing_zeros")
 
         @test_throws ArgumentError fmt_number!(StyledTable(df), [:nonexistent]; digits = 2)
+
+        # Vector{String} column selector (AbstractVector{<:AbstractString} overload)
+        let df = DataFrame(x = [1.5, 2.5])
+            tbl = StyledTable(df)
+            fmt_number!(tbl, ["x"]; digits = 1)
+            @test tbl.col_formatters[:x](1.5) == "1.5"
+        end
+
+        # Single String column selector (AbstractString overload)
+        let df = DataFrame(x = [1.5])
+            tbl = StyledTable(df)
+            fmt_number!(tbl, "x"; digits = 1)
+            @test tbl.col_formatters[:x](1.5) == "1.5"
+        end
+
+        # trailing_zeros=false — rstrip path
+        let df = DataFrame(x = [1.5, 2.0])
+            tbl = StyledTable(df)
+            fmt_number!(tbl, [:x]; digits = 3, trailing_zeros = false)
+            @test tbl.col_formatters[:x](1.5) == "1.5"    # trailing zero stripped: 1.500 → 1.5
+            @test tbl.col_formatters[:x](2.0) == "2"       # trailing zeros + dot stripped: 2.000 → 2
+        end
     end
 
     @testset "fmt_percent!" begin
@@ -553,6 +753,20 @@ end
         tbl = StyledTable(df)
         fmt_percent!(tbl, [:rate]; digits = 1)
         run_reftest(tbl, "references/fmt/percent_default")
+
+        # scale kwarg — scale=1 means no multiplication (value stays as-is)
+        let df = DataFrame(x = [0.5])
+            tbl = StyledTable(df)
+            fmt_percent!(tbl, [:x]; scale = 1)
+            @test tbl.col_formatters[:x](0.5) == "0.5%"   # 0.5 * 1 = 0.5, not 50.0%
+        end
+
+        # suffix kwarg — non-default suffix
+        let df = DataFrame(x = [0.5])
+            tbl = StyledTable(df)
+            fmt_percent!(tbl, [:x]; suffix = " pct")
+            @test tbl.col_formatters[:x](0.5) == "50.0 pct"  # 0.5 * 100 = 50.0 + " pct"
+        end
     end
 
     @testset "fmt_integer!" begin
@@ -891,15 +1105,15 @@ end
 
         # Spanners: single level shows count and col count
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "Group"; columns = [:a, :b])
+        tab_spanner!(tbl, "Group" => [:a, :b])
         out = sprint(show, tbl)
         @test contains(out, "span")
         @test contains(out, "1 (2 cols)")
 
         # Spanners: multiple levels show per-level breakdown
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "L1a"; columns = [:a, :b], level = 1)
-        tab_spanner!(tbl, "L2";  columns = [:a, :b, :c], level = 2)
+        tab_spanner!(tbl, "L1a" => [:a, :b]; level = 1)
+        tab_spanner!(tbl, "L2" => [:a, :b, :c]; level = 2)
         out = sprint(show, tbl)
         @test contains(out, "L1: 2 cols")
         @test contains(out, "L2: 3 cols")
@@ -937,14 +1151,14 @@ end
 
         # Notes: singular and plural
         tbl = StyledTable(df)
-        tab_footnote!(tbl, "Note 1")
+        tab_footnote!(tbl, "Note 1" => [:a])
         out = sprint(show, tbl)
         @test contains(out, "1 note")
         @test !contains(out, "notes")
 
         tbl = StyledTable(df)
-        tab_footnote!(tbl, "Note 1")
-        tab_footnote!(tbl, "Note 2")
+        tab_footnote!(tbl, "Note 1" => [:a])
+        tab_footnote!(tbl, "Note 2" => [:b])
         out = sprint(show, tbl)
         @test contains(out, "2 notes")
 
@@ -998,6 +1212,27 @@ end
         tab_source_note!(tbl, "Source B")
         out = sprint(show, tbl)
         @test contains(out, "2 sources")
+
+        # fmt row appears when col_formatters is non-empty
+        let tbl = StyledTable(df)
+            fmt_number!(tbl, [:a]; digits = 2)
+            out = sprint(show, tbl)
+            @test contains(out, "fmt")
+        end
+
+        # styles row appears when col_styles or col_style_fns is non-empty
+        let tbl = StyledTable(df)
+            tab_style!(tbl, [:a]; bold = true)
+            out = sprint(show, tbl)
+            @test contains(out, "styles")
+        end
+
+        # postprocessors row appears when postprocessors is non-empty
+        let tbl = StyledTable(df)
+            sub_missing!(tbl)
+            out = sprint(show, tbl)
+            @test contains(out, "postprocessors")
+        end
     end
 
 end

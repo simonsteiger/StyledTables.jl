@@ -62,7 +62,7 @@ render(tbl)
 
 $TYPEDFIELDS
 """
-mutable struct StyledTable
+@kwdef mutable struct StyledTable
     "Source data."
     data::DataFrame
     "Display labels keyed by column name."
@@ -89,8 +89,6 @@ mutable struct StyledTable
     col_style_fns::Dict{Symbol,Function}
     "Per-column footnote annotations."
     col_footnotes::Dict{Symbol,Any}
-    "Explicit column display order, or `nothing` (use DataFrame order)."
-    col_order::Union{Nothing,Vector{Symbol}}
     "Columns excluded from the rendered output."
     hidden_cols::Set{Symbol}
     "Label for the stub column header, or `nothing`."
@@ -105,4 +103,56 @@ mutable struct StyledTable
     round_mode::Union{Nothing,Symbol}
     "`true` to pad with trailing zeros when rounding; `nothing` defers to SummaryTables."
     trailing_zeros::Union{Nothing,Bool}
+end
+
+"""
+$TYPEDSIGNATURES
+
+Wrap a `DataFrame` (or any Tables.jl-compatible table) in a [`StyledTable`](@ref).
+
+Returns a `StyledTable` with default settings. Apply modifier functions and
+call [`render`](@ref) to produce a `SummaryTables.Table`.
+
+# Arguments
+
+- `data`: a `DataFrame` or any Tables.jl-compatible table.
+
+# Returns
+
+A [`StyledTable`](@ref).
+
+See also: [`render`](@ref), [`cols_label!`](@ref), [`tab_header!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_header!(tbl, "My Table")
+render(tbl)
+```
+"""
+function StyledTable(data)
+    df = data isa DataFrame ? data : DataFrame(data)
+    return StyledTable(;
+        data = df,
+        col_labels = Dict{Symbol,Any}(),
+        col_alignments = Dict{Symbol,Symbol}(),
+        spanners = Spanner[],
+        row_group_col = nothing,
+        row_group_indent_pt = 12.0,
+        stub_col = nothing,
+        header = nothing,
+        footnotes = Any[],
+        col_formatters = Dict{Symbol,Function}(),
+        col_styles = Dict{Symbol,ColStyleOverride}(),
+        col_style_fns = Dict{Symbol,Function}(),
+        col_footnotes = Dict{Symbol,Any}(),
+        hidden_cols = Set{Symbol}(),
+        stubhead_label = nothing,
+        source_notes = Any[],
+        postprocessors = Any[],
+        round_digits = nothing,
+        round_mode = nothing,
+        trailing_zeros = nothing,
+    )
 end

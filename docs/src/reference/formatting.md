@@ -2,9 +2,7 @@
 
 Formatters convert raw cell values to display strings **before** styling is applied. Each formatter applies to one or more columns.
 
-> `fmt_*` functions leave the underlying `DataFrame` unchanged — they affect only the rendered output.
-
----
+`fmt_*` functions leave the underlying `DataFrame` unchanged — they affect only the rendered output.
 
 ## `fmt_number!`
 

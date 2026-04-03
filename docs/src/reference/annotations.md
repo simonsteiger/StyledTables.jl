@@ -62,10 +62,12 @@ Add a source-note line in the footer. Source notes span the full table width and
 **Signature:** `tab_source_note!(tbl, text)`
 
 ```@example annotations
+using SummaryTables: Multiline
+note = Multiline("Data: World Bank Open Data", "Values in trillions USD")
+
 tbl = StyledTable(df)
 tab_header!(tbl, "GDP by Country")
-tab_source_note!(tbl, "Data: World Bank Open Data")
-tab_source_note!(tbl, "Values in trillions USD")
+tab_source_note!(tbl, note)
 render(tbl)
 ```
 

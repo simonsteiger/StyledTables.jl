@@ -14,10 +14,12 @@ function _resolve_color(c::Colors.Colorant)
 end
 
 function _resolve_color(c)
-    throw(ArgumentError(
-        "_resolve_color received unsupported type $(typeof(c)). " *
-        "Accepted: nothing, Symbol, AbstractString, Colors.Colorant."
-    ))
+    throw(
+        ArgumentError(
+            "_resolve_color received unsupported type $(typeof(c)). " *
+            "Pass one of: `nothing`, `Symbol`, `AbstractString`, `Colors.Colorant`.",
+        ),
+    )
 end
 
 """
@@ -93,11 +95,21 @@ cols_label!(tbl, label_dict)
 render(tbl)
 ```
 """
-function cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}}, 
-    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol}, 
-    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
+function cols_label!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{Symbol,Symbol}},
+        AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractDict{Symbol,Symbol},
+        AbstractDict{<:AbstractString,<:AbstractString},
+        AbstractDict{<:AbstractString,Symbol},
+        AbstractDict{Symbol,<:AbstractString},
+    },
+)
     ps = [Symbol(col) => String(label) for (col, label) in d]
     cols_label!(tbl, ps)
+
     return tbl
 end
 
@@ -139,12 +151,12 @@ render(tbl)
 """
 function cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
     colnames = Symbol.(names(tbl.data))
+
     for col in columns
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
-    end
-    for col in columns
         tbl.col_labels[col] = f(string(col))
     end
+
     return tbl
 end
 
@@ -154,7 +166,9 @@ function cols_label!(f, tbl::StyledTable, columns::AbstractVector{<:AbstractStri
 end
 
 cols_label!(f, tbl::StyledTable, column::Symbol) = cols_label!(f, tbl, [column])
-cols_label!(f, tbl::StyledTable, column::AbstractString) = cols_label!(f, tbl, Symbol(column))
+function cols_label!(f, tbl::StyledTable, column::AbstractString)
+    return cols_label!(f, tbl, Symbol(column))
+end
 
 function cols_label!(f, tbl::StyledTable)
     cols_label!(f, tbl, Symbol.(names(tbl.data)))
@@ -184,17 +198,19 @@ cols_align!(tbl, :right, [:x, :y])
 render(tbl)
 ```
 """
-function cols_align!(tbl::StyledTable, halign::Symbol, columns=nothing)
-    halign in (:left, :center, :right) ||
+function cols_align!(tbl::StyledTable, halign::Symbol, columns = nothing)
+    if halign ∉ (:left, :center, :right)
         throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
-    colnames = Symbol.(names(tbl.data))
-    cols = columns === nothing ? colnames : columns
-    for col in cols
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
-    for col in cols
+
+    colnames = Symbol.(names(tbl.data))
+    target_cols = columns === nothing ? colnames : columns
+
+    for col in target_cols
+        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
         tbl.col_alignments[col] = halign
     end
+
     return tbl
 end
 
@@ -214,9 +230,8 @@ A higher-level spanner's column set must fully contain every lower-level spanner
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: one or more `label => columns` pairs.
-- `level`: spanner row (default `1`). Alternatively, use the single-label form
-  `tab_spanner!(tbl, label; columns = [...], level = N)`.
+- `args`: one or more `label => column(s)` pairs.
+- `level`: the spanner row (default `1`).
 
 # Returns
 
@@ -248,68 +263,40 @@ tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
 render(tbl)
 ```
 """
-function tab_spanner!(tbl::StyledTable, args::Pair...; level::Int = 1)
+function tab_spanner!(tbl::StyledTable, args::Pair...; level = 1)
     tab_spanner!(tbl, collect(args); level)
     return tbl
 end
 
-function _push_spanners!(tbl::StyledTable, d; level::Int = 1)
+function _push_spanners!(tbl::StyledTable, d; level = 1)
     colnames = Symbol.(names(tbl.data))
+
     for (label, columns) in d
         for col in columns
-            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+            if col ∉ colnames
+                throw(ArgumentError("Column :$col not found in DataFrame"))
+            end
         end
         push!(tbl.spanners, Spanner(label, columns, level))
     end
+
     return tbl
 end
 
-"""
-$TYPEDSIGNATURES
-
-Add a single spanning header label above a group of columns, using keyword arguments.
-
-This is a convenience alternative to the `label => columns` pair form. Both forms accept
-the `level` keyword for stacking spanners in multiple header rows.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `label`: the spanner text (a `String`, `SummaryTables.Multiline`, or any value accepted
-  by `SummaryTables.Cell`).
-- `columns`: columns to span (`Vector{Symbol}`). Required.
-- `level`: spanner row (default `1`). `1` = bottom-most row; higher values sit above.
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-tab_spanner!(tbl, "Length (mm)"; columns = [:bill_len, :bill_depth, :flipper_len])
-tab_spanner!(tbl, "Physical measurements";
-    columns = [:bill_len, :bill_depth, :flipper_len, :body_mass], level = 2)
-render(tbl)
-```
-"""
-function tab_spanner!(tbl::StyledTable, label; columns::AbstractVector{Symbol}, level::Int = 1)
-    _push_spanners!(tbl, [label => columns]; level)
-    return tbl
-end
-
-# Note: Pair{String, Vector{Symbol}} inputs arrive here from the conversion method below.
-# The exact (invariant) signature prevents Julia from routing them back through the
-# conversion method, which would cause a StackOverflow.
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{Pair{String, Vector{Symbol}}}; level::Int = 1)
+function tab_spanner!(
+    tbl::StyledTable,
+    d::AbstractVector{Pair{String,Vector{Symbol}}};
+    level = 1,
+)
     _push_spanners!(tbl, d; level)
 end
 
-# Handles Multiline and any other non-String, non-Symbol label keys.
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any, Vector{Symbol}}}; level::Int = 1)
+
+function tab_spanner!(
+    tbl::StyledTable,
+    d::AbstractVector{Pair{Multiline,Vector{Symbol}}};
+    level = 1,
+)
     _push_spanners!(tbl, d; level)
 end
 
@@ -321,9 +308,8 @@ Add spanning headers from a dict or vector of pairs.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: an `AbstractDict` or `AbstractVector` of `Pair`s mapping spanner labels to column
-  name vectors.
-- `level`: spanner row applied to every entry in `d` (default `1`).
+- `d`: an `AbstractDict` or `AbstractVector` pairing spanner labels to column names.
+- `level`: the spanner row applied to every entry in `d` (default `1`).
 
 # Returns
 
@@ -342,12 +328,64 @@ tab_spanner!(tbl, Dict(
 render(tbl)
 ```
 """
-function tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{T, Vector{T}}},
-    AbstractVector{<:Pair{Symbol, Vector{Symbol}}}, AbstractVector{<:Pair{Symbol, Vector{T}}},
-    AbstractVector{<:Pair{T, Vector{Symbol}}}, AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{T, Vector{T}},
-    AbstractDict{Symbol, Vector{T}}, AbstractDict{T, Vector{Symbol}}}; level::Int = 1) where T <: AbstractString
-    ps = [String(label) => Symbol.(columns) for (label, columns) in d]
+function tab_spanner!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{<:AbstractString,<:AbstractVector{<:AbstractString}}},
+        AbstractVector{<:Pair{Symbol,Vector{Symbol}}},
+        AbstractVector{<:Pair{Symbol,<:AbstractVector{<:AbstractString}}},
+        AbstractVector{<:Pair{<:AbstractString,Vector{Symbol}}},
+        AbstractDict{Symbol,Vector{Symbol}},
+        AbstractDict{<:AbstractString,<:AbstractVector{<:AbstractString}},
+        AbstractDict{Symbol,<:AbstractVector{<:AbstractString}},
+        AbstractDict{<:AbstractString,Vector{Symbol}},
+        AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
+        AbstractVector{<:Pair{Symbol,<:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractVector{<:Pair{Symbol,Symbol}},
+        AbstractDict{<:AbstractString,<:AbstractString},
+        AbstractDict{Symbol,<:AbstractString},
+        AbstractDict{<:AbstractString,Symbol},
+        AbstractDict{Symbol,Symbol},
+        AbstractVector{<:Pair{Multiline,Symbol}},
+        AbstractVector{<:Pair{Multiline,<:AbstractString}},
+        AbstractDict{Multiline,Symbol},
+        AbstractDict{Multiline,<:AbstractString},
+    };
+    level = 1,
+)
+    ps = [_sanitize_lab(label) => _sanitize_cols(col_or_cols) for (label, col_or_cols) in d]
     tab_spanner!(tbl, ps; level)
+    return tbl
+end
+
+function _sanitize_cols(col_or_cols)
+    return Symbol.(col_or_cols isa AbstractVector ? col_or_cols : [col_or_cols])
+end
+_sanitize_lab(label) = label isa Multiline ? label : String(label)
+
+function _throw_if_mixed_spanner_values(vtypes, tbl, d)
+    if length(vtypes) > 1
+        throw(
+            ArgumentError(
+                "tab_spanner! received mixed value types: $(join(vtypes, ", ", " and ")). " *
+                "All values must share the same type. " *
+                "Tip: wrap single columns in a vector, e.g., " *
+                "\"spanner\" => [:col], or split into separate tab_spanner! calls.",
+            ),
+        )
+    end
+    throw(MethodError(tab_spanner!, (tbl, d)))
+end
+
+function tab_spanner!(tbl::StyledTable, d::AbstractDict; level = 1)
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_if_mixed_spanner_values(vtypes, tbl, d)
+end
+
+function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level = 1)
+    vtypes = unique(typeof(v) for (_, v) in d)
+    _throw_if_mixed_spanner_values(vtypes, tbl, d)
 end
 
 """
@@ -377,63 +415,12 @@ render(tbl)
 ```
 """
 function tab_stub!(tbl::StyledTable, col::Symbol)
-    col in Symbol.(names(tbl.data)) ||
+    if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
+    end
+
     tbl.stub_col = col
     return tbl
-end
-
-"""
-$TYPEDSIGNATURES
-
-Wrap a `DataFrame` (or any Tables.jl-compatible table) in a [`StyledTable`](@ref).
-
-Returns a `StyledTable` with default settings. Apply modifier functions and
-call [`render`](@ref) to produce a `SummaryTables.Table`.
-
-# Arguments
-
-- `data`: a `DataFrame` or any Tables.jl-compatible table.
-
-# Returns
-
-A [`StyledTable`](@ref).
-
-See also: [`render`](@ref), [`cols_label!`](@ref), [`tab_header!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-tab_header!(tbl, "My Table")
-render(tbl)
-```
-"""
-function StyledTable(data)
-    df = data isa DataFrame ? data : DataFrame(data)
-    return StyledTable(
-        df,                              # data
-        Dict{Symbol,Any}(),              # col_labels
-        Dict{Symbol,Symbol}(),           # col_alignments
-        Spanner[],                       # spanners
-        nothing,                         # row_group_col
-        12.0,                            # row_group_indent_pt
-        nothing,                         # stub_col
-        nothing,                         # header
-        Any[],                           # footnotes
-        Dict{Symbol,Function}(),         # col_formatters
-        Dict{Symbol,ColStyleOverride}(), # col_styles
-        Dict{Symbol,Function}(),         # col_style_fns
-        Dict{Symbol,Any}(),              # col_footnotes
-        nothing,                         # col_order
-        Set{Symbol}(),                   # hidden_cols
-        nothing,                         # stubhead_label
-        Any[],                           # source_notes
-        Any[],                           # postprocessors
-        nothing,                         # round_digits
-        nothing,                         # round_mode
-        nothing,                         # trailing_zeros
-    )
 end
 
 """
@@ -474,18 +461,14 @@ end
 """
 $TYPEDSIGNATURES
 
-Add a footnote to the table.
+Add footnotes to the table.
 
-Without `columns`, `text` appears as a table-level note. With `columns`, an auto-numbered superscript attaches to those column headers, and `text` appears in the footnote area.
+Footnotes refer to specific columns. For placing general notes under the table, see [`tab_source_note!`](@ref).
 
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `text`: footnote text.
-
-# Keywords
-
-- `columns`: column names to annotate with a superscript, or `nothing` (default).
+- `args`: one or more `text => column(s)` pairs.
 
 # Returns
 
@@ -497,23 +480,90 @@ See also: [`tab_source_note!`](@ref), [`tab_header!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_footnote!(tbl, "Source: World Bank")
-tab_footnote!(tbl, "PPP adjusted"; columns = [:gdp])
+tab_footnote!(tbl, "PPP adjusted" => :gdp)
 render(tbl)
 ```
 """
-function tab_footnote!(tbl::StyledTable, text; columns::Union{Nothing,AbstractVector{Symbol}} = nothing)
-    if columns === nothing
-        push!(tbl.footnotes, text)
-    else
-        colnames = Symbol.(names(tbl.data))
+function tab_footnote!(tbl::StyledTable, args::Pair...)
+    tab_footnote!(tbl, collect(args))
+    return tbl
+end
+
+function tab_footnote!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractDict{<:AbstractString,<:AbstractString},
+        AbstractDict{<:AbstractString,Symbol},
+    },
+)
+    ps = [String(text) => [col isa Symbol ? col : Symbol(col)] for (text, col) in d]
+    _push_footnotes!(tbl, ps)
+    return tbl
+end
+
+function _push_footnotes!(tbl::StyledTable, d)
+    colnames = Symbol.(names(tbl.data))
+    
+    for (text, columns) in d
         for col in columns
-            col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
-        end
-        for col in columns
+            if col ∉ colnames
+                throw(ArgumentError("Column :$col not found in DataFrame"))
+            end
             tbl.col_footnotes[col] = text
         end
     end
+    
+    return tbl
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
+    _push_footnotes!(tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
+    _push_footnotes!(tbl, d)
+end
+
+"""
+$TYPEDSIGNATURES
+
+Add footnotes from a dict or vector of pairs.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: an `AbstractDict` or `AbstractVector` of `Pair`s mapping text to column names.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_footnote(tbl, Dict(
+    "measured each month" => [:efficacy, :safety],
+    "in years" => [:age])
+)
+render(tbl)
+```
+"""
+function tab_footnote!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{
+            <:Pair{<:AbstractString,<:Union{Vector{<:AbstractString},Vector{Symbol}}},
+        },
+        AbstractDict{<:AbstractString,<:Union{Vector{<:AbstractString},Vector{Symbol}}},
+    },
+)
+    ps = [String(text) => Symbol.(columns) for (text, columns) in d]
+    tab_footnote!(tbl, ps)
     return tbl
 end
 
@@ -549,10 +599,13 @@ render(tbl)
 ```
 """
 function tab_row_group!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12)
-    col in Symbol.(names(tbl.data)) ||
+    if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
+    end
+
     tbl.row_group_col = col
     tbl.row_group_indent_pt = Float64(indent_pt)
+
     return tbl
 end
 
@@ -664,10 +717,10 @@ function tab_style!(
     colnames = Symbol.(names(tbl.data))
     for col in columns
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        tbl.col_styles[col] =
+            ColStyleOverride(_resolve_color(color), bold, italic, underline)
     end
-    for col in columns
-        tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
-    end
+    
     return tbl
 end
 
@@ -704,7 +757,7 @@ function tab_style!(
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
 )
-    tab_style!(tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
+    tab_style!(tbl, collect(columns); color, bold, italic, underline)
     return tbl
 end
 
@@ -713,13 +766,14 @@ $TYPEDSIGNATURES
 
 Apply conditional inline styling to body cells in the listed columns.
 
-`f(raw_value) -> Union{Nothing, NamedTuple}` receives each cell's raw DataFrame value
+`f(x) -> Union{Nothing, NamedTuple}` receives each cell's raw DataFrame value
 (before any formatter) and returns either `nothing` (no conditional style) or a `NamedTuple`
-with any subset of `color`, `bold`, `italic`, `underline`. A key set to `nothing` explicitly
-clears the static baseline for that property.
+with any of `color`, `bold`, `italic`, `underline`.
 
-Optional kwargs set a static per-column baseline. The function result overrides any
+Optional kwargs set a per-column baseline. The function result overrides any
 baseline property whose key is present in the returned `NamedTuple`.
+
+Setting a key to `nothing` explicitly clears the static baseline for that property.
 
 # Returns
 
@@ -757,12 +811,15 @@ function tab_style!(
     for col in columns
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
+
     for col in columns
         tbl.col_style_fns[col] = f
         if any(!isnothing, (color, bold, italic, underline))
-            tbl.col_styles[col] = ColStyleOverride(_resolve_color(color), bold, italic, underline)
+            tbl.col_styles[col] =
+                ColStyleOverride(_resolve_color(color), bold, italic, underline)
         end
     end
+
     return tbl
 end
 
@@ -782,7 +839,7 @@ function tab_style!(
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
 )
-    tab_style!(f, tbl, collect(columns); color=color, bold=bold, italic=italic, underline=underline)
+    tab_style!(f, tbl, collect(columns); color, bold, italic, underline)
     return tbl
 end
 
@@ -845,22 +902,37 @@ See also: [`fmt_number!`](@ref), [`fmt_percent!`](@ref), [`fmt_integer!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_options!(tbl, round_digits = 2, round_mode = :digits)
+tab_options!(tbl, round_digits=2, round_mode=:digits)
 render(tbl)
 ```
 """
-function tab_options!(tbl::StyledTable;
+function tab_options!(
+    tbl::StyledTable;
     round_digits::Union{Nothing,Int} = nothing,
     round_mode::Union{Nothing,Symbol} = nothing,
     trailing_zeros::Union{Nothing,Bool} = nothing,
 )
-    if round_mode !== nothing
-        round_mode in (:auto, :digits, :sigdigits) ||
-            throw(ArgumentError("round_mode must be :auto, :digits, or :sigdigits, got :$round_mode"))
+    if round_mode !== nothing && round_mode ∉ (:auto, :digits, :sigdigits)
+        throw(
+            ArgumentError(
+                "`round_mode` must be `:auto`, `:digits`, or `:sigdigits`, " *
+                "got `:$(round_mode)`",
+            ),
+        )
     end
-    round_digits !== nothing && (tbl.round_digits = round_digits)
-    round_mode !== nothing && (tbl.round_mode = round_mode)
-    trailing_zeros !== nothing && (tbl.trailing_zeros = trailing_zeros)
+
+    if round_digits !== nothing
+        tbl.round_digits = round_digits
+    end
+
+    if round_mode !== nothing
+        tbl.round_mode = round_mode
+    end
+
+    if trailing_zeros !== nothing
+        tbl.trailing_zeros = trailing_zeros
+    end
+
     return tbl
 end
 
@@ -896,8 +968,10 @@ function cols_hide!(tbl::StyledTable, cols::Symbol...)
     for col in cols
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
+
     for col in cols
         push!(tbl.hidden_cols, col)
     end
+
     return tbl
 end

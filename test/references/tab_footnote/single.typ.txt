@@ -7,8 +7,8 @@
     stroke: none,
     table.header(
         table.hline(y: 0, stroke: 1pt),
-        [*#"x"*],
-        [*#"y"*],
+        [*#"x"#super[#"1"]*],
+        [*#"y"#super[#"1"]*],
         table.hline(y: 1, stroke: 0.75pt),
     ),
     [#"1"],
@@ -17,6 +17,6 @@
     [#"4"],
     table.hline(y: 3, stroke: 1pt),
     table.cell(colspan: 2)[#text(size: 0.8em)[
-        #"Source: internal data"
+        #super[#"1"]#"Both columns"
     ]],
 )

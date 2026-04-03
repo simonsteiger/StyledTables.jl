@@ -12,7 +12,11 @@ function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{Symbol}, f::Fu
     return tbl
 end
 
-function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{<:AbstractString}, f::Function)
+function _apply_formatter!(
+    tbl::StyledTable,
+    cols::AbstractVector{<:AbstractString},
+    f::Function,
+)
     _apply_formatter!(tbl, Symbol.(cols), f)
     return tbl
 end
@@ -100,7 +104,13 @@ fmt_percent!(tbl, [:rate]; digits = 1)
 render(tbl)
 ```
 """
-function fmt_percent!(tbl::StyledTable, cols; digits::Int = 1, scale::Real = 100, suffix::String = "%")
+function fmt_percent!(
+    tbl::StyledTable,
+    cols;
+    digits::Int = 1,
+    scale::Real = 100,
+    suffix::String = "%",
+)
     fmt_str = Printf.Format("%.$(digits)f")
     f = x -> ismissing(x) ? x : Printf.format(fmt_str, Float64(x) * scale) * suffix
     return _apply_formatter!(tbl, cols, f)

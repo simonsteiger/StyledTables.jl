@@ -4,7 +4,7 @@
 \begin{threeparttable}
 \begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
 \toprule
-\textbf{x} & \textbf{y} \\
+\textbf{x\tnote{1}} & \textbf{y\tnote{1}} \\
 \midrule
 1 & 3 \\
 2 & 4 \\
@@ -12,7 +12,7 @@
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item[]Source: internal data
+\item[1]Both columns
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
