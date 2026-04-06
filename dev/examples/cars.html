@@ -9,11 +9,11 @@
     <link rel="preload stylesheet" href="/StyledTables.jl/dev/assets/style.GIRV4_gg.css" as="style">
     <link rel="preload stylesheet" href="/StyledTables.jl/dev/vp-icons.css" as="style">
     
-    <script type="module" src="/StyledTables.jl/dev/assets/app.gRWYicMQ.js"></script>
+    <script type="module" src="/StyledTables.jl/dev/assets/app.J21waICu.js"></script>
     <link rel="preload" href="/StyledTables.jl/dev/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="modulepreload" href="/StyledTables.jl/dev/assets/chunks/theme.DhhtugIP.js">
+    <link rel="modulepreload" href="/StyledTables.jl/dev/assets/chunks/theme.DSw95ER5.js">
     <link rel="modulepreload" href="/StyledTables.jl/dev/assets/chunks/framework.DeH5H0ZK.js">
-    <link rel="modulepreload" href="/StyledTables.jl/dev/assets/examples_cars.md.B0uOrizj.lean.js">
+    <link rel="modulepreload" href="/StyledTables.jl/dev/assets/examples_cars.md.BmkgNCnV.lean.js">
     <link rel="icon" href="/StyledTables.jl/dev/favicon.ico">
     <script src="/StyledTables.jl/versions.js"></script>
     <script src="/StyledTables.jl/dev/siteinfo.js"></script>
@@ -278,15 +278,145 @@
         <td style="text-align:left;">20</td>
     </tr>
     <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
-</table></div><h2 id="Step-3:-Reorder,-format,-and-highlight" tabindex="-1">Step 3: Reorder, format, and highlight <a class="header-anchor" href="#Step-3:-Reorder,-format,-and-highlight" aria-label="Permalink to &quot;Step 3: Reorder, format, and highlight {#Step-3:-Reorder,-format,-and-highlight}&quot;">​</a></h2><p>Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.</p><div class="language-@example vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">@example</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>fmt!(tbl, :msrp_eur) do x</span></span>
-<span class="line"><span>    replace(string(x), r&quot;(\d)(?=(\d{3})+$)&quot; =&gt; s&quot;\1,&quot;) * &quot;€&quot;</span></span>
-<span class="line"><span>end</span></span>
-<span class="line"><span>cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])</span></span>
-<span class="line"><span>tab_style!(tbl, :msrp_eur; bold = true)</span></span>
-<span class="line"><span>tab_footnote!(tbl, &quot;City/highway combined estimate&quot;; columns = [:mpg])</span></span>
-<span class="line"><span>tab_source_note!(tbl, &quot;Source: manufacturer specifications&quot;)</span></span>
-<span class="line"><span>render(tbl)</span></span></code></pre></div><p>The table groups cars by origin, spans the three performance columns, formats MSRP with a thousands separator and currency symbol, and bolds prices for emphasis. The MPG footnote clarifies the measurement basis.</p></div></div></main><footer class="VPDocFooter" data-v-83890dd9 data-v-4f9813fa><!--[--><!--]--><div class="edit-info" data-v-4f9813fa><div class="edit-link" data-v-4f9813fa><a class="VPLink link vp-external-link-icon no-icon edit-link-button" href="https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/examples/cars.md" target="_blank" rel="noreferrer" data-v-4f9813fa><!--[--><span class="vpi-square-pen edit-link-icon" data-v-4f9813fa></span> Edit this page<!--]--></a></div><!----></div><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-4f9813fa><span class="visually-hidden" id="doc-footer-aria-label" data-v-4f9813fa>Pager</span><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link prev" href="/StyledTables.jl/dev/reference/rendering" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Previous page</span><span class="title" data-v-4f9813fa>Rendering</span><!--]--></a></div><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link next" href="/StyledTables.jl/dev/examples/clinical" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Next page</span><span class="title" data-v-4f9813fa>Clinical Demographics</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter has-sidebar" data-v-a9a9e638 data-v-c970a860><div class="container" data-v-c970a860><p class="message" data-v-c970a860>Made with <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/" target="_blank"><strong>DocumenterVitepress.jl</strong></a><br></p><p class="copyright" data-v-c970a860>© Copyright 2026.</p></div></footer><!--[--><!--]--></div></div>
-    <script>window.__VP_HASH_MAP__=JSON.parse("{\"examples_cars.md\":\"B0uOrizj\",\"examples_clinical.md\":\"CTiiJyby\",\"examples_color_gradients.md\":\"0cEV7R2X\",\"examples_multilevel_spanners.md\":\"DWu6U06l\",\"examples_report.md\":\"CkVtbGzO\",\"getting_started.md\":\"BaZTAd7c\",\"index.md\":\"BZraxx2b\",\"reference_annotations.md\":\"CA32cUlu\",\"reference_columns.md\":\"BKOs02pj\",\"reference_formatting.md\":\"z1Zq6SwW\",\"reference_rendering.md\":\"CEY5LJ0d\",\"reference_structure.md\":\"DGtFQCqG\",\"reference_styling.md\":\"C0ISq4S1\",\"resources_api.md\":\"HrZV45Am\",\"resources_design.md\":\"Dy5y6xck\",\"resources_export.md\":\"DX1LAOmy\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"StyledTables.jl\",\"description\":\"Documentation for StyledTables.jl\",\"base\":\"/StyledTables.jl/dev/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"outline\":\"deep\",\"logo\":{\"src\":\"/logo.svg\",\"width\":24,\"height\":24},\"search\":{\"provider\":\"local\",\"options\":{\"detailedView\":true}},\"nav\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/columns\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/design\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]},{\"component\":\"VersionPicker\"}],\"sidebar\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/columns\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/design\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]}],\"editLink\":{\"pattern\":\"https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/:path\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/simonsteiger/StyledTables.jl\"}],\"footer\":{\"message\":\"Made with <a href=\\\"https://luxdl.github.io/DocumenterVitepress.jl/dev/\\\" target=\\\"_blank\\\"><strong>DocumenterVitepress.jl</strong></a><br>\",\"copyright\":\"© Copyright 2026.\"}},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
+</table></div><h2 id="Step-3:-Reorder,-format,-and-highlight" tabindex="-1">Step 3: Reorder, format, and highlight <a class="header-anchor" href="#Step-3:-Reorder,-format,-and-highlight" aria-label="Permalink to &quot;Step 3: Reorder, format, and highlight {#Step-3:-Reorder,-format,-and-highlight}&quot;">​</a></h2><p>Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">do</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> x</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    replace</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(x), </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">r&quot;</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">(</span><span style="--shiki-light:#22863A;--shiki-light-font-weight:bold;--shiki-dark:#85E89D;--shiki-dark-font-weight:bold;">\d</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">)(?=(</span><span style="--shiki-light:#22863A;--shiki-light-font-weight:bold;--shiki-dark:#85E89D;--shiki-dark-font-weight:bold;">\d</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">{3})+$)</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> s</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">\1</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">,&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;€&quot;</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">end</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_align!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:right</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:hp</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:trq_nm</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:mpg</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_style!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; bold </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;City/highway combined estimate&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> :mpg</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_source_note!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Source: manufacturer specifications&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-2af5ee94">
+    <style>
+        #st-2af5ee94 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-2af5ee94 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-2af5ee94 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-2af5ee94 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-2af5ee94 sub {
+            line-height: 0;
+        }
+        #st-2af5ee94 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td colspan="3" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Performance</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Make</td>
+        <td style="font-weight:bold;text-align:left;">Model</td>
+        <td style="font-weight:bold;text-align:right;">MSRP (€)</td>
+        <td style="font-weight:bold;text-align:right;">HP</td>
+        <td style="font-weight:bold;text-align:right;">Torque (Nm)</td>
+        <td style="font-weight:bold;text-align:right;">MPG<sup>1</sup></td>
+    </tr>
+        <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Italy</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Ferrari</td>
+        <td style="text-align:left;">488 GTB</td>
+        <td style="text-align:right;"><span style="font-weight:bold;">280,000€</span></td>
+        <td style="text-align:right;">660</td>
+        <td style="text-align:right;">760</td>
+        <td style="text-align:right;">15</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Lamborghini</td>
+        <td style="text-align:left;">Huracán</td>
+        <td style="text-align:right;"><span style="font-weight:bold;">210,000€</span></td>
+        <td style="text-align:right;">610</td>
+        <td style="text-align:right;">560</td>
+        <td style="text-align:right;">13</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Germany</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Porsche</td>
+        <td style="text-align:left;">911 GT3</td>
+        <td style="text-align:right;"><span style="font-weight:bold;">180,000€</span></td>
+        <td style="text-align:right;">503</td>
+        <td style="text-align:right;">470</td>
+        <td style="text-align:right;">22</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">BMW</td>
+        <td style="text-align:left;">M8</td>
+        <td style="text-align:right;"><span style="font-weight:bold;">130,000€</span></td>
+        <td style="text-align:right;">617</td>
+        <td style="text-align:right;">750</td>
+        <td style="text-align:right;">19</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">UK</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">McLaren</td>
+        <td style="text-align:left;">720S</td>
+        <td style="text-align:right;"><span style="font-weight:bold;">220,000€</span></td>
+        <td style="text-align:right;">710</td>
+        <td style="text-align:right;">770</td>
+        <td style="text-align:right;">21</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Aston Martin</td>
+        <td style="text-align:left;">Vantage</td>
+        <td style="text-align:right;"><span style="font-weight:bold;">155,000€</span></td>
+        <td style="text-align:right;">503</td>
+        <td style="text-align:right;">625</td>
+        <td style="text-align:right;">20</td>
+    </tr>
+    <tfoot>
+        <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Source: manufacturer specifications</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr><td colspan="6" style="font-size: 0.8em;"><sup>1</sup> City/highway combined estimate</td></tr>
+    </tfoot>
+</table></div><p>The table groups cars by origin, spans the three performance columns, formats MSRP with a thousands separator and currency symbol, and bolds prices for emphasis. The MPG footnote clarifies the measurement basis.</p></div></div></main><footer class="VPDocFooter" data-v-83890dd9 data-v-4f9813fa><!--[--><!--]--><div class="edit-info" data-v-4f9813fa><div class="edit-link" data-v-4f9813fa><a class="VPLink link vp-external-link-icon no-icon edit-link-button" href="https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/examples/cars.md" target="_blank" rel="noreferrer" data-v-4f9813fa><!--[--><span class="vpi-square-pen edit-link-icon" data-v-4f9813fa></span> Edit this page<!--]--></a></div><!----></div><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-4f9813fa><span class="visually-hidden" id="doc-footer-aria-label" data-v-4f9813fa>Pager</span><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link prev" href="/StyledTables.jl/dev/reference/rendering" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Previous page</span><span class="title" data-v-4f9813fa>Rendering</span><!--]--></a></div><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link next" href="/StyledTables.jl/dev/examples/clinical" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Next page</span><span class="title" data-v-4f9813fa>Clinical Demographics</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter has-sidebar" data-v-a9a9e638 data-v-c970a860><div class="container" data-v-c970a860><p class="message" data-v-c970a860>Made with <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/" target="_blank"><strong>DocumenterVitepress.jl</strong></a><br></p><p class="copyright" data-v-c970a860>© Copyright 2026.</p></div></footer><!--[--><!--]--></div></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"examples_cars.md\":\"BmkgNCnV\",\"examples_clinical.md\":\"CpP2Orc-\",\"examples_color_gradients.md\":\"hnKJjP-8\",\"examples_multilevel_spanners.md\":\"DWu6U06l\",\"examples_report.md\":\"ywf5H7PU\",\"getting_started.md\":\"BaZTAd7c\",\"index.md\":\"BZraxx2b\",\"reference_annotations.md\":\"BMbOXVpL\",\"reference_columns.md\":\"CQV7K7HD\",\"reference_formatting.md\":\"CY6xAQ-A\",\"reference_rendering.md\":\"CM4GGABz\",\"reference_structure.md\":\"Cir2o4NG\",\"reference_styling.md\":\"DqONcSr2\",\"resources_api.md\":\"DhIb8CD3\",\"resources_design.md\":\"Dy5y6xck\",\"resources_export.md\":\"DX1LAOmy\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"StyledTables.jl\",\"description\":\"Documentation for StyledTables.jl\",\"base\":\"/StyledTables.jl/dev/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"outline\":\"deep\",\"logo\":{\"src\":\"/logo.svg\",\"width\":24,\"height\":24},\"search\":{\"provider\":\"local\",\"options\":{\"detailedView\":true}},\"nav\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/columns\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/design\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]},{\"component\":\"VersionPicker\"}],\"sidebar\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/columns\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/design\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]}],\"editLink\":{\"pattern\":\"https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/:path\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/simonsteiger/StyledTables.jl\"}],\"footer\":{\"message\":\"Made with <a href=\\\"https://luxdl.github.io/DocumenterVitepress.jl/dev/\\\" target=\\\"_blank\\\"><strong>DocumenterVitepress.jl</strong></a><br>\",\"copyright\":\"© Copyright 2026.\"}},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
     
   </body>
 </html>
