@@ -546,7 +546,7 @@ See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_footnote(tbl, Dict(
+tab_footnote!(tbl, Dict(
     "measured each month" => [:efficacy, :safety],
     "in years" => [:age])
 )

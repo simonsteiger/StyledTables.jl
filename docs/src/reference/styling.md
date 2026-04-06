@@ -41,6 +41,65 @@ StyledTables.tab_style!(::StyledTables.StyledTable, ::Symbol...)
 StyledTables.tab_style!(::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
+### Conditional styling
+
+Pass a function as the first argument to style cells based on their raw DataFrame
+value (before any formatter is applied).
+
+`f(raw_value) -> Union{Nothing, NamedTuple}` — return `nothing` for no style override,
+or a `NamedTuple` with any subset of `color`, `bold`, `italic`, `underline` keys.
+The `color` key accepts the same types as the `color` keyword in [`tab_style!`](@ref): a hex string (`"#RRGGBB"`), a CSS name (`"green"`), a `Symbol` (`:green`), or a `Colors.Colorant`.
+
+Optional keyword arguments set a static per-column *baseline*. The function result
+**overrides** any baseline key that appears in the returned `NamedTuple`; keys absent
+from the `NamedTuple` inherit the baseline.
+
+**Signatures:**
+```julia
+tab_style!(f, tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+tab_style!(f, tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+```
+
+> **Note:** In Julia, the `do`-block syntax places the anonymous function as the *first* positional argument. So `tab_style!(tbl, :change) do val ... end` is equivalent to `tab_style!(val -> ..., tbl, :change)`.
+
+```@example styling
+df_cond = DataFrame(
+    metric = ["Revenue", "EBITDA", "Net Income"],
+    change = [0.12, -0.03, 0.07],
+)
+
+tbl = StyledTable(df_cond)
+tab_style!(tbl, :change) do val
+    val > 0 ? (; color = :green, bold = true) :
+    val < 0 ? (; color = :red) :
+    nothing
+end
+cols_label!(tbl, :metric => "Metric", :change => "YoY Change")
+fmt_percent!(tbl, :change; digits = 1)
+render(tbl)
+```
+
+A static baseline can be combined with a function override. Here every cell in `:change`
+is italic by default, but positive values are also bolded:
+
+```@example styling
+tbl = StyledTable(df_cond)
+tab_style!(tbl, :change; italic = true) do val
+    val > 0 ? (; bold = true) : nothing
+end
+cols_label!(tbl, :metric => "Metric", :change => "YoY Change")
+fmt_percent!(tbl, :change; digits = 1)
+render(tbl)
+```
+
+```@docs
+StyledTables.tab_style!(::Any, ::StyledTables.StyledTable, ::Symbol...)
+```
+
+```@docs
+StyledTables.tab_style!(::Any, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
+```
+
 ---
 
 ## `sub_missing!`

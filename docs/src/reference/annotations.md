@@ -28,24 +28,42 @@ StyledTables.tab_header!
 
 ## `tab_footnote!`
 
-Add a footnote. Without `columns`, the text appears below the table. With `columns`, an auto-numbered superscript attaches to those column headers, and the text appears in the footnote area.
+Add column-annotated footnotes. An auto-numbered superscript attaches to the
+specified column header(s); the footnote text appears in the footnote area
+below the table. For general notes not attached to any column, use
+[`tab_source_note!`](@ref).
 
 **Signatures:**
-- `tab_footnote!(tbl, text)` — table-level footnote
-- `tab_footnote!(tbl, text; columns = [:col1, :col2])` — column-annotated footnote
+- `tab_footnote!(tbl, text => col)`
+- `tab_footnote!(tbl, text => [col1, col2])`
+- `tab_footnote!(tbl, text1 => col1, text2 => col2, ...)`
+- `tab_footnote!(tbl, d::AbstractDict)`
 
 ```@example annotations
 tbl = StyledTable(df)
 tab_header!(tbl, "GDP by Country")
-tab_footnote!(tbl, "Source: World Bank (2025)")
+tab_footnote!(tbl, "Purchasing power parity adjusted" => :gdp)
 render(tbl)
 ```
 
-Annotate a specific column:
+Annotate multiple columns with the same footnote:
 
 ```@example annotations
 tbl = StyledTable(df)
-tab_footnote!(tbl, "Purchasing power parity adjusted"; columns = [:gdp])
+tab_footnote!(tbl, "Source: World Bank (2025)" => [:country, :gdp])
+render(tbl)
+```
+
+Multiple independent footnotes in one call:
+
+```@example annotations
+df2 = DataFrame(country = ["US", "DE"], gdp = [25.5, 4.1], pop = [331, 84])
+
+tbl = StyledTable(df2)
+tab_footnote!(tbl,
+    "Purchasing power parity adjusted" => :gdp,
+    "Population in millions"           => :pop,
+)
 render(tbl)
 ```
 

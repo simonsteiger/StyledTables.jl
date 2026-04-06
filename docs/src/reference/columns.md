@@ -74,8 +74,8 @@ Set horizontal alignment for one or more columns. Valid values: `:left`,
 `:center`, `:right`.
 
 **Signatures:**
-- `cols_align!(tbl, halign, columns)` — apply to specific columns
-- `cols_align!(tbl, halign)` — apply to all columns
+- `cols_align!(tbl, halign, columns)`
+- `cols_align!(tbl, halign)`
 
 ```@example columns
 tbl = StyledTable(df)
