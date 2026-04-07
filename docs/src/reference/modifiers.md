@@ -74,6 +74,7 @@ Set horizontal alignment for one or more columns. Valid values: `:left`,
 
 **Signatures:**
 - `cols_align!(tbl, col => halign, ...)`
+- `cols_align!(tbl, [cols...] => halign, ...)` — same alignment for a group of columns
 - `cols_align!(tbl, dict_or_vector)`
 - `cols_align!(tbl, halign)` — apply to all columns
 - `cols_align!(f, tbl, halign)` — apply to columns where `f(eltype) == true`
@@ -81,6 +82,14 @@ Set horizontal alignment for one or more columns. Valid values: `:left`,
 ```@example columns
 tbl = StyledTable(df)
 cols_align!(tbl, :bmi => :right, :sbp => :right)
+render(tbl)
+```
+
+Align a group of columns to the same alignment in one call:
+
+```@example columns
+tbl = StyledTable(df)
+cols_align!(tbl, [:bmi, :sbp] => :right)
 render(tbl)
 ```
 
@@ -92,18 +101,19 @@ cols_align!(tbl, :center)
 render(tbl)
 ```
 
-Align all numeric columns right using the type-predicate form:
+Align all `Real` valued columns right using the type-predicate form:
 
 ```@example columns
+isreal(::T) where T <: Real = true
+isreal(::Any) = false
 tbl = StyledTable(df)
-cols_align!(tbl, :right) do T
-    T <: Real
-end
+cols_align!(isreal, tbl, :right)
 render(tbl)
 ```
 
 ```@docs
 StyledTables.cols_align!(::StyledTable, ::Pair{Symbol,Symbol}...)
+StyledTables.cols_align!(::StyledTable, ::Pair{<:AbstractVector,Symbol}...)
 StyledTables.cols_align!(::StyledTable, ::Union{AbstractVector,AbstractDict})
 StyledTables.cols_align!(::StyledTable, ::Symbol)
 StyledTables.cols_align!(::Any, ::StyledTable, ::Symbol)
