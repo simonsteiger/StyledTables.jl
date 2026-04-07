@@ -56,7 +56,7 @@ Format MSRP with a currency prefix, right-align numeric columns, bold the price 
 fmt!(tbl, :msrp_eur) do x
     replace(string(x), r"(\d)(?=(\d{3})+$)" => s"\1,") * "€"
 end
-cols_align!(tbl, :right, [:msrp_eur, :hp, :trq_nm, :mpg])
+cols_align!(tbl, :msrp_eur => :right, :hp => :right, :trq_nm => :right, :mpg => :right)
 tab_style!(tbl, :msrp_eur; bold = true)
 tab_footnote!(tbl, "City/highway combined estimate" => :mpg)
 tab_source_note!(tbl, "Source: manufacturer specifications")

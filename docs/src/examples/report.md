@@ -35,7 +35,7 @@ tbl = StyledTable(report)
 tab_header!(tbl, "Annual Revenue by Region"; subtitle = "Figures in USD billions")
 cols_label!(tbl, label_dict)
 tab_spanner!(tbl, "Quarterly" => [:q1, :q2, :q3, :q4])
-cols_align!(tbl, :right, [:q1, :q2, :q3, :q4, :total])
+cols_align!(tbl, :q1 => :right, :q2 => :right, :q3 => :right, :q4 => :right, :total => :right)
 fmt_number!(tbl, [:q1, :q2, :q3, :q4, :total]; digits = 2)
 render(tbl)
 ```
