@@ -258,6 +258,28 @@ end
         @test_throws ArgumentError cols_align!(StyledTable(df), :centre)
         @test_throws ArgumentError cols_align!(StyledTable(df), :x => :centre)
         @test_throws ArgumentError cols_align!(StyledTable(df), :nonexistent => :left)
+
+        # --- vector-key pair form: Symbol vector ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, [:x, :y] => :center)
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        # --- vector-key pair form: String vector ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, ["x", "y"] => :center)
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        # --- vector-key pair form: multiple pairs ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, [:x] => :left, [:y] => :right)
+        @test tbl.col_alignments[:x] == :left
+        @test tbl.col_alignments[:y] == :right
+
+        # --- vector-key error: invalid column ---
+        @test_throws ArgumentError cols_align!(StyledTable(df), [:nonexistent] => :left)
+
+        # --- vector-key error: invalid alignment ---
+        @test_throws ArgumentError cols_align!(StyledTable(df), [:x] => :centre)
     end
 
     # -----------------------------------------------------------------------

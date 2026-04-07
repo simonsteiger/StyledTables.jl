@@ -252,6 +252,41 @@ end
 """
 $TYPEDSIGNATURES
 
+Set the same horizontal alignment for a group of columns given as a vector.
+
+Each argument is a `cols => halign` pair, where `cols` is a vector of column names
+(as `Symbol`s or `AbstractString`s) and `halign` is one of `:left`, `:center`, or `:right`.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `args`: one or more `cols => halign` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, [:msrp_eur, :hp, :trq_nm] => :right)
+render(tbl)
+```
+"""
+function cols_align!(tbl::StyledTable, args::Pair{<:AbstractVector,Symbol}...)
+    expanded = Pair{Symbol,Symbol}[Symbol(col) => halign for (cols, halign) in args for col in cols]
+    cols_align!(tbl, expanded...)
+    return tbl
+end
+
+# Zero-argument disambiguator required to resolve the Aqua ambiguity between
+# Pair{Symbol,Symbol}... and Pair{<:AbstractVector,Symbol}... when called with no pairs.
+cols_align!(tbl::StyledTable) = tbl
+
+"""
+$TYPEDSIGNATURES
+
 Set the same horizontal alignment for all columns.
 
 # Arguments
