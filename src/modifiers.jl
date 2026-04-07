@@ -180,11 +180,13 @@ $TYPEDSIGNATURES
 
 Set horizontal alignment for one or more columns.
 
+Each argument is a `col => halign` pair, where `col` is a `Symbol` matching a column name
+and `halign` is one of `:left`, `:center`, or `:right`.
+
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `halign`: one of `:left`, `:center`, or `:right`.
-- `columns`: vector of column names to align. Omit to apply to all columns.
+- `args`: one or more `col => halign` pairs.
 
 # Returns
 
@@ -194,23 +196,125 @@ Set horizontal alignment for one or more columns.
 
 ```julia
 tbl = StyledTable(df)
-cols_align!(tbl, :right, [:x, :y])
+cols_align!(tbl, :x => :right, :y => :center)
 render(tbl)
 ```
 """
-function cols_align!(tbl::StyledTable, halign::Symbol, columns = nothing)
-    if halign ∉ (:left, :center, :right)
-        throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
-    end
-
+function cols_align!(tbl::StyledTable, args::Pair{Symbol,Symbol}...)
     colnames = Symbol.(names(tbl.data))
-    target_cols = columns === nothing ? colnames : columns
-
-    for col in target_cols
+    valid = (:left, :center, :right)
+    for (col, halign) in args
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        halign in valid || throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
+    end
+    for (col, halign) in args
         tbl.col_alignments[col] = halign
     end
+    return tbl
+end
 
+"""
+$TYPEDSIGNATURES
+
+Set alignment from a dict or vector of `col => halign` pairs.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: an `AbstractDict` or `AbstractVector` of `col => halign` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, Dict(:x => :right, :y => :center))
+render(tbl)
+```
+"""
+function cols_align!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{Symbol,Symbol}},
+        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractDict{Symbol,Symbol},
+        AbstractDict{<:AbstractString,Symbol},
+    },
+)
+    ps = [Symbol(col) => halign for (col, halign) in d]
+    cols_align!(tbl, ps...)
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Set the same horizontal alignment for all columns.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `halign`: one of `:left`, `:center`, or `:right`.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, :center)
+render(tbl)
+```
+"""
+function cols_align!(tbl::StyledTable, halign::Symbol)
+    halign in (:left, :center, :right) ||
+        throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
+    for col in Symbol.(names(tbl.data))
+        tbl.col_alignments[col] = halign
+    end
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Set alignment for all columns whose element type satisfies a predicate.
+
+`f(T::Type) -> Bool` is called with the element type of each column. Columns for which
+`f` returns `true` are assigned `halign`; others are left unchanged.
+
+# Arguments
+
+- `f`: predicate on element type — e.g. `T -> T <: Real`.
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `halign`: one of `:left`, `:center`, or `:right`.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, :right) do T
+    T <: Real
+end
+render(tbl)
+```
+"""
+function cols_align!(f, tbl::StyledTable, halign::Symbol)
+    halign in (:left, :center, :right) ||
+        throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
+    for col in Symbol.(names(tbl.data))
+        T = eltype(tbl.data[!, col])
+        f(T) && (tbl.col_alignments[col] = halign)
+    end
     return tbl
 end
 

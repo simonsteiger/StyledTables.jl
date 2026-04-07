@@ -220,20 +220,44 @@ end
     @testset "cols_align!" begin
         df = DataFrame(x = [1, 2], y = [3, 4])
 
+        # --- pair form: multiple cols, same alignment ---
         tbl = StyledTable(df)
-        cols_align!(tbl, :center, [:x, :y])
+        cols_align!(tbl, :x => :center, :y => :center)
         run_reftest(tbl, "references/cols_align/center_both")
 
+        # --- apply-to-all form ---
         tbl = StyledTable(df)
         cols_align!(tbl, :right)
         run_reftest(tbl, "references/cols_align/right_all")
 
+        # --- pair form: single col ---
         tbl = StyledTable(df)
-        cols_align!(tbl, :left, [:x])
+        cols_align!(tbl, :x => :left)
         run_reftest(tbl, "references/cols_align/left_one_col")
 
+        # --- dict / vector-of-pairs form ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, Dict(:x => :center, :y => :center))
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        tbl = StyledTable(df)
+        cols_align!(tbl, [:x => :center, :y => :center])
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        # --- type-predicate form ---
+        df2 = DataFrame(label = ["a", "b"], count = [1, 2], score = [0.5, 0.9])
+        tbl = StyledTable(df2)
+        cols_align!(tbl, :right) do T
+            T <: Real
+        end
+        @test tbl.col_alignments[:count] == :right
+        @test tbl.col_alignments[:score] == :right
+        @test !haskey(tbl.col_alignments, :label)
+
+        # --- error cases ---
         @test_throws ArgumentError cols_align!(StyledTable(df), :centre)
-        @test_throws ArgumentError cols_align!(StyledTable(df), :left, [:nonexistent])
+        @test_throws ArgumentError cols_align!(StyledTable(df), :x => :centre)
+        @test_throws ArgumentError cols_align!(StyledTable(df), :nonexistent => :left)
     end
 
     # -----------------------------------------------------------------------
@@ -1201,7 +1225,7 @@ end
 
         # cols_align: produces align row
         tbl = StyledTable(df)
-        cols_align!(tbl, :right, [:a])
+        cols_align!(tbl, :a => :right)
         out = sprint(show, tbl)
         @test contains(out, "align")
         @test contains(out, "1 col")
