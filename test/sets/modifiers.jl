@@ -257,15 +257,3 @@ end
 
     @test_throws ArgumentError cols_hide!(StyledTable(df), :nonexistent)
 end
-
-@testset "sub_missing!" begin
-    df = DataFrame(; x = [1, missing, 3], y = ["a", "b", missing])
-
-    tbl = StyledTable(df)
-    sub_missing!(tbl)
-    run_reftest(tbl, "references/sub_missing/default")
-
-    tbl = StyledTable(df)
-    sub_missing!(tbl; with = "N/A")
-    run_reftest(tbl, "references/sub_missing/custom_text")
-end

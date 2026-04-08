@@ -1,3 +1,15 @@
+@testset "sub_missing!" begin
+    df = DataFrame(; x = [1, missing, 3], y = ["a", "b", missing])
+
+    tbl = StyledTable(df)
+    sub_missing!(tbl, "–")
+    run_reftest(tbl, "references/sub_missing/default")
+
+    tbl = StyledTable(df)
+    sub_missing!(tbl, "N/A")
+    run_reftest(tbl, "references/sub_missing/custom_text")
+end
+
 @testset "tab_style! reference tests" begin
     df = DataFrame(;
         label = ["A", "B", "C"],

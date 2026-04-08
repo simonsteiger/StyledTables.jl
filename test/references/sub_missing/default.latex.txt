@@ -7,8 +7,8 @@
 \textbf{x} & \textbf{y} \\
 \midrule
 1 & a \\
-— & b \\
-3 & — \\
+– & b \\
+3 & – \\
 \bottomrule
 \end{tabular}
 \end{threeparttable}

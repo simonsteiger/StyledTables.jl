@@ -314,38 +314,6 @@ end
 """
 $TYPEDSIGNATURES
 
-Replace `missing` values with a display placeholder.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-
-# Keywords
-
-- `with`: replacement display value (default `"—"`, an em dash).
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`fmt!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-sub_missing!(tbl)
-render(tbl)
-```
-"""
-function sub_missing!(tbl::StyledTable; with::Any = "—")
-    push!(tbl.postprocessors, SummaryTables.Replace(ismissing, with, true))
-    return tbl
-end
-
-"""
-$TYPEDSIGNATURES
-
 Remove columns from the rendered output without modifying the `DataFrame`.
 
 Hidden columns remain accessible for grouping or formatting, but do not appear in the rendered table. Commonly paired with [`tab_row_group!`](@ref).

@@ -89,19 +89,18 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_style!(::Any, ::StyledTables.StyledTable, ::Symbol...)
+StyledTables.tab_style!(::Function, ::StyledTables.StyledTable, ::Symbol...)
 ```
 
 ```@docs
-StyledTables.tab_style!(::Any, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
+StyledTables.tab_style!(::Function, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
 ## `sub_missing!`
 
-Replace `missing` values with a placeholder string for display. Defaults to
-`"—"` (em dash).
+Replace `missing` values with a placeholder string for display.
 
-**Signature:** `sub_missing!(tbl; with = "—")`
+**Signature:** `sub_missing!(tbl, r)`
 
 ```@example styling
 df = DataFrame(
@@ -110,15 +109,15 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-sub_missing!(tbl)
+sub_missing!(tbl, "–")
 render(tbl)
 ```
 
-To use a custom placeholder:
+Any `String` works as a placeholder:
 
 ```@example styling
 tbl = StyledTable(df)
-sub_missing!(tbl, with = "N/A")
+sub_missing!(tbl, "N/A")
 render(tbl)
 ```
 
