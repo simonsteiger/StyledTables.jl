@@ -17,7 +17,7 @@ R's [gt](https://gt.rstudio.com/) package is the clearest model for how this wor
 
 The core contribution of StyledTables is this same incremental approach: each step is a small, focused modification, and you can inspect the result at any stage.
 
-Instead of working with pipes as would be idiomatic for R, StyledTables has a more Julian take on iterative table modification: all styling functions are mutating and directly modify the `StyledTable`.
+Instead of working with pipes as would be idiomatic for R, StyledTables has a more Julian take on iterative table modification: all styling functions are mutating and modify the `StyledTable` in place.
 
 ## The workflow
 
