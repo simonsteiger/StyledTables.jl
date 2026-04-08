@@ -166,7 +166,7 @@ A bold group-label row precedes each new group value. Data rows are indented by 
 # Keywords
 
 - `indent_pt`: left indent for data rows within a group (default `12`).
-- `full_width`: when `true`, group-label rows span the entire table width (default `false`).
+- `full_width`: whether group-label rows span the entire table width (default `false`).
 
 # Returns
 
