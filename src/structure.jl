@@ -166,6 +166,7 @@ A bold group-label row precedes each new group value. Data rows are indented by 
 # Keywords
 
 - `indent_pt`: left indent for data rows within a group (default `12`).
+- `full_width`: when `true`, group-label rows span the entire table width (default `false`).
 
 # Returns
 
@@ -182,13 +183,14 @@ cols_hide!(tbl, :category)
 render(tbl)
 ```
 """
-function tab_rowgroup!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12)
+function tab_rowgroup!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12, full_width::Bool = false)
     if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
     end
 
     tbl.rowgroup_col = col
     tbl.rowgroup_indent_pt = Float64(indent_pt)
+    tbl.rowgroup_full_width = full_width
 
     return tbl
 end
