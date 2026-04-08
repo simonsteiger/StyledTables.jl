@@ -11,7 +11,7 @@ Excuse the contrived nature of the data below, but I really want to make a rainb
 ```@example gradients
 using StyledTables, DataFrames, Colors
 
-df = DataFrame(id=1:8, score=rand(8))
+df = DataFrame(id = 1:8, score = rand(8))
 ```
 
 So far so boring.
@@ -19,7 +19,7 @@ So far so boring.
 The gradient we'll be applying is the following:
 
 ```@example gradients
-colors = range(HSV(0,1,1), stop=HSV(-360,1,1), length=nrow(df))
+colors = range(HSV(0,1,1), stop = HSV(-360,1,1), length = nrow(df))
 ```
 
 ## Step 1: Styling function
