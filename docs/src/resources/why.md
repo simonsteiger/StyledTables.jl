@@ -28,4 +28,4 @@ The typical workflow is thus:
 1. Summarise your data
 2. Convert it to a `StyledTable`
 3. Apply styling
-4. Render to html, LaTeX, typst or docx
+4. Render to HTML, LaTeX, Typst, or DOCX
