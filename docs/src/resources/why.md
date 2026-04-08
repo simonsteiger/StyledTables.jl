@@ -13,9 +13,9 @@ PrettyTables, on the other hand, offered the customisation I needed, but had no 
 ## What was missing
 
 For me the missing piece was a simple, intuitive way to combine the building blocks provided by SummaryTables.
-I am a big fan of being able to iteratively add elements to visual objects like plots or tables, and I think R's [gt](https://gt.rstudio.com/) package is a great example for how this could work for tables.
+R's [gt](https://gt.rstudio.com/) package is the clearest model for how this works: construct a table object, then apply modifier functions one at a time.
 
-The core contribution of StyledTables lies in how it allows you to build tables incrementally: first, you construct a table object, then apply modifier functions one at a time.
+The core contribution of StyledTables is this same incremental approach.
 Each step is a small and focused modification, and you can inspect the result at any stage of this process.
 
 Instead of working with pipes as would be idiomatic for R, StyledTables has a more Julian take on iterative table modification: all styling functions are mutating and directly modify the `StyledTable`.
