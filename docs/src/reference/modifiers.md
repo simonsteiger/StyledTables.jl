@@ -41,7 +41,7 @@ cols_label!(col -> titlecase(replace(col, "_" => " ")), tbl)
 render(tbl)
 ```
 
-Restrict to a subset of columns with a `Symbol`, `String` or `Vector`s thereof:
+Restrict to a subset of columns with a `Symbol`, `String` or a `Vector` thereof:
 
 ```@example columns
 tbl = StyledTable(df2)
@@ -62,7 +62,7 @@ StyledTables.cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol
 ```
 
 ```@docs
-StyledTables.cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
+StyledTables.cols_label!(f::Function, tbl::StyledTable, columns::AbstractVector{Symbol})
 ```
 
 ## `cols_align!`
@@ -75,7 +75,6 @@ cols_align!(tbl, (cols => halign)::Pair...)
 cols_align!(tbl, d::AbstractDict)
 cols_align!(tbl, d::AbstractVector{<:Pair})
 cols_align!(tbl, halign)
-cols_align!(f, tbl, halign)
 ```
 
 ```@example columns
@@ -100,13 +99,11 @@ cols_align!(tbl, :center)
 render(tbl)
 ```
 
-Align all `Real` valued columns right using the type-predicate form:
+Align only `Int` columns:
 
 ```@example columns
-isreal(::T) where T <: Real = true
-isreal(::Any) = false
 tbl = StyledTable(df)
-cols_align!(isreal, tbl, :right)
+cols_align!(tbl, names(df, Int) => :center)
 render(tbl)
 ```
 
@@ -120,10 +117,6 @@ StyledTables.cols_align!(::StyledTable, ::Pair{<:AbstractVector,Symbol}...)
 
 ```@docs
 StyledTables.cols_align!(::StyledTable, ::Symbol)
-```
-
-```@docs
-StyledTables.cols_align!(::Function, ::StyledTable, ::Symbol)
 ```
 
 ## `cols_hide!`

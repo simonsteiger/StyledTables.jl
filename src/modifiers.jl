@@ -131,7 +131,7 @@ end
 render(tbl)
 ```
 """
-function cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
+function cols_label!(f::Function, tbl::StyledTable, columns::AbstractVector{Symbol})
     colnames = Symbol.(names(tbl.data))
 
     for col in columns
@@ -293,43 +293,6 @@ function cols_align!(tbl::StyledTable, halign::Symbol)
     _validate_halign(halign)
     for col in Symbol.(names(tbl.data))
         tbl.col_alignments[col] = halign
-    end
-    return tbl
-end
-
-"""
-$TYPEDSIGNATURES
-
-Set alignment for all columns whose element type satisfies a predicate.
-
-`f(T::Type) -> Bool` is called with the element type of each column. Columns for which
-`f` returns `true` are assigned `halign`; others are left unchanged.
-
-# Arguments
-
-- `f`: predicate on element type — e.g. `T -> T <: Real`.
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `halign`: one of `:left`, `:center`, or `:right`.
-
-# Returns
-
-`tbl` (modified in place).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-cols_align!(tbl, :right) do T
-    T <: Real
-end
-render(tbl)
-```
-"""
-function cols_align!(f::Function, tbl::StyledTable, halign::Symbol)
-    _validate_halign(halign)
-    for col in Symbol.(names(tbl.data))
-        T = eltype(tbl.data[!, col])
-        f(T) && (tbl.col_alignments[col] = halign)
     end
     return tbl
 end
