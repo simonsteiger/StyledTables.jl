@@ -75,6 +75,8 @@ $TYPEDFIELDS
     rowgroup_col::Union{Nothing,Symbol}
     "Left indent applied to data rows inside a group (points)."
     rowgroup_indent_pt::Float64
+    "When `true`, row-group label rows span the full table width instead of the first cell only."
+    rowgroup_full_width::Bool = false
     "Column designated as the stub (row-label column), or `nothing`."
     stub_col::Union{Nothing,Symbol}
     "Title/subtitle definition, or `nothing`."
@@ -140,6 +142,7 @@ function StyledTable(data)
         spanners = Spanner[],
         rowgroup_col = nothing,
         rowgroup_indent_pt = 12.0,
+        rowgroup_full_width = false,
         stub_col = nothing,
         header = nothing,
         footnotes = Any[],
