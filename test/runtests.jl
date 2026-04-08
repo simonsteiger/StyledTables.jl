@@ -791,6 +791,15 @@ end
             @test tbl.col_formatters[:x](1.5) == "1.5"    # trailing zero stripped: 1.500 → 1.5
             @test tbl.col_formatters[:x](2.0) == "2"       # trailing zeros + dot stripped: 2.000 → 2
         end
+
+        @testset "type check" begin
+            df_str = DataFrame(label = ["a", "b"], x = [1.0, 2.0])
+            @test_throws ArgumentError fmt_number!(StyledTable(df_str), [:label])
+            @test_throws ArgumentError fmt_percent!(StyledTable(df_str), [:label])
+            @test_throws ArgumentError fmt_integer!(StyledTable(df_str), [:label])
+            # Numeric columns must still work
+            @test fmt_number!(StyledTable(df_str), [:x]) isa StyledTable
+        end
     end
 
     @testset "fmt_percent!" begin
