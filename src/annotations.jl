@@ -1,0 +1,198 @@
+"""
+$TYPEDSIGNATURES
+
+Add a title and optional subtitle above the column headers.
+
+The title renders bold; the subtitle renders italic.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `title`: main heading text.
+
+# Keywords
+
+- `subtitle`: secondary heading text, or `nothing` (default).
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`tab_spanner!`](@ref), [`tab_source_note!`](@ref), [`tab_footnote!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_header!(tbl, "My Table"; subtitle = "Subtitle here")
+render(tbl)
+```
+"""
+function tab_header!(tbl::StyledTable, title; subtitle = nothing)
+    tbl.header = TableHeader(title, subtitle)
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Add footnotes to the table.
+
+Footnotes refer to specific columns. For placing general notes under the table, see [`tab_source_note!`](@ref).
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `args`: one or more `text => column(s)` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`tab_source_note!`](@ref), [`tab_header!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_footnote!(tbl, "PPP adjusted" => :gdp)
+render(tbl)
+```
+"""
+function tab_footnote!(tbl::StyledTable, args::Pair...)
+    tab_footnote!(tbl, collect(args))
+    return tbl
+end
+
+function tab_footnote!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
+        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractDict{<:AbstractString,<:AbstractString},
+        AbstractDict{<:AbstractString,Symbol},
+    },
+)
+    ps = [String(text) => [col isa Symbol ? col : Symbol(col)] for (text, col) in d]
+    _push_footnotes!(tbl, ps)
+    return tbl
+end
+
+function _push_footnotes!(tbl::StyledTable, d)
+    colnames = Symbol.(names(tbl.data))
+
+    for (_, columns) in d
+        for col in columns
+            if col ∉ colnames
+                throw(ArgumentError("Column :$col not found in DataFrame"))
+            end
+        end
+    end
+
+    for (text, columns) in d
+        for col in columns
+            if haskey(tbl.col_footnotes, col)
+                @warn "Column :$col already has a footnote " *
+                      "(\"$(tbl.col_footnotes[col])\"); it will be replaced."
+            end
+            tbl.col_footnotes[col] = text
+        end
+    end
+
+    return tbl
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
+    _push_footnotes!(tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
+    _push_footnotes!(tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(tab_footnote!, (tbl, d)))
+end
+
+"""
+$TYPEDSIGNATURES
+
+Add footnotes from a dict or vector of pairs.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: an `AbstractDict` or `AbstractVector` of `Pair`s mapping text to column names.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_footnote!(tbl, Dict(
+    "measured each month" => [:efficacy, :safety],
+    "in years" => [:age])
+)
+render(tbl)
+```
+"""
+function tab_footnote!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{
+            <:Pair{<:AbstractString,<:Union{Vector{<:AbstractString},Vector{Symbol}}},
+        },
+        AbstractDict{<:AbstractString,<:Union{Vector{<:AbstractString},Vector{Symbol}}},
+    },
+)
+    ps = [String(text) => Symbol.(columns) for (text, columns) in d]
+    tab_footnote!(tbl, ps)
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Add a source-note line in the table footer.
+
+Source notes span the full table width and are left-aligned. Each call appends another line.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `text`: source note text.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`tab_footnote!`](@ref), [`tab_header!`](@ref).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+tab_source_note!(tbl, "Data: World Bank Open Data")
+render(tbl)
+```
+"""
+function tab_source_note!(tbl::StyledTable, text)
+    push!(tbl.source_notes, text)
+    return tbl
+end

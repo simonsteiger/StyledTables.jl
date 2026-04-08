@@ -5,9 +5,15 @@ using DataFrames
 using DocStringExtensions
 using SummaryTables
 
+include("errors.jl")
+include("conversions.jl")
+include("colors.jl")
 include("types.jl")
+include("annotations.jl")
+include("formatting.jl")
 include("modifiers.jl")
-include("fmt.jl")
+include("structure.jl")
+include("styling.jl")
 include("render.jl")
 include("show.jl")
 include("testdata.jl")
@@ -18,7 +24,7 @@ export cols_label!, cols_align!, cols_hide!
 export tab_spanner!, tab_row_group!, tab_stub!, tab_stubhead!
 export tab_header!, tab_footnote!, tab_source_note!
 export tab_style!
-export sub_missing!, tab_options!
+export sub_missing!
 export fmt!, fmt_number!, fmt_percent!, fmt_integer!
 
 end

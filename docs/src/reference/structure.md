@@ -61,10 +61,6 @@ StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbo
     AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
 ```
 
-```@docs
-StyledTables.tab_spanner!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
-```
-
 ---
 
 ## `tab_stub!`
