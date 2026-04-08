@@ -251,6 +251,10 @@ end
     tab_rowgroup!(tbl, :arm; indent_pt = 24)
     run_reftest(tbl, "references/tab_rowgroup/custom_indent")
 
+    tbl = StyledTable(df)
+    tab_rowgroup!(tbl, :arm; full_width = true)
+    run_reftest(tbl, "references/tab_rowgroup/full_width")
+
     @test_throws ArgumentError tab_rowgroup!(StyledTable(df), :nonexistent)
 end
 

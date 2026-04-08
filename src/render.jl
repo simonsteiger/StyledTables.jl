@@ -76,9 +76,9 @@ function render(tbl::StyledTable)
     if !isempty(tbl.sourcenotes)
         footer_rows = map(tbl.sourcenotes) do note
             row = Vector{Cell}(undef, n_cols)
-            row[1] = Cell(note; merge = true, halign = :left)
-            for j = 2:n_cols
-                row[j] = Cell(nothing)
+            # All cells carry merge = true, matching _build_title_rows pattern
+            for j = 1:n_cols
+                row[j] = Cell(note; merge = true, halign = :left)
             end
             reshape(row, 1, n_cols)
         end
@@ -199,7 +199,9 @@ function _build_body_with_groups(
         if haskey(group_insert_positions, i)
             label = group_insert_positions[i]
             for j = 1:n_cols
-                if j == 1
+                if tbl.rowgroup_full_width
+                    body[i+offset, j] = Cell(label; bold = true, indent_pt = 0, halign = :left, merge = true)
+                elseif j == 1
                     body[i+offset, j] =
                         Cell(label; bold = true, indent_pt = 0, halign = :left)
                 else

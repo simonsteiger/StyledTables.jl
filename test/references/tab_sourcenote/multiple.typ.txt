@@ -16,9 +16,7 @@
     [#"2"],
     [#"4"],
     table.hline(y: 3, stroke: 0.75pt),
-    [#"Source: A"],
-    [],
-    [#"Note: B"],
-    [],
+    table.cell(colspan: 2)[#"Source: A"],
+    table.cell(colspan: 2)[#"Note: B"],
     table.hline(y: 5, stroke: 1pt),
 )
