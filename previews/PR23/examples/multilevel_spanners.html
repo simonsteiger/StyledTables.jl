@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Multi-tier spanners | StyledTables.jl</title>
+    <meta name="description" content="Documentation for StyledTables.jl">
+    <meta name="generator" content="VitePress v1.6.4">
+    <link rel="preload stylesheet" href="/StyledTables.jl/previews/PR23/assets/style.1EsqWVr3.css" as="style">
+    <link rel="preload stylesheet" href="/StyledTables.jl/previews/PR23/vp-icons.css" as="style">
+    
+    <script type="module" src="/StyledTables.jl/previews/PR23/assets/app.HImbESDU.js"></script>
+    <link rel="preload" href="/StyledTables.jl/previews/PR23/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR23/assets/chunks/theme.bpzuOpHT.js">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR23/assets/chunks/framework.CajEfZTM.js">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR23/assets/examples_multilevel_spanners.md.BgcvjtBv.lean.js">
+    <link rel="icon" href="/StyledTables.jl/previews/PR23/favicon.ico">
+    <script src="/StyledTables.jl/versions.js"></script>
+    <script src="/StyledTables.jl/previews/PR23/siteinfo.js"></script>
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+  </head>
+  <body>
+    <div id="app"><div class="Layout" data-v-a9a9e638><!--[--><!--]--><!--[--><span tabindex="-1" data-v-492508fc></span><a href="#VPContent" class="VPSkipLink visually-hidden" data-v-492508fc>Skip to content</a><!--]--><!----><header class="VPNav" data-v-a9a9e638 data-v-f1e365da><div class="VPNavBar" data-v-f1e365da data-v-822684d1><div class="wrapper" data-v-822684d1><div class="container" data-v-822684d1><div class="title" data-v-822684d1><div class="VPNavBarTitle has-sidebar" data-v-822684d1 data-v-0f4f798b><a class="title" href="/StyledTables.jl/previews/PR23/" data-v-0f4f798b><!--[--><!--]--><!--[--><img class="VPImage logo" src="/StyledTables.jl/previews/PR23/logo.svg" width="24" height="24" alt data-v-35a7d0b8><!--]--><span data-v-0f4f798b>StyledTables.jl</span><!--[--><!--]--></a></div></div><div class="content" data-v-822684d1><div class="content-body" data-v-822684d1><!--[--><!--]--><div class="VPNavBarSearch search" data-v-822684d1><!--[--><!----><div id="local-search"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search"><span class="DocSearch-Button-Container"><span class="vp-icon DocSearch-Search-Icon"></span><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"><kbd class="DocSearch-Button-Key"></kbd><kbd class="DocSearch-Button-Key">K</kbd></span></button></div><!--]--></div><nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu menu" data-v-822684d1 data-v-e6d46098><span id="main-nav-aria-label" class="visually-hidden" data-v-e6d46098> Main Navigation </span><!--[--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/StyledTables.jl/previews/PR23/index" tabindex="0" data-v-e6d46098 data-v-956ec74c><!--[--><span data-v-956ec74c>Home</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/StyledTables.jl/previews/PR23/getting_started" tabindex="0" data-v-e6d46098 data-v-956ec74c><!--[--><span data-v-956ec74c>Getting Started</span><!--]--></a><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Reference</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/reference/modifiers" data-v-acbfed09><!--[--><span data-v-acbfed09>Column Modifiers</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/reference/structure" data-v-acbfed09><!--[--><span data-v-acbfed09>Table Structure</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/reference/annotations" data-v-acbfed09><!--[--><span data-v-acbfed09>Annotations</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/reference/styling" data-v-acbfed09><!--[--><span data-v-acbfed09>Styling</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/reference/formatting" data-v-acbfed09><!--[--><span data-v-acbfed09>Formatting</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/reference/rendering" data-v-acbfed09><!--[--><span data-v-acbfed09>Rendering</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup active" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Examples</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuGroup" data-v-7dd3104a data-v-48c802d0><p class="title" data-v-48c802d0>Basic use</p><!--[--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/examples/cars" data-v-acbfed09><!--[--><span data-v-acbfed09>Sports Cars Table</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/examples/clinical" data-v-acbfed09><!--[--><span data-v-acbfed09>Clinical Demographics</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/examples/report" data-v-acbfed09><!--[--><span data-v-acbfed09>Quarterly Report</span><!--]--></a></div><!--]--><!--]--></div><!--]--><!--[--><div class="VPMenuGroup" data-v-7dd3104a data-v-48c802d0><p class="title" data-v-48c802d0>Advanced options</p><!--[--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link active" href="/StyledTables.jl/previews/PR23/examples/multilevel_spanners" data-v-acbfed09><!--[--><span data-v-acbfed09>Multilevel spanners</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/examples/color_gradients" data-v-acbfed09><!--[--><span data-v-acbfed09>Color gradients</span><!--]--></a></div><!--]--><!--]--></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Resources</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/resources/why" data-v-acbfed09><!--[--><span data-v-acbfed09>Why StyledTables?</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/resources/export" data-v-acbfed09><!--[--><span data-v-acbfed09>Export</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR23/resources/api" data-v-acbfed09><!--[--><span data-v-acbfed09>API</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><!----><!--]--><!--]--></nav><!----><div class="VPNavBarAppearance appearance" data-v-822684d1 data-v-af096f4a><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-af096f4a data-v-e40a8bb6 data-v-4a1c76db><span class="check" data-v-4a1c76db><span class="icon" data-v-4a1c76db><!--[--><span class="vpi-sun sun" data-v-e40a8bb6></span><span class="vpi-moon moon" data-v-e40a8bb6></span><!--]--></span></span></button></div><div class="VPSocialLinks VPNavBarSocialLinks social-links" data-v-822684d1 data-v-164c457f data-v-ee7a9424><!--[--><a class="VPSocialLink no-icon" href="https://github.com/simonsteiger/StyledTables.jl" aria-label="github" target="_blank" rel="noopener" data-v-ee7a9424 data-v-d26d30cb><span class="vpi-social-github"></span></a><!--]--></div><div class="VPFlyout VPNavBarExtra extra" data-v-822684d1 data-v-925effce data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" aria-label="extra navigation" data-v-04f5c5e9><span class="vpi-more-horizontal icon" data-v-04f5c5e9></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><!----><!--[--><!--[--><!----><div class="group" data-v-925effce><div class="item appearance" data-v-925effce><p class="label" data-v-925effce>Appearance</p><div class="appearance-action" data-v-925effce><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-925effce data-v-e40a8bb6 data-v-4a1c76db><span class="check" data-v-4a1c76db><span class="icon" data-v-4a1c76db><!--[--><span class="vpi-sun sun" data-v-e40a8bb6></span><span class="vpi-moon moon" data-v-e40a8bb6></span><!--]--></span></span></button></div></div></div><div class="group" data-v-925effce><div class="item social-links" data-v-925effce><div class="VPSocialLinks social-links-list" data-v-925effce data-v-ee7a9424><!--[--><a class="VPSocialLink no-icon" href="https://github.com/simonsteiger/StyledTables.jl" aria-label="github" target="_blank" rel="noopener" data-v-ee7a9424 data-v-d26d30cb><span class="vpi-social-github"></span></a><!--]--></div></div></div><!--]--><!--]--></div></div></div><!--[--><!--[--><!--[--><div class="VPFlyout VPNolebaseEnhancedReadabilitiesMenu VPNolebaseEnhancedReadabilitiesMenuFlyout" aria-label="Enhanced Readability" role="menuitem" data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><span class="i-icon-park-outline:book-open option-icon" data-v-04f5c5e9></span><!----><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><!----><!--[--><!--]--></div></div></div><!--]--><!--]--><!--]--><button type="button" class="VPNavBarHamburger hamburger" aria-label="mobile navigation" aria-expanded="false" aria-controls="VPNavScreen" data-v-822684d1 data-v-5dea55bf><span class="container" data-v-5dea55bf><span class="top" data-v-5dea55bf></span><span class="middle" data-v-5dea55bf></span><span class="bottom" data-v-5dea55bf></span></span></button></div></div></div></div><div class="divider" data-v-822684d1><div class="divider-line" data-v-822684d1></div></div></div><!----></header><div class="VPLocalNav has-sidebar empty" data-v-a9a9e638 data-v-070ab83d><div class="container" data-v-070ab83d><button class="menu" aria-expanded="false" aria-controls="VPSidebarNav" data-v-070ab83d><span class="vpi-align-left menu-icon" data-v-070ab83d></span><span class="menu-text" data-v-070ab83d>Menu</span></button><div class="VPLocalNavOutlineDropdown" style="--vp-vh:0px;" data-v-070ab83d data-v-168ddf5d><button data-v-168ddf5d>Return to top</button><!----></div></div></div><aside class="VPSidebar" data-v-a9a9e638 data-v-18756405><div class="curtain" data-v-18756405></div><nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1" data-v-18756405><span class="visually-hidden" id="sidebar-aria-label" data-v-18756405> Sidebar Navigation </span><!--[--><!--]--><!--[--><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0" data-v-9e426adc data-v-a4b0d9bf><!----><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/index" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Home</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/getting_started" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Getting Started</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Reference</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/reference/modifiers" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Column Modifiers</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/reference/structure" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Table Structure</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/reference/annotations" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Annotations</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/reference/styling" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Styling</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/reference/formatting" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Formatting</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/reference/rendering" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Rendering</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible has-active" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Examples</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><section class="VPSidebarItem level-1 collapsible" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h3 class="text" data-v-a4b0d9bf>Basic use</h3><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/examples/cars" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Sports Cars Table</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/examples/clinical" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Clinical Demographics</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/examples/report" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Quarterly Report</p><!--]--></a><!----></div><!----></div><!--]--></div></section><section class="VPSidebarItem level-1 collapsible has-active" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h3 class="text" data-v-a4b0d9bf>Advanced options</h3><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/examples/multilevel_spanners" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Multilevel spanners</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/examples/color_gradients" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Color gradients</p><!--]--></a><!----></div><!----></div><!--]--></div></section><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Resources</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/resources/why" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Why StyledTables?</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/resources/export" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Export</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR23/resources/api" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>API</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><!--]--><!--[--><!--]--></nav></aside><div class="VPContent has-sidebar" id="VPContent" data-v-a9a9e638 data-v-91765379><div class="VPDoc has-sidebar has-aside" data-v-91765379 data-v-83890dd9><!--[--><!--]--><div class="container" data-v-83890dd9><div class="aside" data-v-83890dd9><div class="aside-curtain" data-v-83890dd9></div><div class="aside-container" data-v-83890dd9><div class="aside-content" data-v-83890dd9><div class="VPDocAside" data-v-83890dd9 data-v-6d7b3c46><!--[--><!--]--><!--[--><!--]--><nav aria-labelledby="doc-outline-aria-label" class="VPDocAsideOutline" data-v-6d7b3c46 data-v-b38bf2ff><div class="content" data-v-b38bf2ff><div class="outline-marker" data-v-b38bf2ff></div><div aria-level="2" class="outline-title" id="doc-outline-aria-label" role="heading" data-v-b38bf2ff>On this page</div><ul class="VPDocOutlineItem root" data-v-b38bf2ff data-v-3f927ebe><!--[--><!--]--></ul></div></nav><!--[--><!--]--><div class="spacer" data-v-6d7b3c46></div><!--[--><!--]--><!----><!--[--><!--]--><!--[--><!--]--></div></div></div></div><div class="content" data-v-83890dd9><div class="content-container" data-v-83890dd9><!--[--><!--]--><main class="main" data-v-83890dd9><div style="position:relative;" class="vp-doc _StyledTables_jl_previews_PR23_examples_multilevel_spanners" data-v-83890dd9><div><h1 id="Multi-tier-spanners" tabindex="-1">Multi-tier spanners <a class="header-anchor" href="#Multi-tier-spanners" aria-label="Permalink to &quot;Multi-tier spanners {#Multi-tier-spanners}&quot;">​</a></h1><p>The following example shows how layouts with several tiers of column spanners can be achieved.</p><h2 id="The-data" tabindex="-1">The data <a class="header-anchor" href="#The-data" aria-label="Permalink to &quot;The data {#The-data}&quot;">​</a></h2><p>We will use the <a href="https://allisonhorst.github.io/palmerpenguins/" target="_blank" rel="noreferrer"><code>PalmerPenguins</code></a> data.</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> DataFrames, Chain, StyledTables</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Statistics</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">:</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mean</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(StyledTables</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">penguins</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">describe</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span></code></pre></div><div><div><div style = "float: left;"><span>7×7 DataFrame</span></div><div style = "clear: both;"></div></div><div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "columnLabelRow"><th class = "stubheadLabel" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">variable</th><th style = "text-align: left;">mean</th><th style = "text-align: left;">min</th><th style = "text-align: left;">median</th><th style = "text-align: left;">max</th><th style = "text-align: left;">nmissing</th><th style = "text-align: left;">eltype</th></tr><tr class = "columnLabelRow"><th class = "stubheadLabel" style = "font-weight: bold; text-align: right;"></th><th title = "Symbol" style = "text-align: left;">Symbol</th><th title = "Union{Nothing, Float64}" style = "text-align: left;">Union…</th><th title = "Any" style = "text-align: left;">Any</th><th title = "Union{Nothing, Float64}" style = "text-align: left;">Union…</th><th title = "Any" style = "text-align: left;">Any</th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "DataType" style = "text-align: left;">DataType</th></tr></thead><tbody><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">species</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">Adelie</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">Gentoo</td><td style = "text-align: right;">0</td><td style = "text-align: left;">String</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">island</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">Biscoe</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">Torgersen</td><td style = "text-align: right;">0</td><td style = "text-align: left;">String</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">bill_length_mm</td><td style = "text-align: left;">43.9928</td><td style = "text-align: left;">32.1</td><td style = "text-align: left;">44.5</td><td style = "text-align: left;">59.6</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">bill_depth_mm</td><td style = "text-align: left;">17.1649</td><td style = "text-align: left;">13.1</td><td style = "text-align: left;">17.3</td><td style = "text-align: left;">21.5</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Float64</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">flipper_length_mm</td><td style = "text-align: left;">200.967</td><td style = "text-align: left;">172</td><td style = "text-align: left;">197.0</td><td style = "text-align: left;">231</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int64</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: left;">body_mass_g</td><td style = "text-align: left;">4207.06</td><td style = "text-align: left;">2700</td><td style = "text-align: left;">4050.0</td><td style = "text-align: left;">6300</td><td style = "text-align: right;">0</td><td style = "text-align: left;">Int64</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">7</td><td style = "text-align: left;">sex</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">female</td><td style = "font-style: italic; text-align: left;"></td><td style = "text-align: left;">male</td><td style = "text-align: right;">0</td><td style = "text-align: left;">String</td></tr></tbody></table></div></div><p>Our goal is to summarise the data by island, species, and sex.</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">bill_cols </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:bill_length_mm</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:bill_depth_mm</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">number_cols </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.(bill_cols)</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;flipper_length_mm&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># , &quot;body_mass_g&quot;</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">male_ordered </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;male_&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> *</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> colname </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> colname </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">in</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> number_cols]</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">female_ordered </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;female_&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> *</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> colname </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">for</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> colname </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">in</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> number_cols]</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">summary </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> @chain</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">begin</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    select</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:species</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:sex</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, number_cols</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    dropmissing</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    groupby</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:species</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:sex</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    combine</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Cols</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">r&quot;</span><span style="--shiki-light:#032F62;--shiki-dark:#DBEDFF;">_mm$|_g$</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">.=&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mean </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> identity)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    stack</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, number_cols)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    transform</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:sex</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:variable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> ByRow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">((s, v) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> join</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">([s, v], </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;_&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> :sex_variable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    select</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Not</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:sex</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:variable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">))</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    unstack</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:sex_variable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:value</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    transform</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> ByRow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(x </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$x</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> Is.&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> identity)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    select</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:species</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, male_ordered</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, female_ordered</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    sort</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(_, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">end</span></span></code></pre></div><div><div><div style = "float: left;"><span>5×8 DataFrame</span></div><div style = "clear: both;"></div></div><div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "columnLabelRow"><th class = "stubheadLabel" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">island</th><th style = "text-align: left;">species</th><th style = "text-align: left;">male_bill_length_mm</th><th style = "text-align: left;">male_bill_depth_mm</th><th style = "text-align: left;">male_flipper_length_mm</th><th style = "text-align: left;">female_bill_length_mm</th><th style = "text-align: left;">female_bill_depth_mm</th><th style = "text-align: left;">female_flipper_length_mm</th></tr><tr class = "columnLabelRow"><th class = "stubheadLabel" style = "font-weight: bold; text-align: right;"></th><th title = "String" style = "text-align: left;">String</th><th title = "String" style = "text-align: left;">String</th><th title = "Union{Missing, Float64}" style = "text-align: left;">Float64?</th><th title = "Union{Missing, Float64}" style = "text-align: left;">Float64?</th><th title = "Union{Missing, Float64}" style = "text-align: left;">Float64?</th><th title = "Union{Missing, Float64}" style = "text-align: left;">Float64?</th><th title = "Union{Missing, Float64}" style = "text-align: left;">Float64?</th><th title = "Union{Missing, Float64}" style = "text-align: left;">Float64?</th></tr></thead><tbody><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: left;">Biscoe Is.</td><td style = "text-align: left;">Adelie</td><td style = "text-align: right;">40.5909</td><td style = "text-align: right;">19.0364</td><td style = "text-align: right;">190.409</td><td style = "text-align: right;">37.3591</td><td style = "text-align: right;">17.7045</td><td style = "text-align: right;">187.182</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: left;">Biscoe Is.</td><td style = "text-align: left;">Gentoo</td><td style = "text-align: right;">49.4738</td><td style = "text-align: right;">15.718</td><td style = "text-align: right;">221.541</td><td style = "text-align: right;">45.5638</td><td style = "text-align: right;">14.2379</td><td style = "text-align: right;">212.707</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: left;">Dream Is.</td><td style = "text-align: left;">Adelie</td><td style = "text-align: right;">40.0714</td><td style = "text-align: right;">18.8393</td><td style = "text-align: right;">191.929</td><td style = "text-align: right;">36.9111</td><td style = "text-align: right;">17.6185</td><td style = "text-align: right;">187.852</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: left;">Dream Is.</td><td style = "text-align: left;">Chinstrap</td><td style = "text-align: right;">51.0941</td><td style = "text-align: right;">19.2529</td><td style = "text-align: right;">199.912</td><td style = "text-align: right;">46.5735</td><td style = "text-align: right;">17.5882</td><td style = "text-align: right;">191.735</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: left;">Torgersen Is.</td><td style = "text-align: left;">Adelie</td><td style = "text-align: right;">40.587</td><td style = "text-align: right;">19.3913</td><td style = "text-align: right;">194.913</td><td style = "text-align: right;">37.5542</td><td style = "text-align: right;">17.55</td><td style = "text-align: right;">188.292</td></tr></tbody></table></div></div><p>The table we want to create will feature island as the row group, and the species present on each island are listed in each group. As some of the length measurements we summarised describe the bill, we will group these as a column spanner. Finally, a higher-order column spanner will indicate which measurements are from female and which from male penguins.</p><h2 id="Step-1:-Row-groups" tabindex="-1">Step 1: Row groups <a class="header-anchor" href="#Step-1:-Row-groups" aria-label="Permalink to &quot;Step 1: Row groups {#Step-1:-Row-groups}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(summary)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_row_group!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_hide!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:island</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-bbd0a04f">
+    <style>
+        #st-bbd0a04f {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-bbd0a04f tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-bbd0a04f tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-bbd0a04f br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-bbd0a04f sub {
+            line-height: 0;
+        }
+        #st-bbd0a04f sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">species</td>
+        <td style="font-weight:bold;text-align:left;">male_bill_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">male_bill_depth_mm</td>
+        <td style="font-weight:bold;text-align:left;">male_flipper_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_bill_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_bill_depth_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_flipper_length_mm</td>
+    </tr>
+        <tr><td colspan="7" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Biscoe Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.6</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">190</td>
+        <td style="text-align:left;">37.4</td>
+        <td style="text-align:left;">17.7</td>
+        <td style="text-align:left;">187</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Gentoo</td>
+        <td style="text-align:left;">49.5</td>
+        <td style="text-align:left;">15.7</td>
+        <td style="text-align:left;">222</td>
+        <td style="text-align:left;">45.6</td>
+        <td style="text-align:left;">14.2</td>
+        <td style="text-align:left;">213</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Dream Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.1</td>
+        <td style="text-align:left;">18.8</td>
+        <td style="text-align:left;">192</td>
+        <td style="text-align:left;">36.9</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Chinstrap</td>
+        <td style="text-align:left;">51.1</td>
+        <td style="text-align:left;">19.3</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">46.6</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">192</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Torgersen Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.6</td>
+        <td style="text-align:left;">19.4</td>
+        <td style="text-align:left;">195</td>
+        <td style="text-align:left;">37.6</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><h2 id="Step-2:-Level-one-spanner" tabindex="-1">Step 2: Level one spanner <a class="header-anchor" href="#Step-2:-Level-one-spanner" aria-label="Permalink to &quot;Step 2: Level one spanner {#Step-2:-Level-one-spanner}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Bill measures&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;male_&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> .*</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.(bill_cols))</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Bill measures&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;female_&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> .*</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> string</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.(bill_cols))</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-97bf0bbf">
+    <style>
+        #st-97bf0bbf {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-97bf0bbf tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-97bf0bbf tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-97bf0bbf br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-97bf0bbf sub {
+            line-height: 0;
+        }
+        #st-97bf0bbf sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Bill measures</td>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Bill measures</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">species</td>
+        <td style="font-weight:bold;text-align:left;">male_bill_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">male_bill_depth_mm</td>
+        <td style="font-weight:bold;text-align:left;">male_flipper_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_bill_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_bill_depth_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_flipper_length_mm</td>
+    </tr>
+        <tr><td colspan="7" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Biscoe Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.6</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">190</td>
+        <td style="text-align:left;">37.4</td>
+        <td style="text-align:left;">17.7</td>
+        <td style="text-align:left;">187</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Gentoo</td>
+        <td style="text-align:left;">49.5</td>
+        <td style="text-align:left;">15.7</td>
+        <td style="text-align:left;">222</td>
+        <td style="text-align:left;">45.6</td>
+        <td style="text-align:left;">14.2</td>
+        <td style="text-align:left;">213</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Dream Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.1</td>
+        <td style="text-align:left;">18.8</td>
+        <td style="text-align:left;">192</td>
+        <td style="text-align:left;">36.9</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Chinstrap</td>
+        <td style="text-align:left;">51.1</td>
+        <td style="text-align:left;">19.3</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">46.6</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">192</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Torgersen Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.6</td>
+        <td style="text-align:left;">19.4</td>
+        <td style="text-align:left;">195</td>
+        <td style="text-align:left;">37.6</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><h2 id="Step-3:-Level-two-spanner" tabindex="-1">Step 3: Level two spanner <a class="header-anchor" href="#Step-3:-Level-two-spanner" aria-label="Permalink to &quot;Step 3: Level two spanner {#Step-3:-Level-two-spanner}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Male&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> male_ordered, level </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Female&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> female_ordered, level </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-5a66a378">
+    <style>
+        #st-5a66a378 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-5a66a378 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-5a66a378 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-5a66a378 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-5a66a378 sub {
+            line-height: 0;
+        }
+        #st-5a66a378 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td colspan="3" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Male</td>
+        <td colspan="3" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Female</td>
+    </tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Bill measures</td>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Bill measures</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">species</td>
+        <td style="font-weight:bold;text-align:left;">male_bill_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">male_bill_depth_mm</td>
+        <td style="font-weight:bold;text-align:left;">male_flipper_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_bill_length_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_bill_depth_mm</td>
+        <td style="font-weight:bold;text-align:left;">female_flipper_length_mm</td>
+    </tr>
+        <tr><td colspan="7" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Biscoe Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.6</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">190</td>
+        <td style="text-align:left;">37.4</td>
+        <td style="text-align:left;">17.7</td>
+        <td style="text-align:left;">187</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Gentoo</td>
+        <td style="text-align:left;">49.5</td>
+        <td style="text-align:left;">15.7</td>
+        <td style="text-align:left;">222</td>
+        <td style="text-align:left;">45.6</td>
+        <td style="text-align:left;">14.2</td>
+        <td style="text-align:left;">213</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Dream Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.1</td>
+        <td style="text-align:left;">18.8</td>
+        <td style="text-align:left;">192</td>
+        <td style="text-align:left;">36.9</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Chinstrap</td>
+        <td style="text-align:left;">51.1</td>
+        <td style="text-align:left;">19.3</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">46.6</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">192</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Torgersen Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40.6</td>
+        <td style="text-align:left;">19.4</td>
+        <td style="text-align:left;">195</td>
+        <td style="text-align:left;">37.6</td>
+        <td style="text-align:left;">17.6</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><h2 id="Step-4:-Add-column-labels" tabindex="-1">Step 4: Add column labels <a class="header-anchor" href="#Step-4:-Add-column-labels" aria-label="Permalink to &quot;Step 4: Add column labels {#Step-4:-Add-column-labels}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">label_dict </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> Dict</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :species</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Species&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :male_bill_length_mm</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Length&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :male_bill_depth_mm</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Depth&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :male_flipper_length_mm</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Flipper length&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :female_bill_length_mm</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Length&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :female_bill_depth_mm</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Depth&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :female_flipper_length_mm</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Flipper length&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_label!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, label_dict)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_integer!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, [male_ordered</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, female_ordered</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-fcdeb69b">
+    <style>
+        #st-fcdeb69b {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-fcdeb69b tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-fcdeb69b tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-fcdeb69b br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-fcdeb69b sub {
+            line-height: 0;
+        }
+        #st-fcdeb69b sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td colspan="3" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Male</td>
+        <td colspan="3" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Female</td>
+    </tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Bill measures</td>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Bill measures</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Species</td>
+        <td style="font-weight:bold;text-align:left;">Length</td>
+        <td style="font-weight:bold;text-align:left;">Depth</td>
+        <td style="font-weight:bold;text-align:left;">Flipper length</td>
+        <td style="font-weight:bold;text-align:left;">Length</td>
+        <td style="font-weight:bold;text-align:left;">Depth</td>
+        <td style="font-weight:bold;text-align:left;">Flipper length</td>
+    </tr>
+        <tr><td colspan="7" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Biscoe Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">41</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">190</td>
+        <td style="text-align:left;">37</td>
+        <td style="text-align:left;">18</td>
+        <td style="text-align:left;">187</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Gentoo</td>
+        <td style="text-align:left;">49</td>
+        <td style="text-align:left;">16</td>
+        <td style="text-align:left;">222</td>
+        <td style="text-align:left;">46</td>
+        <td style="text-align:left;">14</td>
+        <td style="text-align:left;">213</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Dream Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">40</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">192</td>
+        <td style="text-align:left;">37</td>
+        <td style="text-align:left;">18</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Chinstrap</td>
+        <td style="text-align:left;">51</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">47</td>
+        <td style="text-align:left;">18</td>
+        <td style="text-align:left;">192</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Torgersen Is.</td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Adelie</td>
+        <td style="text-align:left;">41</td>
+        <td style="text-align:left;">19</td>
+        <td style="text-align:left;">195</td>
+        <td style="text-align:left;">38</td>
+        <td style="text-align:left;">18</td>
+        <td style="text-align:left;">188</td>
+    </tr>
+    <tr><td colspan="7" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div></div></div></main><footer class="VPDocFooter" data-v-83890dd9 data-v-4f9813fa><!--[--><!--]--><div class="edit-info" data-v-4f9813fa><div class="edit-link" data-v-4f9813fa><a class="VPLink link vp-external-link-icon no-icon edit-link-button" href="https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/examples/multilevel_spanners.md" target="_blank" rel="noreferrer" data-v-4f9813fa><!--[--><span class="vpi-square-pen edit-link-icon" data-v-4f9813fa></span> Edit this page<!--]--></a></div><!----></div><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-4f9813fa><span class="visually-hidden" id="doc-footer-aria-label" data-v-4f9813fa>Pager</span><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link prev" href="/StyledTables.jl/previews/PR23/examples/report" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Previous page</span><span class="title" data-v-4f9813fa>Quarterly Report</span><!--]--></a></div><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link next" href="/StyledTables.jl/previews/PR23/examples/color_gradients" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Next page</span><span class="title" data-v-4f9813fa>Color gradients</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter has-sidebar" data-v-a9a9e638 data-v-c970a860><div class="container" data-v-c970a860><p class="message" data-v-c970a860>Made with <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/" target="_blank"><strong>DocumenterVitepress.jl</strong></a><br></p><p class="copyright" data-v-c970a860>© Copyright 2026.</p></div></footer><!--[--><!--]--></div></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"examples_cars.md\":\"U82z8GYn\",\"examples_clinical.md\":\"WAoaZ8iS\",\"examples_color_gradients.md\":\"CGlzS8dZ\",\"examples_multilevel_spanners.md\":\"BgcvjtBv\",\"examples_report.md\":\"LmOvBKNz\",\"getting_started.md\":\"D8TD2ltl\",\"index.md\":\"f30dPIRh\",\"reference_annotations.md\":\"DVD6wBGF\",\"reference_formatting.md\":\"DJT6avCE\",\"reference_modifiers.md\":\"C3JLFC9Y\",\"reference_rendering.md\":\"DWb9wPbD\",\"reference_structure.md\":\"BS6eMmAy\",\"reference_styling.md\":\"DNTleXEv\",\"resources_api.md\":\"CRH3wGUB\",\"resources_export.md\":\"BCETc04U\",\"resources_limitations.md\":\"BDgBdLTx\",\"resources_why.md\":\"Db7LSfOA\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"StyledTables.jl\",\"description\":\"Documentation for StyledTables.jl\",\"base\":\"/StyledTables.jl/previews/PR23/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"outline\":\"deep\",\"logo\":{\"src\":\"/logo.svg\",\"width\":24,\"height\":24},\"search\":{\"provider\":\"local\",\"options\":{\"detailedView\":true}},\"nav\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/modifiers\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/why\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]},{\"component\":\"VersionPicker\"}],\"sidebar\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/modifiers\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/why\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]}],\"editLink\":{\"pattern\":\"https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/:path\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/simonsteiger/StyledTables.jl\"}],\"footer\":{\"message\":\"Made with <a href=\\\"https://luxdl.github.io/DocumenterVitepress.jl/dev/\\\" target=\\\"_blank\\\"><strong>DocumenterVitepress.jl</strong></a><br>\",\"copyright\":\"© Copyright 2026.\"}},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
+    
+  </body>
+</html>
