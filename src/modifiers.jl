@@ -780,6 +780,10 @@ render(tbl)
 ```
 """
 function tab_stubhead!(tbl::StyledTable, label)
+    if tbl.stub_col === nothing
+        @warn "No stub column is set; this label has no effect. " *
+              "Call tab_stub!(tbl, col) first to designate the stub column."
+    end
     tbl.stubhead_label = label
     return tbl
 end

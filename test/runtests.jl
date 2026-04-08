@@ -677,6 +677,12 @@ end
         tab_stub!(tbl, :rowname)
         tab_stubhead!(tbl, "Name")
         run_reftest(tbl, "references/tab_stubhead/basic")
+
+        @testset "warns without tab_stub!" begin
+            df = DataFrame(x = [1, 2])
+            tbl = StyledTable(df)
+            @test_logs (:warn, r"no effect") tab_stubhead!(tbl, "Row")
+        end
     end
 
     # -----------------------------------------------------------------------
