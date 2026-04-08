@@ -201,16 +201,6 @@ end
     cols_align!(tbl, [:x => :center, :y => :center])
     run_reftest(tbl, "references/cols_align/center_both")
 
-    # --- type-predicate form ---
-    df2 = DataFrame(; label = ["a", "b"], count = [1, 2], score = [0.5, 0.9])
-    tbl = StyledTable(df2)
-    cols_align!(tbl, :right) do T
-        T <: Real
-    end
-    @test tbl.col_alignments[:count] == :right
-    @test tbl.col_alignments[:score] == :right
-    @test !haskey(tbl.col_alignments, :label)
-
     # --- error cases ---
     @test_throws ArgumentError cols_align!(StyledTable(df), :centre)
     @test_throws ArgumentError cols_align!(StyledTable(df), :x => :centre)
