@@ -401,6 +401,15 @@ function cols_align!(tbl::StyledTable, d::AbstractDict)
     _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
 end
 
+function cols_align!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(cols_align!, (tbl, d)))
+end
+
 """
 $TYPEDSIGNATURES
 

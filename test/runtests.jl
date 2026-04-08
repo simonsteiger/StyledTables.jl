@@ -72,11 +72,11 @@ end
 
         @testset "mixed-type pairs error" begin
             let df = DataFrame(a = [1], b = [2])
-                # Mixed value types: String and Multiline labels → MethodError currently
+                # Mixed value types: String and Multiline labels
                 @test_throws ArgumentError cols_label!(
                     StyledTable(df), Dict{Symbol,Any}(:a => Multiline("A", "(units)"), :b => "B")
                 )
-                # Mixed key types: Symbol and String column names → MethodError currently
+                # Mixed key types: Symbol and String column names
                 @test_throws ArgumentError cols_label!(
                     StyledTable(df), Dict{Any,String}(:a => "A", "b" => "B")
                 )
@@ -274,9 +274,13 @@ end
 
         @testset "mixed-type pairs error" begin
             let df = DataFrame(x = [1], y = [2])
-                # Mixed value types: Symbol and String alignment values → MethodError currently
+                # Mixed value types: Symbol and String alignment values
                 @test_throws ArgumentError cols_align!(
                     StyledTable(df), Dict{Symbol,Any}(:x => :right, :y => "center")
+                )
+                # Mixed value types in a vector of pairs
+                @test_throws ArgumentError cols_align!(
+                    StyledTable(df), Pair{Any,Any}[:x => :right, :y => "center"]
                 )
             end
         end
@@ -328,7 +332,7 @@ end
 
         @testset "mixed-type pairs error" begin
             let df = DataFrame(a = [1], b = [2], c = [3])
-                # Mixed value types: Symbol and Vector{Symbol} column selectors → MethodError currently
+                # Mixed value types: Symbol and Vector{Symbol} column selectors
                 @test_throws ArgumentError tab_spanner!(
                     StyledTable(df), Dict{String,Any}("AB" => [:a, :b], "C" => :c)
                 )
@@ -608,7 +612,7 @@ end
 
         @testset "mixed-type pairs error" begin
             let df = DataFrame(x = [1], y = [2])
-                # Mixed value types: Symbol and Vector{Symbol} column selectors → MethodError currently
+                # Mixed value types: Symbol and Vector{Symbol} column selectors
                 @test_throws ArgumentError tab_footnote!(
                     StyledTable(df), Dict{String,Any}("Note" => :x, "Other" => [:x, :y])
                 )
