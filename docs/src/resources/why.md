@@ -4,11 +4,11 @@ DOCX is a common output format in clinical and applied research — and for that
 
 ## Existing table-styling packages
 
-I have tried to make the tables I need with [PrettyTables.jl](https://ronisbr.github.io/PrettyTables.jl/stable/) and [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/) but both did not _quite_ meet my requirements.
+I tried to make the tables I need with [PrettyTables.jl](https://ronisbr.github.io/PrettyTables.jl/stable/) and [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), but neither met my requirements.
 
-The building blocks provided in SummaryTables worked really well for docx rendering, but the tables I needed were often outside of the (by design) opinionated summaries that this package provides.
+The building blocks SummaryTables provides work well for DOCX rendering, but the tables I needed were often outside the intentionally opinionated summaries this package offers.
 
-PrettyTables, on the other hand, allowed for the customisation I needed but there was no docx support.
+PrettyTables, on the other hand, offered the customisation I needed, but had no DOCX support.
 
 ## What was missing
 
