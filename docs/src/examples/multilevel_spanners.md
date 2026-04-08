@@ -46,7 +46,7 @@ Finally, a higher-order column spanner will indicate which measurements are from
 
 ```@example penguins
 tbl = StyledTable(summary)
-tab_row_group!(tbl, :island)
+tab_rowgroup!(tbl, :island)
 cols_hide!(tbl, :island)
 render(tbl)
 ```

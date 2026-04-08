@@ -32,9 +32,9 @@ render(tbl)
 function render(tbl::StyledTable)
     df = tbl.data
 
-    # Determine base column order, then remove row_group_col and hidden_cols
+    # Determine base column order, then remove rowgroup_col and hidden_cols
     display_cols = filter(Symbol.(names(df))) do col
-        col != tbl.row_group_col && col ∉ tbl.hidden_cols
+        col != tbl.rowgroup_col && col ∉ tbl.hidden_cols
     end
 
     _validate_spanners(tbl.spanners)
@@ -47,7 +47,7 @@ function render(tbl::StyledTable)
     n_spanner_rows = length(spanner_rows)
     header_row = [_header_cell(tbl, col) for col in display_cols]
 
-    body = if tbl.row_group_col !== nothing
+    body = if tbl.rowgroup_col !== nothing
         _build_body_with_groups(tbl, df, display_cols)
     else
         _build_plain_body(tbl, df, display_cols)
@@ -73,8 +73,8 @@ function render(tbl::StyledTable)
 
     # Append source notes as footer rows
     footer_row_start = nothing
-    if !isempty(tbl.source_notes)
-        footer_rows = map(tbl.source_notes) do note
+    if !isempty(tbl.sourcenotes)
+        footer_rows = map(tbl.sourcenotes) do note
             row = Vector{Cell}(undef, n_cols)
             row[1] = Cell(note; merge = true, halign = :left)
             for j = 2:n_cols
@@ -84,7 +84,7 @@ function render(tbl::StyledTable)
         end
         footer_matrix = reduce(vcat, footer_rows)
         cells = vcat(cells, footer_matrix)
-        footer_row_start = size(cells, 1) - length(tbl.source_notes) + 1
+        footer_row_start = size(cells, 1) - length(tbl.sourcenotes) + 1
     end
 
     return Table(
@@ -183,8 +183,8 @@ function _build_body_with_groups(
     df::DataFrame,
     display_cols::Vector{Symbol},
 )
-    group_col = tbl.row_group_col
-    indent = tbl.row_group_indent_pt
+    group_col = tbl.rowgroup_col
+    indent = tbl.rowgroup_indent_pt
     group_vals = string.(df[!, group_col])
 
     group_insert_positions = _find_group_boundaries(group_vals)
@@ -265,8 +265,8 @@ end
 
 # Returns a Vector of group labels that appear more than once (non-adjacently).
 function _duplicate_group_labels(tbl)
-    tbl.row_group_col === nothing && return String[]
-    vals = string.(tbl.data[!, tbl.row_group_col])
+    tbl.rowgroup_col === nothing && return String[]
+    vals = string.(tbl.data[!, tbl.rowgroup_col])
     seen = Set{String}()
     dupes = String[]
     prev = nothing
@@ -308,7 +308,7 @@ function _warn_render_issues(tbl, display_cols)
 
     dupes = _duplicate_group_labels(tbl)
     if !isempty(dupes)
-        @warn "Row group column :$(tbl.row_group_col) is not sorted: " *
+        @warn "Row group column :$(tbl.rowgroup_col) is not sorted: " *
               "group label(s) " *
               "$(join(("\"$d\"" for d in dupes), ", ")) appear more than once."
     end

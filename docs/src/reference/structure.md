@@ -95,11 +95,11 @@ render(tbl)
 StyledTables.tab_stubhead!
 ```
 
-## `tab_row_group!`
+## `tab_rowgroup!`
 
 Group rows by distinct values in a column. A bold group-label row precedes each new group. Data rows are indented.
 
-**Signature:** `tab_row_group!(tbl, col::Symbol; indent_pt = 12)`
+**Signature:** `tab_rowgroup!(tbl, col::Symbol; indent_pt = 12)`
 
 ```@example structure
 df = DataFrame(
@@ -109,7 +109,7 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-tab_row_group!(tbl, :category)
+tab_rowgroup!(tbl, :category)
 cols_hide!(tbl, :category)
 cols_label!(tbl, :drug => "Drug", :dose_mg => "Dose (mg)")
 render(tbl)
@@ -119,11 +119,11 @@ To increase indentation:
 
 ```@example structure
 tbl = StyledTable(df)
-tab_row_group!(tbl, :category; indent_pt = 20)
+tab_rowgroup!(tbl, :category; indent_pt = 20)
 cols_hide!(tbl, :category)
 render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_row_group!
+StyledTables.tab_rowgroup!
 ```

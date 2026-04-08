@@ -47,7 +47,7 @@ Bold the "Full Year" column, flag Q4 figures as preliminary, and credit the data
 ```@example report
 tab_style!(tbl, :total; bold = true)
 tab_footnote!(tbl, "Preliminary figures, subject to audit" => :q4)
-tab_source_note!(tbl, "Source: Internal Finance, March 2026")
+tab_sourcenote!(tbl, "Source: Internal Finance, March 2026")
 render(tbl)
 ```
 

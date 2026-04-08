@@ -139,15 +139,15 @@ end
     @test_throws MethodError tab_footnote!(StyledTable(df), [:note => [:x]])
 end
 
-@testset "tab_source_note!" begin
+@testset "tab_sourcenote!" begin
     df = DataFrame(; x = [1, 2], y = [3, 4])
 
     tbl = StyledTable(df)
-    tab_source_note!(tbl, "Source: internal data")
-    run_reftest(tbl, "references/tab_source_note/single")
+    tab_sourcenote!(tbl, "Source: internal data")
+    run_reftest(tbl, "references/tab_sourcenote/single")
 
     tbl = StyledTable(df)
-    tab_source_note!(tbl, "Source: A")
-    tab_source_note!(tbl, "Note: B")
-    run_reftest(tbl, "references/tab_source_note/multiple")
+    tab_sourcenote!(tbl, "Source: A")
+    tab_sourcenote!(tbl, "Note: B")
+    run_reftest(tbl, "references/tab_sourcenote/multiple")
 end
