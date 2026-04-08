@@ -25,8 +25,6 @@ render(tbl)
 StyledTables.fmt_number!
 ```
 
----
-
 ## `fmt_percent!`
 
 Multiply by `scale` (default `100`) and append `suffix` (default `"%"`).
@@ -55,8 +53,6 @@ render(tbl)
 StyledTables.fmt_percent!
 ```
 
----
-
 ## `fmt_integer!`
 
 Round to the nearest integer and display without a decimal point.
@@ -74,8 +70,6 @@ render(tbl)
 ```@docs
 StyledTables.fmt_integer!
 ```
-
----
 
 ## `fmt!`
 

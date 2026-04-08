@@ -325,7 +325,7 @@ end
 render(tbl)
 ```
 """
-function cols_align!(f, tbl::StyledTable, halign::Symbol)
+function cols_align!(f::Function, tbl::StyledTable, halign::Symbol)
     _validate_halign(halign)
     for col in Symbol.(names(tbl.data))
         T = eltype(tbl.data[!, col])

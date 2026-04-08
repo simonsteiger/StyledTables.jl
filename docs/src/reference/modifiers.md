@@ -65,8 +65,6 @@ StyledTables.cols_label!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol
 StyledTables.cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
 ```
 
----
-
 ## `cols_align!`
 
 Set horizontal alignment for one or more columns. Valid values: `:left`, `:center`, `:right`.
@@ -121,18 +119,12 @@ StyledTables.cols_align!(::StyledTable, ::Pair{<:AbstractVector,Symbol}...)
 ```
 
 ```@docs
-StyledTables.cols_align!(::StyledTable, ::Union{AbstractVector,AbstractDict})
-```
-
-```@docs
 StyledTables.cols_align!(::StyledTable, ::Symbol)
 ```
 
 ```@docs
-StyledTables.cols_align!(::Any, ::StyledTable, ::Symbol)
+StyledTables.cols_align!(::Function, ::StyledTable, ::Symbol)
 ```
-
----
 
 ## `cols_hide!`
 

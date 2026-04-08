@@ -61,8 +61,6 @@ StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbo
     AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
 ```
 
----
-
 ## `tab_stub!`
 
 Mark one column as the **stub**: a row-label column rendered apart from data columns. By default the stub header is not bolded; it gains a bold label if `tab_stubhead!` is called.
@@ -80,8 +78,6 @@ render(tbl)
 StyledTables.tab_stub!
 ```
 
----
-
 ## `tab_stubhead!`
 
 Label the stub column header. Has no effect without a prior call to `tab_stub!`.
@@ -98,8 +94,6 @@ render(tbl)
 ```@docs
 StyledTables.tab_stubhead!
 ```
-
----
 
 ## `tab_row_group!`
 

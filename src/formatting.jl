@@ -207,7 +207,7 @@ fmt!(x -> "≈\$(round(Int, x))", tbl, [:x])
 render(tbl)
 ```
 """
-function fmt!(f, tbl::StyledTable, cols)
+function fmt!(f::Function, tbl::StyledTable, cols)
     _apply_formatter!(tbl, cols, f)
     return tbl
 end
