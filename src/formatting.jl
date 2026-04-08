@@ -1,7 +1,12 @@
 using Printf
 
 # Internal helper: validates cols and stores formatter function on tbl
-function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{Symbol}, f::Function; check_numeric::Bool=false)
+function _apply_formatter!(
+    tbl::StyledTable,
+    cols::AbstractVector{Symbol},
+    f::Function;
+    check_numeric::Bool = false,
+)
     colnames = Symbol.(names(tbl.data))
     for col in cols
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
@@ -9,10 +14,12 @@ function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{Symbol}, f::Fu
     if check_numeric
         for col in cols
             T = nonmissingtype(eltype(tbl.data[!, col]))
-            T <: Real || throw(ArgumentError(
-                ":$col has element type $T, which is not numeric (requires <: Real). " *
-                "Use `fmt!` with a custom formatter for non-numeric columns."
-            ))
+            T <: Real || throw(
+                ArgumentError(
+                    ":$col has element type $T, which is not numeric (requires <: Real). " *
+                    "Use `fmt!` with a custom formatter for non-numeric columns.",
+                ),
+            )
         end
     end
     for col in cols
@@ -25,18 +32,28 @@ function _apply_formatter!(
     tbl::StyledTable,
     cols::AbstractVector{<:AbstractString},
     f::Function;
-    check_numeric::Bool=false,
+    check_numeric::Bool = false,
 )
     _apply_formatter!(tbl, Symbol.(cols), f; check_numeric)
     return tbl
 end
 
-function _apply_formatter!(tbl::StyledTable, cols::AbstractString, f::Function; check_numeric::Bool=false)
+function _apply_formatter!(
+    tbl::StyledTable,
+    cols::AbstractString,
+    f::Function;
+    check_numeric::Bool = false,
+)
     _apply_formatter!(tbl, Symbol(cols), f; check_numeric)
     return tbl
 end
 
-function _apply_formatter!(tbl::StyledTable, cols::Symbol, f::Function; check_numeric::Bool=false)
+function _apply_formatter!(
+    tbl::StyledTable,
+    cols::Symbol,
+    f::Function;
+    check_numeric::Bool = false,
+)
     _apply_formatter!(tbl, [cols], f; check_numeric)
     return tbl
 end
@@ -60,7 +77,7 @@ Format values in `cols` to a fixed number of decimal places.
 
 `tbl` (modified in place).
 
-See also: [`fmt_percent!`](@ref), [`fmt_integer!`](@ref), [`fmt!`](@ref), [`tab_options!`](@ref).
+See also: [`fmt_percent!`](@ref), [`fmt_integer!`](@ref), [`fmt!`](@ref).
 
 # Examples
 
@@ -71,7 +88,12 @@ render(tbl)
 ```
 """
 function fmt_number!(tbl::StyledTable, cols; digits::Int = 2, trailing_zeros::Bool = true)
-    return _apply_formatter!(tbl, cols, _number_formatter(digits, trailing_zeros); check_numeric=true)
+    return _apply_formatter!(
+        tbl,
+        cols,
+        _number_formatter(digits, trailing_zeros);
+        check_numeric = true,
+    )
 end
 
 function _number_formatter(digits, trailing_zeros)
@@ -126,7 +148,7 @@ function fmt_percent!(
 )
     fmt_str = Printf.Format("%.$(digits)f")
     f = x -> ismissing(x) ? x : Printf.format(fmt_str, Float64(x) * scale) * suffix
-    return _apply_formatter!(tbl, cols, f; check_numeric=true)
+    return _apply_formatter!(tbl, cols, f; check_numeric = true)
 end
 
 """
@@ -154,7 +176,7 @@ render(tbl)
 """
 function fmt_integer!(tbl::StyledTable, cols)
     f = x -> ismissing(x) ? x : string(round(Int, x))
-    return _apply_formatter!(tbl, cols, f; check_numeric=true)
+    return _apply_formatter!(tbl, cols, f; check_numeric = true)
 end
 
 """

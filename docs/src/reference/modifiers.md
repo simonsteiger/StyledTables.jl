@@ -69,19 +69,20 @@ StyledTables.cols_label!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
 
 ## `cols_align!`
 
-Set horizontal alignment for one or more columns. Valid values: `:left`,
-`:center`, `:right`.
+Set horizontal alignment for one or more columns. Valid values: `:left`, `:center`, `:right`.
 
 **Signatures:**
-- `cols_align!(tbl, col => halign, ...)`
-- `cols_align!(tbl, [cols...] => halign, ...)` — same alignment for a group of columns
-- `cols_align!(tbl, dict_or_vector)`
-- `cols_align!(tbl, halign)` — apply to all columns
-- `cols_align!(f, tbl, halign)` — apply to columns where `f(eltype) == true`
+```julia
+cols_align!(tbl, (cols => halign)::Pair...)
+cols_align!(tbl, d::AbstractDict)
+cols_align!(tbl, d::AbstractVector{<:Pair})
+cols_align!(tbl, halign)
+cols_align!(f, tbl, halign)
+```
 
 ```@example columns
 tbl = StyledTable(df)
-cols_align!(tbl, :bmi => :right, :sbp => :right)
+cols_align!(tbl, :bmi => :right, :sbp => :left)
 render(tbl)
 ```
 
@@ -113,9 +114,21 @@ render(tbl)
 
 ```@docs
 StyledTables.cols_align!(::StyledTable, ::Pair{Symbol,Symbol}...)
+```
+
+```@docs
 StyledTables.cols_align!(::StyledTable, ::Pair{<:AbstractVector,Symbol}...)
+```
+
+```@docs
 StyledTables.cols_align!(::StyledTable, ::Union{AbstractVector,AbstractDict})
+```
+
+```@docs
 StyledTables.cols_align!(::StyledTable, ::Symbol)
+```
+
+```@docs
 StyledTables.cols_align!(::Any, ::StyledTable, ::Symbol)
 ```
 
