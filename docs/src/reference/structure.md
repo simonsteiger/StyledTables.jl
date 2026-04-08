@@ -17,19 +17,19 @@ tab_spanner!(tbl, d::AbstractVector{<:Pair})
 using StyledTables, SummaryTables, DataFrames
 
 df = DataFrame(
-    drug     = ["Aspirin", "Ibuprofen", "Naproxen"],
-    dose_mg  = [100, 200, 250],
+    drug = ["Aspirin", "Ibuprofen", "Naproxen"],
+    dose_mg = [100, 200, 250],
     efficacy = [0.72, 0.81, 0.78],
-    safety   = [0.91, 0.84, 0.88],
+    safety = [0.91, 0.84, 0.88],
 )
 
 tbl = StyledTable(df)
 tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 cols_label!(tbl,
-    :drug     => "Drug",
-    :dose_mg  => "Dose (mg)",
+    :drug => "Drug",
+    :dose_mg => "Dose (mg)",
     :efficacy => "Efficacy",
-    :safety   => "Safety",
+    :safety => "Safety",
 )
 fmt_percent!(tbl, [:efficacy, :safety]; digits = 1)
 render(tbl)
@@ -52,7 +52,17 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_spanner!
+StyledTables.tab_spanner!(tbl::StyledTable, args::Pair...)
+```
+
+```@docs
+StyledTables.tab_spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}},
+    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol},
+    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
+```
+
+```@docs
+StyledTables.tab_spanner!(f, tbl::StyledTable, columns::AbstractVector{Symbol})
 ```
 
 ---
@@ -104,8 +114,8 @@ Group rows by distinct values in a column. A bold group-label row precedes each 
 ```@example structure
 df = DataFrame(
     category = ["Analgesic", "Analgesic", "NSAID", "NSAID"],
-    drug     = ["Aspirin", "Paracetamol", "Ibuprofen", "Naproxen"],
-    dose_mg  = [100, 500, 200, 250],
+    drug = ["Aspirin", "Paracetamol", "Ibuprofen", "Naproxen"],
+    dose_mg = [100, 500, 200, 250],
 )
 
 tbl = StyledTable(df)

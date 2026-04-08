@@ -2,7 +2,8 @@
 
 ## `render`
 
-Convert a `StyledTable` into a `SummaryTables.Table` for display in Jupyter, Pluto, or Documenter, or for saving to HTML, LaTeX, or Typst. In interactive contexts, calling `render` explicitly is optional; `StyledTable` calls it automatically via `Base.show`.
+Convert a `StyledTable` into a `SummaryTables.Table` for display or for saving to HTML, LaTeX, or Typst. 
+In interactive contexts, calling `render` explicitly is optional because `Base.show` automatically `render`s the table.
 
 **Signature:** `render(tbl::StyledTable) -> SummaryTables.Table`
 
@@ -23,20 +24,7 @@ The returned `SummaryTables.Table` supports:
 
 ### Saving to file
 
-```@example rendering
-tbl = StyledTable(DataFrame(x = [1, 2, 3]))
-rendered = render(tbl)
-
-# HTML
-open("table.html", "w") do io
-    show(io, MIME"text/html"(), rendered)
-end
-
-# LaTeX
-open("table.tex", "w") do io
-    show(io, MIME"text/latex"(), rendered)
-end
-```
+See the [SummaryTables.jl docs](https://pumasai.github.io/SummaryTables.jl/stable/reference/renderers) for information on how to save `SummaryTables.Table`s to html, LaTeX, typst or docx.
 
 ```@docs
 StyledTables.render

@@ -1,6 +1,6 @@
 # Why StyledTables.jl?
 
-DOCX is a common output format in clinical and applied research — and for that, no existing Julia table package was quite right.
+DOCX is a common output format in clinical and applied research, and existing packages either did not support docx or did not provide a high level interface for custom table styling.
 
 ## Existing table-styling packages
 
@@ -23,7 +23,7 @@ Unlike R's idiomatic pipe syntax, StyledTables has a more Julian take on iterati
 
 In contrast to SummaryTables, StyledTables provides no data-summarising capabilities.
 It assumes you bring summarised data that can be converted to a `DataFrame`.
-The typical workflow is thus:
+You typically go through the following steps when working with StyledTables:
 
 1. Summarise your data
 2. Convert it to a `StyledTable`

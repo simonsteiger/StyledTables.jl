@@ -11,9 +11,15 @@ hero:
     src: logo.svg
     alt: StyledTables
   actions:
+    - theme: brand
+      text: Get started
+      link: /getting_started
     - theme: alt
       text: View on Github
       link: https://github.com/simonsteiger/StyledTables.jl
+    - theme: alt
+      text: API Reference
+      link: /resources/api
 ---
 ````
 
