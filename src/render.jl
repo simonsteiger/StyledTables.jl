@@ -251,6 +251,18 @@ function _noncontiguous_spanner_gaps(spanners, display_cols)
     return results
 end
 
+# Returns a Vector of (spanner_label, hidden_cols) for each spanner that has
+# at least one column absent from display_cols.
+function _hidden_spanner_cols(spanners::Vector{Spanner}, display_cols::Vector{Symbol})
+    results = Vector{Tuple{Any,Vector{Symbol}}}()
+    display_set = Set(display_cols)
+    for s in spanners
+        hidden = [c for c in s.columns if c ∉ display_set]
+        isempty(hidden) || push!(results, (s.label, hidden))
+    end
+    return results
+end
+
 # Returns a Vector of group labels that appear more than once (non-adjacently).
 function _duplicate_group_labels(tbl)
     tbl.row_group_col === nothing && return String[]
@@ -281,6 +293,17 @@ function _warn_render_issues(tbl, display_cols)
         verb = n == 1 ? "lies" : "lie"
         @warn "Spanner \"$label\" has a gap: $col_str $verb between its " *
               "outermost spanned columns but are not part of this spanner."
+    end
+
+    hidden = _hidden_spanner_cols(tbl.spanners, display_cols)
+    for (label, hidden_cols) in hidden
+        n = length(hidden_cols)
+        col_str = if n == 1
+            "column :$(hidden_cols[1]) is hidden"
+        else
+            "columns $(join((":$c" for c in hidden_cols), ", ")) are hidden"
+        end
+        @warn "Spanner \"$label\": $col_str and will not appear under this spanner."
     end
 
     dupes = _duplicate_group_labels(tbl)
