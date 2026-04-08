@@ -262,9 +262,9 @@ import{_ as s,o as i,c as n,aA as e}from"./chunks/framework.DeH5H0ZK.js";const y
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_style!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:msrp_eur</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; bold </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;City/highway combined estimate&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> :mpg</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_sourcenote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Source: manufacturer specifications&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-2af5ee94">
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-0410cd54">
     <style>
-        #st-2af5ee94 {
+        #st-0410cd54 {
             border: none;
             margin: 0 auto;
             padding: 0.25rem;
@@ -272,24 +272,24 @@ import{_ as s,o as i,c as n,aA as e}from"./chunks/framework.DeH5H0ZK.js";const y
             border-spacing: 0.85em 0.2em;
             line-height: 1.2em;
         }
-        #st-2af5ee94 tr {
+        #st-0410cd54 tr {
             background-color: transparent;
             border: none;
         }
-        #st-2af5ee94 tr td {
+        #st-0410cd54 tr td {
             vertical-align: top;
             padding: 0;
             border: none;
             background-color: transparent;
         }
-        #st-2af5ee94 br {
+        #st-0410cd54 br {
             line-height: 0em;
             margin: 0;
         }
-        #st-2af5ee94 sub {
+        #st-0410cd54 sub {
             line-height: 0;
         }
-        #st-2af5ee94 sup {
+        #st-0410cd54 sup {
             line-height: 0;
         }
     </style>
@@ -382,12 +382,7 @@ import{_ as s,o as i,c as n,aA as e}from"./chunks/framework.DeH5H0ZK.js";const y
     </tr>
     <tfoot>
         <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">Source: manufacturer specifications</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
+        <td colspan="6" style="text-align:left;">Source: manufacturer specifications</td>
     </tr>
     <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
     <tr><td colspan="6" style="font-size: 0.8em;"><sup>1</sup> City/highway combined estimate</td></tr>

@@ -127,9 +127,9 @@ import{_ as s,o as i,c as a,aA as l}from"./chunks/framework.DeH5H0ZK.js";const o
 </table></div><h2 id="Step-2:-Add-header,-stub-label,-missing-handling,-and-notes" tabindex="-1">Step 2: Add header, stub label, missing handling, and notes <a class="header-anchor" href="#Step-2:-Add-header,-stub-label,-missing-handling,-and-notes" aria-label="Permalink to &quot;Step 2: Add header, stub label, missing handling, and notes {#Step-2:-Add-header,-stub-label,-missing-handling,-and-notes}&quot;">​</a></h2><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">sub_missing!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;—&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Percentages computed on non-missing observations&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:placebo_n</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:treatment_n</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_sourcenote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Abbreviations: SD = standard deviation; N = total per arm&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-13fca9f2">
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-13c93f18">
     <style>
-        #st-13fca9f2 {
+        #st-13c93f18 {
             border: none;
             margin: 0 auto;
             padding: 0.25rem;
@@ -137,24 +137,24 @@ import{_ as s,o as i,c as a,aA as l}from"./chunks/framework.DeH5H0ZK.js";const o
             border-spacing: 0.85em 0.2em;
             line-height: 1.2em;
         }
-        #st-13fca9f2 tr {
+        #st-13c93f18 tr {
             background-color: transparent;
             border: none;
         }
-        #st-13fca9f2 tr td {
+        #st-13c93f18 tr td {
             vertical-align: top;
             padding: 0;
             border: none;
             background-color: transparent;
         }
-        #st-13fca9f2 br {
+        #st-13c93f18 br {
             line-height: 0em;
             margin: 0;
         }
-        #st-13fca9f2 sub {
+        #st-13c93f18 sub {
             line-height: 0;
         }
-        #st-13fca9f2 sup {
+        #st-13c93f18 sup {
             line-height: 0;
         }
     </style>
@@ -231,9 +231,7 @@ import{_ as s,o as i,c as a,aA as l}from"./chunks/framework.DeH5H0ZK.js";const o
     </tr>
     <tfoot>
         <tr><td colspan="3" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">Abbreviations: SD = standard deviation; N = total per arm</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
+        <td colspan="3" style="text-align:left;">Abbreviations: SD = standard deviation; N = total per arm</td>
     </tr>
     <tr><td colspan="3" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
     <tr><td colspan="3" style="font-size: 0.8em;"><sup>1</sup> Percentages computed on non-missing observations</td></tr>

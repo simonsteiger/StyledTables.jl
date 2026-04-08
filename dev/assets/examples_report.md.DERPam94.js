@@ -117,9 +117,9 @@ import{_ as i,o as s,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o
 </table></div><h2 id="Step-2:-Highlight-the-totals-column-and-annotate-Q4" tabindex="-1">Step 2: Highlight the totals column and annotate Q4 <a class="header-anchor" href="#Step-2:-Highlight-the-totals-column-and-annotate-Q4" aria-label="Permalink to &quot;Step 2: Highlight the totals column and annotate Q4 {#Step-2:-Highlight-the-totals-column-and-annotate-Q4}&quot;">​</a></h2><p>Bold the &quot;Full Year&quot; column, flag Q4 figures as preliminary, and credit the data source.</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_style!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:total</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; bold </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_footnote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Preliminary figures, subject to audit&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> :q4</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
 <span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_sourcenote!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Source: Internal Finance, March 2026&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
-<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-8d77b87b">
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-6cca8ed7">
     <style>
-        #st-8d77b87b {
+        #st-6cca8ed7 {
             border: none;
             margin: 0 auto;
             padding: 0.25rem;
@@ -127,24 +127,24 @@ import{_ as i,o as s,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o
             border-spacing: 0.85em 0.2em;
             line-height: 1.2em;
         }
-        #st-8d77b87b tr {
+        #st-6cca8ed7 tr {
             background-color: transparent;
             border: none;
         }
-        #st-8d77b87b tr td {
+        #st-6cca8ed7 tr td {
             vertical-align: top;
             padding: 0;
             border: none;
             background-color: transparent;
         }
-        #st-8d77b87b br {
+        #st-6cca8ed7 br {
             line-height: 0em;
             margin: 0;
         }
-        #st-8d77b87b sub {
+        #st-6cca8ed7 sub {
             line-height: 0;
         }
-        #st-8d77b87b sup {
+        #st-6cca8ed7 sup {
             line-height: 0;
         }
     </style>
@@ -210,14 +210,9 @@ import{_ as i,o as s,c as a,aA as n}from"./chunks/framework.DeH5H0ZK.js";const o
     </tr>
     <tfoot>
         <tr><td colspan="6" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
-        <td style="text-align:left;">Source: Internal Finance, March 2026</td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
-        <td style="text-align:center;"></td>
+        <td colspan="6" style="text-align:left;">Source: Internal Finance, March 2026</td>
     </tr>
     <tr><td colspan="6" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
     <tr><td colspan="6" style="font-size: 0.8em;"><sup>1</sup> Preliminary figures, subject to audit</td></tr>
     </tfoot>
-</table></div><p>The bolded &quot;Full Year&quot; column draws the eye to the aggregate. An auto-numbered superscript on Q4 flags preliminary figures; the source note credits the data origin.</p>`,14)])])}const y=i(l,[["render",e]]);export{o as __pageData,y as default};
+</table></div><p>The bolded &quot;Full Year&quot; column draws the eye to the aggregate. An auto-numbered superscript on Q4 flags preliminary figures; the source note credits the data origin.</p>`,14)])])}const E=i(l,[["render",e]]);export{o as __pageData,E as default};
