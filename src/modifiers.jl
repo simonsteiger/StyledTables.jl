@@ -1,3 +1,30 @@
+# Shared catch-all helper for pair-accepting functions.
+# Inspects runtime key and value types; throws an informative ArgumentError for mixed types.
+# check_keys=false skips key inspection (used by tab_spanner!, where label-type mixing
+# is not the documented error case).
+function _throw_mixed_pair_values(
+    f::Function,
+    ktypes,
+    vtypes,
+    tbl,
+    d;
+    check_keys::Bool = true,
+)
+    if check_keys && length(ktypes) > 1
+        throw(ArgumentError(
+            "Mixed key types in pairs: $(join(ktypes, ", ")). " *
+            "All keys must share the same type.",
+        ))
+    end
+    if length(vtypes) > 1
+        throw(ArgumentError(
+            "Mixed value types in pairs: $(join(vtypes, ", ")). " *
+            "All values must share the same type.",
+        ))
+    end
+    throw(MethodError(f, (tbl, d)))
+end
+
 # Resolve a user-provided color value to a "#RRGGBB" hex string, or nothing.
 _resolve_color(::Nothing) = nothing
 
@@ -173,6 +200,21 @@ end
 function cols_label!(f, tbl::StyledTable)
     cols_label!(f, tbl, Symbol.(names(tbl.data)))
     return tbl
+end
+
+function cols_label!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(cols_label!, ktypes, vtypes, tbl, d)
+end
+
+function cols_label!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(cols_label!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(cols_label!, (tbl, d)))
 end
 
 """
@@ -353,6 +395,12 @@ function cols_align!(f, tbl::StyledTable, halign::Symbol)
     return tbl
 end
 
+function cols_align!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
+end
+
 """
 $TYPEDSIGNATURES
 
@@ -503,25 +551,16 @@ function _sanitize_cols(col_or_cols)
 end
 _sanitize_lab(label) = label isa Multiline ? label : String(label)
 
-function _throw_if_mixed_spanner_values(vtypes, tbl, d)
-    if length(vtypes) > 1
-        throw(
-            ArgumentError(
-                "Different types in pairs: $(join(vtypes, ", ", " and ")). " *
-                "All pairs must share the same type."),
-        )
-    end
-    throw(MethodError(tab_spanner!, (tbl, d)))
-end
-
 function tab_spanner!(tbl::StyledTable, d::AbstractDict; level = 1)
+    ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_if_mixed_spanner_values(vtypes, tbl, d)
+    _throw_mixed_pair_values(tab_spanner!, ktypes, vtypes, tbl, d; check_keys = false)
 end
 
 function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level = 1)
+    ktypes = unique(typeof(k) for (k, _) in d)
     vtypes = unique(typeof(v) for (_, v) in d)
-    _throw_if_mixed_spanner_values(vtypes, tbl, d)
+    _throw_mixed_pair_values(tab_spanner!, ktypes, vtypes, tbl, d; check_keys = false)
 end
 
 """
@@ -667,6 +706,21 @@ end
 
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(tab_footnote!, (tbl, d)))
 end
 
 """

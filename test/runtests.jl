@@ -69,6 +69,19 @@ end
         run_reftest(tbl, "references/cols_label/relabeled_one_col")
 
         @test_throws ArgumentError cols_label!(StyledTable(df), :typo => "Label")
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(a = [1], b = [2])
+                # Mixed value types: String and Multiline labels → MethodError currently
+                @test_throws ArgumentError cols_label!(
+                    StyledTable(df), Dict{Symbol,Any}(:a => Multiline("A", "(units)"), :b => "B")
+                )
+                # Mixed key types: Symbol and String column names → MethodError currently
+                @test_throws ArgumentError cols_label!(
+                    StyledTable(df), Dict{Any,String}(:a => "A", "b" => "B")
+                )
+            end
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -259,6 +272,15 @@ end
         @test_throws ArgumentError cols_align!(StyledTable(df), :x => :centre)
         @test_throws ArgumentError cols_align!(StyledTable(df), :nonexistent => :left)
 
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(x = [1], y = [2])
+                # Mixed value types: Symbol and String alignment values → MethodError currently
+                @test_throws ArgumentError cols_align!(
+                    StyledTable(df), Dict{Symbol,Any}(:x => :right, :y => "center")
+                )
+            end
+        end
+
         # --- vector-key pair form: Symbol vector ---
         tbl = StyledTable(df)
         cols_align!(tbl, [:x, :y] => :center)
@@ -303,6 +325,15 @@ end
         run_reftest(tbl, "references/tab_spanner/two_spanners")
 
         @test_throws ArgumentError tab_spanner!(StyledTable(df), "X" => [:typo])
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(a = [1], b = [2], c = [3])
+                # Mixed value types: Symbol and Vector{Symbol} column selectors → MethodError currently
+                @test_throws ArgumentError tab_spanner!(
+                    StyledTable(df), Dict{String,Any}("AB" => [:a, :b], "C" => :c)
+                )
+            end
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -574,6 +605,15 @@ end
         @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => [:nonexistent])
         @test_throws ArgumentError tab_footnote!(StyledTable(df), Dict("Note" => [:nonexistent]))
         @test_throws ArgumentError tab_footnote!(StyledTable(df), ["Note" => [:nonexistent]])
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(x = [1], y = [2])
+                # Mixed value types: Symbol and Vector{Symbol} column selectors → MethodError currently
+                @test_throws ArgumentError tab_footnote!(
+                    StyledTable(df), Dict{String,Any}("Note" => :x, "Other" => [:x, :y])
+                )
+            end
+        end
     end
 
     # -----------------------------------------------------------------------
