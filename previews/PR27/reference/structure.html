@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Table Structure | StyledTables.jl</title>
+    <meta name="description" content="Documentation for StyledTables.jl">
+    <meta name="generator" content="VitePress v1.6.4">
+    <link rel="preload stylesheet" href="/StyledTables.jl/previews/PR27/assets/style.BnAjRKY-.css" as="style">
+    <link rel="preload stylesheet" href="/StyledTables.jl/previews/PR27/vp-icons.css" as="style">
+    
+    <script type="module" src="/StyledTables.jl/previews/PR27/assets/app.DAGPBRT8.js"></script>
+    <link rel="preload" href="/StyledTables.jl/previews/PR27/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR27/assets/chunks/theme.BYoW8CFg.js">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR27/assets/chunks/framework.D4v3q4Ya.js">
+    <link rel="modulepreload" href="/StyledTables.jl/previews/PR27/assets/reference_structure.md.CBzaoPrj.lean.js">
+    <link rel="icon" href="/StyledTables.jl/previews/PR27/favicon.ico">
+    <script src="/StyledTables.jl/versions.js"></script>
+    <script src="/StyledTables.jl/previews/PR27/siteinfo.js"></script>
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+  </head>
+  <body>
+    <div id="app"><div class="Layout" data-v-a9a9e638><!--[--><!--]--><!--[--><span tabindex="-1" data-v-492508fc></span><a href="#VPContent" class="VPSkipLink visually-hidden" data-v-492508fc>Skip to content</a><!--]--><!----><header class="VPNav" data-v-a9a9e638 data-v-f1e365da><div class="VPNavBar" data-v-f1e365da data-v-822684d1><div class="wrapper" data-v-822684d1><div class="container" data-v-822684d1><div class="title" data-v-822684d1><div class="VPNavBarTitle has-sidebar" data-v-822684d1 data-v-0f4f798b><a class="title" href="/StyledTables.jl/previews/PR27/" data-v-0f4f798b><!--[--><!--]--><!--[--><img class="VPImage logo" src="/StyledTables.jl/previews/PR27/logo.svg" width="24" height="24" alt data-v-35a7d0b8><!--]--><span data-v-0f4f798b>StyledTables.jl</span><!--[--><!--]--></a></div></div><div class="content" data-v-822684d1><div class="content-body" data-v-822684d1><!--[--><!--]--><div class="VPNavBarSearch search" data-v-822684d1><!--[--><!----><div id="local-search"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search"><span class="DocSearch-Button-Container"><span class="vp-icon DocSearch-Search-Icon"></span><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"><kbd class="DocSearch-Button-Key"></kbd><kbd class="DocSearch-Button-Key">K</kbd></span></button></div><!--]--></div><nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu menu" data-v-822684d1 data-v-e6d46098><span id="main-nav-aria-label" class="visually-hidden" data-v-e6d46098> Main Navigation </span><!--[--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/StyledTables.jl/previews/PR27/index" tabindex="0" data-v-e6d46098 data-v-956ec74c><!--[--><span data-v-956ec74c>Home</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/StyledTables.jl/previews/PR27/getting_started" tabindex="0" data-v-e6d46098 data-v-956ec74c><!--[--><span data-v-956ec74c>Getting Started</span><!--]--></a><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup active" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Reference</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/reference/modifiers" data-v-acbfed09><!--[--><span data-v-acbfed09>Column Modifiers</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link active" href="/StyledTables.jl/previews/PR27/reference/structure" data-v-acbfed09><!--[--><span data-v-acbfed09>Table Structure</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/reference/annotations" data-v-acbfed09><!--[--><span data-v-acbfed09>Annotations</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/reference/styling" data-v-acbfed09><!--[--><span data-v-acbfed09>Styling</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/reference/formatting" data-v-acbfed09><!--[--><span data-v-acbfed09>Formatting</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/reference/rendering" data-v-acbfed09><!--[--><span data-v-acbfed09>Rendering</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Examples</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuGroup" data-v-7dd3104a data-v-48c802d0><p class="title" data-v-48c802d0>Basic use</p><!--[--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/examples/cars" data-v-acbfed09><!--[--><span data-v-acbfed09>Sports Cars Table</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/examples/clinical" data-v-acbfed09><!--[--><span data-v-acbfed09>Clinical Demographics</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/examples/report" data-v-acbfed09><!--[--><span data-v-acbfed09>Quarterly Report</span><!--]--></a></div><!--]--><!--]--></div><!--]--><!--[--><div class="VPMenuGroup" data-v-7dd3104a data-v-48c802d0><p class="title" data-v-48c802d0>Advanced options</p><!--[--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/examples/multilevel_spanners" data-v-acbfed09><!--[--><span data-v-acbfed09>Multilevel spanners</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-48c802d0 data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/examples/color_gradients" data-v-acbfed09><!--[--><span data-v-acbfed09>Color gradients</span><!--]--></a></div><!--]--><!--]--></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-e6d46098 data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><!----><span data-v-04f5c5e9>Resources</span><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><div class="items" data-v-7dd3104a><!--[--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/resources/why" data-v-acbfed09><!--[--><span data-v-acbfed09>Why StyledTables?</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/resources/export" data-v-acbfed09><!--[--><span data-v-acbfed09>Export</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-7dd3104a data-v-acbfed09><a class="VPLink link" href="/StyledTables.jl/previews/PR27/resources/api" data-v-acbfed09><!--[--><span data-v-acbfed09>API</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><!----><!--]--><!--]--></nav><!----><div class="VPNavBarAppearance appearance" data-v-822684d1 data-v-af096f4a><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-af096f4a data-v-e40a8bb6 data-v-4a1c76db><span class="check" data-v-4a1c76db><span class="icon" data-v-4a1c76db><!--[--><span class="vpi-sun sun" data-v-e40a8bb6></span><span class="vpi-moon moon" data-v-e40a8bb6></span><!--]--></span></span></button></div><div class="VPSocialLinks VPNavBarSocialLinks social-links" data-v-822684d1 data-v-164c457f data-v-ee7a9424><!--[--><a class="VPSocialLink no-icon" href="https://github.com/simonsteiger/StyledTables.jl" aria-label="github" target="_blank" rel="noopener" data-v-ee7a9424 data-v-d26d30cb><span class="vpi-social-github"></span></a><!--]--></div><div class="VPFlyout VPNavBarExtra extra" data-v-822684d1 data-v-925effce data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" aria-label="extra navigation" data-v-04f5c5e9><span class="vpi-more-horizontal icon" data-v-04f5c5e9></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><!----><!--[--><!--[--><!----><div class="group" data-v-925effce><div class="item appearance" data-v-925effce><p class="label" data-v-925effce>Appearance</p><div class="appearance-action" data-v-925effce><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-925effce data-v-e40a8bb6 data-v-4a1c76db><span class="check" data-v-4a1c76db><span class="icon" data-v-4a1c76db><!--[--><span class="vpi-sun sun" data-v-e40a8bb6></span><span class="vpi-moon moon" data-v-e40a8bb6></span><!--]--></span></span></button></div></div></div><div class="group" data-v-925effce><div class="item social-links" data-v-925effce><div class="VPSocialLinks social-links-list" data-v-925effce data-v-ee7a9424><!--[--><a class="VPSocialLink no-icon" href="https://github.com/simonsteiger/StyledTables.jl" aria-label="github" target="_blank" rel="noopener" data-v-ee7a9424 data-v-d26d30cb><span class="vpi-social-github"></span></a><!--]--></div></div></div><!--]--><!--]--></div></div></div><!--[--><!--[--><!--[--><div class="VPFlyout VPNolebaseEnhancedReadabilitiesMenu VPNolebaseEnhancedReadabilitiesMenuFlyout" aria-label="Enhanced Readability" role="menuitem" data-v-04f5c5e9><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-04f5c5e9><span class="text" data-v-04f5c5e9><span class="i-icon-park-outline:book-open option-icon" data-v-04f5c5e9></span><!----><span class="vpi-chevron-down text-icon" data-v-04f5c5e9></span></span></button><div class="menu" data-v-04f5c5e9><div class="VPMenu" data-v-04f5c5e9 data-v-7dd3104a><!----><!--[--><!--]--></div></div></div><!--]--><!--]--><!--]--><button type="button" class="VPNavBarHamburger hamburger" aria-label="mobile navigation" aria-expanded="false" aria-controls="VPNavScreen" data-v-822684d1 data-v-5dea55bf><span class="container" data-v-5dea55bf><span class="top" data-v-5dea55bf></span><span class="middle" data-v-5dea55bf></span><span class="bottom" data-v-5dea55bf></span></span></button></div></div></div></div><div class="divider" data-v-822684d1><div class="divider-line" data-v-822684d1></div></div></div><!----></header><div class="VPLocalNav has-sidebar empty" data-v-a9a9e638 data-v-070ab83d><div class="container" data-v-070ab83d><button class="menu" aria-expanded="false" aria-controls="VPSidebarNav" data-v-070ab83d><span class="vpi-align-left menu-icon" data-v-070ab83d></span><span class="menu-text" data-v-070ab83d>Menu</span></button><div class="VPLocalNavOutlineDropdown" style="--vp-vh:0px;" data-v-070ab83d data-v-168ddf5d><button data-v-168ddf5d>Return to top</button><!----></div></div></div><aside class="VPSidebar" data-v-a9a9e638 data-v-18756405><div class="curtain" data-v-18756405></div><nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1" data-v-18756405><span class="visually-hidden" id="sidebar-aria-label" data-v-18756405> Sidebar Navigation </span><!--[--><!--]--><!--[--><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0" data-v-9e426adc data-v-a4b0d9bf><!----><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/index" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Home</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/getting_started" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Getting Started</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible has-active" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Reference</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/reference/modifiers" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Column Modifiers</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/reference/structure" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Table Structure</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/reference/annotations" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Annotations</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/reference/styling" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Styling</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/reference/formatting" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Formatting</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/reference/rendering" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Rendering</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Examples</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><section class="VPSidebarItem level-1 collapsible" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h3 class="text" data-v-a4b0d9bf>Basic use</h3><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/examples/cars" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Sports Cars Table</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/examples/clinical" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Clinical Demographics</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/examples/report" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Quarterly Report</p><!--]--></a><!----></div><!----></div><!--]--></div></section><section class="VPSidebarItem level-1 collapsible" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h3 class="text" data-v-a4b0d9bf>Advanced options</h3><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/examples/multilevel_spanners" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Multilevel spanners</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-2 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/examples/color_gradients" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Color gradients</p><!--]--></a><!----></div><!----></div><!--]--></div></section><!--]--></div></section></div><div class="no-transition group" data-v-9e426adc><section class="VPSidebarItem level-0 collapsible" data-v-9e426adc data-v-a4b0d9bf><div class="item" role="button" tabindex="0" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><h2 class="text" data-v-a4b0d9bf>Resources</h2><div class="caret" role="button" aria-label="toggle section" tabindex="0" data-v-a4b0d9bf><span class="vpi-chevron-right caret-icon" data-v-a4b0d9bf></span></div></div><div class="items" data-v-a4b0d9bf><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/resources/why" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Why StyledTables?</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/resources/export" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>Export</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-a4b0d9bf data-v-a4b0d9bf><div class="item" data-v-a4b0d9bf><div class="indicator" data-v-a4b0d9bf></div><a class="VPLink link link" href="/StyledTables.jl/previews/PR27/resources/api" data-v-a4b0d9bf><!--[--><p class="text" data-v-a4b0d9bf>API</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><!--]--><!--[--><!--]--></nav></aside><div class="VPContent has-sidebar" id="VPContent" data-v-a9a9e638 data-v-91765379><div class="VPDoc has-sidebar has-aside" data-v-91765379 data-v-83890dd9><!--[--><!--]--><div class="container" data-v-83890dd9><div class="aside" data-v-83890dd9><div class="aside-curtain" data-v-83890dd9></div><div class="aside-container" data-v-83890dd9><div class="aside-content" data-v-83890dd9><div class="VPDocAside" data-v-83890dd9 data-v-6d7b3c46><!--[--><!--]--><!--[--><!--]--><nav aria-labelledby="doc-outline-aria-label" class="VPDocAsideOutline" data-v-6d7b3c46 data-v-b38bf2ff><div class="content" data-v-b38bf2ff><div class="outline-marker" data-v-b38bf2ff></div><div aria-level="2" class="outline-title" id="doc-outline-aria-label" role="heading" data-v-b38bf2ff>On this page</div><ul class="VPDocOutlineItem root" data-v-b38bf2ff data-v-3f927ebe><!--[--><!--]--></ul></div></nav><!--[--><!--]--><div class="spacer" data-v-6d7b3c46></div><!--[--><!--]--><!----><!--[--><!--]--><!--[--><!--]--></div></div></div></div><div class="content" data-v-83890dd9><div class="content-container" data-v-83890dd9><!--[--><!--]--><main class="main" data-v-83890dd9><div style="position:relative;" class="vp-doc _StyledTables_jl_previews_PR27_reference_structure" data-v-83890dd9><div><h1 id="Table-Structure" tabindex="-1">Table Structure <a class="header-anchor" href="#Table-Structure" aria-label="Permalink to &quot;Table Structure {#Table-Structure}&quot;">​</a></h1><p>These functions control high-level layout: column spanners, the stub (row-label) column, and row groups.</p><h2 id="tab_spanner!" tabindex="-1"><code>tab_spanner!</code> <a class="header-anchor" href="#tab_spanner!" aria-label="Permalink to &quot;`tab_spanner!` {#tab_spanner!}&quot;">​</a></h2><p>Add a spanning header above a group of columns.</p><p><strong>Signatures:</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, (label </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> colgroup)</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, d</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractDict</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, d</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractVector{&lt;:Pair}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></div><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTables, SummaryTables, DataFrames</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    drug </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Aspirin&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Ibuprofen&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Naproxen&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    dose_mg </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">100</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">200</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">250</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    efficacy </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.72</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.81</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.78</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    safety </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.91</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.84</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.88</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Outcomes&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_label!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :drug</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Drug&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :dose_mg</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Dose (mg)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :efficacy</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Efficacy&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    :safety</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Safety&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">fmt_percent!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]; digits </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-b73fd46f">
+    <style>
+        #st-b73fd46f {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-b73fd46f tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-b73fd46f tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-b73fd46f br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-b73fd46f sub {
+            line-height: 0;
+        }
+        #st-b73fd46f sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Outcomes</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Drug</td>
+        <td style="font-weight:bold;text-align:left;">Dose (mg)</td>
+        <td style="font-weight:bold;text-align:left;">Efficacy</td>
+        <td style="font-weight:bold;text-align:left;">Safety</td>
+    </tr>
+        <tr><td colspan="4" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+        <td style="text-align:left;">72.0%</td>
+        <td style="text-align:left;">91.0%</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">81.0%</td>
+        <td style="text-align:left;">84.0%</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+        <td style="text-align:left;">78.0%</td>
+        <td style="text-align:left;">88.0%</td>
+    </tr>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><p>Multiple spanners can be added at once:</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Dosing&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:dose_mg</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">], </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Outcomes&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-effc28b9">
+    <style>
+        #st-effc28b9 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-effc28b9 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-effc28b9 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-effc28b9 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-effc28b9 sub {
+            line-height: 0;
+        }
+        #st-effc28b9 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Dosing</td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Outcomes</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">drug</td>
+        <td style="font-weight:bold;text-align:left;">dose_mg</td>
+        <td style="font-weight:bold;text-align:left;">efficacy</td>
+        <td style="font-weight:bold;text-align:left;">safety</td>
+    </tr>
+        <tr><td colspan="4" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+        <td style="text-align:left;">0.72</td>
+        <td style="text-align:left;">0.91</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">0.81</td>
+        <td style="text-align:left;">0.84</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+        <td style="text-align:left;">0.78</td>
+        <td style="text-align:left;">0.88</td>
+    </tr>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><p>Multi-line spanner header using <code>Multiline</code>:</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Multiline</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Outcomes&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;(primary)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-1c5aa1a6">
+    <style>
+        #st-1c5aa1a6 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-1c5aa1a6 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-1c5aa1a6 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-1c5aa1a6 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-1c5aa1a6 sub {
+            line-height: 0;
+        }
+        #st-1c5aa1a6 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:center;"></td>
+        <td style="text-align:center;"></td>
+        <td colspan="2" style="font-weight:bold;border-bottom:1px solid currentColor; padding-bottom: 0.25em;text-align:center;">Outcomes<br>(primary)</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">drug</td>
+        <td style="font-weight:bold;text-align:left;">dose_mg</td>
+        <td style="font-weight:bold;text-align:left;">efficacy</td>
+        <td style="font-weight:bold;text-align:left;">safety</td>
+    </tr>
+        <tr><td colspan="4" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+        <td style="text-align:left;">0.72</td>
+        <td style="text-align:left;">0.91</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">0.81</td>
+        <td style="text-align:left;">0.84</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+        <td style="text-align:left;">0.78</td>
+        <td style="text-align:left;">0.88</td>
+    </tr>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.tab_spanner!-Tuple{StyledTable, Vararg{Pair}}" href="#StyledTables.tab_spanner!-Tuple{StyledTable, Vararg{Pair}}"><span class="jlbinding">StyledTables.tab_spanner!</span></a> <span class="VPBadge info jlObjectType jlMethod"><!--[-->Method<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    args</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">;</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    level</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTable</span></span></code></pre></div><p>Add one or more spanning header labels above groups of columns.</p><p>Each spanner is given as a <code>label =&gt; columns</code> pair, where <code>label</code> is the spanner text (a <code>String</code>, <code>SummaryTables.Multiline</code>, or any value accepted by <code>SummaryTables.Cell</code>) and <code>columns</code> is a <code>Vector{Symbol}</code> of column names to span.</p><p>Use the <code>level</code> keyword to stack spanners in multiple rows: <code>level = 1</code> (the default) is the bottom-most row, closest to the column labels; <code>level = 2</code> sits above it, and so on. A higher-level spanner&#39;s column set must fully contain every lower-level spanner it overlaps.</p><p><strong>Arguments</strong></p><ul><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR27/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>args</code>: one or more <code>label =&gt; column(s)</code> pairs.</p></li><li><p><code>level</code>: the spanner row (default <code>1</code>).</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR27/reference/annotations#tab_header!"><code>tab_header!</code></a>, <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stub!"><code>tab_stub!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Outcomes&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Length (mm)&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:bill_len</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:bill_depth</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:flipper_len</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Physical measurements&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:bill_len</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:bill_depth</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:flipper_len</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:body_mass</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]; level </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">using</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SummaryTables</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">:</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Multiline</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Multiline</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Treatment&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;(N=50)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:dose</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:response</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/2241426c86595d35a602f8eb73a2bcdf10a67f38/src/structure.jl#L1" target="_blank" rel="noreferrer">source</a><!--]--></span></details><details class="jldocstring custom-block" open><summary><a id="StyledTables.tab_spanner!-Tuple{StyledTable, Union{AbstractDict{Symbol, Symbol}, AbstractDict{&lt;:AbstractString, &lt;:AbstractString}, AbstractDict{&lt;:AbstractString, Symbol}, AbstractDict{Symbol, &lt;:AbstractString}, AbstractVector{&lt;:Pair{Symbol, Symbol}}, AbstractVector{&lt;:Pair{&lt;:AbstractString, &lt;:AbstractString}}, AbstractVector{&lt;:Pair{&lt;:AbstractString, Symbol}}}}" href="#StyledTables.tab_spanner!-Tuple{StyledTable, Union{AbstractDict{Symbol, Symbol}, AbstractDict{&lt;:AbstractString, &lt;:AbstractString}, AbstractDict{&lt;:AbstractString, Symbol}, AbstractDict{Symbol, &lt;:AbstractString}, AbstractVector{&lt;:Pair{Symbol, Symbol}}, AbstractVector{&lt;:Pair{&lt;:AbstractString, &lt;:AbstractString}}, AbstractVector{&lt;:Pair{&lt;:AbstractString, Symbol}}}}"><span class="jlbinding">StyledTables.tab_spanner!</span></a> <span class="VPBadge info jlObjectType jlMethod"><!--[-->Method<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    d</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Union</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{AbstractDict{Symbol, Vector{Symbol}}, AbstractDict{Symbol, Symbol}, AbstractDict{Multiline, Symbol}, AbstractDict{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractVector{&lt;:AbstractString}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractDict{Symbol, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractVector{&lt;:AbstractString}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractDict{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, Vector{Symbol}}, AbstractDict{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractDict{Symbol, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractDict{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, Symbol}, AbstractDict{Multiline, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">AbstractString</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{&lt;:AbstractString, &lt;:AbstractVector{&lt;:AbstractString}}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{Symbol, Vector{Symbol}}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{Symbol, &lt;:AbstractVector{&lt;:AbstractString}}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{&lt;:AbstractString, Vector{Symbol}}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{&lt;:AbstractString, &lt;:AbstractString}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{Symbol, &lt;:AbstractString}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{&lt;:AbstractString, Symbol}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{Symbol, Symbol}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{Multiline, Symbol}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}, AbstractVector{</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;:</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Pair{Multiline, &lt;:AbstractString}</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}};</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    level</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTable</span></span></code></pre></div><p>Add spanning headers from a dict or vector of pairs.</p><p><strong>Arguments</strong></p><ul><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR27/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>d</code>: an <code>AbstractDict</code> or <code>AbstractVector</code> pairing spanner labels to column names.</p></li><li><p><code>level</code>: the spanner row applied to every entry in <code>d</code> (default <code>1</code>).</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_spanner!"><code>tab_spanner!</code></a>, <a href="/StyledTables.jl/previews/PR27/reference/annotations#tab_header!"><code>tab_header!</code></a>, <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stub!"><code>tab_stub!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_spanner!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Dict</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    &quot;Outcomes&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">     =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    &quot;Demographics&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:age</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:sex</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">])</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/2241426c86595d35a602f8eb73a2bcdf10a67f38/src/structure.jl#L83" target="_blank" rel="noreferrer">source</a><!--]--></span></details><h2 id="tab_stub!" tabindex="-1"><code>tab_stub!</code> <a class="header-anchor" href="#tab_stub!" aria-label="Permalink to &quot;`tab_stub!` {#tab_stub!}&quot;">​</a></h2><p>Mark one column as the <strong>stub</strong>: a row-label column rendered apart from data columns. By default the stub header is not bolded; it gains a bold label if <code>tab_stubhead!</code> is called.</p><p><strong>Signature:</strong> <code>tab_stub!(tbl, col::Symbol)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stub!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:drug</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_label!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:dose_mg</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Dose (mg)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:efficacy</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Efficacy&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:safety</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Safety&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-325e6e59">
+    <style>
+        #st-325e6e59 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-325e6e59 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-325e6e59 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-325e6e59 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-325e6e59 sub {
+            line-height: 0;
+        }
+        #st-325e6e59 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="text-align:left;"></td>
+        <td style="font-weight:bold;text-align:left;">Dose (mg)</td>
+        <td style="font-weight:bold;text-align:left;">Efficacy</td>
+        <td style="font-weight:bold;text-align:left;">Safety</td>
+    </tr>
+        <tr><td colspan="4" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+        <td style="text-align:left;">0.72</td>
+        <td style="text-align:left;">0.91</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">0.81</td>
+        <td style="text-align:left;">0.84</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+        <td style="text-align:left;">0.78</td>
+        <td style="text-align:left;">0.88</td>
+    </tr>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.tab_stub!" href="#StyledTables.tab_stub!"><span class="jlbinding">StyledTables.tab_stub!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stub!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, col</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Symbol</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTable</span></span></code></pre></div><p>Mark a column as the stub (row-label column).</p><p>The stub header is not bolded. Use <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stubhead!"><code>tab_stubhead!</code></a> to label it.</p><p><strong>Arguments</strong></p><ul><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR27/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>col</code>: name of the column to use as the stub.</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stubhead!"><code>tab_stubhead!</code></a>, <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_rowgroup!"><code>tab_rowgroup!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stub!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:drug</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/2241426c86595d35a602f8eb73a2bcdf10a67f38/src/structure.jl#L198" target="_blank" rel="noreferrer">source</a><!--]--></span></details><h2 id="tab_stubhead!" tabindex="-1"><code>tab_stubhead!</code> <a class="header-anchor" href="#tab_stubhead!" aria-label="Permalink to &quot;`tab_stubhead!` {#tab_stubhead!}&quot;">​</a></h2><p>Label the stub column header. Has no effect without a prior call to <code>tab_stub!</code>.</p><p><strong>Signature:</strong> <code>tab_stubhead!(tbl, label)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stub!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:drug</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stubhead!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Drug Name&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-abe29537">
+    <style>
+        #st-abe29537 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-abe29537 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-abe29537 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-abe29537 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-abe29537 sub {
+            line-height: 0;
+        }
+        #st-abe29537 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Drug Name</td>
+        <td style="font-weight:bold;text-align:left;">dose_mg</td>
+        <td style="font-weight:bold;text-align:left;">efficacy</td>
+        <td style="font-weight:bold;text-align:left;">safety</td>
+    </tr>
+        <tr><td colspan="4" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+        <td style="text-align:left;">0.72</td>
+        <td style="text-align:left;">0.91</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+        <td style="text-align:left;">0.81</td>
+        <td style="text-align:left;">0.84</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+        <td style="text-align:left;">0.78</td>
+        <td style="text-align:left;">0.88</td>
+    </tr>
+    <tr><td colspan="4" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.tab_stubhead!" href="#StyledTables.tab_stubhead!"><span class="jlbinding">StyledTables.tab_stubhead!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stubhead!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, label) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTable</span></span></code></pre></div><p>Set the stub column header label.</p><p>Requires a prior call to <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stub!"><code>tab_stub!</code></a>.</p><p><strong>Arguments</strong></p><ul><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR27/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>label</code>: display text for the stub header cell.</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stub!"><code>tab_stub!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stub!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:drug</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_stubhead!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Drug Name&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/2241426c86595d35a602f8eb73a2bcdf10a67f38/src/structure.jl#L233" target="_blank" rel="noreferrer">source</a><!--]--></span></details><h2 id="tab_rowgroup!" tabindex="-1"><code>tab_rowgroup!</code> <a class="header-anchor" href="#tab_rowgroup!" aria-label="Permalink to &quot;`tab_rowgroup!` {#tab_rowgroup!}&quot;">​</a></h2><p>Group rows by distinct values in a column. A bold group-label row precedes each new group. Data rows are indented.</p><p><strong>Signature:</strong> <code>tab_rowgroup!(tbl, col::Symbol; indent_pt = 12)</code></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> DataFrame</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    category </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Analgesic&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Analgesic&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;NSAID&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;NSAID&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    drug </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Aspirin&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Paracetamol&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Ibuprofen&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Naproxen&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    dose_mg </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">100</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">500</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">200</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">250</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_rowgroup!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:category</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_hide!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:category</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_label!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:drug</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Drug&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:dose_mg</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =&gt;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Dose (mg)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-dbd91ade">
+    <style>
+        #st-dbd91ade {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-dbd91ade tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-dbd91ade tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-dbd91ade br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-dbd91ade sub {
+            line-height: 0;
+        }
+        #st-dbd91ade sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">Drug</td>
+        <td style="font-weight:bold;text-align:left;">Dose (mg)</td>
+    </tr>
+        <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Analgesic</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Paracetamol</td>
+        <td style="text-align:left;">500</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">NSAID</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+    </tr>
+    <tr>
+        <td style="padding-left:12.0pt;text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><p>To increase indentation:</p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_rowgroup!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:category</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; indent_pt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 20</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_hide!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:category</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><div><table id="st-b1d528ce">
+    <style>
+        #st-b1d528ce {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-b1d528ce tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-b1d528ce tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-b1d528ce br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-b1d528ce sub {
+            line-height: 0;
+        }
+        #st-b1d528ce sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">drug</td>
+        <td style="font-weight:bold;text-align:left;">dose_mg</td>
+    </tr>
+        <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="font-weight:bold;text-align:left;">Analgesic</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20.0pt;text-align:left;">Aspirin</td>
+        <td style="text-align:left;">100</td>
+    </tr>
+    <tr>
+        <td style="padding-left:20.0pt;text-align:left;">Paracetamol</td>
+        <td style="text-align:left;">500</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">NSAID</td>
+        <td style="text-align:center;"></td>
+    </tr>
+    <tr>
+        <td style="padding-left:20.0pt;text-align:left;">Ibuprofen</td>
+        <td style="text-align:left;">200</td>
+    </tr>
+    <tr>
+        <td style="padding-left:20.0pt;text-align:left;">Naproxen</td>
+        <td style="text-align:left;">250</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table></div><details class="jldocstring custom-block" open><summary><a id="StyledTables.tab_rowgroup!" href="#StyledTables.tab_rowgroup!"><span class="jlbinding">StyledTables.tab_rowgroup!</span></a> <span class="VPBadge info jlObjectType jlFunction"><!--[-->Function<!--]--></span></summary><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_rowgroup!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    tbl</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    col</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">::</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Symbol</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">;</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    indent_pt,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    full_width</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-&gt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> StyledTable</span></span></code></pre></div><p>Group rows by distinct values in a column.</p><p>A bold group-label row precedes each new group value. Data rows are indented by <code>indent_pt</code> points. Hide the grouping column afterwards with <a href="/StyledTables.jl/previews/PR27/reference/modifiers#cols_hide!"><code>cols_hide!</code></a>.</p><p><strong>Arguments</strong></p><ul><li><p><code>tbl</code>: the <a href="/StyledTables.jl/previews/PR27/resources/api#StyledTables.StyledTable"><code>StyledTable</code></a> to modify.</p></li><li><p><code>col</code>: column whose distinct values define the groups.</p></li></ul><p><strong>Keywords</strong></p><ul><li><p><code>indent_pt</code>: left indent for data rows within a group (default <code>12</code>).</p></li><li><p><code>full_width</code>: whether group-label rows span the entire table width (default <code>false</code>).</p></li></ul><p><strong>Returns</strong></p><p><code>tbl</code> (modified in place).</p><p>See also: <a href="/StyledTables.jl/previews/PR27/reference/modifiers#cols_hide!"><code>cols_hide!</code></a>, <a href="/StyledTables.jl/previews/PR27/reference/structure#tab_stub!"><code>tab_stub!</code></a>.</p><p><strong>Examples</strong></p><div class="language-julia vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">julia</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tbl </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> StyledTable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(df)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">tab_rowgroup!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:category</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cols_hide!</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">:category</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">render</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tbl)</span></span></code></pre></div><span class="VPBadge info source-link"><!--[--><a href="https://github.com/simonsteiger/StyledTables.jl/blob/2241426c86595d35a602f8eb73a2bcdf10a67f38/src/structure.jl#L154" target="_blank" rel="noreferrer">source</a><!--]--></span></details></div></div></main><footer class="VPDocFooter" data-v-83890dd9 data-v-4f9813fa><!--[--><!--]--><div class="edit-info" data-v-4f9813fa><div class="edit-link" data-v-4f9813fa><a class="VPLink link vp-external-link-icon no-icon edit-link-button" href="https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/reference/structure.md" target="_blank" rel="noreferrer" data-v-4f9813fa><!--[--><span class="vpi-square-pen edit-link-icon" data-v-4f9813fa></span> Edit this page<!--]--></a></div><!----></div><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-4f9813fa><span class="visually-hidden" id="doc-footer-aria-label" data-v-4f9813fa>Pager</span><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link prev" href="/StyledTables.jl/previews/PR27/reference/modifiers" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Previous page</span><span class="title" data-v-4f9813fa>Column Modifiers</span><!--]--></a></div><div class="pager" data-v-4f9813fa><a class="VPLink link pager-link next" href="/StyledTables.jl/previews/PR27/reference/annotations" data-v-4f9813fa><!--[--><span class="desc" data-v-4f9813fa>Next page</span><span class="title" data-v-4f9813fa>Annotations</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter has-sidebar" data-v-a9a9e638 data-v-c970a860><div class="container" data-v-c970a860><p class="message" data-v-c970a860>Made with <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/" target="_blank"><strong>DocumenterVitepress.jl</strong></a><br></p><p class="copyright" data-v-c970a860>© Copyright 2026.</p></div></footer><!--[--><!--]--></div></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"examples_cars.md\":\"5tZqD4m0\",\"examples_clinical.md\":\"hLZjOk-N\",\"examples_color_gradients.md\":\"BzVWT3kk\",\"examples_multilevel_spanners.md\":\"UxxY0w1y\",\"examples_report.md\":\"DrZ3-NIc\",\"getting_started.md\":\"C1VuTmwF\",\"index.md\":\"CrqoTK_O\",\"reference_annotations.md\":\"N7bdzQsM\",\"reference_formatting.md\":\"DRtQjaMg\",\"reference_modifiers.md\":\"CAt8SSwL\",\"reference_rendering.md\":\"DUOFWvrE\",\"reference_structure.md\":\"CBzaoPrj\",\"reference_styling.md\":\"DCVoY_QK\",\"resources_api.md\":\"CF4GIn-_\",\"resources_export.md\":\"ldBe-Pqh\",\"resources_limitations.md\":\"B_S7HR7T\",\"resources_why.md\":\"CXhxlXBY\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"StyledTables.jl\",\"description\":\"Documentation for StyledTables.jl\",\"base\":\"/StyledTables.jl/previews/PR27/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"outline\":\"deep\",\"logo\":{\"src\":\"/logo.svg\",\"width\":24,\"height\":24},\"search\":{\"provider\":\"local\",\"options\":{\"detailedView\":true}},\"nav\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/modifiers\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/why\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]},{\"component\":\"VersionPicker\"}],\"sidebar\":[{\"text\":\"Home\",\"link\":\"/index\"},{\"text\":\"Getting Started\",\"link\":\"/getting_started\"},{\"text\":\"Reference\",\"collapsed\":false,\"items\":[{\"text\":\"Column Modifiers\",\"link\":\"/reference/modifiers\"},{\"text\":\"Table Structure\",\"link\":\"/reference/structure\"},{\"text\":\"Annotations\",\"link\":\"/reference/annotations\"},{\"text\":\"Styling\",\"link\":\"/reference/styling\"},{\"text\":\"Formatting\",\"link\":\"/reference/formatting\"},{\"text\":\"Rendering\",\"link\":\"/reference/rendering\"}]},{\"text\":\"Examples\",\"collapsed\":false,\"items\":[{\"text\":\"Basic use\",\"collapsed\":false,\"items\":[{\"text\":\"Sports Cars Table\",\"link\":\"/examples/cars\"},{\"text\":\"Clinical Demographics\",\"link\":\"/examples/clinical\"},{\"text\":\"Quarterly Report\",\"link\":\"/examples/report\"}]},{\"text\":\"Advanced options\",\"collapsed\":false,\"items\":[{\"text\":\"Multilevel spanners\",\"link\":\"/examples/multilevel_spanners\"},{\"text\":\"Color gradients\",\"link\":\"/examples/color_gradients\"}]}]},{\"text\":\"Resources\",\"collapsed\":false,\"items\":[{\"text\":\"Why StyledTables?\",\"link\":\"/resources/why\"},{\"text\":\"Export\",\"link\":\"/resources/export\"},{\"text\":\"API\",\"link\":\"/resources/api\"}]}],\"editLink\":{\"pattern\":\"https://github.com/simonsteiger/StyledTables.jl/edit/main/docs/src/:path\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/simonsteiger/StyledTables.jl\"}],\"footer\":{\"message\":\"Made with <a href=\\\"https://luxdl.github.io/DocumenterVitepress.jl/dev/\\\" target=\\\"_blank\\\"><strong>DocumenterVitepress.jl</strong></a><br>\",\"copyright\":\"© Copyright 2026.\"}},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
+    
+  </body>
+</html>
