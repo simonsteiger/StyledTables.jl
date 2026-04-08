@@ -52,4 +52,4 @@ cols_label!(tbl, labels)
 render(tbl)
 ```
 
-Have a look at the [documentation](https://simonsteiger.github.io/StyledTables.jl) if you'd like to learn more!
+Have a look at the [documentation](https://simonsteiger.github.io/StyledTables.jl/dev) if you'd like to learn more!
