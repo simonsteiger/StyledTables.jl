@@ -24,8 +24,6 @@ render(tbl)
 StyledTables.tab_header!
 ```
 
----
-
 ## `tab_footnote!`
 
 Add column-annotated footnotes. 
@@ -69,8 +67,6 @@ render(tbl)
 ```@docs
 StyledTables.tab_footnote!
 ```
-
----
 
 ## `tab_source_note!`
 

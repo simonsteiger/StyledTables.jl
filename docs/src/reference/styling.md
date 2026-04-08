@@ -96,8 +96,6 @@ StyledTables.tab_style!(::Any, ::StyledTables.StyledTable, ::Symbol...)
 StyledTables.tab_style!(::Any, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
----
-
 ## `sub_missing!`
 
 Replace `missing` values with a placeholder string for display. Defaults to
@@ -126,39 +124,4 @@ render(tbl)
 
 ```@docs
 StyledTables.sub_missing!
-```
-
----
-
-## `tab_options!`
-
-Set global rounding options for all numeric cells in the table. Per-column formatters (`fmt_number!`, `fmt!`) take precedence over these options.
-
-**Signature:**
-```julia
-tab_options!(tbl; round_digits=nothing, round_mode=nothing, trailing_zeros=nothing)
-```
-
-- `round_digits` — number of decimal places or significant digits
-- `round_mode` — `:auto`, `:digits`, or `:sigdigits`
-- `trailing_zeros` — if `true`, pad with zeros to `round_digits` places
-
-```@example styling
-df = DataFrame(a = [1.23456, 7.891], b = [100.0, 200.0])
-
-# Round to 2 significant digits
-tbl = StyledTable(df)
-tab_options!(tbl, round_digits = 2, round_mode = :sigdigits)
-render(tbl)
-```
-
-```@example styling
-# Fixed 3 decimal places with trailing zeros
-tbl = StyledTable(df)
-tab_options!(tbl, round_digits = 3, round_mode = :digits, trailing_zeros = true)
-render(tbl)
-```
-
-```@docs
-StyledTables.tab_options!
 ```
