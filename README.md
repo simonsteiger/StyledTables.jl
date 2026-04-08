@@ -1,3 +1,8 @@
+[![Build Status](https://github.com/simonsteiger/StyledTables.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/simonsteiger/StyledTables.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://simonsteiger.github.io/StyledTables.jl/dev/)
+[![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/JuliaDiff/BlueStyle)
+[![Aqua QA](https://juliatesting.github.io/Aqua.jl/dev/assets/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
 # StyledTables.jl
 
 <div align="center">
@@ -6,17 +11,8 @@
         src="/docs/src/assets/logo.svg" width="150">
     </picture>
 </div>
-<div align="center">
-  <a href="https://github.com/simonsteiger/StyledTables.jl/actions/workflows/CI.yml?query=branch%3Amain">
-    <img src="https://github.com/simonsteiger/StyledTables.jl/actions/workflows/CI.yml/badge.svg?branch=main" alt="Build Status">
-  </a>
-  <a href="https://github.com/JuliaDiff/BlueStyle">
-    <img src="https://img.shields.io/badge/code%20style-blue-4495d1.svg" alt="Code Style: Blue">
-  </a>
-  <a href="https://github.com/JuliaTesting/Aqua.jl">
-    <img src="https://juliatesting.github.io/Aqua.jl/dev/assets/badge.svg" alt="Aqua QA">
-  </a>
-</div>
+
+</br>
 
 StyledTables provides flexible formatting functionality for tabular data.
 Tables can be exported as HTML, docx, LaTeX, and Typst files.
