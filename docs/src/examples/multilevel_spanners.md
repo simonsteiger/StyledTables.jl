@@ -62,8 +62,8 @@ render(tbl)
 ## Step 3: Level two spanner
 
 ```@example penguins
-tab_spanner!(tbl, "Male" => male_ordered, level=2)
-tab_spanner!(tbl, "Female" => female_ordered, level=2)
+tab_spanner!(tbl, "Male" => male_ordered, level = 2)
+tab_spanner!(tbl, "Female" => female_ordered, level = 2)
 render(tbl)
 ```
 

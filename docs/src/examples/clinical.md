@@ -9,18 +9,18 @@ This example builds one from scratch with two treatment arms, categorical and co
 using StyledTables, DataFrames, SummaryTables
 
 demo = DataFrame(
-    variable  = [
+    variable = [
         "Sex", "Sex", "Sex",
         "Age (years)", "Age (years)", "Age (years)",
         "Race", "Race", "Race", "Race",
     ],
-    category  = [
+    category = [
         "Male", "Female", "Unknown",
         "Mean (SD)", "Median", "Range",
         "White", "Black or African American", "Asian", "Other/Unknown",
     ],
-    placebo_n   = [22, 28, missing, "48.3 (12.1)", "47", "24–72", 36, 8, 3, 3],
-    treatment_n = [19, 30, 1,       "49.7 (11.8)", "50", "22–74", 32, 9, 5, 4],
+    placebo_n = [22, 28, missing, "48.3 (12.1)", "47", "24–72", 36, 8, 3, 3],
+    treatment_n = [19, 30, 1, "49.7 (11.8)", "50", "22–74", 32, 9, 5, 4],
 )
 ```
 
@@ -34,7 +34,7 @@ tab_stub!(tbl, :category)
 tab_row_group!(tbl, :variable)
 cols_hide!(tbl, :variable)
 cols_label!(tbl,
-    :placebo_n   => Multiline("Placebo (N=50)", "n (%)"),
+    :placebo_n => Multiline("Placebo (N=50)", "n (%)"),
     :treatment_n => Multiline("Treatment (N=50)", "n (%)"),
 )
 render(tbl)

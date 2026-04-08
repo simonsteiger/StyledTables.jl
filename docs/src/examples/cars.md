@@ -9,14 +9,14 @@ We hide auxiliary columns, group by origin country, add a performance spanner, f
 using StyledTables, DataFrames
 
 cars = DataFrame(
-    origin   = ["Italy", "Italy", "Germany", "Germany", "UK", "UK"],
-    make     = ["Ferrari", "Lamborghini", "Porsche", "BMW", "McLaren", "Aston Martin"],
-    model    = ["488 GTB", "Huracán", "911 GT3", "M8", "720S", "Vantage"],
+    origin = ["Italy", "Italy", "Germany", "Germany", "UK", "UK"],
+    make = ["Ferrari", "Lamborghini", "Porsche", "BMW", "McLaren", "Aston Martin"],
+    model = ["488 GTB", "Huracán", "911 GT3", "M8", "720S", "Vantage"],
     msrp_eur = [280_000, 210_000, 180_000, 130_000, 220_000, 155_000],
-    year     = [2022, 2022, 2022, 2022, 2022, 2022],
-    hp       = [660, 610, 503, 617, 710, 503],
-    trq_nm   = [760, 560, 470, 750, 770, 625],
-    mpg      = [15, 13, 22, 19, 21, 20],
+    year = [2022, 2022, 2022, 2022, 2022, 2022],
+    hp = [660, 610, 503, 617, 710, 503],
+    trq_nm = [760, 560, 470, 750, 770, 625],
+    mpg = [15, 13, 22, 19, 21, 20],
 )
 ```
 
