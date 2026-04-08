@@ -1,0 +1,18 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\textbf{name} & \textbf{score} \\
+\midrule
+\multicolumn{2}{l}{\textbf{A}} \\
+\hspace{12.0pt}x1 & 1 \\
+\hspace{12.0pt}x2 & 2 \\
+\multicolumn{2}{l}{\textbf{B}} \\
+\hspace{12.0pt}y1 & 3 \\
+\hspace{12.0pt}y2 & 4 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}
