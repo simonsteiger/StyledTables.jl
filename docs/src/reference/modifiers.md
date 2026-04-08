@@ -9,7 +9,7 @@ Rename one or more columns for display. The underlying `DataFrame` is unchanged.
 **Signature:** `cols_label!(tbl, (col => label)::Pair...)`
 
 ```@example columns
-using StyledTables, SummaryTables, DataFrames
+using StyledTables, DataFrames
 
 df = DataFrame(bmi = [22.1, 27.4, 31.0], sbp = [118, 135, 142])
 
@@ -18,9 +18,11 @@ cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP (mmHg)")
 render(tbl)
 ```
 
-Multi-line column headers using `Multiline`:
+Use `Multiline` headers via `SummaryTables.Multiline`:
 
 ```@example columns
+using SummaryTables: Multiline
+
 tbl = StyledTable(df)
 cols_label!(tbl,
     :bmi => Multiline("BMI", "(kg/m²)"),
@@ -29,8 +31,7 @@ cols_label!(tbl,
 render(tbl)
 ```
 
-Apply a function uniformly to all column names — useful for `titlecase`, `uppercase`, or any
-underscore-replacement rule:
+Apply a function uniformly to all column names:
 
 ```@example columns
 df2 = DataFrame(bmi_score = [22.1, 27.4], sbp_mmhg = [118, 135])
@@ -49,8 +50,6 @@ cols_label!(tbl, :bmi_score) do col
 end
 render(tbl)
 ```
-
-More complicated transformations can make use of `do` blocks.
 
 ```@docs
 StyledTables.cols_label!(tbl::StyledTable, args::Pair...)
@@ -74,12 +73,23 @@ Set horizontal alignment for one or more columns. Valid values: `:left`,
 `:center`, `:right`.
 
 **Signatures:**
-- `cols_align!(tbl, halign, columns)`
-- `cols_align!(tbl, halign)`
+- `cols_align!(tbl, col => halign, ...)`
+- `cols_align!(tbl, [cols...] => halign, ...)` — same alignment for a group of columns
+- `cols_align!(tbl, dict_or_vector)`
+- `cols_align!(tbl, halign)` — apply to all columns
+- `cols_align!(f, tbl, halign)` — apply to columns where `f(eltype) == true`
 
 ```@example columns
 tbl = StyledTable(df)
-cols_align!(tbl, :right, [:bmi, :sbp])
+cols_align!(tbl, :bmi => :right, :sbp => :right)
+render(tbl)
+```
+
+Align a group of columns to the same alignment in one call:
+
+```@example columns
+tbl = StyledTable(df)
+cols_align!(tbl, [:bmi, :sbp] => :right)
 render(tbl)
 ```
 
@@ -91,8 +101,22 @@ cols_align!(tbl, :center)
 render(tbl)
 ```
 
+Align all `Real` valued columns right using the type-predicate form:
+
+```@example columns
+isreal(::T) where T <: Real = true
+isreal(::Any) = false
+tbl = StyledTable(df)
+cols_align!(isreal, tbl, :right)
+render(tbl)
+```
+
 ```@docs
-StyledTables.cols_align!
+StyledTables.cols_align!(::StyledTable, ::Pair{Symbol,Symbol}...)
+StyledTables.cols_align!(::StyledTable, ::Pair{<:AbstractVector,Symbol}...)
+StyledTables.cols_align!(::StyledTable, ::Union{AbstractVector,AbstractDict})
+StyledTables.cols_align!(::StyledTable, ::Symbol)
+StyledTables.cols_align!(::Any, ::StyledTable, ::Symbol)
 ```
 
 ---
@@ -106,9 +130,9 @@ Use this when a column drives grouping (via `tab_row_group!`) but should not app
 
 ```@example columns
 df = DataFrame(
-    group     = ["A", "A", "B", "B"],
-    subject   = ["S1", "S2", "S3", "S4"],
-    score     = [88, 92, 75, 84],
+    group = ["A", "A", "B", "B"],
+    subject = ["S1", "S2", "S3", "S4"],
+    score = [88, 92, 75, 84],
     pct_score = [0.88, 0.92, 0.75, 0.84],
 )
 

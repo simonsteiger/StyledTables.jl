@@ -1,3 +1,30 @@
+# Shared catch-all helper for pair-accepting functions.
+# Inspects runtime key and value types; throws an informative ArgumentError for mixed types.
+# check_keys=false skips key inspection (used by tab_spanner!, where label-type mixing
+# is not the documented error case).
+function _throw_mixed_pair_values(
+    f::Function,
+    ktypes,
+    vtypes,
+    tbl,
+    d;
+    check_keys::Bool = true,
+)
+    if check_keys && length(ktypes) > 1
+        throw(ArgumentError(
+            "Mixed key types in pairs: $(join(ktypes, ", ")). " *
+            "All keys must share the same type.",
+        ))
+    end
+    if length(vtypes) > 1
+        throw(ArgumentError(
+            "Mixed value types in pairs: $(join(vtypes, ", ")). " *
+            "All values must share the same type.",
+        ))
+    end
+    throw(MethodError(f, (tbl, d)))
+end
+
 # Resolve a user-provided color value to a "#RRGGBB" hex string, or nothing.
 _resolve_color(::Nothing) = nothing
 
@@ -175,16 +202,33 @@ function cols_label!(f, tbl::StyledTable)
     return tbl
 end
 
+function cols_label!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(cols_label!, ktypes, vtypes, tbl, d)
+end
+
+function cols_label!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(cols_label!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(cols_label!, (tbl, d)))
+end
+
 """
 $TYPEDSIGNATURES
 
 Set horizontal alignment for one or more columns.
 
+Each argument is a `col => halign` pair, where `col` is a `Symbol` matching a column name
+and `halign` is one of `:left`, `:center`, or `:right`.
+
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `halign`: one of `:left`, `:center`, or `:right`.
-- `columns`: vector of column names to align. Omit to apply to all columns.
+- `args`: one or more `col => halign` pairs.
 
 # Returns
 
@@ -194,24 +238,176 @@ Set horizontal alignment for one or more columns.
 
 ```julia
 tbl = StyledTable(df)
-cols_align!(tbl, :right, [:x, :y])
+cols_align!(tbl, :x => :right, :y => :center)
 render(tbl)
 ```
 """
-function cols_align!(tbl::StyledTable, halign::Symbol, columns = nothing)
-    if halign ∉ (:left, :center, :right)
-        throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
-    end
-
+function cols_align!(tbl::StyledTable, args::Pair{Symbol,Symbol}...)
     colnames = Symbol.(names(tbl.data))
-    target_cols = columns === nothing ? colnames : columns
-
-    for col in target_cols
+    valid = (:left, :center, :right)
+    for (col, halign) in args
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        halign in valid || throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
+    end
+    for (col, halign) in args
         tbl.col_alignments[col] = halign
     end
-
     return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Set alignment from a dict or vector of `col => halign` pairs.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: an `AbstractDict` or `AbstractVector` of `col => halign` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, Dict(:x => :right, :y => :center))
+render(tbl)
+```
+"""
+function cols_align!(
+    tbl::StyledTable,
+    d::Union{
+        AbstractVector{<:Pair{Symbol,Symbol}},
+        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractDict{Symbol,Symbol},
+        AbstractDict{<:AbstractString,Symbol},
+    },
+)
+    ps = [Symbol(col) => halign for (col, halign) in d]
+    cols_align!(tbl, ps...)
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Set the same horizontal alignment for a group of columns given as a vector.
+
+Each argument is a `cols => halign` pair, where `cols` is a vector of column names
+(as `Symbol`s or `AbstractString`s) and `halign` is one of `:left`, `:center`, or `:right`.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `args`: one or more `cols => halign` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, [:msrp_eur, :hp, :trq_nm] => :right)
+render(tbl)
+```
+"""
+function cols_align!(tbl::StyledTable, args::Pair{<:AbstractVector,Symbol}...)
+    expanded = Pair{Symbol,Symbol}[Symbol(col) => halign for (cols, halign) in args for col in cols]
+    cols_align!(tbl, expanded...)
+    return tbl
+end
+
+# Zero-argument disambiguator required to resolve the Aqua ambiguity between
+# Pair{Symbol,Symbol}... and Pair{<:AbstractVector,Symbol}... when called with no pairs.
+cols_align!(tbl::StyledTable) = tbl
+
+"""
+$TYPEDSIGNATURES
+
+Set the same horizontal alignment for all columns.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `halign`: one of `:left`, `:center`, or `:right`.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, :center)
+render(tbl)
+```
+"""
+function cols_align!(tbl::StyledTable, halign::Symbol)
+    halign in (:left, :center, :right) ||
+        throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
+    for col in Symbol.(names(tbl.data))
+        tbl.col_alignments[col] = halign
+    end
+    return tbl
+end
+
+"""
+$TYPEDSIGNATURES
+
+Set alignment for all columns whose element type satisfies a predicate.
+
+`f(T::Type) -> Bool` is called with the element type of each column. Columns for which
+`f` returns `true` are assigned `halign`; others are left unchanged.
+
+# Arguments
+
+- `f`: predicate on element type — e.g. `T -> T <: Real`.
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `halign`: one of `:left`, `:center`, or `:right`.
+
+# Returns
+
+`tbl` (modified in place).
+
+# Examples
+
+```julia
+tbl = StyledTable(df)
+cols_align!(tbl, :right) do T
+    T <: Real
+end
+render(tbl)
+```
+"""
+function cols_align!(f, tbl::StyledTable, halign::Symbol)
+    halign in (:left, :center, :right) ||
+        throw(ArgumentError("halign must be :left, :center, or :right, got :$halign"))
+    for col in Symbol.(names(tbl.data))
+        T = eltype(tbl.data[!, col])
+        f(T) && (tbl.col_alignments[col] = halign)
+    end
+    return tbl
+end
+
+function cols_align!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
+end
+
+function cols_align!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(cols_align!, (tbl, d)))
 end
 
 """
@@ -364,28 +560,16 @@ function _sanitize_cols(col_or_cols)
 end
 _sanitize_lab(label) = label isa Multiline ? label : String(label)
 
-function _throw_if_mixed_spanner_values(vtypes, tbl, d)
-    if length(vtypes) > 1
-        throw(
-            ArgumentError(
-                "tab_spanner! received mixed value types: $(join(vtypes, ", ", " and ")). " *
-                "All values must share the same type. " *
-                "Tip: wrap single columns in a vector, e.g., " *
-                "\"spanner\" => [:col], or split into separate tab_spanner! calls.",
-            ),
-        )
-    end
-    throw(MethodError(tab_spanner!, (tbl, d)))
-end
-
 function tab_spanner!(tbl::StyledTable, d::AbstractDict; level = 1)
+    ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_if_mixed_spanner_values(vtypes, tbl, d)
+    _throw_mixed_pair_values(tab_spanner!, ktypes, vtypes, tbl, d; check_keys = false)
 end
 
 function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level = 1)
+    ktypes = unique(typeof(k) for (k, _) in d)
     vtypes = unique(typeof(v) for (_, v) in d)
-    _throw_if_mixed_spanner_values(vtypes, tbl, d)
+    _throw_mixed_pair_values(tab_spanner!, ktypes, vtypes, tbl, d; check_keys = false)
 end
 
 """
@@ -505,16 +689,23 @@ end
 
 function _push_footnotes!(tbl::StyledTable, d)
     colnames = Symbol.(names(tbl.data))
-    
+
     for (text, columns) in d
         for col in columns
-            if col ∉ colnames
-                throw(ArgumentError("Column :$col not found in DataFrame"))
+            col ∉ colnames && throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+    end
+
+    for (text, columns) in d
+        for col in columns
+            if haskey(tbl.col_footnotes, col)
+                @warn "Column :$col already has a footnote " *
+                      "(\"$(tbl.col_footnotes[col])\"); it will be replaced."
             end
             tbl.col_footnotes[col] = text
         end
     end
-    
+
     return tbl
 end
 
@@ -524,6 +715,21 @@ end
 
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractDict)
+    ktypes = unique(typeof(k) for k in keys(d))
+    vtypes = unique(typeof(v) for v in values(d))
+    _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector)
+    if !isempty(d) && all(x -> x isa Pair, d)
+        ktypes = unique(typeof(k) for (k, _) in d)
+        vtypes = unique(typeof(v) for (_, v) in d)
+        _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+    end
+    throw(MethodError(tab_footnote!, (tbl, d)))
 end
 
 """
@@ -637,6 +843,10 @@ render(tbl)
 ```
 """
 function tab_stubhead!(tbl::StyledTable, label)
+    if tbl.stub_col === nothing
+        @warn "No stub column is set; this label has no effect. " *
+              "Call tab_stub!(tbl, col) first to designate the stub column."
+    end
     tbl.stubhead_label = label
     return tbl
 end

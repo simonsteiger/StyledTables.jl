@@ -69,6 +69,19 @@ end
         run_reftest(tbl, "references/cols_label/relabeled_one_col")
 
         @test_throws ArgumentError cols_label!(StyledTable(df), :typo => "Label")
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(a = [1], b = [2])
+                # Mixed value types: String and Multiline labels
+                @test_throws ArgumentError cols_label!(
+                    StyledTable(df), Dict{Symbol,Any}(:a => Multiline("A", "(units)"), :b => "B")
+                )
+                # Mixed key types: Symbol and String column names
+                @test_throws ArgumentError cols_label!(
+                    StyledTable(df), Dict{Any,String}(:a => "A", "b" => "B")
+                )
+            end
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -220,20 +233,79 @@ end
     @testset "cols_align!" begin
         df = DataFrame(x = [1, 2], y = [3, 4])
 
+        # --- pair form: multiple cols, same alignment ---
         tbl = StyledTable(df)
-        cols_align!(tbl, :center, [:x, :y])
+        cols_align!(tbl, :x => :center, :y => :center)
         run_reftest(tbl, "references/cols_align/center_both")
 
+        # --- apply-to-all form ---
         tbl = StyledTable(df)
         cols_align!(tbl, :right)
         run_reftest(tbl, "references/cols_align/right_all")
 
+        # --- pair form: single col ---
         tbl = StyledTable(df)
-        cols_align!(tbl, :left, [:x])
+        cols_align!(tbl, :x => :left)
         run_reftest(tbl, "references/cols_align/left_one_col")
 
+        # --- dict / vector-of-pairs form ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, Dict(:x => :center, :y => :center))
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        tbl = StyledTable(df)
+        cols_align!(tbl, [:x => :center, :y => :center])
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        # --- type-predicate form ---
+        df2 = DataFrame(label = ["a", "b"], count = [1, 2], score = [0.5, 0.9])
+        tbl = StyledTable(df2)
+        cols_align!(tbl, :right) do T
+            T <: Real
+        end
+        @test tbl.col_alignments[:count] == :right
+        @test tbl.col_alignments[:score] == :right
+        @test !haskey(tbl.col_alignments, :label)
+
+        # --- error cases ---
         @test_throws ArgumentError cols_align!(StyledTable(df), :centre)
-        @test_throws ArgumentError cols_align!(StyledTable(df), :left, [:nonexistent])
+        @test_throws ArgumentError cols_align!(StyledTable(df), :x => :centre)
+        @test_throws ArgumentError cols_align!(StyledTable(df), :nonexistent => :left)
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(x = [1], y = [2])
+                # Mixed value types: Symbol and String alignment values
+                @test_throws ArgumentError cols_align!(
+                    StyledTable(df), Dict{Symbol,Any}(:x => :right, :y => "center")
+                )
+                # Mixed value types in a vector of pairs
+                @test_throws ArgumentError cols_align!(
+                    StyledTable(df), Pair{Any,Any}[:x => :right, :y => "center"]
+                )
+            end
+        end
+
+        # --- vector-key pair form: Symbol vector ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, [:x, :y] => :center)
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        # --- vector-key pair form: String vector ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, ["x", "y"] => :center)
+        run_reftest(tbl, "references/cols_align/center_both")
+
+        # --- vector-key pair form: multiple pairs ---
+        tbl = StyledTable(df)
+        cols_align!(tbl, [:x] => :left, [:y] => :right)
+        @test tbl.col_alignments[:x] == :left
+        @test tbl.col_alignments[:y] == :right
+
+        # --- vector-key error: invalid column ---
+        @test_throws ArgumentError cols_align!(StyledTable(df), [:nonexistent] => :left)
+
+        # --- vector-key error: invalid alignment ---
+        @test_throws ArgumentError cols_align!(StyledTable(df), [:x] => :centre)
     end
 
     # -----------------------------------------------------------------------
@@ -257,6 +329,15 @@ end
         run_reftest(tbl, "references/tab_spanner/two_spanners")
 
         @test_throws ArgumentError tab_spanner!(StyledTable(df), "X" => [:typo])
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(a = [1], b = [2], c = [3])
+                # Mixed value types: Symbol and Vector{Symbol} column selectors
+                @test_throws ArgumentError tab_spanner!(
+                    StyledTable(df), Dict{String,Any}("AB" => [:a, :b], "C" => :c)
+                )
+            end
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -512,12 +593,31 @@ end
             @test haskey(tbl.col_footnotes, :y)
         end
 
+        # ── Overwrite warning ────────────────────────────────────────────
+        @testset "overwrite warning" begin
+            df = DataFrame(x = [1, 2], y = [3, 4])
+            tbl = StyledTable(df)
+            tab_footnote!(tbl, "First note" => :x)
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(tbl, "Second note" => :x)
+            # Second note should win
+            @test tbl.col_footnotes[:x] == "Second note"
+        end
+
         # ── Error cases ──────────────────────────────────────────────────
         @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => :nonexistent)
         # Vector{Symbol} col error — correct path via _push_footnotes!
         @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => [:nonexistent])
         @test_throws ArgumentError tab_footnote!(StyledTable(df), Dict("Note" => [:nonexistent]))
         @test_throws ArgumentError tab_footnote!(StyledTable(df), ["Note" => [:nonexistent]])
+
+        @testset "mixed-type pairs error" begin
+            let df = DataFrame(x = [1], y = [2])
+                # Mixed value types: Symbol and Vector{Symbol} column selectors
+                @test_throws ArgumentError tab_footnote!(
+                    StyledTable(df), Dict{String,Any}("Note" => :x, "Other" => [:x, :y])
+                )
+            end
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -621,6 +721,12 @@ end
         tab_stub!(tbl, :rowname)
         tab_stubhead!(tbl, "Name")
         run_reftest(tbl, "references/tab_stubhead/basic")
+
+        @testset "warns without tab_stub!" begin
+            df = DataFrame(x = [1, 2])
+            tbl = StyledTable(df)
+            @test_logs (:warn, r"no effect") tab_stubhead!(tbl, "Row")
+        end
     end
 
     # -----------------------------------------------------------------------
@@ -744,6 +850,18 @@ end
             fmt_number!(tbl, [:x]; digits = 3, trailing_zeros = false)
             @test tbl.col_formatters[:x](1.5) == "1.5"    # trailing zero stripped: 1.500 → 1.5
             @test tbl.col_formatters[:x](2.0) == "2"       # trailing zeros + dot stripped: 2.000 → 2
+        end
+
+        @testset "type check" begin
+            df_str = DataFrame(label = ["a", "b"], x = [1.0, 2.0])
+            @test_throws ArgumentError fmt_number!(StyledTable(df_str), [:label])
+            @test_throws ArgumentError fmt_percent!(StyledTable(df_str), [:label])
+            @test_throws ArgumentError fmt_integer!(StyledTable(df_str), [:label])
+            # Numeric columns must still work
+            @test fmt_number!(StyledTable(df_str), [:x]) isa StyledTable
+            # Nullable numeric columns must still work
+            df_missing = DataFrame(x = [1.0, missing])
+            @test fmt_number!(StyledTable(df_missing), [:x]) isa StyledTable
         end
     end
 
@@ -1073,6 +1191,27 @@ end
         tab_spanner!(tbl3, "AB" => [:a, :b])
         tab_row_group!(tbl3, :g)
         @test_logs min_level=Logging.Warn render(tbl3)
+
+        # Hiding an edge column of a spanner: warn
+        df_edge = DataFrame(x = [1], y = [2], z = [3])
+        tbl_edge = StyledTable(df_edge)
+        tab_spanner!(tbl_edge, "XY" => [:x, :y])
+        cols_hide!(tbl_edge, :x)                     # :x is the left edge of spanner "XY"
+        @test_logs (:warn, r"hidden") render(tbl_edge)
+
+        # Hiding all columns of a spanner: warn
+        df_all = DataFrame(x = [1], y = [2], z = [3])
+        tbl_all = StyledTable(df_all)
+        tab_spanner!(tbl_all, "XY" => [:x, :y])
+        cols_hide!(tbl_all, :x, :y)
+        @test_logs (:warn, r"hidden") render(tbl_all)
+
+        # Hiding a column not in any spanner: no spanner-hidden warning
+        df_ok = DataFrame(x = [1], y = [2], z = [3])
+        tbl_ok = StyledTable(df_ok)
+        tab_spanner!(tbl_ok, "XY" => [:x, :y])
+        cols_hide!(tbl_ok, :z)
+        @test_logs min_level=Logging.Warn render(tbl_ok)
     end
 
     # -----------------------------------------------------------------------
@@ -1201,7 +1340,7 @@ end
 
         # cols_align: produces align row
         tbl = StyledTable(df)
-        cols_align!(tbl, :right, [:a])
+        cols_align!(tbl, :a => :right)
         out = sprint(show, tbl)
         @test contains(out, "align")
         @test contains(out, "1 col")

@@ -17,7 +17,7 @@ makedocs(;
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
         "Reference" => [
-            "Column Modifiers" => "reference/columns.md",
+            "Column Modifiers" => "reference/modifiers.md",
             "Table Structure" => "reference/structure.md",
             "Annotations" => "reference/annotations.md",
             "Styling" => "reference/styling.md",
@@ -36,7 +36,8 @@ makedocs(;
             ],
         ],
         "Resources" => [
-            "Why StyledTables?" => "resources/design.md",
+            "Why StyledTables?" => "resources/why.md",
+            # "Limitations" => "resources/limitations.md",
             "Export" => "resources/export.md",
             "API" => "resources/api.md",
         ],

@@ -14,9 +14,9 @@ tab_style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, it
 using StyledTables, DataFrames
 
 df = DataFrame(
-    metric  = ["Revenue", "EBITDA", "Net Income"],
-    q1      = [1.2, 0.3, 0.18],
-    q2      = [1.4, 0.35, 0.21],
+    metric = ["Revenue", "EBITDA", "Net Income"],
+    q1 = [1.2, 0.3, 0.18],
+    q2 = [1.4, 0.35, 0.21],
     yoy_pct = [0.12, 0.08, 0.14],
 )
 
@@ -25,9 +25,9 @@ tab_header!(tbl, "Q2 2026 Financial Summary")
 tab_style!(tbl, :yoy_pct; color = "#1a7340", bold = true)
 fmt_percent!(tbl, :yoy_pct; digits = 1)
 cols_label!(tbl,
-    :metric  => "Metric",
-    :q1      => "Q1 (€B)",
-    :q2      => "Q2 (€B)",
+    :metric => "Metric",
+    :q1 => "Q1 (€B)",
+    :q2 => "Q2 (€B)",
     :yoy_pct => "YoY Change",
 )
 render(tbl)
@@ -43,11 +43,9 @@ StyledTables.tab_style!(::StyledTables.StyledTable, ::AbstractVector{Symbol})
 
 ### Conditional styling
 
-Pass a function as the first argument to style cells based on their raw DataFrame
-value (before any formatter is applied).
+Pass a function as the first argument to style cells based on their raw DataFrame value (before any formatter is applied).
 
-`f(raw_value) -> Union{Nothing, NamedTuple}` — return `nothing` for no style override,
-or a `NamedTuple` with any subset of `color`, `bold`, `italic`, `underline` keys.
+`f(raw_value) -> Union{Nothing, NamedTuple}` — return `nothing` for no style override, or a `NamedTuple` with any subset of `color`, `bold`, `italic`, `underline` keys.
 The `color` key accepts the same types as the `color` keyword in [`tab_style!`](@ref): a hex string (`"#RRGGBB"`), a CSS name (`"green"`), a `Symbol` (`:green`), or a `Colors.Colorant`.
 
 Optional keyword arguments set a static per-column *baseline*. The function result
@@ -59,8 +57,6 @@ from the `NamedTuple` inherit the baseline.
 tab_style!(f, tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 tab_style!(f, tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
-
-> **Note:** In Julia, the `do`-block syntax places the anonymous function as the *first* positional argument. So `tab_style!(tbl, :change) do val ... end` is equivalent to `tab_style!(val -> ..., tbl, :change)`.
 
 ```@example styling
 df_cond = DataFrame(
