@@ -799,6 +799,9 @@ end
             @test_throws ArgumentError fmt_integer!(StyledTable(df_str), [:label])
             # Numeric columns must still work
             @test fmt_number!(StyledTable(df_str), [:x]) isa StyledTable
+            # Nullable numeric columns must still work
+            df_missing = DataFrame(x = [1.0, missing])
+            @test fmt_number!(StyledTable(df_missing), [:x]) isa StyledTable
         end
     end
 

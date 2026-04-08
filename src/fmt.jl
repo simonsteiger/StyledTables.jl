@@ -8,7 +8,7 @@ function _apply_formatter!(tbl::StyledTable, cols::AbstractVector{Symbol}, f::Fu
     end
     if check_numeric
         for col in cols
-            T = eltype(tbl.data[!, col])
+            T = nonmissingtype(eltype(tbl.data[!, col]))
             T <: Real || throw(ArgumentError(
                 ":$col has element type $T, which is not numeric (requires <: Real). " *
                 "Use `fmt!` with a custom formatter for non-numeric columns."
