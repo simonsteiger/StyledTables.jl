@@ -507,11 +507,8 @@ function _throw_if_mixed_spanner_values(vtypes, tbl, d)
     if length(vtypes) > 1
         throw(
             ArgumentError(
-                "tab_spanner! received mixed value types: $(join(vtypes, ", ", " and ")). " *
-                "All values must share the same type. " *
-                "Tip: wrap single columns in a vector, e.g., " *
-                "\"spanner\" => [:col], or split into separate tab_spanner! calls.",
-            ),
+                "Different types in pairs: $(join(vtypes, ", ", " and ")). " *
+                "All pairs must share the same type."),
         )
     end
     throw(MethodError(tab_spanner!, (tbl, d)))
@@ -644,16 +641,23 @@ end
 
 function _push_footnotes!(tbl::StyledTable, d)
     colnames = Symbol.(names(tbl.data))
-    
+
     for (text, columns) in d
         for col in columns
-            if col ∉ colnames
-                throw(ArgumentError("Column :$col not found in DataFrame"))
+            col ∉ colnames && throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
+    end
+
+    for (text, columns) in d
+        for col in columns
+            if haskey(tbl.col_footnotes, col)
+                @warn "Column :$col already has a footnote " *
+                      "(\"$(tbl.col_footnotes[col])\"); it will be replaced."
             end
             tbl.col_footnotes[col] = text
         end
     end
-    
+
     return tbl
 end
 

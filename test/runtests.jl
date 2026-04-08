@@ -558,6 +558,16 @@ end
             @test haskey(tbl.col_footnotes, :y)
         end
 
+        # ── Overwrite warning ────────────────────────────────────────────
+        @testset "overwrite warning" begin
+            df = DataFrame(x = [1, 2], y = [3, 4])
+            tbl = StyledTable(df)
+            tab_footnote!(tbl, "First note" => :x)
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(tbl, "Second note" => :x)
+            # Second note should win
+            @test tbl.col_footnotes[:x] == "Second note"
+        end
+
         # ── Error cases ──────────────────────────────────────────────────
         @test_throws ArgumentError tab_footnote!(StyledTable(df), "Note" => :nonexistent)
         # Vector{Symbol} col error — correct path via _push_footnotes!
