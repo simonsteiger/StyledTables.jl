@@ -119,15 +119,8 @@ See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
 # Examples
 
 ```julia
-# Apply uppercase to every column header
 tbl = StyledTable(df)
 cols_label!(uppercase, tbl)
-
-# do-block: titlecase + underscore removal for selected columns
-tbl = StyledTable(df)
-cols_label!(tbl, [:bmi_score, :sbp_mmhg]) do col
-    titlecase(replace(col, "_" => " "))
-end
 render(tbl)
 ```
 """

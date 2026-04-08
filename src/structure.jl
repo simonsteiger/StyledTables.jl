@@ -26,21 +26,15 @@ See also: [`tab_header!`](@ref), [`tab_stub!`](@ref).
 # Examples
 
 ```julia
-# Single spanner
 tbl = StyledTable(df)
 tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 render(tbl)
-```
 
-```julia
-# Two levels: "Length (mm)" at level 1, "Physical measurements" above it at level 2
 tbl = StyledTable(df)
 tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
 tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
 render(tbl)
-```
 
-```julia
 using SummaryTables: Multiline
 tbl = StyledTable(df)
 tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
