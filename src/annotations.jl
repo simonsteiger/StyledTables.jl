@@ -18,7 +18,7 @@ The title renders bold; the subtitle renders italic.
 
 `tbl` (modified in place).
 
-See also: [`tab_spanner!`](@ref), [`tab_source_note!`](@ref), [`tab_footnote!`](@ref).
+See also: [`tab_spanner!`](@ref), [`tab_sourcenote!`](@ref), [`tab_footnote!`](@ref).
 
 # Examples
 
@@ -38,7 +38,7 @@ $TYPEDSIGNATURES
 
 Add footnotes to the table.
 
-Footnotes refer to specific columns. For placing general notes under the table, see [`tab_source_note!`](@ref).
+Footnotes refer to specific columns. For placing general notes under the table, see [`tab_sourcenote!`](@ref).
 
 # Arguments
 
@@ -49,7 +49,7 @@ Footnotes refer to specific columns. For placing general notes under the table, 
 
 `tbl` (modified in place).
 
-See also: [`tab_source_note!`](@ref), [`tab_header!`](@ref).
+See also: [`tab_sourcenote!`](@ref), [`tab_header!`](@ref).
 
 # Examples
 
@@ -188,11 +188,11 @@ See also: [`tab_footnote!`](@ref), [`tab_header!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_source_note!(tbl, "Data: World Bank Open Data")
+tab_sourcenote!(tbl, "Data: World Bank Open Data")
 render(tbl)
 ```
 """
-function tab_source_note!(tbl::StyledTable, text)
-    push!(tbl.source_notes, text)
+function tab_sourcenote!(tbl::StyledTable, text)
+    push!(tbl.sourcenotes, text)
     return tbl
 end

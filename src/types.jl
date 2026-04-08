@@ -72,9 +72,9 @@ $TYPEDFIELDS
     "Spanner header definitions."
     spanners::Vector{Spanner}
     "Column used for row grouping, or `nothing`."
-    row_group_col::Union{Nothing,Symbol}
+    rowgroup_col::Union{Nothing,Symbol}
     "Left indent applied to data rows inside a group (points)."
-    row_group_indent_pt::Float64
+    rowgroup_indent_pt::Float64
     "Column designated as the stub (row-label column), or `nothing`."
     stub_col::Union{Nothing,Symbol}
     "Title/subtitle definition, or `nothing`."
@@ -94,7 +94,7 @@ $TYPEDFIELDS
     "Label for the stub column header, or `nothing`."
     stubhead_label::Union{Nothing,Any}
     "Source-note lines appended below the table body."
-    source_notes::Vector{Any}
+    sourcenotes::Vector{Any}
     "SummaryTables postprocessors applied during rendering."
     postprocessors::Vector{Any}
     "Digits to round to, or `nothing` (SummaryTables defaults to 3)."
@@ -138,8 +138,8 @@ function StyledTable(data)
         col_labels = Dict{Symbol,Any}(),
         col_alignments = Dict{Symbol,Symbol}(),
         spanners = Spanner[],
-        row_group_col = nothing,
-        row_group_indent_pt = 12.0,
+        rowgroup_col = nothing,
+        rowgroup_indent_pt = 12.0,
         stub_col = nothing,
         header = nothing,
         footnotes = Any[],
@@ -149,7 +149,7 @@ function StyledTable(data)
         col_footnotes = Dict{Symbol,Any}(),
         hidden_cols = Set{Symbol}(),
         stubhead_label = nothing,
-        source_notes = Any[],
+        sourcenotes = Any[],
         postprocessors = Any[],
         round_digits = nothing,
         round_mode = nothing,

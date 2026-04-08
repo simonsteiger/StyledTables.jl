@@ -122,7 +122,7 @@ StyledTables.cols_align!(::StyledTable, ::Symbol)
 ## `cols_hide!`
 
 Remove columns from the rendered table without dropping them from the data.
-Use this when a column drives grouping (via `tab_row_group!`) but should not appear.
+Use this when a column drives grouping (via `tab_rowgroup!`) but should not appear.
 
 **Signature:** `cols_hide!(tbl, cols::Symbol...)`
 
@@ -135,7 +135,7 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-tab_row_group!(tbl, :group)
+tab_rowgroup!(tbl, :group)
 cols_hide!(tbl, :group)
 cols_label!(tbl, :subject => "Subject", :score => "Score", :pct_score => "Score (%)")
 fmt_percent!(tbl, :pct_score; digits = 0)

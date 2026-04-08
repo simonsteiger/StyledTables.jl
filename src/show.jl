@@ -17,9 +17,9 @@ function _is_unconfigured(tbl::StyledTable)
         isempty(tbl.hidden_cols) &&
         isempty(tbl.spanners) &&
         isempty(tbl.footnotes) &&
-        isempty(tbl.source_notes) &&
+        isempty(tbl.sourcenotes) &&
         isempty(tbl.postprocessors) &&
-        tbl.row_group_col === nothing &&
+        tbl.rowgroup_col === nothing &&
         tbl.stub_col === nothing &&
         tbl.header === nothing &&
         tbl.stubhead_label === nothing &&
@@ -80,7 +80,7 @@ function Base.show(io::IO, tbl::StyledTable)
 
     tbl.stub_col !== nothing && push!(rows, "stub" => ":$(tbl.stub_col)")
 
-    tbl.row_group_col !== nothing && push!(rows, "groups" => ":$(tbl.row_group_col)")
+    tbl.rowgroup_col !== nothing && push!(rows, "groups" => ":$(tbl.rowgroup_col)")
 
     !isempty(tbl.col_labels) && push!(rows, "labels" => _ncols_str(length(tbl.col_labels)))
 
@@ -102,8 +102,8 @@ function Base.show(io::IO, tbl::StyledTable)
         push!(rows, "note" => (n == 1 ? "1 note" : "$n notes"))
     end
 
-    if !isempty(tbl.source_notes)
-        n = length(tbl.source_notes)
+    if !isempty(tbl.sourcenotes)
+        n = length(tbl.sourcenotes)
         push!(rows, "source" => (n == 1 ? "1 source" : "$n sources"))
     end
 

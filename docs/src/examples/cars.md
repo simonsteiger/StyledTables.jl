@@ -35,7 +35,7 @@ label_dict = Dict(
 )
 
 tbl = StyledTable(cars)
-tab_row_group!(tbl, :origin)
+tab_rowgroup!(tbl, :origin)
 cols_hide!(tbl, :origin, :year)
 cols_label!(tbl, label_dict)
 render(tbl)
@@ -59,7 +59,7 @@ end
 cols_align!(tbl, [:msrp_eur, :hp, :trq_nm, :mpg] => :right)
 tab_style!(tbl, :msrp_eur; bold = true)
 tab_footnote!(tbl, "City/highway combined estimate" => :mpg)
-tab_source_note!(tbl, "Source: manufacturer specifications")
+tab_sourcenote!(tbl, "Source: manufacturer specifications")
 render(tbl)
 ```
 

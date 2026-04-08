@@ -61,7 +61,7 @@ end
     @test contains(out, ":a")
 
     tbl = StyledTable(df)
-    tab_row_group!(tbl, :b)
+    tab_rowgroup!(tbl, :b)
     out = sprint(show, tbl)
     @test contains(out, "groups")
     @test contains(out, ":b")
@@ -99,7 +99,7 @@ end
 
     # Source notes
     tbl = StyledTable(df)
-    tab_source_note!(tbl, "Source A")
+    tab_sourcenote!(tbl, "Source A")
     out = sprint(show, tbl)
     @test contains(out, "1 source")
 
@@ -112,8 +112,8 @@ end
 
     # Source notes: plural
     tbl = StyledTable(df)
-    tab_source_note!(tbl, "Source A")
-    tab_source_note!(tbl, "Source B")
+    tab_sourcenote!(tbl, "Source A")
+    tab_sourcenote!(tbl, "Source B")
     out = sprint(show, tbl)
     @test contains(out, "2 sources")
 

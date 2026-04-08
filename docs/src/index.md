@@ -45,7 +45,7 @@ df = @chain DataFrame(StyledTables.penguins()) begin
 end
 
 tbl = StyledTable(df)
-tab_row_group!(tbl, :island)
+tab_rowgroup!(tbl, :island)
 cols_hide!(tbl, :island)
 tab_spanner!(tbl, "Bill measures" => [:bill_length_mm, :bill_depth_mm])
 
@@ -61,9 +61,7 @@ render(tbl)
 
 ## Installation
 
-StyledTables is not yet registered. Install from GitHub:
-
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
+Pkg.install("StyledTables")
 ```

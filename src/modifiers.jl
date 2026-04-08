@@ -316,7 +316,7 @@ $TYPEDSIGNATURES
 
 Remove columns from the rendered output without modifying the `DataFrame`.
 
-Hidden columns remain accessible for grouping or formatting, but do not appear in the rendered table. Commonly paired with [`tab_row_group!`](@ref).
+Hidden columns remain accessible for grouping or formatting, but do not appear in the rendered table. Commonly paired with [`tab_rowgroup!`](@ref).
 
 # Arguments
 
@@ -327,13 +327,13 @@ Hidden columns remain accessible for grouping or formatting, but do not appear i
 
 `tbl` (modified in place).
 
-See also: [`tab_row_group!`](@ref).
+See also: [`tab_rowgroup!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_row_group!(tbl, :group)
+tab_rowgroup!(tbl, :group)
 cols_hide!(tbl, :group)
 render(tbl)
 ```
@@ -341,7 +341,9 @@ render(tbl)
 function cols_hide!(tbl::StyledTable, cols::Symbol...)
     colnames = Symbol.(names(tbl.data))
     for col in cols
-        col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
+        if col ∉ colnames
+            throw(ArgumentError("Column :$col not found in DataFrame"))
+        end
     end
 
     for col in cols

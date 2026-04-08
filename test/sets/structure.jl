@@ -236,7 +236,7 @@ end
     run_reftest(tbl, "references/tab_header/with_spanner")
 end
 
-@testset "tab_row_group!" begin
+@testset "tab_rowgroup!" begin
     df = DataFrame(;
         arm = ["A", "A", "B", "B"],
         name = ["x1", "x2", "y1", "y2"],
@@ -244,14 +244,14 @@ end
     )
 
     tbl = StyledTable(df)
-    tab_row_group!(tbl, :arm)
-    run_reftest(tbl, "references/tab_row_group/basic")
+    tab_rowgroup!(tbl, :arm)
+    run_reftest(tbl, "references/tab_rowgroup/basic")
 
     tbl = StyledTable(df)
-    tab_row_group!(tbl, :arm; indent_pt = 24)
-    run_reftest(tbl, "references/tab_row_group/custom_indent")
+    tab_rowgroup!(tbl, :arm; indent_pt = 24)
+    run_reftest(tbl, "references/tab_rowgroup/custom_indent")
 
-    @test_throws ArgumentError tab_row_group!(StyledTable(df), :nonexistent)
+    @test_throws ArgumentError tab_rowgroup!(StyledTable(df), :nonexistent)
 end
 
 @testset "tab_stubhead!" begin
@@ -312,22 +312,22 @@ end
     # Unsorted: "A" appears again after "B"
     df_unsorted = DataFrame(; g = ["A", "B", "A"], x = [1, 2, 3])
     tbl_unsorted = StyledTable(df_unsorted)
-    tab_row_group!(tbl_unsorted, :g)
+    tab_rowgroup!(tbl_unsorted, :g)
     @test StyledTables._duplicate_group_labels(tbl_unsorted) == ["A"]
 
     # Sorted with adjacent repeats: no duplicates
     df_sorted = DataFrame(; g = ["A", "A", "B", "B"], x = [1, 2, 3, 4])
     tbl_sorted = StyledTable(df_sorted)
-    tab_row_group!(tbl_sorted, :g)
+    tab_rowgroup!(tbl_sorted, :g)
     @test isempty(StyledTables._duplicate_group_labels(tbl_sorted))
 
     # Fully unique: no duplicates
     df_unique = DataFrame(; g = ["A", "B", "C"], x = [1, 2, 3])
     tbl_unique = StyledTable(df_unique)
-    tab_row_group!(tbl_unique, :g)
+    tab_rowgroup!(tbl_unique, :g)
     @test isempty(StyledTables._duplicate_group_labels(tbl_unique))
 
-    # No row_group_col set: returns empty
+    # No rowgroup_col set: returns empty
     df_no_group = DataFrame(; x = [1, 2])
     tbl_no_group = StyledTable(df_no_group)
     @test isempty(StyledTables._duplicate_group_labels(tbl_no_group))
@@ -335,6 +335,6 @@ end
     # Adjacent repeated values are not duplicates
     df_adj = DataFrame(; g = ["A", "A", "B"], x = [1, 2, 3])
     tbl_adj = StyledTable(df_adj)
-    tab_row_group!(tbl_adj, :g)
+    tab_rowgroup!(tbl_adj, :g)
     @test isempty(StyledTables._duplicate_group_labels(tbl_adj))
 end

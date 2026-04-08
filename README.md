@@ -18,15 +18,6 @@ StyledTables provides flexible formatting functionality for tabular data.
 Tables can be exported as HTML, docx, LaTeX, and Typst files.
 It builds on data structures defined in [SummaryTables.jl](https://pumasai.github.io/SummaryTables.jl/stable/), with an API inspired by R's [gt](https://gt.rstudio.com/) package.
 
-## Installation
-
-StyledTables is not yet registered in the Julia General Registry. Install it directly from GitHub:
-
-```julia
-using Pkg
-Pkg.add(url="https://github.com/simonsteiger/StyledTables.jl")
-```
-
 ## Quick Start
 
 ```julia
@@ -45,7 +36,7 @@ end
 tbl = StyledTable(df)
 
 # Step 3: add styling
-tab_row_group!(tbl, :island)
+tab_rowgroup!(tbl, :island)
 cols_hide!(tbl, :island)
 tab_spanner!(tbl, "Bill measures" => [:bill_length_mm, :bill_depth_mm])
 

@@ -21,14 +21,14 @@ end
     # Unsorted row groups: warn
     df2 = DataFrame(; g = ["A", "B", "A"], v = [1, 2, 3])
     tbl2 = StyledTable(df2)
-    tab_row_group!(tbl2, :g)
+    tab_rowgroup!(tbl2, :g)
     @test_logs (:warn, r"not sorted") render(tbl2)
 
     # Well-formed table: no warnings
     df3 = DataFrame(; a = [1, 2], b = [3, 4], g = ["X", "X"])
     tbl3 = StyledTable(df3)
     tab_spanner!(tbl3, "AB" => [:a, :b])
-    tab_row_group!(tbl3, :g)
+    tab_rowgroup!(tbl3, :g)
     @test_logs min_level = Logging.Warn render(tbl3)
 
     # Hiding an edge column of a spanner: warn

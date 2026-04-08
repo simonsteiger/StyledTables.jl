@@ -21,7 +21,7 @@ This limitation applies to all functions that allow you to pass `Pair`s, a `Vect
 
 ## Unsorted row-group data produces duplicate group headers
 
-[`tab_row_group!`](@ref) inserts a bold group label whenever the grouping column value
+[`tab_rowgroup!`](@ref) inserts a bold group label whenever the grouping column value
 *changes*. If the `DataFrame` is not sorted by the grouping column, the same label can appear
 multiple times. A warning is emitted at `render()` time, but the table still renders with
 the duplicate headers.
@@ -32,7 +32,7 @@ the duplicate headers.
 ```julia
 sort!(df, :group_col)
 tbl = StyledTable(df)
-tab_row_group!(tbl, :group_col)
+tab_rowgroup!(tbl, :group_col)
 ```
 
 ---
@@ -61,9 +61,9 @@ end
 
 ---
 
-## Repeated calls to `tab_row_group!` or `tab_header!` replace the previous setting
+## Repeated calls to `tab_rowgroup!` or `tab_header!` replace the previous setting
 
-Both functions write to a single field (`tbl.row_group_col` or `tbl.header`). Only the last
+Both functions write to a single field (`tbl.rowgroup_col` or `tbl.header`). Only the last
 call takes effect. This is consistent with the mutating API convention, but differs from
 [`tab_spanner!`](@ref), which *appends* each spanner.
 

@@ -177,18 +177,18 @@ See also: [`cols_hide!`](@ref), [`tab_stub!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-tab_row_group!(tbl, :category)
+tab_rowgroup!(tbl, :category)
 cols_hide!(tbl, :category)
 render(tbl)
 ```
 """
-function tab_row_group!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12)
+function tab_rowgroup!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12)
     if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
     end
 
-    tbl.row_group_col = col
-    tbl.row_group_indent_pt = Float64(indent_pt)
+    tbl.rowgroup_col = col
+    tbl.rowgroup_indent_pt = Float64(indent_pt)
 
     return tbl
 end
@@ -209,7 +209,7 @@ The stub header is not bolded. Use [`tab_stubhead!`](@ref) to label it.
 
 `tbl` (modified in place).
 
-See also: [`tab_stubhead!`](@ref), [`tab_row_group!`](@ref).
+See also: [`tab_stubhead!`](@ref), [`tab_rowgroup!`](@ref).
 
 # Examples
 

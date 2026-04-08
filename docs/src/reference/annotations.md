@@ -28,7 +28,7 @@ StyledTables.tab_header!
 
 Add column-annotated footnotes. 
 An auto-numbered superscript attaches to the specified column header(s); the footnote text appears in the footnote area below the table.
-For general notes not attached to any column, use [`tab_source_note!`](@ref).
+For general notes not attached to any column, use [`tab_sourcenote!`](@ref).
 
 **Signatures:**
 - `tab_footnote!(tbl, text => col)`
@@ -68,11 +68,11 @@ render(tbl)
 StyledTables.tab_footnote!
 ```
 
-## `tab_source_note!`
+## `tab_sourcenote!`
 
 Add a source-note line in the footer. Source notes span the full table width and are left-aligned. Each call appends another line.
 
-**Signature:** `tab_source_note!(tbl, text)`
+**Signature:** `tab_sourcenote!(tbl, text)`
 
 ```@example annotations
 using SummaryTables: Multiline
@@ -80,10 +80,10 @@ note = Multiline("Data: World Bank Open Data", "Values in trillions USD")
 
 tbl = StyledTable(df)
 tab_header!(tbl, "GDP by Country")
-tab_source_note!(tbl, note)
+tab_sourcenote!(tbl, note)
 render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_source_note!
+StyledTables.tab_sourcenote!
 ```
