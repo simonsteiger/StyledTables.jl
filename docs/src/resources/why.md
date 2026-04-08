@@ -21,8 +21,8 @@ Instead of working with pipes as would be idiomatic for R, StyledTables has a mo
 
 ## The workflow
 
-In contrast to SummaryTables, StyledTables does not provide any data-summarising capabilites.
-It assumes that you bring summarised data that can be converted to a `DataFrame` object.
+In contrast to SummaryTables, StyledTables provides no data-summarising capabilities.
+It assumes you bring summarised data that can be converted to a `DataFrame`.
 The typical workflow is thus:
 
 1. Summarise your data
