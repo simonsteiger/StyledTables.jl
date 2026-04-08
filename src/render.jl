@@ -76,9 +76,9 @@ function render(tbl::StyledTable)
     if !isempty(tbl.sourcenotes)
         footer_rows = map(tbl.sourcenotes) do note
             row = Vector{Cell}(undef, n_cols)
-            row[1] = Cell(note; merge = true, halign = :left)
-            for j = 2:n_cols
-                row[j] = Cell(nothing)
+            # All cells carry merge = true, matching _build_title_rows pattern
+            for j = 1:n_cols
+                row[j] = Cell(note; merge = true, halign = :left)
             end
             reshape(row, 1, n_cols)
         end

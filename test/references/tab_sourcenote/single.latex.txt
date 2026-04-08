@@ -9,7 +9,7 @@
 1 & 3 \\
 2 & 4 \\
 \midrule
-Source: internal data &  \\
+\multicolumn{2}{l}{Source: internal data} \\
 \bottomrule
 \end{tabular}
 \end{threeparttable}

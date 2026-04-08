@@ -16,7 +16,6 @@
     [#"2"],
     [#"4"],
     table.hline(y: 3, stroke: 0.75pt),
-    [#"Source: internal data"],
-    [],
+    table.cell(colspan: 2)[#"Source: internal data"],
     table.hline(y: 4, stroke: 1pt),
 )
