@@ -199,7 +199,9 @@ function _build_body_with_groups(
         if haskey(group_insert_positions, i)
             label = group_insert_positions[i]
             for j = 1:n_cols
-                if j == 1
+                if tbl.rowgroup_full_width
+                    body[i+offset, j] = Cell(label; bold = true, indent_pt = 0, halign = :left, merge = true)
+                elseif j == 1
                     body[i+offset, j] =
                         Cell(label; bold = true, indent_pt = 0, halign = :left)
                 else
