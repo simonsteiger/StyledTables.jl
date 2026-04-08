@@ -133,7 +133,7 @@ end
 
     # postprocessors row appears when postprocessors is non-empty
     let tbl = StyledTable(df)
-        sub_missing!(tbl)
+        sub_missing!(tbl, "–")
         out = sprint(show, tbl)
         @test contains(out, "postprocessors")
     end
