@@ -10,7 +10,7 @@
         df = DataFrame(a = [1, 2], b = ["x", "y"])
         tbl = StyledTable(df)
         tab_header!(tbl, "My Table"; subtitle = "Details", align = :left)
-        run_reftest(tbl, "references/tab_header/header_align_left")
+        run_reftest(tbl, "references/annotations/header_align_left")
     end
 end
 
