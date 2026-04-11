@@ -108,6 +108,54 @@ function _push_footnotes!(tbl::StyledTable, d)
     return tbl
 end
 
+function _push_spanner_footnote!(tbl::StyledTable, annotation, target::SpannerTarget)
+    matches = filter(tbl.spanners) do s
+        s.label == target.label &&
+            (target.level === nothing || s.level == target.level)
+    end
+
+    if isempty(matches)
+        if target.level !== nothing
+            throw(ArgumentError(
+                "No spanner with label \"$(target.label)\" " *
+                "at level $(target.level) found.",
+            ))
+        else
+            throw(ArgumentError(
+                "No spanner with label \"$(target.label)\" found.",
+            ))
+        end
+    end
+
+    if target.level === nothing && length(matches) > 1
+        # Expand into one entry per matched spanner, each with a concrete level
+        for s in matches
+            concrete = SpannerTarget(s.label, s.level)
+            existing = [x for x in tbl.spanner_footnotes
+                        if x.first.label == concrete.label && x.first.level == concrete.level]
+            if !isempty(existing)
+                @warn "Spanner \"$(concrete.label)\" already has a footnote; it will be replaced."
+            end
+            push!(tbl.spanner_footnotes, concrete => annotation)
+        end
+    else
+        existing = [x for x in tbl.spanner_footnotes
+                    if x.first.label == target.label && x.first.level == target.level]
+        if !isempty(existing)
+            @warn "Spanner \"$(target.label)\" already has a footnote; it will be replaced."
+        end
+        push!(tbl.spanner_footnotes, target => annotation)
+    end
+    return tbl
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
+    for (annotation, target) in d
+        _push_spanner_footnote!(tbl, annotation, target)
+    end
+    return tbl
+end
+
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
 end

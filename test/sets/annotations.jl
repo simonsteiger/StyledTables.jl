@@ -178,7 +178,7 @@ end
         tab_spanner!(tbl, "Outcomes" => [:x, :y])
         tab_footnote!(tbl, "Source: WHO" => SpannerTarget("Outcomes"))
         @test length(tbl.spanner_footnotes) == 1
-        @test tbl.spanner_footnotes[1] == SpannerTarget("Outcomes", nothing) => "Source: WHO"
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("Outcomes", nothing) => "Source: WHO")
         run_reftest(tbl, "references/tab_footnote/spanner_basic")
     end
 
@@ -188,7 +188,7 @@ end
         tab_spanner!(tbl, "Low" => [:x, :y]; level = 2)
         tab_footnote!(tbl, "Level 2 note" => SpannerTarget("Low"; level = 2))
         @test length(tbl.spanner_footnotes) == 1
-        @test tbl.spanner_footnotes[1] == SpannerTarget("Low", 2) => "Level 2 note"
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("Low", 2) => "Level 2 note")
         run_reftest(tbl, "references/tab_footnote/spanner_level")
     end
 
@@ -198,8 +198,8 @@ end
         tab_spanner!(tbl, "Low" => [:x, :y]; level = 2)
         tab_footnote!(tbl, "Shared note" => SpannerTarget("Low"))
         @test length(tbl.spanner_footnotes) == 2
-        @test tbl.spanner_footnotes[1] == SpannerTarget("Low", 1) => "Shared note"
-        @test tbl.spanner_footnotes[2] == SpannerTarget("Low", 2) => "Shared note"
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("Low", 1) => "Shared note")
+        @test tbl.spanner_footnotes[2] == (SpannerTarget("Low", 2) => "Shared note")
         run_reftest(tbl, "references/tab_footnote/spanner_all_levels")
     end
 
@@ -208,7 +208,7 @@ end
         tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:x, :y])
         tab_footnote!(tbl, "Note" => SpannerTarget(Multiline("Treatment", "(N=50)")))
         @test length(tbl.spanner_footnotes) == 1
-        @test tbl.spanner_footnotes[1] == SpannerTarget(Multiline("Treatment", "(N=50)"), nothing) => "Note"
+        @test tbl.spanner_footnotes[1] == (SpannerTarget(Multiline("Treatment", "(N=50)"), nothing) => "Note")
         run_reftest(tbl, "references/tab_footnote/spanner_multiline")
     end
 
