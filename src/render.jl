@@ -383,11 +383,18 @@ function _build_spanner_rows(tbl::StyledTable, colnames::Vector{Symbol})
         level_spanners = filter(s -> s.level == lvl, tbl.spanners)
         for spanner in level_spanners
             mergegroup_counter += 1
+            matched_anns = [
+                ann for (target, ann) in tbl.spanner_footnotes
+                if target.label == spanner.label &&
+                   (target.level === nothing || target.level == spanner.level)
+            ]
+            spanner_label = isempty(matched_anns) ? spanner.label :
+                            SummaryTables.Annotated(spanner.label, last(matched_anns))
             for col in spanner.columns
                 j = findfirst(==(col), colnames)
                 j === nothing && continue
                 row[j] = Cell(
-                    spanner.label;
+                    spanner_label;
                     bold = true,
                     merge = true,
                     mergegroup = mergegroup_counter,

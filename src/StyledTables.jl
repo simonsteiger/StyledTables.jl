@@ -18,7 +18,7 @@ include("render.jl")
 include("show.jl")
 include("testdata.jl")
 
-export StyledTable
+export StyledTable, SpannerTarget
 export render
 export cols_label!, cols_align!, cols_hide!
 export tab_spanner!, tab_rowgroup!, tab_stub!, tab_stubhead!

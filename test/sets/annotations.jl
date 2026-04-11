@@ -168,3 +168,83 @@ end
     tab_sourcenote!(tbl, "Note: B")
     run_reftest(tbl, "references/tab_sourcenote/multiple")
 end
+
+# -----------------------------------------------------------------------
+@testset "tab_footnote! SpannerTarget" begin
+    df = DataFrame(; x = [1, 2], y = [3, 4])
+
+    # ── Basic: string label, no level ───────────────────────────────────
+    let tbl = StyledTable(df)
+        tab_spanner!(tbl, "Outcomes" => [:x, :y])
+        tab_footnote!(tbl, "Source: WHO" => SpannerTarget("Outcomes"))
+        @test length(tbl.spanner_footnotes) == 1
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("Outcomes", nothing) => "Source: WHO")
+        run_reftest(tbl, "references/tab_footnote/spanner_basic")
+    end
+
+    # ── Multi-pair varargs form dispatches to SpannerTarget overload ────────
+    let tbl = StyledTable(df)
+        tab_spanner!(tbl, "A" => [:x])
+        tab_spanner!(tbl, "B" => [:y])
+        tab_footnote!(tbl, "Note A" => SpannerTarget("A"), "Note B" => SpannerTarget("B"))
+        @test length(tbl.spanner_footnotes) == 2
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("A", nothing) => "Note A")
+        @test tbl.spanner_footnotes[2] == (SpannerTarget("B", nothing) => "Note B")
+    end
+
+    # ── level= kwarg targets only the matching level ────────────────────
+    let tbl = StyledTable(df)
+        tab_spanner!(tbl, "Low" => [:x]; level = 1)
+        tab_spanner!(tbl, "Low" => [:x, :y]; level = 2)
+        tab_footnote!(tbl, "Level 2 note" => SpannerTarget("Low"; level = 2))
+        @test length(tbl.spanner_footnotes) == 1
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("Low", 2) => "Level 2 note")
+        run_reftest(tbl, "references/tab_footnote/spanner_level")
+    end
+
+    # ── level = nothing annotates all matching spanners ─────────────────
+    let tbl = StyledTable(df)
+        tab_spanner!(tbl, "Low" => [:x]; level = 1)
+        tab_spanner!(tbl, "Low" => [:x, :y]; level = 2)
+        tab_footnote!(tbl, "Shared note" => SpannerTarget("Low"))
+        @test length(tbl.spanner_footnotes) == 2
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("Low", 1) => "Shared note")
+        @test tbl.spanner_footnotes[2] == (SpannerTarget("Low", 2) => "Shared note")
+        run_reftest(tbl, "references/tab_footnote/spanner_all_levels")
+    end
+
+    # ── Multiline label targetable ───────────────────────────────────────
+    let tbl = StyledTable(df)
+        tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:x, :y])
+        tab_footnote!(tbl, "Note" => SpannerTarget(Multiline("Treatment", "(N=50)")))
+        @test length(tbl.spanner_footnotes) == 1
+        @test tbl.spanner_footnotes[1] == (SpannerTarget(Multiline("Treatment", "(N=50)"), nothing) => "Note")
+        run_reftest(tbl, "references/tab_footnote/spanner_multiline")
+    end
+
+    # ── Error: label not found ───────────────────────────────────────────
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df),
+        "Note" => SpannerTarget("Nonexistent"),
+    )
+
+    # ── Error: level specified but no matching spanner ───────────────────
+    @test_throws ArgumentError let
+        tbl = StyledTable(df)
+        tab_spanner!(tbl, "Outcomes" => [:x, :y])
+        tab_footnote!(tbl, "Note" => SpannerTarget("Outcomes"; level = 99))
+    end
+
+    # ── Warning: same spanner annotated twice ────────────────────────────
+    @testset "overwrite warning" begin
+        let tbl = StyledTable(df)
+            tab_spanner!(tbl, "Outcomes" => [:x, :y])
+            tab_footnote!(tbl, "First" => SpannerTarget("Outcomes"))
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(
+                tbl,
+                "Second" => SpannerTarget("Outcomes"),
+            )
+            @test length(tbl.spanner_footnotes) == 2
+        end
+    end
+end

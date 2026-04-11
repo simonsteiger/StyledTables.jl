@@ -1,0 +1,24 @@
+
+#table(
+    rows: 4,
+    columns: 2,
+    column-gutter: 0.25em,
+    align: (left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        table.cell(colspan: 2, align: center)[*#"Treatment" #linebreak() #"(N=50)"#super[#"1"]*],
+        table.hline(y: 1, start: 0, end: 2, stroke: 0.75pt),
+        [*#"x"*],
+        [*#"y"*],
+        table.hline(y: 2, stroke: 0.75pt),
+    ),
+    [#"1"],
+    [#"3"],
+    [#"2"],
+    [#"4"],
+    table.hline(y: 4, stroke: 1pt),
+    table.cell(colspan: 2)[#text(size: 0.8em)[
+        #super[#"1"]#"Note"
+    ]],
+)

@@ -17,6 +17,33 @@ end
 """
 $TYPEDEF
 
+Identifies a spanner label as the target of a [`tab_footnote!`](@ref) call.
+
+$TYPEDFIELDS
+"""
+struct SpannerTarget
+    "The spanner label to match (compared with `==`)."
+    label::Any
+    "Restrict the match to this spanner level, or `nothing` to match all levels."
+    level::Union{Nothing,Int}
+end
+
+"""
+    SpannerTarget(label; level = nothing)
+
+Construct a [`SpannerTarget`](@ref).
+
+`label` may be any value passed to [`tab_spanner!`](@ref): a `String`,
+`SummaryTables.Multiline`, or other equality-comparable type.
+
+`level` restricts the match to a specific spanner row (`1` = bottom-most).
+When `nothing` (default), all spanners whose label matches are annotated.
+"""
+SpannerTarget(label; level = nothing) = SpannerTarget(label, level)
+
+"""
+$TYPEDEF
+
 A table title and optional subtitle, displayed above the column headers.
 
 $TYPEDFIELDS
@@ -93,6 +120,8 @@ $TYPEDFIELDS
     col_style_fns::Dict{Symbol,Function}
     "Per-column footnote annotations."
     col_footnotes::Dict{Symbol,Any}
+    "Per-spanner footnote entries: `SpannerTarget => annotation`."
+    spanner_footnotes::Vector{Pair{SpannerTarget,Any}}
     "Columns excluded from the rendered output."
     hidden_cols::Set{Symbol}
     "Label for the stub column header, or `nothing`."
@@ -152,6 +181,7 @@ function StyledTable(data)
         col_styles = Dict{Symbol,ColStyleOverride}(),
         col_style_fns = Dict{Symbol,Function}(),
         col_footnotes = Dict{Symbol,Any}(),
+        spanner_footnotes = Pair{SpannerTarget,Any}[],
         hidden_cols = Set{Symbol}(),
         stubhead_label = nothing,
         sourcenotes = Any[],
