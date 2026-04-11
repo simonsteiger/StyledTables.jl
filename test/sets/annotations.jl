@@ -182,6 +182,16 @@ end
         run_reftest(tbl, "references/tab_footnote/spanner_basic")
     end
 
+    # ── Multi-pair varargs form dispatches to SpannerTarget overload ────────
+    let tbl = StyledTable(df)
+        tab_spanner!(tbl, "A" => [:x])
+        tab_spanner!(tbl, "B" => [:y])
+        tab_footnote!(tbl, "Note A" => SpannerTarget("A"), "Note B" => SpannerTarget("B"))
+        @test length(tbl.spanner_footnotes) == 2
+        @test tbl.spanner_footnotes[1] == (SpannerTarget("A", nothing) => "Note A")
+        @test tbl.spanner_footnotes[2] == (SpannerTarget("B", nothing) => "Note B")
+    end
+
     # ── level= kwarg targets only the matching level ────────────────────
     let tbl = StyledTable(df)
         tab_spanner!(tbl, "Low" => [:x]; level = 1)

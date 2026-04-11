@@ -118,11 +118,11 @@ function _push_spanner_footnote!(tbl::StyledTable, annotation, target::SpannerTa
         if target.level !== nothing
             throw(ArgumentError(
                 "No spanner with label \"$(target.label)\" " *
-                "at level $(target.level) found.",
+                "at level $(target.level) found",
             ))
         else
             throw(ArgumentError(
-                "No spanner with label \"$(target.label)\" found.",
+                "No spanner with label \"$(target.label)\" found",
             ))
         end
     end
@@ -131,24 +131,32 @@ function _push_spanner_footnote!(tbl::StyledTable, annotation, target::SpannerTa
         # Expand into one entry per matched spanner, each with a concrete level
         for s in matches
             concrete = SpannerTarget(s.label, s.level)
-            existing = [x for x in tbl.spanner_footnotes
-                        if x.first.label == concrete.label && x.first.level == concrete.level]
-            if !isempty(existing)
-                @warn "Spanner \"$(concrete.label)\" already has a footnote; it will be replaced."
+            if any(x -> x.first.label == concrete.label && x.first.level == concrete.level, tbl.spanner_footnotes)
+                @warn "Spanner \"$(concrete.label)\" already has a footnote annotation; the new annotation will take precedence."
             end
             push!(tbl.spanner_footnotes, concrete => annotation)
         end
     else
-        existing = [x for x in tbl.spanner_footnotes
-                    if x.first.label == target.label && x.first.level == target.level]
-        if !isempty(existing)
-            @warn "Spanner \"$(target.label)\" already has a footnote; it will be replaced."
+        if any(x -> x.first.label == target.label && x.first.level == target.level, tbl.spanner_footnotes)
+            @warn "Spanner \"$(target.label)\" already has a footnote annotation; the new annotation will take precedence."
         end
         push!(tbl.spanner_footnotes, target => annotation)
     end
     return tbl
 end
 
+"""
+$TYPEDSIGNATURES
+
+Attach footnote annotations to spanner labels.
+
+`d` is a vector of `annotation => SpannerTarget(label)` pairs.
+Use [`SpannerTarget`](@ref) to target a spanner label; optionally pass `level` to restrict
+the match to a specific spanner row.
+
+Throws `ArgumentError` if no spanner matches the given label (and optional level).
+Warns if the same spanner is annotated more than once; the last annotation takes precedence.
+"""
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
     for (annotation, target) in d
         _push_spanner_footnote!(tbl, annotation, target)
@@ -158,10 +166,12 @@ end
 
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
+    return tbl
 end
 
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
+    return tbl
 end
 
 function tab_footnote!(tbl::StyledTable, d::AbstractDict)
