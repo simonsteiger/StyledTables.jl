@@ -1,0 +1,16 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\multicolumn{2}{l}{\textbf{My Table}} \\
+\multicolumn{2}{l}{\textit{Details}} \\
+\textbf{a} & \textbf{b} \\
+\midrule
+1 & x \\
+2 & y \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

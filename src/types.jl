@@ -26,6 +26,8 @@ struct TableHeader
     title::Any
     "Subtitle text, rendered italic, or `nothing`."
     subtitle::Union{Nothing,Any}
+    "Horizontal alignment of title and subtitle cells."
+    halign::Symbol   # :left | :center | :right
 end
 
 """

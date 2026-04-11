@@ -1,0 +1,21 @@
+
+#table(
+    rows: 5,
+    columns: 2,
+    column-gutter: 0.25em,
+    align: (left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        table.cell(colspan: 2)[*#"My Table"*],
+        table.cell(colspan: 2)[_#"Details"_],
+        [*#"a"*],
+        [*#"b"*],
+        table.hline(y: 3, stroke: 0.75pt),
+    ),
+    [#"1"],
+    [#"x"],
+    [#"2"],
+    [#"y"],
+    table.hline(y: 5, stroke: 1pt),
+)

@@ -1,0 +1,52 @@
+<table id="st-da8f636b">
+    <style>
+        #st-da8f636b {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-da8f636b tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-da8f636b tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-da8f636b br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-da8f636b sub {
+            line-height: 0;
+        }
+        #st-da8f636b sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td colspan="2" style="font-weight:bold;text-align:left;">My Table</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="font-style:italic;text-align:left;">Details</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">a</td>
+        <td style="font-weight:bold;text-align:left;">b</td>
+    </tr>
+        <tr><td colspan="2" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">1</td>
+        <td style="text-align:left;">x</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">2</td>
+        <td style="text-align:left;">y</td>
+    </tr>
+    <tr><td colspan="2" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table>

@@ -13,6 +13,7 @@ The title renders bold; the subtitle renders italic.
 # Keywords
 
 - `subtitle`: secondary heading text, or `nothing` (default).
+- `align`: horizontal alignment (`:left`, `:center`, `:right`), default `:center`.
 
 # Returns
 
@@ -26,10 +27,15 @@ See also: [`tab_spanner!`](@ref), [`tab_sourcenote!`](@ref), [`tab_footnote!`](@
 tbl = StyledTable(df)
 tab_header!(tbl, "My Table"; subtitle = "Subtitle here")
 render(tbl)
+
+tbl = StyledTable(df)
+tab_header!(tbl, "Left-aligned Title"; align = :left)
+render(tbl)
 ```
 """
-function tab_header!(tbl::StyledTable, title; subtitle = nothing)
-    tbl.header = TableHeader(title, subtitle)
+function tab_header!(tbl::StyledTable, title; subtitle = nothing, align::Symbol = :center)
+    _validate_halign(align)
+    tbl.header = TableHeader(title, subtitle, align)
     return tbl
 end
 
