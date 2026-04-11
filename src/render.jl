@@ -104,11 +104,11 @@ function _build_title_rows(tbl::StyledTable, n_cols::Int)
     hdr = tbl.header
     hdr === nothing && return rows
 
-    title_row = [Cell(hdr.title; bold = true, merge = true) for _ = 1:n_cols]
+    title_row = [Cell(hdr.title; bold = true, merge = true, halign = hdr.halign) for _ = 1:n_cols]
     push!(rows, reshape(title_row, 1, n_cols))
 
     if hdr.subtitle !== nothing
-        subtitle_row = [Cell(hdr.subtitle; italic = true, merge = true) for _ = 1:n_cols]
+        subtitle_row = [Cell(hdr.subtitle; italic = true, merge = true, halign = hdr.halign) for _ = 1:n_cols]
         push!(rows, reshape(subtitle_row, 1, n_cols))
     end
 

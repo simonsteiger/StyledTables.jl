@@ -5,6 +5,13 @@
         tbl = StyledTable(df)
         @test_throws ArgumentError tab_header!(tbl, "T"; align = :diagonal)
     end
+
+    @testset "header align left" begin
+        df = DataFrame(a = [1, 2], b = ["x", "y"])
+        tbl = StyledTable(df)
+        tab_header!(tbl, "My Table"; subtitle = "Details", align = :left)
+        run_reftest(tbl, "references/tab_header/header_align_left")
+    end
 end
 
 # -----------------------------------------------------------------------
