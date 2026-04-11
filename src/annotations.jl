@@ -26,6 +26,7 @@ See also: [`tab_spanner!`](@ref), [`tab_sourcenote!`](@ref), [`tab_footnote!`](@
 ```julia
 tbl = StyledTable(df)
 tab_header!(tbl, "My Table"; subtitle = "Subtitle here")
+tab_header!(tbl, "Left-aligned Title"; align = :left)
 render(tbl)
 ```
 """
