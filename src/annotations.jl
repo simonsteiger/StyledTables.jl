@@ -30,8 +30,7 @@ render(tbl)
 ```
 """
 function tab_header!(tbl::StyledTable, title; subtitle = nothing, align::Symbol = :center)
-    align in (:left, :center, :right) ||
-        throw(ArgumentError("align must be :left, :center, or :right, got :$align"))
+    _validate_halign(align)
     tbl.header = TableHeader(title, subtitle, align)
     return tbl
 end
