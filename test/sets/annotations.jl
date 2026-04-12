@@ -248,3 +248,46 @@ end
         end
     end
 end
+
+# -----------------------------------------------------------------------
+@testset "tab_footnote! CellTarget" begin
+    df = DataFrame(; x = [1, 2, 3], y = [10, 20, 30])
+
+    # ── Row-index form: basic storage ───────────────────────────────────
+    let tbl = StyledTable(df)
+        tab_footnote!(tbl, "Important value" => CellTarget(2, :x))
+        @test haskey(tbl.cell_footnotes, (2, :x))
+        @test tbl.cell_footnotes[(2, :x)] == "Important value"
+        @test !haskey(tbl.cell_footnotes, (1, :x))
+        @test !haskey(tbl.cell_footnotes, (2, :y))
+    end
+
+    # ── Row-index form: multiple pairs (varargs) ────────────────────────
+    let tbl = StyledTable(df)
+        tab_footnote!(tbl, "Note A" => CellTarget(1, :x), "Note B" => CellTarget(3, :y))
+        @test tbl.cell_footnotes[(1, :x)] == "Note A"
+        @test tbl.cell_footnotes[(3, :y)] == "Note B"
+    end
+
+    # ── Row-index form: overwrite warning ───────────────────────────────
+    @testset "row-index overwrite warning" begin
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "First" => CellTarget(1, :x))
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(
+                tbl, "Second" => CellTarget(1, :x),
+            )
+            @test tbl.cell_footnotes[(1, :x)] == "Second"
+        end
+    end
+
+    # ── Row-index form: error cases ─────────────────────────────────────
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(1, :nonexistent),
+    )
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(0, :x),
+    )
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(4, :x),  # nrow = 3
+    )
+end

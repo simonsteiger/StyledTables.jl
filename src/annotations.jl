@@ -145,6 +145,31 @@ function _push_spanner_footnote!(tbl::StyledTable, annotation, target::SpannerTa
     return tbl
 end
 
+function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
+    colnames = Symbol.(names(tbl.data))
+    target.col in colnames ||
+        throw(ArgumentError("Column :$(target.col) not found in DataFrame"))
+
+    if target.row isa Int
+        row = target.row
+        1 <= row <= nrow(tbl.data) || throw(
+            ArgumentError(
+                "Row $row is out of range (DataFrame has $(nrow(tbl.data)) rows)",
+            ),
+        )
+        if haskey(tbl.cell_footnotes, (row, target.col))
+            @warn "Cell ($row, :$(target.col)) already has a footnote annotation; " *
+                  "the new annotation will take precedence."
+        end
+        tbl.cell_footnotes[(row, target.col)] = annotation
+    else
+        # Stub form — handled in Task 3
+        throw(ArgumentError("CellTarget with Stub requires tab_stub! to be called first"))
+    end
+
+    return tbl
+end
+
 """
 $TYPEDSIGNATURES
 
@@ -160,6 +185,13 @@ Warns if the same spanner is annotated more than once; the last annotation takes
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
     for (annotation, target) in d
         _push_spanner_footnote!(tbl, annotation, target)
+    end
+    return tbl
+end
+
+function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,CellTarget}})
+    for (annotation, target) in d
+        _push_cell_footnote!(tbl, annotation, target)
     end
     return tbl
 end
