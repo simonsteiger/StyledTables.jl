@@ -27,18 +27,16 @@ StyledTables.tab_header!
 ## `tab_footnote!`
 
 Attach footnotes to columns, spanners, or individual body cells.
-An auto-numbered superscript marks the target; the annotation text appears below the table.
-For notes not tied to any element, use [`tab_sourcenote!`](@ref).
-
-### Column footnotes
-
-Annotate one or more column headers.
+An superscript marks the target; the annotation text appears below the table.
+For general notes, use [`tab_sourcenote!`](@ref).
 
 **Signatures:**
-- `tab_footnote!(tbl, text => col)`
-- `tab_footnote!(tbl, text => [col1, col2])`
-- `tab_footnote!(tbl, text1 => col1, text2 => col2, ...)`
-- `tab_footnote!(tbl, d::AbstractDict)`
+```julia
+tab_footnote!(tbl, text => col)
+tab_footnote!(tbl, text => [col1, col2])
+tab_footnote!(tbl, text1 => col1, text2 => col2, ...)
+tab_footnote!(tbl, d::AbstractDict)
+```
 
 ```@example annotations
 tbl = StyledTable(df)
@@ -47,7 +45,7 @@ tab_footnote!(tbl, "Purchasing power parity adjusted" => :gdp)
 render(tbl)
 ```
 
-Annotate multiple columns with the same footnote:
+Multiple columns with the same footnote:
 
 ```@example annotations
 tbl = StyledTable(df)
@@ -55,7 +53,7 @@ tab_footnote!(tbl, "Source: World Bank (2025)" => [:country, :gdp])
 render(tbl)
 ```
 
-Multiple independent footnotes in one call:
+Footnotes for different columns:
 
 ```@example annotations
 df2 = DataFrame(country = ["US", "DE"], gdp = [25.5, 4.1], pop = [331, 84])
@@ -68,55 +66,10 @@ tab_footnote!(tbl,
 render(tbl)
 ```
 
-```@docs
-StyledTables.tab_footnote!
-```
-
-### Spanner footnotes
-
-Use [`SpannerTarget`](@ref) to annotate a spanner label instead of a column header — useful when a note applies to the group as a whole rather than any individual column.
-
-**Signature:** `tab_footnote!(tbl, [annotation => SpannerTarget(label)])`
-
-```@example annotations
-df3 = DataFrame(country = ["US", "DE"], gdp_usd = [25.5, 4.1], gdp_ppp = [27.3, 5.2])
-
-tbl = StyledTable(df3)
-tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])
-cols_label!(tbl, :country => "Country", :gdp_usd => "USD", :gdp_ppp => "PPP")
-tab_footnote!(tbl, ["Estimated values" => SpannerTarget("GDP (Trillions)")])
-render(tbl)
-```
+Footnotes for spanner labels and individual cells are explained [here](../examples/footnotes.md).
 
 ```@docs
-StyledTables.SpannerTarget
-```
-
-### Cell footnotes
-
-Use [`CellTarget`](@ref) to annotate an individual body cell.
-Specify the row as an integer index (1-based) or as [`Stub`](@ref) to match by stub value; using `Stub` requires [`tab_stub!`](@ref).
-
-**Signature:** `tab_footnote!(tbl, [annotation => CellTarget(row, col)])`
-
-```@example annotations
-tbl = StyledTable(df)
-tab_footnote!(tbl, ["Estimated" => CellTarget(2, :gdp)])
-render(tbl)
-```
-
-Using a stub value (requires [`tab_stub!`](@ref)):
-
-```@example annotations
-tbl = StyledTable(df)
-tab_stub!(tbl, :country)
-tab_footnote!(tbl, ["Estimated" => CellTarget(Stub("DE"), :gdp)])
-render(tbl)
-```
-
-```@docs
-StyledTables.CellTarget
-StyledTables.Stub
+StyledTables.tab_footnote!(::StyledTable, ::Pair...)
 ```
 
 ## `tab_sourcenote!`

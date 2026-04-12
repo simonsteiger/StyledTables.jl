@@ -5,15 +5,13 @@ using DataFrames
 using SummaryTables
 
 makedocs(;
-    sitename = "StyledTables.jl",
-    authors = "Simon Steiger",
-    modules = [StyledTables],
-    format = DocumenterVitepress.MarkdownVitepress(
-        repo = "github.com/simonsteiger/StyledTables.jl",
-        devbranch = "main",
-        devurl = "dev",
+    sitename="StyledTables.jl",
+    authors="Simon Steiger",
+    modules=[StyledTables],
+    format=DocumenterVitepress.MarkdownVitepress(;
+        repo="github.com/simonsteiger/StyledTables.jl", devbranch="main", devurl="dev"
     ),
-    pages = [
+    pages=[
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
         "Reference" => [
@@ -33,7 +31,7 @@ makedocs(;
             "Advanced options" => [
                 "Multilevel spanners" => "examples/multilevel_spanners.md",
                 "Color gradients" => "examples/color_gradients.md",
-                "Footnote Annotations" => "examples/footnotes.md",
+                "Footnotes everywhere" => "examples/footnotes.md",
             ],
         ],
         "Resources" => [
@@ -43,12 +41,12 @@ makedocs(;
             "API" => "resources/api.md",
         ],
     ],
-    warnonly = true,
+    warnonly=true,
 )
 
 DocumenterVitepress.deploydocs(;
-    repo = "github.com/simonsteiger/StyledTables.jl",
-    target = joinpath(@__DIR__, "build"),
-    devbranch = "main",
-    push_preview = true,
+    repo="github.com/simonsteiger/StyledTables.jl",
+    target=joinpath(@__DIR__, "build"),
+    devbranch="main",
+    push_preview=true,
 )
