@@ -196,6 +196,36 @@ the match to a specific spanner row.
 
 Throws `ArgumentError` if no spanner matches the given label (and optional level).
 Warns if the same spanner is annotated more than once; the last annotation takes precedence.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: a vector of `annotation => SpannerTarget` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`SpannerTarget`](@ref), [`tab_spanner!`](@ref), [`tab_footnote!`](@ref).
+
+# Examples
+
+```julia
+df = DataFrame(country = ["US", "DE"], gdp_usd = [25.5, 4.1], gdp_ppp = [27.3, 5.2])
+tbl = StyledTable(df)
+tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])
+tab_footnote!(tbl, ["Estimated values" => SpannerTarget("GDP (Trillions)")])
+render(tbl)
+```
+
+Restrict to a specific spanner level:
+
+```julia
+tbl = StyledTable(df)
+tab_spanner!(tbl, "GDP" => [:gdp_usd, :gdp_ppp], level = 2)
+tab_footnote!(tbl, ["Level 2 only" => SpannerTarget("GDP"; level = 2)])
+render(tbl)
+```
 """
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
     for (annotation, target) in d
