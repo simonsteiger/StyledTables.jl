@@ -26,9 +26,13 @@ StyledTables.tab_header!
 
 ## `tab_footnote!`
 
-Add column-annotated footnotes. 
-An auto-numbered superscript attaches to the specified column header(s); the footnote text appears in the footnote area below the table.
-For general notes not attached to any column, use [`tab_sourcenote!`](@ref).
+Attach footnote annotations to columns, spanners, or individual body cells.
+An auto-numbered superscript attaches to the target; the footnote text appears below the table.
+For general notes not attached to any element, use [`tab_sourcenote!`](@ref).
+
+### Column footnotes
+
+Annotate one or more column headers.
 
 **Signatures:**
 - `tab_footnote!(tbl, text => col)`
@@ -66,6 +70,54 @@ render(tbl)
 
 ```@docs
 StyledTables.tab_footnote!
+```
+
+### Spanner footnotes
+
+Use [`SpannerTarget`](@ref) to annotate a spanner label instead of a column header.
+This is useful when a note applies to the group as a whole rather than any individual column.
+
+**Signature:** `tab_footnote!(tbl, [annotation => SpannerTarget(label)])`
+
+```@example annotations
+df3 = DataFrame(country = ["US", "DE"], gdp_usd = [25.5, 4.1], gdp_ppp = [27.3, 5.2])
+
+tbl = StyledTable(df3)
+tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])
+cols_label!(tbl, :country => "Country", :gdp_usd => "USD", :gdp_ppp => "PPP")
+tab_footnote!(tbl, ["Estimated values" => SpannerTarget("GDP (Trillions)")])
+render(tbl)
+```
+
+```@docs
+StyledTables.SpannerTarget
+```
+
+### Cell footnotes
+
+Use [`CellTarget`](@ref) to annotate an individual body cell.
+Specify the row as an integer index (1-based) or as [`Stub`](@ref) to match by stub value.
+
+**Signature:** `tab_footnote!(tbl, [annotation => CellTarget(row, col)])`
+
+```@example annotations
+tbl = StyledTable(df)
+tab_footnote!(tbl, ["Estimated" => CellTarget(2, :gdp)])
+render(tbl)
+```
+
+Using a stub value (requires [`tab_stub!`](@ref)):
+
+```@example annotations
+tbl = StyledTable(df)
+tab_stub!(tbl, :country)
+tab_footnote!(tbl, ["Estimated" => CellTarget(Stub("DE"), :gdp)])
+render(tbl)
+```
+
+```@docs
+StyledTables.CellTarget
+StyledTables.Stub
 ```
 
 ## `tab_sourcenote!`
