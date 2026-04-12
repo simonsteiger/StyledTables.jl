@@ -341,4 +341,24 @@ end
         tab_stub!(tbl, :x)
         tab_footnote!(tbl, "Note" => CellTarget(Stub(1), :nonexistent))
     end
+
+    # ── Reference: row-index form renders correctly ──────────────────────
+    let tbl = StyledTable(DataFrame(; x = [1, 2, 3], y = [10, 20, 30]))
+        tab_footnote!(tbl, "Important" => CellTarget(2, :x))
+        run_reftest(tbl, "references/tab_footnote/cell_row_index")
+    end
+
+    # ── Reference: Stub form renders correctly ───────────────────────────
+    let tbl = StyledTable(DataFrame(; x = [1, 2, 3], y = [10, 20, 30]))
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Stub note" => CellTarget(Stub(2), :y))
+        run_reftest(tbl, "references/tab_footnote/cell_stub_single")
+    end
+
+    # ── Reference: Stub form, multiple matching rows ─────────────────────
+    let tbl = StyledTable(DataFrame(; id = ["A", "A", "B"], v = [1, 2, 3]))
+        tab_stub!(tbl, :id)
+        tab_footnote!(tbl, "Repeated" => CellTarget(Stub("A"), :v))
+        run_reftest(tbl, "references/tab_footnote/cell_stub_multi")
+    end
 end
