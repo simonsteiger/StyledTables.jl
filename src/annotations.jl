@@ -235,6 +235,50 @@ function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerT
     return tbl
 end
 
+"""
+$TYPEDSIGNATURES
+
+Attach footnote annotations to individual body cells.
+
+`d` is a vector of `annotation => CellTarget(row, col)` pairs.
+Use an integer `row` to target by position (1-based), or [`Stub`](@ref) to target by
+stub column value. Using `Stub` requires [`tab_stub!`](@ref) to have been called first.
+
+Throws `ArgumentError` if the column does not exist, if the row index is out of range,
+or if using `Stub` without a stub column set.
+Warns if the same cell is annotated more than once; the last annotation takes precedence.
+
+# Arguments
+
+- `tbl`: the [`StyledTable`](@ref) to modify.
+- `d`: a vector of `annotation => CellTarget` pairs.
+
+# Returns
+
+`tbl` (modified in place).
+
+See also: [`CellTarget`](@ref), [`Stub`](@ref), [`tab_stub!`](@ref), [`SpannerTarget`](@ref).
+
+# Examples
+
+Target by row index (1-based):
+
+```julia
+df = DataFrame(country = ["US", "DE", "JP"], gdp = [25.5, 4.1, 4.2])
+tbl = StyledTable(df)
+tab_footnote!(tbl, ["Preliminary estimate" => CellTarget(3, :gdp)])
+render(tbl)
+```
+
+Target by stub value (requires [`tab_stub!`](@ref)):
+
+```julia
+tbl = StyledTable(df)
+tab_stub!(tbl, :country)
+tab_footnote!(tbl, ["Preliminary estimate" => CellTarget(Stub("JP"), :gdp)])
+render(tbl)
+```
+"""
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,CellTarget}})
     for (annotation, target) in d
         _push_cell_footnote!(tbl, annotation, target)
