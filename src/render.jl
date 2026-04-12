@@ -172,7 +172,9 @@ function _build_plain_body(tbl::StyledTable, df::DataFrame, colnames::Vector{Sym
             cell_raw = df[i, col]
             formatted = _apply_formatter(cell_raw, tbl, col)
             styled = _apply_col_style(formatted, cell_raw, tbl, col)
-            body[i, j] = Cell(styled; halign)
+            val = haskey(tbl.cell_footnotes, (i, col)) ?
+                SummaryTables.Annotated(styled, tbl.cell_footnotes[(i, col)]) : styled
+            body[i, j] = Cell(val; halign)
         end
     end
     return body
@@ -216,7 +218,9 @@ function _build_body_with_groups(
             cell_raw = df[i, col]
             formatted = _apply_formatter(cell_raw, tbl, col)
             styled = _apply_col_style(formatted, cell_raw, tbl, col)
-            body[i+offset, j] = Cell(styled; halign, indent_pt)
+            val = haskey(tbl.cell_footnotes, (i, col)) ?
+                SummaryTables.Annotated(styled, tbl.cell_footnotes[(i, col)]) : styled
+            body[i+offset, j] = Cell(val; halign, indent_pt)
         end
     end
 

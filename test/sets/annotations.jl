@@ -248,3 +248,117 @@ end
         end
     end
 end
+
+# -----------------------------------------------------------------------
+@testset "tab_footnote! CellTarget" begin
+    df = DataFrame(; x = [1, 2, 3], y = [10, 20, 30])
+
+    # ── Row-index form: basic storage ───────────────────────────────────
+    let tbl = StyledTable(df)
+        tab_footnote!(tbl, "Important value" => CellTarget(2, :x))
+        @test haskey(tbl.cell_footnotes, (2, :x))
+        @test tbl.cell_footnotes[(2, :x)] == "Important value"
+        @test !haskey(tbl.cell_footnotes, (1, :x))
+        @test !haskey(tbl.cell_footnotes, (2, :y))
+    end
+
+    # ── Row-index form: multiple pairs (varargs) ────────────────────────
+    let tbl = StyledTable(df)
+        tab_footnote!(tbl, "Note A" => CellTarget(1, :x), "Note B" => CellTarget(3, :y))
+        @test tbl.cell_footnotes[(1, :x)] == "Note A"
+        @test tbl.cell_footnotes[(3, :y)] == "Note B"
+    end
+
+    # ── Row-index form: overwrite warning ───────────────────────────────
+    @testset "row-index overwrite warning" begin
+        let tbl = StyledTable(df)
+            tab_footnote!(tbl, "First" => CellTarget(1, :x))
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(
+                tbl, "Second" => CellTarget(1, :x),
+            )
+            @test tbl.cell_footnotes[(1, :x)] == "Second"
+        end
+    end
+
+    # ── Row-index form: error cases ─────────────────────────────────────
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(1, :nonexistent),
+    )
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(0, :x),
+    )
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(4, :x),  # nrow = 3
+    )
+
+    # ── Stub form: requires tab_stub! ───────────────────────────────────
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(Stub(1), :x),
+    )
+
+    # ── Stub form: basic storage (single match) ──────────────────────────
+    let tbl = StyledTable(df)
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Stub note" => CellTarget(Stub(2), :y))
+        @test haskey(tbl.cell_footnotes, (2, :y))
+        @test tbl.cell_footnotes[(2, :y)] == "Stub note"
+        @test !haskey(tbl.cell_footnotes, (1, :y))
+    end
+
+    # ── Stub form: multiple matching rows ────────────────────────────────
+    let tbl = StyledTable(DataFrame(; id = ["A", "A", "B"], v = [1, 2, 3]))
+        tab_stub!(tbl, :id)
+        tab_footnote!(tbl, "Repeated stub" => CellTarget(Stub("A"), :v))
+        @test haskey(tbl.cell_footnotes, (1, :v))
+        @test haskey(tbl.cell_footnotes, (2, :v))
+        @test !haskey(tbl.cell_footnotes, (3, :v))
+        @test tbl.cell_footnotes[(1, :v)] == "Repeated stub"
+        @test tbl.cell_footnotes[(2, :v)] == "Repeated stub"
+    end
+
+    # ── Stub form: overwrite warning ─────────────────────────────────────
+    @testset "stub overwrite warning" begin
+        let tbl = StyledTable(df)
+            tab_stub!(tbl, :x)
+            tab_footnote!(tbl, "First" => CellTarget(Stub(1), :y))
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(
+                tbl, "Second" => CellTarget(Stub(1), :y),
+            )
+            @test tbl.cell_footnotes[(1, :y)] == "Second"
+        end
+    end
+
+    # ── Stub form: value not found ───────────────────────────────────────
+    @test_throws ArgumentError let
+        tbl = StyledTable(df)
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Note" => CellTarget(Stub(99), :y))
+    end
+
+    # ── Stub form: column not found ──────────────────────────────────────
+    @test_throws ArgumentError let
+        tbl = StyledTable(df)
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Note" => CellTarget(Stub(1), :nonexistent))
+    end
+
+    # ── Reference: row-index form renders correctly ──────────────────────
+    let tbl = StyledTable(DataFrame(; x = [1, 2, 3], y = [10, 20, 30]))
+        tab_footnote!(tbl, "Important" => CellTarget(2, :x))
+        run_reftest(tbl, "references/tab_footnote/cell_row_index")
+    end
+
+    # ── Reference: Stub form renders correctly ───────────────────────────
+    let tbl = StyledTable(DataFrame(; x = [1, 2, 3], y = [10, 20, 30]))
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Stub note" => CellTarget(Stub(2), :y))
+        run_reftest(tbl, "references/tab_footnote/cell_stub_single")
+    end
+
+    # ── Reference: Stub form, multiple matching rows ─────────────────────
+    let tbl = StyledTable(DataFrame(; id = ["A", "A", "B"], v = [1, 2, 3]))
+        tab_stub!(tbl, :id)
+        tab_footnote!(tbl, "Repeated" => CellTarget(Stub("A"), :v))
+        run_reftest(tbl, "references/tab_footnote/cell_stub_multi")
+    end
+end
