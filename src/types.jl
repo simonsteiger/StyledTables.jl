@@ -33,10 +33,9 @@ end
 
 Construct a [`SpannerTarget`](@ref).
 
-`label` may be any value passed to [`tab_spanner!`](@ref): a `String`,
-`SummaryTables.Multiline`, or other equality-comparable type.
+`label` may any value that can be passed to [`tab_spanner!`](@ref).
 
-`level` restricts the match to a specific spanner row (`1` = bottom-most).
+`level` restricts the match to a specific spanner row.
 When `nothing` (default), all spanners whose label matches are annotated.
 """
 SpannerTarget(label; level = nothing) = SpannerTarget(label, level)
@@ -73,9 +72,9 @@ end
 
 Construct a [`CellTarget`](@ref).
 
-- `CellTarget(3, :gdp)` — targets row 3 of the data (1-based), column `:gdp`.
-- `CellTarget(Stub("Alice"), :gdp)` — targets the row(s) where the stub column
-  equals `"Alice"`, column `:gdp`. Requires [`tab_stub!`](@ref) to have been called.
+- `CellTarget(3, :gdp)` targets row 3 of the data (1-based), column `:gdp`.
+- `CellTarget(Stub("Alice"), :gdp)` targets the row(s) where the stub column
+  equals `"Alice"` in column `:gdp`. Only works if [`tab_stub!`](@ref) was called before.
 """
 CellTarget(row::Int, col::AbstractString) = CellTarget(row, Symbol(col))
 CellTarget(stub::Stub, col::AbstractString) = CellTarget(stub, Symbol(col))

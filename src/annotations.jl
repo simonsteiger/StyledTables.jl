@@ -44,7 +44,7 @@ $TYPEDSIGNATURES
 
 Add footnotes to the table.
 
-Footnotes refer to specific columns. For placing general notes under the table, see [`tab_sourcenote!`](@ref).
+Footnotes refer to specific columns. For notes not tied to any column, use [`tab_sourcenote!`](@ref).
 
 # Arguments
 
@@ -54,6 +54,8 @@ Footnotes refer to specific columns. For placing general notes under the table, 
 # Returns
 
 `tbl` (modified in place).
+
+To target a spanner label or an individual cell, use [`SpannerTarget`](@ref) and [`CellTarget`](@ref).
 
 See also: [`tab_sourcenote!`](@ref), [`tab_header!`](@ref).
 
@@ -185,18 +187,6 @@ function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
     return tbl
 end
 
-"""
-$TYPEDSIGNATURES
-
-Attach footnote annotations to spanner labels.
-
-`d` is a vector of `annotation => SpannerTarget(label)` pairs.
-Use [`SpannerTarget`](@ref) to target a spanner label; optionally pass `level` to restrict
-the match to a specific spanner row.
-
-Throws `ArgumentError` if no spanner matches the given label (and optional level).
-Warns if the same spanner is annotated more than once; the last annotation takes precedence.
-"""
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
     for (annotation, target) in d
         _push_spanner_footnote!(tbl, annotation, target)

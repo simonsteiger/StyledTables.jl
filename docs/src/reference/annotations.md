@@ -1,6 +1,6 @@
 # Annotations
 
-These functions annotate the table: a title and subtitle appear at the top, footnotes and source notes at the bottom.
+These functions annotate the table: a title and subtitle at the top, footnotes and source notes at the bottom.
 
 ## `tab_header!`
 
@@ -26,15 +26,17 @@ StyledTables.tab_header!
 
 ## `tab_footnote!`
 
-Add column-annotated footnotes. 
-An auto-numbered superscript attaches to the specified column header(s); the footnote text appears in the footnote area below the table.
-For general notes not attached to any column, use [`tab_sourcenote!`](@ref).
+Attach footnotes to columns, spanners, or individual body cells.
+An superscript marks the target; the annotation text appears below the table.
+For general notes, use [`tab_sourcenote!`](@ref).
 
 **Signatures:**
-- `tab_footnote!(tbl, text => col)`
-- `tab_footnote!(tbl, text => [col1, col2])`
-- `tab_footnote!(tbl, text1 => col1, text2 => col2, ...)`
-- `tab_footnote!(tbl, d::AbstractDict)`
+```julia
+tab_footnote!(tbl, text => col)
+tab_footnote!(tbl, text => [col1, col2])
+tab_footnote!(tbl, text1 => col1, text2 => col2, ...)
+tab_footnote!(tbl, d::AbstractDict)
+```
 
 ```@example annotations
 tbl = StyledTable(df)
@@ -43,7 +45,7 @@ tab_footnote!(tbl, "Purchasing power parity adjusted" => :gdp)
 render(tbl)
 ```
 
-Annotate multiple columns with the same footnote:
+Multiple columns with the same footnote:
 
 ```@example annotations
 tbl = StyledTable(df)
@@ -51,7 +53,7 @@ tab_footnote!(tbl, "Source: World Bank (2025)" => [:country, :gdp])
 render(tbl)
 ```
 
-Multiple independent footnotes in one call:
+Footnotes for different columns:
 
 ```@example annotations
 df2 = DataFrame(country = ["US", "DE"], gdp = [25.5, 4.1], pop = [331, 84])
@@ -64,13 +66,15 @@ tab_footnote!(tbl,
 render(tbl)
 ```
 
+Footnotes for spanner labels and individual cells are explained [here](../examples/footnotes.md).
+
 ```@docs
-StyledTables.tab_footnote!
+StyledTables.tab_footnote!(::StyledTable, ::Pair...)
 ```
 
 ## `tab_sourcenote!`
 
-Add a source-note line in the footer. Source notes span the full table width and are left-aligned. Each call appends another line.
+Add a source-note line in the footer. Source notes span the full table width and are left-aligned; each call appends one.
 
 **Signature:** `tab_sourcenote!(tbl, text)`
 
