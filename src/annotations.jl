@@ -206,7 +206,7 @@ Warns if the same spanner is annotated more than once; the last annotation takes
 
 `tbl` (modified in place).
 
-See also: [`SpannerTarget`](@ref), [`tab_spanner!`](@ref), [`tab_footnote!`](@ref).
+See also: [`SpannerTarget`](@ref), [`tab_spanner!`](@ref), [`CellTarget`](@ref).
 
 # Examples
 
@@ -222,8 +222,9 @@ Restrict to a specific spanner level:
 
 ```julia
 tbl = StyledTable(df)
-tab_spanner!(tbl, "GDP" => [:gdp_usd, :gdp_ppp], level = 2)
-tab_footnote!(tbl, ["Level 2 only" => SpannerTarget("GDP"; level = 2)])
+tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])          # level 1
+tab_spanner!(tbl, "Economy" => [:gdp_usd, :gdp_ppp], level = 2)
+tab_footnote!(tbl, ["Level 2 only" => SpannerTarget("Economy"; level = 2)])
 render(tbl)
 ```
 """
