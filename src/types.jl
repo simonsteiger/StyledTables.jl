@@ -44,6 +44,45 @@ SpannerTarget(label; level = nothing) = SpannerTarget(label, level)
 """
 $TYPEDEF
 
+A wrapper that signals a stub-column lookup when used as the `row` argument
+of [`CellTarget`](@ref).
+
+$TYPEDFIELDS
+"""
+struct Stub
+    "The value to look up in the stub column."
+    value::Any
+end
+
+"""
+$TYPEDEF
+
+Identifies a single body cell as the target of a [`tab_footnote!`](@ref) call.
+
+$TYPEDFIELDS
+"""
+struct CellTarget
+    "Data row index (`Int`) or a stub-column lookup key ([`Stub`](@ref))."
+    row::Union{Int,Stub}
+    "Column name."
+    col::Symbol
+end
+
+"""
+    CellTarget(row, col)
+
+Construct a [`CellTarget`](@ref).
+
+- `CellTarget(3, :gdp)` — targets row 3 of the data (1-based), column `:gdp`.
+- `CellTarget(Stub("Alice"), :gdp)` — targets the row(s) where the stub column
+  equals `"Alice"`, column `:gdp`. Requires [`tab_stub!`](@ref) to have been called.
+"""
+CellTarget(row::Int, col::AbstractString) = CellTarget(row, Symbol(col))
+CellTarget(stub::Stub, col::AbstractString) = CellTarget(stub, Symbol(col))
+
+"""
+$TYPEDEF
+
 A table title and optional subtitle, displayed above the column headers.
 
 $TYPEDFIELDS
@@ -122,6 +161,8 @@ $TYPEDFIELDS
     col_footnotes::Dict{Symbol,Any}
     "Per-spanner footnote entries: `SpannerTarget => annotation`."
     spanner_footnotes::Vector{Pair{SpannerTarget,Any}}
+    "Per-cell footnote annotations keyed by `(data_row_index, col_symbol)`."
+    cell_footnotes::Dict{Tuple{Int,Symbol},Any}
     "Columns excluded from the rendered output."
     hidden_cols::Set{Symbol}
     "Label for the stub column header, or `nothing`."
@@ -182,6 +223,7 @@ function StyledTable(data)
         col_style_fns = Dict{Symbol,Function}(),
         col_footnotes = Dict{Symbol,Any}(),
         spanner_footnotes = Pair{SpannerTarget,Any}[],
+        cell_footnotes = Dict{Tuple{Int,Symbol},Any}(),
         hidden_cols = Set{Symbol}(),
         stubhead_label = nothing,
         sourcenotes = Any[],
