@@ -1,6 +1,6 @@
 # Annotations
 
-These functions annotate the table: a title and subtitle appear at the top, footnotes and source notes at the bottom.
+These functions annotate the table: a title and subtitle at the top, footnotes and source notes at the bottom.
 
 ## `tab_header!`
 
@@ -26,9 +26,9 @@ StyledTables.tab_header!
 
 ## `tab_footnote!`
 
-Attach footnote annotations to columns, spanners, or individual body cells.
-An auto-numbered superscript attaches to the target; the footnote text appears below the table.
-For general notes not attached to any element, use [`tab_sourcenote!`](@ref).
+Attach footnotes to columns, spanners, or individual body cells.
+An auto-numbered superscript marks the target; the annotation text appears below the table.
+For notes not tied to any element, use [`tab_sourcenote!`](@ref).
 
 ### Column footnotes
 
@@ -74,8 +74,7 @@ StyledTables.tab_footnote!
 
 ### Spanner footnotes
 
-Use [`SpannerTarget`](@ref) to annotate a spanner label instead of a column header.
-This is useful when a note applies to the group as a whole rather than any individual column.
+Use [`SpannerTarget`](@ref) to annotate a spanner label instead of a column header — useful when a note applies to the group as a whole rather than any individual column.
 
 **Signature:** `tab_footnote!(tbl, [annotation => SpannerTarget(label)])`
 
@@ -96,7 +95,7 @@ StyledTables.SpannerTarget
 ### Cell footnotes
 
 Use [`CellTarget`](@ref) to annotate an individual body cell.
-Specify the row as an integer index (1-based) or as [`Stub`](@ref) to match by stub value.
+Specify the row as an integer index (1-based) or as [`Stub`](@ref) to match by stub value; using `Stub` requires [`tab_stub!`](@ref).
 
 **Signature:** `tab_footnote!(tbl, [annotation => CellTarget(row, col)])`
 
@@ -122,7 +121,7 @@ StyledTables.Stub
 
 ## `tab_sourcenote!`
 
-Add a source-note line in the footer. Source notes span the full table width and are left-aligned. Each call appends another line.
+Add a source-note line in the footer. Source notes span the full table width and are left-aligned; each call appends one.
 
 **Signature:** `tab_sourcenote!(tbl, text)`
 

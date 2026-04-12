@@ -44,7 +44,7 @@ $TYPEDSIGNATURES
 
 Add footnotes to the table.
 
-Footnotes refer to specific columns. For placing general notes under the table, see [`tab_sourcenote!`](@ref).
+Footnotes refer to specific columns. For notes not tied to any column, use [`tab_sourcenote!`](@ref).
 
 # Arguments
 
@@ -191,10 +191,9 @@ $TYPEDSIGNATURES
 Attach footnote annotations to spanner labels.
 
 `d` is a vector of `annotation => SpannerTarget(label)` pairs.
-Use [`SpannerTarget`](@ref) to target a spanner label; optionally pass `level` to restrict
-the match to a specific spanner row.
+Optionally pass `level` to restrict the match to a specific spanner row.
 
-Throws `ArgumentError` if no spanner matches the given label (and optional level).
+Throws `ArgumentError` if no spanner matches the label (and optional level).
 Warns if the same spanner is annotated more than once; the last annotation takes precedence.
 
 # Arguments
@@ -242,7 +241,7 @@ Attach footnote annotations to individual body cells.
 
 `d` is a vector of `annotation => CellTarget(row, col)` pairs.
 Use an integer `row` to target by position (1-based), or [`Stub`](@ref) to target by
-stub column value. Using `Stub` requires [`tab_stub!`](@ref) to have been called first.
+stub column value; using `Stub` requires [`tab_stub!`](@ref).
 
 Throws `ArgumentError` if the column does not exist, if the row index is out of range,
 or if using `Stub` without a stub column set.
