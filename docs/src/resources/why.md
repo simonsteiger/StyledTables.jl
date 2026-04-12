@@ -28,4 +28,4 @@ You typically go through the following steps when working with StyledTables:
 1. Summarise your data
 2. Convert it to a `StyledTable`
 3. Apply styling
-4. Render to HTML, LaTeX, Typst, or DOCX
+4. Render to HTML, LaTeX, Typst, or docx
