@@ -290,4 +290,55 @@ end
     @test_throws ArgumentError tab_footnote!(
         StyledTable(df), "Note" => CellTarget(4, :x),  # nrow = 3
     )
+
+    # ── Stub form: requires tab_stub! ───────────────────────────────────
+    @test_throws ArgumentError tab_footnote!(
+        StyledTable(df), "Note" => CellTarget(Stub(1), :x),
+    )
+
+    # ── Stub form: basic storage (single match) ──────────────────────────
+    let tbl = StyledTable(df)
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Stub note" => CellTarget(Stub(2), :y))
+        @test haskey(tbl.cell_footnotes, (2, :y))
+        @test tbl.cell_footnotes[(2, :y)] == "Stub note"
+        @test !haskey(tbl.cell_footnotes, (1, :y))
+    end
+
+    # ── Stub form: multiple matching rows ────────────────────────────────
+    let tbl = StyledTable(DataFrame(; id = ["A", "A", "B"], v = [1, 2, 3]))
+        tab_stub!(tbl, :id)
+        tab_footnote!(tbl, "Repeated stub" => CellTarget(Stub("A"), :v))
+        @test haskey(tbl.cell_footnotes, (1, :v))
+        @test haskey(tbl.cell_footnotes, (2, :v))
+        @test !haskey(tbl.cell_footnotes, (3, :v))
+        @test tbl.cell_footnotes[(1, :v)] == "Repeated stub"
+        @test tbl.cell_footnotes[(2, :v)] == "Repeated stub"
+    end
+
+    # ── Stub form: overwrite warning ─────────────────────────────────────
+    @testset "stub overwrite warning" begin
+        let tbl = StyledTable(df)
+            tab_stub!(tbl, :x)
+            tab_footnote!(tbl, "First" => CellTarget(Stub(1), :y))
+            @test_logs (:warn, r"already has a footnote") tab_footnote!(
+                tbl, "Second" => CellTarget(Stub(1), :y),
+            )
+            @test tbl.cell_footnotes[(1, :y)] == "Second"
+        end
+    end
+
+    # ── Stub form: value not found ───────────────────────────────────────
+    @test_throws ArgumentError let
+        tbl = StyledTable(df)
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Note" => CellTarget(Stub(99), :y))
+    end
+
+    # ── Stub form: column not found ──────────────────────────────────────
+    @test_throws ArgumentError let
+        tbl = StyledTable(df)
+        tab_stub!(tbl, :x)
+        tab_footnote!(tbl, "Note" => CellTarget(Stub(1), :nonexistent))
+    end
 end

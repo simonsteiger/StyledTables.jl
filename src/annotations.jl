@@ -163,8 +163,23 @@ function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
         end
         tbl.cell_footnotes[(row, target.col)] = annotation
     else
-        # Stub form — handled in Task 3
-        throw(ArgumentError("CellTarget with Stub requires tab_stub! to be called first"))
+        tbl.stub_col !== nothing || throw(
+            ArgumentError("CellTarget with Stub requires tab_stub! to be called first"),
+        )
+        val = target.row.value
+        matches = findall(i -> tbl.data[i, tbl.stub_col] == val, 1:nrow(tbl.data))
+        isempty(matches) && throw(
+            ArgumentError(
+                "No row with stub value $(repr(val)) found in stub column :$(tbl.stub_col)",
+            ),
+        )
+        for i in matches
+            if haskey(tbl.cell_footnotes, (i, target.col))
+                @warn "Cell ($i, :$(target.col)) already has a footnote annotation; " *
+                      "the new annotation will take precedence."
+            end
+            tbl.cell_footnotes[(i, target.col)] = annotation
+        end
     end
 
     return tbl
