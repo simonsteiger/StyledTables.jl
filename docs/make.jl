@@ -33,6 +33,7 @@ makedocs(;
             "Advanced options" => [
                 "Multilevel spanners" => "examples/multilevel_spanners.md",
                 "Color gradients" => "examples/color_gradients.md",
+                "Footnote Annotations" => "examples/footnotes.md",
             ],
         ],
         "Resources" => [
