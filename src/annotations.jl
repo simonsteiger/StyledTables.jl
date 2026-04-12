@@ -55,6 +55,8 @@ Footnotes refer to specific columns. For notes not tied to any column, use [`tab
 
 `tbl` (modified in place).
 
+To target a spanner label or an individual cell, use [`SpannerTarget`](@ref) and [`CellTarget`](@ref).
+
 See also: [`tab_sourcenote!`](@ref), [`tab_header!`](@ref).
 
 # Examples
@@ -185,48 +187,6 @@ function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
     return tbl
 end
 
-"""
-$TYPEDSIGNATURES
-
-Attach footnote annotations to spanner labels.
-
-`d` is a vector of `annotation => SpannerTarget(label)` pairs.
-Optionally pass `level` to restrict the match to a specific spanner row.
-
-Throws `ArgumentError` if no spanner matches the label (and optional level).
-Warns if the same spanner is annotated more than once; the last annotation takes precedence.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: a vector of `annotation => SpannerTarget` pairs.
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`SpannerTarget`](@ref), [`tab_spanner!`](@ref), [`CellTarget`](@ref).
-
-# Examples
-
-```julia
-df = DataFrame(country = ["US", "DE"], gdp_usd = [25.5, 4.1], gdp_ppp = [27.3, 5.2])
-tbl = StyledTable(df)
-tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])
-tab_footnote!(tbl, ["Estimated values" => SpannerTarget("GDP (Trillions)")])
-render(tbl)
-```
-
-Restrict to a specific spanner level:
-
-```julia
-tbl = StyledTable(df)
-tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])          # level 1
-tab_spanner!(tbl, "Economy" => [:gdp_usd, :gdp_ppp], level = 2)
-tab_footnote!(tbl, ["Level 2 only" => SpannerTarget("Economy"; level = 2)])
-render(tbl)
-```
-"""
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
     for (annotation, target) in d
         _push_spanner_footnote!(tbl, annotation, target)
@@ -234,50 +194,6 @@ function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerT
     return tbl
 end
 
-"""
-$TYPEDSIGNATURES
-
-Attach footnote annotations to individual body cells.
-
-`d` is a vector of `annotation => CellTarget(row, col)` pairs.
-Use an integer `row` to target by position (1-based), or [`Stub`](@ref) to target by
-stub column value; using `Stub` requires [`tab_stub!`](@ref).
-
-Throws `ArgumentError` if the column does not exist, if the row index is out of range,
-or if using `Stub` without a stub column set.
-Warns if the same cell is annotated more than once; the last annotation takes precedence.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: a vector of `annotation => CellTarget` pairs.
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`CellTarget`](@ref), [`Stub`](@ref), [`tab_stub!`](@ref), [`SpannerTarget`](@ref).
-
-# Examples
-
-Target by row index (1-based):
-
-```julia
-df = DataFrame(country = ["US", "DE", "JP"], gdp = [25.5, 4.1, 4.2])
-tbl = StyledTable(df)
-tab_footnote!(tbl, ["Preliminary estimate" => CellTarget(3, :gdp)])
-render(tbl)
-```
-
-Target by stub value (requires [`tab_stub!`](@ref)):
-
-```julia
-tbl = StyledTable(df)
-tab_stub!(tbl, :country)
-tab_footnote!(tbl, ["Preliminary estimate" => CellTarget(Stub("JP"), :gdp)])
-render(tbl)
-```
-"""
 function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,CellTarget}})
     for (annotation, target) in d
         _push_cell_footnote!(tbl, annotation, target)
