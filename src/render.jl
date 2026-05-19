@@ -116,8 +116,11 @@ function _build_title_rows(tbl::StyledTable, n_cols::Int)
 end
 
 function _apply_formatter(value, tbl::StyledTable, col::Symbol)
-    haskey(tbl.col_formatters, col) || return value
-    return tbl.col_formatters[col](value)
+    formatters = get(tbl.col_formatters, col, AbstractFormatter[])
+    for f in formatters
+        value = f(value)
+    end
+    return value
 end
 
 function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
