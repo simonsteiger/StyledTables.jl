@@ -1,35 +1,6 @@
 """
 $TYPEDSIGNATURES
 
-Replace `missing` values with a display placeholder.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `r`: replacement display value
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`fmt!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-sub_missing!(tbl)
-render(tbl)
-```
-"""
-function sub_missing!(tbl::StyledTable, r)
-    push!(tbl.postprocessors, SummaryTables.Replace(ismissing, r, true))
-    return tbl
-end
-
-"""
-$TYPEDSIGNATURES
-
 Apply inline styling to all body cells in the specified columns.
 
 Any keyword left as `nothing` is inherited from the cell default.
