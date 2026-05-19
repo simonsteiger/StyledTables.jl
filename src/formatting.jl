@@ -78,7 +78,7 @@ Round numeric values to the nearest integer and format without a decimal point.
 """
 struct IntegerFormatter <: AbstractFormatter end
 
-(::IntegerFormatter)(x) = ismissing(x) ? x : string(round(Int, x))
+(::IntegerFormatter)(x) = ismissing(x) ? x : isfinite(x) ? string(round(Int, x)) : string(x)
 
 """
     MissingFormatter(replacement)
