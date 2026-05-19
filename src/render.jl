@@ -17,7 +17,7 @@ methods that call it automatically.
 
 A `SummaryTables.Table` (a `Matrix{Cell}` with header/footer metadata).
 
-See also: [`StyledTable`](@ref), [`tab_header!`](@ref), [`cols_label!`](@ref).
+See also: [`StyledTable`](@ref), [`header!`](@ref), [`relabel!`](@ref).
 
 # Examples
 
@@ -25,7 +25,7 @@ See also: [`StyledTable`](@ref), [`tab_header!`](@ref), [`cols_label!`](@ref).
 using StyledTables, DataFrames
 df = DataFrame(a = [1, 2], b = ["x", "y"])
 tbl = StyledTable(df)
-cols_label!(tbl, :a => "A", :b => "B")
+relabel!(tbl, :a => "A", :b => "B")
 render(tbl)
 ```
 """
@@ -137,7 +137,7 @@ function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
         if result !== nothing
             result isa NamedTuple || throw(
                 ArgumentError(
-                    "tab_style! function for column :$col must return " *
+                    "style! function for column :$col must return " *
                     "`nothing` or a NamedTuple, " *
                     "got $(typeof(result)). " *
                     "Did you forget an explicit `nothing` in the else branch?",
@@ -146,7 +146,7 @@ function _apply_col_style(formatted, cell_raw, tbl::StyledTable, col::Symbol)
             for key in keys(result)
                 key in (:color, :bold, :italic, :underline) || throw(
                     ArgumentError(
-                        "tab_style! function for column :$col returned NamedTuple with " *
+                        "style! function for column :$col returned NamedTuple with " *
                         "unrecognised key :$key. Valid keys: :color, :bold, :italic, :underline.",
                     ),
                 )

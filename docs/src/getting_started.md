@@ -30,7 +30,7 @@ render(tbl)
 
 ```@example gettingstarted
 tbl = StyledTable(df)
-tab_header!(tbl, "Treatment Response"; subtitle = "Phase II Clinical Trial")
+header!(tbl, "Treatment Response"; subtitle = "Phase II Clinical Trial")
 render(tbl)
 ```
 
@@ -44,16 +44,16 @@ labels = Dict(
 )
 
 tbl = StyledTable(df)
-tab_header!(tbl, "Treatment Response")
-cols_label!(tbl, labels)
-cols_align!(tbl, :n => :center, :response => :center)
+header!(tbl, "Treatment Response")
+relabel!(tbl, labels)
+align!(tbl, :n => :center, :response => :center)
 render(tbl)
 ```
 
 ## Grouping columns under a spanner
 
 ```@example gettingstarted
-tab_spanner!(tbl, "Results" => [:n, :response])
+spanner!(tbl, "Results" => [:n, :response])
 render(tbl)
 ```
 

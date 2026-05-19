@@ -20,10 +20,10 @@ include("testdata.jl")
 
 export StyledTable, SpannerTarget, CellTarget, Stub
 export render
-export cols_label!, cols_align!, cols_hide!
-export tab_spanner!, tab_rowgroup!, tab_stub!, tab_stubhead!
-export tab_header!, tab_footnote!, tab_sourcenote!
-export tab_style!
+export relabel!, align!, hide!
+export spanner!, rowgroup!, stub!, stubhead!
+export header!, footnote!, sourcenote!
+export style!
 export sub_missing!
 export fmt!, fmt_number!, fmt_percent!, fmt_integer!
 

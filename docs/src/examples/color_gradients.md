@@ -38,7 +38,7 @@ end
 
 ```@example gradients
 tbl = StyledTable(df)
-tab_style!(x -> apply_gradient(x, maximum(df.id); colors), tbl, :id)
+style!(x -> apply_gradient(x, maximum(df.id); colors), tbl, :id)
 render(tbl)
 ```
 

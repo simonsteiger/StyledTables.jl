@@ -51,17 +51,17 @@ Any keyword left as `nothing` is inherited from the cell default.
 
 `tbl` (modified in place).
 
-See also: [`fmt!`](@ref), [`cols_align!`](@ref).
+See also: [`fmt!`](@ref), [`align!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_style!(tbl, [:pct, :n]; color = "#1a7340", bold = true)
+style!(tbl, [:pct, :n]; color = "#1a7340", bold = true)
 render(tbl)
 ```
 """
-function tab_style!(
+function style!(
     tbl::StyledTable,
     columns::AbstractVector{Symbol};
     color = nothing,
@@ -104,11 +104,11 @@ Apply inline styling to body cells in the listed columns (variadic form).
 
 ```julia
 tbl = StyledTable(df)
-tab_style!(tbl, :pct; color = "#1a7340", bold = true)
+style!(tbl, :pct; color = "#1a7340", bold = true)
 render(tbl)
 ```
 """
-function tab_style!(
+function style!(
     tbl::StyledTable,
     columns::Symbol...;
     color = nothing,
@@ -116,7 +116,7 @@ function tab_style!(
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
 )
-    tab_style!(tbl, collect(columns); color, bold, italic, underline)
+    style!(tbl, collect(columns); color, bold, italic, underline)
     return tbl
 end
 
@@ -149,7 +149,7 @@ Setting a key to `nothing` explicitly clears the static baseline for that proper
 
 ```julia
 tbl = StyledTable(df)
-tab_style!(tbl, :change) do val
+style!(tbl, :change) do val
     val > 0 ? (; color=:green, bold=true) :
     val < 0 ? (; color=:red) :
     nothing
@@ -157,7 +157,7 @@ end
 render(tbl)
 ```
 """
-function tab_style!(
+function style!(
     f::Function,
     tbl::StyledTable,
     columns::AbstractVector{Symbol};
@@ -191,7 +191,7 @@ Apply conditional inline styling to body cells (variadic / do-block form).
 
 See the vector form for full documentation.
 """
-function tab_style!(
+function style!(
     f::Function,
     tbl::StyledTable,
     columns::Symbol...;
@@ -200,6 +200,6 @@ function tab_style!(
     italic::Union{Nothing,Bool} = nothing,
     underline::Union{Nothing,Bool} = nothing,
 )
-    tab_style!(f, tbl, collect(columns); color, bold, italic, underline)
+    style!(f, tbl, collect(columns); color, bold, italic, underline)
     return tbl
 end

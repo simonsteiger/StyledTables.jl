@@ -17,7 +17,7 @@ end
 """
 $TYPEDEF
 
-Identifies a spanner label as the target of a [`tab_footnote!`](@ref) call.
+Identifies a spanner label as the target of a [`footnote!`](@ref) call.
 
 $TYPEDFIELDS
 """
@@ -33,7 +33,7 @@ end
 
 Construct a [`SpannerTarget`](@ref).
 
-`label` may any value that can be passed to [`tab_spanner!`](@ref).
+`label` may any value that can be passed to [`spanner!`](@ref).
 
 `level` restricts the match to a specific spanner row.
 When `nothing` (default), all spanners whose label matches are annotated.
@@ -56,7 +56,7 @@ end
 """
 $TYPEDEF
 
-Identifies a single body cell as the target of a [`tab_footnote!`](@ref) call.
+Identifies a single body cell as the target of a [`footnote!`](@ref) call.
 
 $TYPEDFIELDS
 """
@@ -74,7 +74,7 @@ Construct a [`CellTarget`](@ref).
 
 - `CellTarget(3, :gdp)` targets row 3 of the data (1-based), column `:gdp`.
 - `CellTarget(Stub("Alice"), :gdp)` targets the row(s) where the stub column
-  equals `"Alice"` in column `:gdp`. Only works if [`tab_stub!`](@ref) was called before.
+  equals `"Alice"` in column `:gdp`. Only works if [`stub!`](@ref) was called before.
 """
 CellTarget(row::Int, col::AbstractString) = CellTarget(row, Symbol(col))
 CellTarget(stub::Stub, col::AbstractString) = CellTarget(stub, Symbol(col))
@@ -91,8 +91,8 @@ struct TableHeader
     title::Any
     "Subtitle text, rendered italic, or `nothing`."
     subtitle::Union{Nothing,Any}
-    "Horizontal alignment of title and subtitle cells."
-    halign::Symbol   # :left | :center | :right
+    "Horizontal alignment of title and subtitle cells. One of :left, :center, :right."
+    halign::Symbol
 end
 
 """
@@ -122,8 +122,8 @@ Construct with [`StyledTable`](@ref), apply modifier functions, then call [`rend
 
 ```julia
 tbl = StyledTable(df)
-cols_label!(tbl, :x => "X")
-tab_header!(tbl, "Title")
+relabel!(tbl, :x => "X")
+header!(tbl, "Title")
 render(tbl)
 ```
 
@@ -194,13 +194,13 @@ call [`render`](@ref) to produce a `SummaryTables.Table`.
 
 A [`StyledTable`](@ref).
 
-See also: [`render`](@ref), [`cols_label!`](@ref), [`tab_header!`](@ref).
+See also: [`render`](@ref), [`relabel!`](@ref), [`header!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_header!(tbl, "My Table")
+header!(tbl, "My Table")
 render(tbl)
 ```
 """

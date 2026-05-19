@@ -1,4 +1,5 @@
 # nonmissing rows from Palmer Penguins data, licensed CC0, see https://allisonhorst.github.io/palmerpenguins/
+# alright, Code Blue formatting really did a number on this one, lol
 function penguins()
     return (;
         species = mapreduce(

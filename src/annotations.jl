@@ -19,21 +19,21 @@ The title renders bold; the subtitle renders italic.
 
 `tbl` (modified in place).
 
-See also: [`tab_spanner!`](@ref), [`tab_sourcenote!`](@ref), [`tab_footnote!`](@ref).
+See also: [`spanner!`](@ref), [`sourcenote!`](@ref), [`footnote!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_header!(tbl, "My Table"; subtitle = "Subtitle here")
+header!(tbl, "My Table"; subtitle = "Subtitle here")
 render(tbl)
 
 tbl = StyledTable(df)
-tab_header!(tbl, "Left-aligned Title"; align = :left)
+header!(tbl, "Left-aligned Title"; align = :left)
 render(tbl)
 ```
 """
-function tab_header!(tbl::StyledTable, title; subtitle = nothing, align::Symbol = :center)
+function header!(tbl::StyledTable, title; subtitle = nothing, align::Symbol = :center)
     _validate_halign(align)
     tbl.header = TableHeader(title, subtitle, align)
     return tbl
@@ -44,7 +44,7 @@ $TYPEDSIGNATURES
 
 Add footnotes to the table.
 
-Footnotes refer to specific columns. For notes not tied to any column, use [`tab_sourcenote!`](@ref).
+Footnotes refer to specific columns. For notes not tied to any column, use [`sourcenote!`](@ref).
 
 # Arguments
 
@@ -57,22 +57,22 @@ Footnotes refer to specific columns. For notes not tied to any column, use [`tab
 
 To target a spanner label or an individual cell, use [`SpannerTarget`](@ref) and [`CellTarget`](@ref).
 
-See also: [`tab_sourcenote!`](@ref), [`tab_header!`](@ref).
+See also: [`sourcenote!`](@ref), [`header!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_footnote!(tbl, "PPP adjusted" => :gdp)
+footnote!(tbl, "PPP adjusted" => :gdp)
 render(tbl)
 ```
 """
-function tab_footnote!(tbl::StyledTable, args::Pair...)
-    tab_footnote!(tbl, collect(args))
+function footnote!(tbl::StyledTable, args::Pair...)
+    footnote!(tbl, collect(args))
     return tbl
 end
 
-function tab_footnote!(
+function footnote!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
@@ -166,7 +166,7 @@ function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
         tbl.cell_footnotes[(row, target.col)] = annotation
     else
         tbl.stub_col !== nothing || throw(
-            ArgumentError("CellTarget with Stub requires tab_stub! to be called first"),
+            ArgumentError("CellTarget with Stub requires stub! to be called first"),
         )
         val = target.row.value
         matches = findall(i -> tbl.data[i, tbl.stub_col] == val, 1:nrow(tbl.data))
@@ -187,43 +187,43 @@ function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
+function footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
     for (annotation, target) in d
         _push_spanner_footnote!(tbl, annotation, target)
     end
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,CellTarget}})
+function footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,CellTarget}})
     for (annotation, target) in d
         _push_cell_footnote!(tbl, annotation, target)
     end
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
+function footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
+function footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
     _push_footnotes!(tbl, d)
     return tbl
 end
 
-function tab_footnote!(tbl::StyledTable, d::AbstractDict)
+function footnote!(tbl::StyledTable, d::AbstractDict)
     ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+    _throw_mixed_pair_values(footnote!, ktypes, vtypes, tbl, d)
 end
 
-function tab_footnote!(tbl::StyledTable, d::AbstractVector)
+function footnote!(tbl::StyledTable, d::AbstractVector)
     if !isempty(d) && all(x -> x isa Pair, d)
         ktypes = unique(typeof(k) for (k, _) in d)
         vtypes = unique(typeof(v) for (_, v) in d)
-        _throw_mixed_pair_values(tab_footnote!, ktypes, vtypes, tbl, d)
+        _throw_mixed_pair_values(footnote!, ktypes, vtypes, tbl, d)
     end
-    throw(MethodError(tab_footnote!, (tbl, d)))
+    throw(MethodError(footnote!, (tbl, d)))
 end
 
 """
@@ -240,20 +240,20 @@ Add footnotes from a dict or vector of pairs.
 
 `tbl` (modified in place).
 
-See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
+See also: [`spanner!`](@ref), [`header!`](@ref), [`stub!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_footnote!(tbl, Dict(
+footnote!(tbl, Dict(
     "measured each month" => [:efficacy, :safety],
     "in years" => [:age])
 )
 render(tbl)
 ```
 """
-function tab_footnote!(
+function footnote!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{
@@ -263,7 +263,7 @@ function tab_footnote!(
     },
 )
     ps = [String(text) => Symbol.(columns) for (text, columns) in d]
-    tab_footnote!(tbl, ps)
+    footnote!(tbl, ps)
     return tbl
 end
 
@@ -283,17 +283,17 @@ Source notes span the full table width and are left-aligned. Each call appends a
 
 `tbl` (modified in place).
 
-See also: [`tab_footnote!`](@ref), [`tab_header!`](@ref).
+See also: [`footnote!`](@ref), [`header!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_sourcenote!(tbl, "Data: World Bank Open Data")
+sourcenote!(tbl, "Data: World Bank Open Data")
 render(tbl)
 ```
 """
-function tab_sourcenote!(tbl::StyledTable, text)
+function sourcenote!(tbl::StyledTable, text)
     push!(tbl.sourcenotes, text)
     return tbl
 end
