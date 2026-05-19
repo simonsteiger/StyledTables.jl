@@ -22,7 +22,7 @@ Any keyword left as `nothing` is inherited from the cell default.
 
 `tbl` (modified in place).
 
-See also: [`fmt!`](@ref), [`align!`](@ref).
+See also: [`format!`](@ref), [`align!`](@ref).
 
 # Examples
 
