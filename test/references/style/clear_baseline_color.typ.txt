@@ -1,0 +1,25 @@
+
+#table(
+    rows: 4,
+    columns: 3,
+    column-gutter: 0.25em,
+    align: (left, left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        [*#"label"*],
+        [*#"change"*],
+        [*#"score"*],
+        table.hline(y: 1, stroke: 0.75pt),
+    ),
+    [#"A"],
+    [#"-0.12"],
+    [#"0.2"],
+    [#"B"],
+    [#text(fill: rgb(0,128,0))[#"0"]],
+    [#"0.5"],
+    [#"C"],
+    [#text(fill: rgb(0,128,0))[#"0.34"]],
+    [#"0.9"],
+    table.hline(y: 4, stroke: 1pt),
+)

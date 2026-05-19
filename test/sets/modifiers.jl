@@ -107,7 +107,7 @@ end
     # renders correctly (shows multiline text + superscript footnote number).
     let tbl2 = StyledTable(df)
         relabel!(tbl2, :placebo_n => Multiline("Placebo (N=50)", "n (%)"))
-        tab_footnote!(tbl2, "Percentages based on safety population" => :placebo_n)
+        footnote!(tbl2, "Percentages based on safety population" => :placebo_n)
         run_reftest(tbl2, "references/relabel/multiline_label_annotated")
     end
 end

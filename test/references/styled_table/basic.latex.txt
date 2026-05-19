@@ -1,0 +1,14 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\textbf{a} & \textbf{b} \\
+\midrule
+1 & x \\
+2 & y \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

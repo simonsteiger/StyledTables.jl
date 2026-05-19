@@ -1,0 +1,14 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\textbf{label} & \textbf{value} \\
+\midrule
+\textit{\textcolor[RGB]{255,0,0}{A}} & 1 \\
+\textit{\textcolor[RGB]{255,0,0}{B}} & 2 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

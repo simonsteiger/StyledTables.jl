@@ -1,0 +1,16 @@
+
+#table(
+    rows: 3,
+    columns: 1,
+    column-gutter: 0.25em,
+    align: (left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        [*#"rate"*],
+        table.hline(y: 1, stroke: 0.75pt),
+    ),
+    [#"12.3%"],
+    [#"45.6%"],
+    table.hline(y: 3, stroke: 1pt),
+)

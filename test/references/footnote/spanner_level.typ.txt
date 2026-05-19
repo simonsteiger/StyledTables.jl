@@ -1,0 +1,27 @@
+
+#table(
+    rows: 5,
+    columns: 2,
+    column-gutter: 0.25em,
+    align: (left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        table.cell(colspan: 2, align: center)[*#"Low"#super[#"1"]*],
+        table.hline(y: 1, start: 0, end: 2, stroke: 0.75pt),
+        table.cell(align: center)[*#"Low"*],
+        table.hline(y: 2, start: 0, end: 1, stroke: 0.75pt),
+        [],
+        [*#"x"*],
+        [*#"y"*],
+        table.hline(y: 3, stroke: 0.75pt),
+    ),
+    [#"1"],
+    [#"3"],
+    [#"2"],
+    [#"4"],
+    table.hline(y: 5, stroke: 1pt),
+    table.cell(colspan: 2)[#text(size: 0.8em)[
+        #super[#"1"]#"Level 2 note"
+    ]],
+)

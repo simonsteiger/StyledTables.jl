@@ -1,0 +1,15 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{3}{lll}}
+\toprule
+\textbf{label} & \textbf{change} & \textbf{score} \\
+\midrule
+A & \textbf{\textcolor[RGB]{255,0,0}{-0.12}} & 0.2 \\
+B & \textbf{0} & 0.5 \\
+C & \textbf{\textcolor[RGB]{0,128,0}{0.34}} & 0.9 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

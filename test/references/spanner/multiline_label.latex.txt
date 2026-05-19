@@ -1,0 +1,16 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\multicolumn{2}{c}{\textbf{\begin{tabular}{@{}c@{}}Treatment \\ (N=50)\end{tabular}}} \\
+\cmidrule{1-2}
+\textbf{dose} & \textbf{response} \\
+\midrule
+10 & 0.9 \\
+20 & 0.8 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

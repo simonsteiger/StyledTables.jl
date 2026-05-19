@@ -1,0 +1,14 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{1}{l}}
+\toprule
+\textbf{b} \\
+\midrule
+3 \\
+4 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

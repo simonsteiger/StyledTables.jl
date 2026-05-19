@@ -1,0 +1,22 @@
+
+#table(
+    rows: 3,
+    columns: 2,
+    column-gutter: 0.25em,
+    align: (left, left),
+    stroke: none,
+    table.header(
+        table.hline(y: 0, stroke: 1pt),
+        [*#"Placebo (N=50)" #linebreak() #"n (%)"#super[#"1"]*],
+        [*#"treatment_n"*],
+        table.hline(y: 1, stroke: 0.75pt),
+    ),
+    [#"12 (24%)"],
+    [#"15 (30%)"],
+    [#"18 (36%)"],
+    [#"20 (40%)"],
+    table.hline(y: 3, stroke: 1pt),
+    table.cell(colspan: 2)[#text(size: 0.8em)[
+        #super[#"1"]#"Percentages based on safety population"
+    ]],
+)

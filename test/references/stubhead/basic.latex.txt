@@ -1,0 +1,14 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+\textbf{Name} & \textbf{score} \\
+\midrule
+Alice & 90 \\
+Bob & 85 \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}

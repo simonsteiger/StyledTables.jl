@@ -1,0 +1,19 @@
+\begin{table}[!ht]
+\setlength\tabcolsep{0pt}
+\centering
+\begin{threeparttable}
+\begin{tabular}{@{\extracolsep{2ex}}*{2}{ll}}
+\toprule
+ & \textbf{v} \\
+\midrule
+A & 1\tnote{1} \\
+A & 2\tnote{1} \\
+B & 3 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item[1]Repeated
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

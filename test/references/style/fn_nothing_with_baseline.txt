@@ -1,0 +1,54 @@
+<table id="st-eb8b9d08">
+    <style>
+        #st-eb8b9d08 {
+            border: none;
+            margin: 0 auto;
+            padding: 0.25rem;
+            border-collapse: separate;
+            border-spacing: 0.85em 0.2em;
+            line-height: 1.2em;
+        }
+        #st-eb8b9d08 tr {
+            background-color: transparent;
+            border: none;
+        }
+        #st-eb8b9d08 tr td {
+            vertical-align: top;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+        #st-eb8b9d08 br {
+            line-height: 0em;
+            margin: 0;
+        }
+        #st-eb8b9d08 sub {
+            line-height: 0;
+        }
+        #st-eb8b9d08 sup {
+            line-height: 0;
+        }
+    </style>
+    <tr><td colspan="3" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+    <tr>
+        <td style="font-weight:bold;text-align:left;">label</td>
+        <td style="font-weight:bold;text-align:left;">change</td>
+        <td style="font-weight:bold;text-align:left;">score</td>
+    </tr>
+        <tr><td colspan="3" style="border-bottom:1px solid currentColor;padding:0"></td></tr>    <tr>
+        <td style="text-align:left;">A</td>
+        <td style="text-align:left;"><span style="color:rgb(0,0,255);">-0.12</span></td>
+        <td style="text-align:left;">0.2</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">B</td>
+        <td style="text-align:left;"><span style="color:rgb(0,0,255);">0</span></td>
+        <td style="text-align:left;">0.5</td>
+    </tr>
+    <tr>
+        <td style="text-align:left;">C</td>
+        <td style="text-align:left;"><span style="color:rgb(0,0,255);">0.34</span></td>
+        <td style="text-align:left;">0.9</td>
+    </tr>
+    <tr><td colspan="3" style="border-bottom: 1.5px solid currentColor; padding: 0"></td></tr>
+</table>
