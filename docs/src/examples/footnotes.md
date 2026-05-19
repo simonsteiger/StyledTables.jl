@@ -28,7 +28,7 @@ Annotate one or more column headers with a note.
 
 ```@example footnotes
 tbl = StyledTable(df)
-tab_footnote!(tbl, 
+footnote!(tbl, 
     "Trillions USD, 2025" => [:gdp_usd, :gdp_ppp],
     "Millions" => [:pop_m],
 )
@@ -41,8 +41,8 @@ Use [`SpannerTarget`](@ref) to annotate a spanner label instead of a column head
 
 ```@example footnotes
 tbl = StyledTable(df)
-tab_spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])
-tab_footnote!(tbl, "Estimated values" => SpannerTarget("GDP (Trillions)"))
+spanner!(tbl, "GDP (Trillions)" => [:gdp_usd, :gdp_ppp])
+footnote!(tbl, "Estimated values" => SpannerTarget("GDP (Trillions)"))
 render(tbl)
 ```
 
@@ -55,18 +55,18 @@ Use [`CellTarget`](@ref) to annotate a single body cell — useful for flagging 
 ```@example footnotes
 tbl = StyledTable(df)
 japan_gdp_ppp = CellTarget(3, :gdp_ppp)
-tab_footnote!(tbl, "Preliminary estimate" => japan_gdp_ppp)
+footnote!(tbl, "Preliminary estimate" => japan_gdp_ppp)
 render(tbl)
 ```
 
-**By stub value** (requires [`tab_stub!`](@ref)):
+**By stub value** (requires [`stub!`](@ref)):
 
 With a stub column, target rows by stub value rather than numeric index — more robust when row order may change.
 
 ```@example footnotes
 tbl = StyledTable(df)
-tab_stub!(tbl, :country)
+stub!(tbl, :country)
 japan_gdp_ppp = CellTarget(Stub("Japan"), :gdp_ppp)
-tab_footnote!(tbl, "Preliminary estimate" => japan_gdp_ppp)
+footnote!(tbl, "Preliminary estimate" => japan_gdp_ppp)
 render(tbl)
 ```

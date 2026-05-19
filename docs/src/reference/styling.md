@@ -1,13 +1,13 @@
 # Styling and Options
 
-## `tab_style!`
+## `style!`
 
 Apply inline styling to body cells in the specified columns. Colors are hex strings (`"#RRGGBB"`).
 
 **Signatures:**
 ```julia
-tab_style!(tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
-tab_style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+style!(tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+style!(tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
 
 ```@example styling
@@ -21,10 +21,10 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-tab_header!(tbl, "Q2 2026 Financial Summary")
-tab_style!(tbl, :yoy_pct; color = "#1a7340", bold = true)
+header!(tbl, "Q2 2026 Financial Summary")
+style!(tbl, :yoy_pct; color = "#1a7340", bold = true)
 fmt_percent!(tbl, :yoy_pct; digits = 1)
-cols_label!(tbl,
+relabel!(tbl,
     :metric => "Metric",
     :q1 => "Q1 (€B)",
     :q2 => "Q2 (€B)",
@@ -34,11 +34,11 @@ render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_style!(::StyledTables.StyledTable, ::Symbol...)
+StyledTables.style!(::StyledTables.StyledTable, ::Symbol...)
 ```
 
 ```@docs
-StyledTables.tab_style!(::StyledTables.StyledTable, ::AbstractVector{Symbol})
+StyledTables.style!(::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
 ### Conditional styling
@@ -46,7 +46,7 @@ StyledTables.tab_style!(::StyledTables.StyledTable, ::AbstractVector{Symbol})
 Pass a function as the first argument to style cells based on their raw DataFrame value (before any formatter is applied).
 
 `f(raw_value) -> Union{Nothing, NamedTuple}` — return `nothing` for no style override, or a `NamedTuple` with any subset of `color`, `bold`, `italic`, `underline` keys.
-The `color` key accepts the same types as the `color` keyword in [`tab_style!`](@ref): a hex string (`"#RRGGBB"`), a CSS name (`"green"`), a `Symbol` (`:green`), or a `Colors.Colorant`.
+The `color` key accepts the same types as the `color` keyword in [`style!`](@ref): a hex string (`"#RRGGBB"`), a CSS name (`"green"`), a `Symbol` (`:green`), or a `Colors.Colorant`.
 
 Optional keyword arguments set a static per-column *baseline*. The function result
 **overrides** any baseline key that appears in the returned `NamedTuple`; keys absent
@@ -54,8 +54,8 @@ from the `NamedTuple` inherit the baseline.
 
 **Signatures:**
 ```julia
-tab_style!(f, tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
-tab_style!(f, tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+style!(f, tbl, columns::Symbol...; color=nothing, bold=nothing, italic=nothing, underline=nothing)
+style!(f, tbl, columns::AbstractVector{Symbol}; color=nothing, bold=nothing, italic=nothing, underline=nothing)
 ```
 
 ```@example styling
@@ -65,12 +65,12 @@ df_cond = DataFrame(
 )
 
 tbl = StyledTable(df_cond)
-tab_style!(tbl, :change) do val
+style!(tbl, :change) do val
     val > 0 ? (; color = :green, bold = true) :
     val < 0 ? (; color = :red) :
     nothing
 end
-cols_label!(tbl, :metric => "Metric", :change => "YoY Change")
+relabel!(tbl, :metric => "Metric", :change => "YoY Change")
 fmt_percent!(tbl, :change; digits = 1)
 render(tbl)
 ```
@@ -80,20 +80,20 @@ is italic by default, but positive values are also bolded:
 
 ```@example styling
 tbl = StyledTable(df_cond)
-tab_style!(tbl, :change; italic = true) do val
+style!(tbl, :change; italic = true) do val
     val > 0 ? (; bold = true) : nothing
 end
-cols_label!(tbl, :metric => "Metric", :change => "YoY Change")
+relabel!(tbl, :metric => "Metric", :change => "YoY Change")
 fmt_percent!(tbl, :change; digits = 1)
 render(tbl)
 ```
 
 ```@docs
-StyledTables.tab_style!(::Function, ::StyledTables.StyledTable, ::Symbol...)
+StyledTables.style!(::Function, ::StyledTables.StyledTable, ::Symbol...)
 ```
 
 ```@docs
-StyledTables.tab_style!(::Function, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
+StyledTables.style!(::Function, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
 ## `sub_missing!`

@@ -30,10 +30,10 @@ Mark `:category` as the stub, group rows by `:variable`, and use `Multiline` for
 
 ```@example clinical
 tbl = StyledTable(demo)
-tab_stub!(tbl, :category)
-tab_rowgroup!(tbl, :variable)
-cols_hide!(tbl, :variable)
-cols_label!(tbl,
+stub!(tbl, :category)
+rowgroup!(tbl, :variable)
+hide!(tbl, :variable)
+relabel!(tbl,
     :placebo_n => Multiline("Placebo (N=50)", "n (%)"),
     :treatment_n => Multiline("Treatment (N=50)", "n (%)"),
 )
@@ -44,8 +44,8 @@ render(tbl)
 
 ```@example clinical
 sub_missing!(tbl, "—")
-tab_footnote!(tbl, "Percentages computed on non-missing observations" => [:placebo_n, :treatment_n])
-tab_sourcenote!(tbl, "Abbreviations: SD = standard deviation; N = total per arm")
+footnote!(tbl, "Percentages computed on non-missing observations" => [:placebo_n, :treatment_n])
+sourcenote!(tbl, "Abbreviations: SD = standard deviation; N = total per arm")
 render(tbl)
 ```
 

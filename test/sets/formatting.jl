@@ -30,7 +30,7 @@
         tbl = StyledTable(df)
         fmt_number!(tbl, [:x]; digits = 3, trailing_zeros = false)
         @test tbl.col_formatters[:x](1.5) == "1.5"    # trailing zero stripped: 1.500 → 1.5
-        @test tbl.col_formatters[:x](2.0) == "2"       # trailing zeros + dot stripped: 2.000 → 2
+        @test tbl.col_formatters[:x](2.0) == "2"      # trailing zeros + dot stripped: 2.000 → 2
     end
 
     @testset "type check" begin

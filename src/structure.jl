@@ -21,28 +21,28 @@ A higher-level spanner's column set must fully contain every lower-level spanner
 
 `tbl` (modified in place).
 
-See also: [`tab_header!`](@ref), [`tab_stub!`](@ref).
+See also: [`header!`](@ref), [`stub!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_spanner!(tbl, "Outcomes" => [:efficacy, :safety])
+spanner!(tbl, "Outcomes" => [:efficacy, :safety])
 render(tbl)
 
 tbl = StyledTable(df)
-tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
-tab_spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
+spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
 render(tbl)
 
 using SummaryTables: Multiline
 tbl = StyledTable(df)
-tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
 render(tbl)
 ```
 """
-function tab_spanner!(tbl::StyledTable, args::Pair...; level = 1)
-    tab_spanner!(tbl, collect(args); level)
+function spanner!(tbl::StyledTable, args::Pair...; level = 1)
+    spanner!(tbl, collect(args); level)
     return tbl
 end
 
@@ -63,7 +63,7 @@ function _push_spanners!(tbl::StyledTable, d; level = 1)
     return tbl
 end
 
-function tab_spanner!(
+function spanner!(
     tbl::StyledTable,
     d::AbstractVector{Pair{String,Vector{Symbol}}};
     level = 1,
@@ -72,7 +72,7 @@ function tab_spanner!(
 end
 
 
-function tab_spanner!(
+function spanner!(
     tbl::StyledTable,
     d::AbstractVector{Pair{Multiline,Vector{Symbol}}};
     level = 1,
@@ -95,20 +95,20 @@ Add spanning headers from a dict or vector of pairs.
 
 `tbl` (modified in place).
 
-See also: [`tab_spanner!`](@ref), [`tab_header!`](@ref), [`tab_stub!`](@ref).
+See also: [`spanner!`](@ref), [`header!`](@ref), [`stub!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_spanner!(tbl, Dict(
+spanner!(tbl, Dict(
     "Outcomes"     => [:efficacy, :safety],
     "Demographics" => [:age, :sex])
 )
 render(tbl)
 ```
 """
-function tab_spanner!(
+function spanner!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{<:Pair{<:AbstractString,<:AbstractVector{<:AbstractString}}},
@@ -135,20 +135,20 @@ function tab_spanner!(
     level = 1,
 )
     ps = [_convert_lab(label) => _convert_cols(col_or_cols) for (label, col_or_cols) in d]
-    tab_spanner!(tbl, ps; level)
+    spanner!(tbl, ps; level)
     return tbl
 end
 
-function tab_spanner!(tbl::StyledTable, d::AbstractDict; level = 1)
+function spanner!(tbl::StyledTable, d::AbstractDict; level = 1)
     ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_mixed_pair_values(tab_spanner!, ktypes, vtypes, tbl, d; check_keys = false)
+    _throw_mixed_pair_values(spanner!, ktypes, vtypes, tbl, d; check_keys = false)
 end
 
-function tab_spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level = 1)
+function spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level = 1)
     ktypes = unique(typeof(k) for (k, _) in d)
     vtypes = unique(typeof(v) for (_, v) in d)
-    _throw_mixed_pair_values(tab_spanner!, ktypes, vtypes, tbl, d; check_keys = false)
+    _throw_mixed_pair_values(spanner!, ktypes, vtypes, tbl, d; check_keys = false)
 end
 
 """
@@ -156,7 +156,7 @@ $TYPEDSIGNATURES
 
 Group rows by distinct values in a column.
 
-A bold group-label row precedes each new group value. Data rows are indented by `indent_pt` points. Hide the grouping column afterwards with [`cols_hide!`](@ref).
+A bold group-label row precedes each new group value. Data rows are indented by `indent_pt` points. Hide the grouping column afterwards with [`hide!`](@ref).
 
 # Arguments
 
@@ -172,18 +172,18 @@ A bold group-label row precedes each new group value. Data rows are indented by 
 
 `tbl` (modified in place).
 
-See also: [`cols_hide!`](@ref), [`tab_stub!`](@ref).
+See also: [`hide!`](@ref), [`stub!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_rowgroup!(tbl, :category)
-cols_hide!(tbl, :category)
+rowgroup!(tbl, :category)
+hide!(tbl, :category)
 render(tbl)
 ```
 """
-function tab_rowgroup!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12, full_width::Bool = false)
+function rowgroup!(tbl::StyledTable, col::Symbol; indent_pt::Real = 12, full_width::Bool = false)
     if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
     end
@@ -200,7 +200,7 @@ $TYPEDSIGNATURES
 
 Mark a column as the stub (row-label column).
 
-The stub header is not bolded. Use [`tab_stubhead!`](@ref) to label it.
+The stub header is not bolded. Use [`stubhead!`](@ref) to label it.
 
 # Arguments
 
@@ -211,17 +211,17 @@ The stub header is not bolded. Use [`tab_stubhead!`](@ref) to label it.
 
 `tbl` (modified in place).
 
-See also: [`tab_stubhead!`](@ref), [`tab_rowgroup!`](@ref).
+See also: [`stubhead!`](@ref), [`rowgroup!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_stub!(tbl, :drug)
+stub!(tbl, :drug)
 render(tbl)
 ```
 """
-function tab_stub!(tbl::StyledTable, col::Symbol)
+function stub!(tbl::StyledTable, col::Symbol)
     if col ∉ Symbol.(names(tbl.data))
         throw(ArgumentError("Column :$col not found in DataFrame"))
     end
@@ -235,7 +235,7 @@ $TYPEDSIGNATURES
 
 Set the stub column header label.
 
-Requires a prior call to [`tab_stub!`](@ref).
+Requires a prior call to [`stub!`](@ref).
 
 # Arguments
 
@@ -246,21 +246,21 @@ Requires a prior call to [`tab_stub!`](@ref).
 
 `tbl` (modified in place).
 
-See also: [`tab_stub!`](@ref).
+See also: [`stub!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_stub!(tbl, :drug)
-tab_stubhead!(tbl, "Drug Name")
+stub!(tbl, :drug)
+stubhead!(tbl, "Drug Name")
 render(tbl)
 ```
 """
-function tab_stubhead!(tbl::StyledTable, label)
+function stubhead!(tbl::StyledTable, label)
     if tbl.stub_col === nothing
         @warn "No stub column is set; this label has no effect. " *
-              "Call tab_stub!(tbl, col) first to designate the stub column."
+              "Call `stub!(tbl, col)` first to designate the stub column."
     end
     tbl.stubhead_label = label
     return tbl

@@ -46,24 +46,24 @@ Finally, a higher-order column spanner will indicate which measurements are from
 
 ```@example penguins
 tbl = StyledTable(summary)
-tab_rowgroup!(tbl, :island)
-cols_hide!(tbl, :island)
+rowgroup!(tbl, :island)
+hide!(tbl, :island)
 render(tbl)
 ```
 
 ## Step 2: Level one spanner
 
 ```@example penguins
-tab_spanner!(tbl, "Bill measures" => "male_" .* string.(bill_cols))
-tab_spanner!(tbl, "Bill measures" => "female_" .* string.(bill_cols))
+spanner!(tbl, "Bill measures" => "male_" .* string.(bill_cols))
+spanner!(tbl, "Bill measures" => "female_" .* string.(bill_cols))
 render(tbl)
 ```
 
 ## Step 3: Level two spanner
 
 ```@example penguins
-tab_spanner!(tbl, "Male" => male_ordered, level = 2)
-tab_spanner!(tbl, "Female" => female_ordered, level = 2)
+spanner!(tbl, "Male" => male_ordered, level = 2)
+spanner!(tbl, "Female" => female_ordered, level = 2)
 render(tbl)
 ```
 
@@ -80,7 +80,7 @@ label_dict = Dict(
     :female_flipper_length_mm => "Flipper length",
 )
 
-cols_label!(tbl, label_dict)
+relabel!(tbl, label_dict)
 fmt_integer!(tbl, [male_ordered..., female_ordered...])
 render(tbl)
 ```

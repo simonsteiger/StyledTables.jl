@@ -35,16 +35,16 @@ label_dict = Dict(
 )
 
 tbl = StyledTable(cars)
-tab_rowgroup!(tbl, :origin)
-cols_hide!(tbl, :origin, :year)
-cols_label!(tbl, label_dict)
+rowgroup!(tbl, :origin)
+hide!(tbl, :origin, :year)
+label!(tbl, label_dict)
 render(tbl)
 ```
 
 ## Step 2: Add a spanner for performance metrics
 
 ```@example cars
-tab_spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
+spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
 render(tbl)
 ```
 
@@ -56,10 +56,10 @@ Format MSRP with a currency prefix, right-align numeric columns, bold the price 
 fmt!(tbl, :msrp_eur) do x
     replace(string(x), r"(\d)(?=(\d{3})+$)" => s"\1,") * "€"
 end
-cols_align!(tbl, [:msrp_eur, :hp, :trq_nm, :mpg] => :right)
-tab_style!(tbl, :msrp_eur; bold = true)
-tab_footnote!(tbl, "City/highway combined estimate" => :mpg)
-tab_sourcenote!(tbl, "Source: manufacturer specifications")
+align!(tbl, [:msrp_eur, :hp, :trq_nm, :mpg] => :right)
+style!(tbl, :msrp_eur; bold = true)
+footnote!(tbl, "City/highway combined estimate" => :mpg)
+sourcenote!(tbl, "Source: manufacturer specifications")
 render(tbl)
 ```
 

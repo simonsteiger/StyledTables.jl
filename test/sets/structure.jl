@@ -1,28 +1,28 @@
-@testset "tab_spanner!" begin
+@testset "spanner!" begin
     df = DataFrame(; name = ["Alice", "Bob"], dose = [10, 20], response = [0.9, 0.8])
 
     tbl = StyledTable(df)
-    tab_spanner!(tbl, "Treatment" => [:dose, :response], "Participant" => [:name])
-    run_reftest(tbl, "references/tab_spanner/basic")
+    spanner!(tbl, "Treatment" => [:dose, :response], "Participant" => [:name])
+    run_reftest(tbl, "references/spanner/basic")
 
     tbl2 = StyledTable(df)
-    tab_spanner!(tbl2, "Treatment" => [:dose, :response])
+    spanner!(tbl2, "Treatment" => [:dose, :response])
     @test tbl2.spanners[1].level == 1
 
     tbl3 = StyledTable(df)
-    tab_spanner!(tbl3, "Treatment" => [:dose, :response]; level = 2)
+    spanner!(tbl3, "Treatment" => [:dose, :response]; level = 2)
     @test tbl3.spanners[1].level == 2
 
     tbl = StyledTable(df)
-    tab_spanner!(tbl, Dict("Treatment" => [:dose, :response], "Participant" => [:name]))
-    run_reftest(tbl, "references/tab_spanner/two_spanners")
+    spanner!(tbl, Dict("Treatment" => [:dose, :response], "Participant" => [:name]))
+    run_reftest(tbl, "references/spanner/two_spanners")
 
-    @test_throws ArgumentError tab_spanner!(StyledTable(df), "X" => [:typo])
+    @test_throws ArgumentError spanner!(StyledTable(df), "X" => [:typo])
 
     @testset "mixed-type pairs error" begin
         let df = DataFrame(; a = [1], b = [2], c = [3])
             # Mixed value types: Symbol and Vector{Symbol} column selectors
-            @test_throws ArgumentError tab_spanner!(
+            @test_throws ArgumentError spanner!(
                 StyledTable(df),
                 Dict{String,Any}("AB" => [:a, :b], "C" => :c),
             )
@@ -30,124 +30,124 @@
     end
 end
 
-@testset "tab_spanner! input types" begin
+@testset "spanner! input types" begin
     df = DataFrame(; name = ["Alice"], dose = [10], response = [0.9])
 
     # Canonical reference: Pair... varargs method
     ref = let tbl = StyledTable(df)
-        tab_spanner!(tbl, "Treatment" => [:dose, :response])
+        spanner!(tbl, "Treatment" => [:dose, :response])
         html_str(tbl)
     end
 
     # AbstractVector{<:Pair{AbstractString, Vector{AbstractString}}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, ["Treatment" => ["dose", "response"]])
+        spanner!(tbl, ["Treatment" => ["dose", "response"]])
         @test html_str(tbl) == ref
     end
 
     # AbstractVector{<:Pair{Symbol, Vector{Symbol}}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, [:Treatment => [:dose, :response]])
+        spanner!(tbl, [:Treatment => [:dose, :response]])
         @test html_str(tbl) == ref
     end
 
     # AbstractVector{<:Pair{Symbol, Vector{AbstractString}}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, :Treatment => ["dose", "response"])
+        spanner!(tbl, :Treatment => ["dose", "response"])
         @test html_str(tbl) == ref
     end
 
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, "Treatment" => [:dose, :response])
+        spanner!(tbl, "Treatment" => [:dose, :response])
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{AbstractString, Vector{AbstractString}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict("Treatment" => ["dose", "response"]))
+        spanner!(tbl, Dict("Treatment" => ["dose", "response"]))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{Symbol, Vector{AbstractString}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict(:Treatment => ["dose", "response"]))
+        spanner!(tbl, Dict(:Treatment => ["dose", "response"]))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{AbstractString, Vector{Symbol}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict("Treatment" => [:dose, :response]))
+        spanner!(tbl, Dict("Treatment" => [:dose, :response]))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{Symbol, Vector{Symbol}}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict(:Treatment => [:dose, :response]))
+        spanner!(tbl, Dict(:Treatment => [:dose, :response]))
         @test html_str(tbl) == ref
     end
 
     # Single pair
     ref = let tbl = StyledTable(df)
-        tab_spanner!(tbl, "Treatment" => :dose)
+        spanner!(tbl, "Treatment" => :dose)
         html_str(tbl)
     end
 
     # AbstractDict{Symbol, Symbol}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict(:Treatment => :dose))
+        spanner!(tbl, Dict(:Treatment => :dose))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{String, Symbol}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict(:Treatment => :dose))
+        spanner!(tbl, Dict(:Treatment => :dose))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{String, String}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict("Treatment" => "dose"))
+        spanner!(tbl, Dict("Treatment" => "dose"))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{Symbol, String}
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict("Treatment" => :dose))
+        spanner!(tbl, Dict("Treatment" => :dose))
         @test html_str(tbl) == ref
     end
 
     # Single Multiline spanner
     ref = let tbl = StyledTable(df)
-        tab_spanner!(tbl, Multiline("Treatment", "(mg)") => :dose)
+        spanner!(tbl, Multiline("Treatment", "(mg)") => :dose)
         html_str(tbl)
     end
 
     # Single Multiline inside Dict
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, Dict(Multiline("Treatment", "(mg)") => :dose))
+        spanner!(tbl, Dict(Multiline("Treatment", "(mg)") => :dose))
         @test html_str(tbl) == ref
     end
 
     # Single Multiline inside Vector
     let tbl = StyledTable(df)
-        tab_spanner!(tbl, [Multiline("Treatment", "(mg)") => :dose])
+        spanner!(tbl, [Multiline("Treatment", "(mg)") => :dose])
         @test html_str(tbl) == ref
     end
 
     # Mixed value types — Dict{String, Any} → ArgumentError
-    @test_throws ArgumentError tab_spanner!(
+    @test_throws ArgumentError spanner!(
         StyledTable(df),
         Dict("Treatment" => [:dose, :response], "Participant" => :name),
     )
 
     # Mixed value types — Vector{Pair{String, Any}} → ArgumentError
-    @test_throws ArgumentError tab_spanner!(
+    @test_throws ArgumentError spanner!(
         StyledTable(df),
         Pair["Treatment"=>[:dose, :response], "Participant"=>:name],
     )
 end
 
-@testset "tab_spanner! nested" begin
+@testset "spanner! nested" begin
     df = DataFrame(;
         species = ["Adelie", "Chinstrap"],
         bill_len = [38.9, 48.7],
@@ -159,84 +159,84 @@ end
     # Error: non-contiguous levels (1 and 3, no level 2)
     @test_throws ArgumentError begin
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "A" => [:bill_len]; level = 1)
-        tab_spanner!(tbl, "B" => [:bill_depth]; level = 3)
+        spanner!(tbl, "A" => [:bill_len]; level = 1)
+        spanner!(tbl, "B" => [:bill_depth]; level = 3)
         render(tbl)
     end
 
     # Error: same-level partial overlap
     @test_throws ArgumentError begin
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "A" => [:bill_len, :bill_depth])
-        tab_spanner!(tbl, "B" => [:bill_depth, :flipper_len])
+        spanner!(tbl, "A" => [:bill_len, :bill_depth])
+        spanner!(tbl, "B" => [:bill_depth, :flipper_len])
         render(tbl)
     end
 
     # Error: cross-level partial overlap
     @test_throws ArgumentError begin
         tbl = StyledTable(df)
-        tab_spanner!(tbl, "A" => [:bill_len, :bill_depth, :flipper_len])
-        tab_spanner!(tbl, "B" => [:bill_depth, :flipper_len, :body_mass]; level = 2)
+        spanner!(tbl, "A" => [:bill_len, :bill_depth, :flipper_len])
+        spanner!(tbl, "B" => [:bill_depth, :flipper_len, :body_mass]; level = 2)
         render(tbl)
     end
 
     # Scenario A: level-2 spanner covers exactly the same columns as level-1
     tbl = StyledTable(df)
-    tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
-    tab_spanner!(
+    spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+    spanner!(
         tbl,
         "Physical measurements" => [:bill_len, :bill_depth, :flipper_len];
         level = 2,
     )
-    run_reftest(tbl, "references/tab_spanner/nested_two_levels")
+    run_reftest(tbl, "references/spanner/nested_two_levels")
 
     # Scenario B: level-2 spanner covers level-1 columns PLUS an extra ungrouped column
     tbl = StyledTable(df)
-    tab_spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
-    tab_spanner!(
+    spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+    spanner!(
         tbl,
         "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass];
         level = 2,
     )
-    run_reftest(tbl, "references/tab_spanner/nested_uncovered_col")
+    run_reftest(tbl, "references/spanner/nested_uncovered_col")
 end
 
-@testset "tab_spanner! Multiline" begin
+@testset "spanner! Multiline" begin
     df = DataFrame(; dose = [10, 20], response = [0.9, 0.8])
 
     tbl = StyledTable(df)
-    tab_spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
-    run_reftest(tbl, "references/tab_spanner/multiline_label")
+    spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+    run_reftest(tbl, "references/spanner/multiline_label")
 end
 
-@testset "tab_stub!" begin
+@testset "stub!" begin
     df = DataFrame(; rowname = ["Alice", "Bob"], score = [90, 85])
 
     tbl = StyledTable(df)
-    tab_stub!(tbl, :rowname)
-    run_reftest(tbl, "references/tab_stub/basic")
+    stub!(tbl, :rowname)
+    run_reftest(tbl, "references/stub/basic")
 
-    @test_throws ArgumentError tab_stub!(StyledTable(df), :nonexistent)
+    @test_throws ArgumentError stub!(StyledTable(df), :nonexistent)
 end
 
-@testset "tab_header!" begin
+@testset "header!" begin
     df = DataFrame(; x = [1, 2], y = [3, 4])
 
     tbl = StyledTable(df)
-    tab_header!(tbl, "My Table")
-    run_reftest(tbl, "references/tab_header/title_only")
+    header!(tbl, "My Table")
+    run_reftest(tbl, "references/header/title_only")
 
     tbl = StyledTable(df)
-    tab_header!(tbl, "My Table"; subtitle = "A subtitle")
-    run_reftest(tbl, "references/tab_header/title_and_subtitle")
+    header!(tbl, "My Table"; subtitle = "A subtitle")
+    run_reftest(tbl, "references/header/title_and_subtitle")
 
     tbl = StyledTable(df)
-    tab_header!(tbl, "My Table"; subtitle = "Subtitle")
-    tab_spanner!(tbl, "XY" => [:x, :y])
-    run_reftest(tbl, "references/tab_header/with_spanner")
+    header!(tbl, "My Table"; subtitle = "Subtitle")
+    spanner!(tbl, "XY" => [:x, :y])
+    run_reftest(tbl, "references/header/with_spanner")
 end
 
-@testset "tab_rowgroup!" begin
+@testset "rowgroup!" begin
     df = DataFrame(;
         arm = ["A", "A", "B", "B"],
         name = ["x1", "x2", "y1", "y2"],
@@ -244,32 +244,32 @@ end
     )
 
     tbl = StyledTable(df)
-    tab_rowgroup!(tbl, :arm)
-    run_reftest(tbl, "references/tab_rowgroup/basic")
+    rowgroup!(tbl, :arm)
+    run_reftest(tbl, "references/rowgroup/basic")
 
     tbl = StyledTable(df)
-    tab_rowgroup!(tbl, :arm; indent_pt = 24)
-    run_reftest(tbl, "references/tab_rowgroup/custom_indent")
+    rowgroup!(tbl, :arm; indent_pt = 24)
+    run_reftest(tbl, "references/rowgroup/custom_indent")
 
     tbl = StyledTable(df)
-    tab_rowgroup!(tbl, :arm; full_width = true)
-    run_reftest(tbl, "references/tab_rowgroup/full_width")
+    rowgroup!(tbl, :arm; full_width = true)
+    run_reftest(tbl, "references/rowgroup/full_width")
 
-    @test_throws ArgumentError tab_rowgroup!(StyledTable(df), :nonexistent)
+    @test_throws ArgumentError rowgroup!(StyledTable(df), :nonexistent)
 end
 
-@testset "tab_stubhead!" begin
+@testset "stubhead!" begin
     df = DataFrame(; rowname = ["Alice", "Bob"], score = [90, 85])
 
     tbl = StyledTable(df)
-    tab_stub!(tbl, :rowname)
-    tab_stubhead!(tbl, "Name")
-    run_reftest(tbl, "references/tab_stubhead/basic")
+    stub!(tbl, :rowname)
+    stubhead!(tbl, "Name")
+    run_reftest(tbl, "references/stubhead/basic")
 
-    @testset "warns without tab_stub!" begin
+    @testset "warns without stub!" begin
         df = DataFrame(; x = [1, 2])
         tbl = StyledTable(df)
-        @test_logs (:warn, r"no effect") tab_stubhead!(tbl, "Row")
+        @test_logs (:warn, r"no effect") stubhead!(tbl, "Row")
     end
 end
 
@@ -316,19 +316,19 @@ end
     # Unsorted: "A" appears again after "B"
     df_unsorted = DataFrame(; g = ["A", "B", "A"], x = [1, 2, 3])
     tbl_unsorted = StyledTable(df_unsorted)
-    tab_rowgroup!(tbl_unsorted, :g)
+    rowgroup!(tbl_unsorted, :g)
     @test StyledTables._duplicate_group_labels(tbl_unsorted) == ["A"]
 
     # Sorted with adjacent repeats: no duplicates
     df_sorted = DataFrame(; g = ["A", "A", "B", "B"], x = [1, 2, 3, 4])
     tbl_sorted = StyledTable(df_sorted)
-    tab_rowgroup!(tbl_sorted, :g)
+    rowgroup!(tbl_sorted, :g)
     @test isempty(StyledTables._duplicate_group_labels(tbl_sorted))
 
     # Fully unique: no duplicates
     df_unique = DataFrame(; g = ["A", "B", "C"], x = [1, 2, 3])
     tbl_unique = StyledTable(df_unique)
-    tab_rowgroup!(tbl_unique, :g)
+    rowgroup!(tbl_unique, :g)
     @test isempty(StyledTables._duplicate_group_labels(tbl_unique))
 
     # No rowgroup_col set: returns empty
@@ -339,6 +339,6 @@ end
     # Adjacent repeated values are not duplicates
     df_adj = DataFrame(; g = ["A", "A", "B"], x = [1, 2, 3])
     tbl_adj = StyledTable(df_adj)
-    tab_rowgroup!(tbl_adj, :g)
+    rowgroup!(tbl_adj, :g)
     @test isempty(StyledTables._duplicate_group_labels(tbl_adj))
 end

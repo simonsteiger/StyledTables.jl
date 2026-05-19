@@ -18,18 +18,18 @@ Rename one or more columns in the rendered output.
 
 The underlying `DataFrame` is unchanged.
 
-See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
+See also: [`align!`](@ref), [`hide!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-cols_label!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP")
+relabel!(tbl, :bmi => "BMI (kg/m²)", :sbp => "Systolic BP")
 render(tbl)
 ```
 """
-function cols_label!(tbl::StyledTable, args::Pair...)
-    cols_label!(tbl, collect(args))
+function relabel!(tbl::StyledTable, args::Pair...)
+    relabel!(tbl, collect(args))
     return tbl
 end
 
@@ -37,7 +37,7 @@ end
 # AbstractVector{<:Pair{Symbol, Symbol}} is a subtype of (and therefore more specific than)
 # AbstractVector{<:Pair{Symbol}}. This method handles all remaining Symbol-keyed pairs,
 # including Multiline and any other value type.
-function cols_label!(tbl::StyledTable, d::AbstractVector{<:Pair{Symbol}})
+function relabel!(tbl::StyledTable, d::AbstractVector{<:Pair{Symbol}})
     colnames = Symbol.(names(tbl.data))
     for (col, _) in d
         if col ∉ colnames
@@ -66,18 +66,18 @@ Rename columns using a dict or vector of pairs.
 
 `tbl` (modified in place).
 
-See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
+See also: [`align!`](@ref), [`hide!`](@ref).
 
 # Examples
 
 ```julia
 label_dict = Dict(:bmi => "BMI (kg/m²)", :sbp => "Systolic BP")
 tbl = StyledTable(df)
-cols_label!(tbl, label_dict)
+relabel!(tbl, label_dict)
 render(tbl)
 ```
 """
-function cols_label!(
+function relabel!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{<:Pair{Symbol,Symbol}},
@@ -90,7 +90,7 @@ function cols_label!(
     },
 )
     ps = [Symbol(col) => String(label) for (col, label) in d]
-    cols_label!(tbl, ps)
+    relabel!(tbl, ps)
 
     return tbl
 end
@@ -107,24 +107,24 @@ accepted by the pair form: a `String`, or any `Cell`-compatible value such as `M
 
 - `f`: function mapping a column name `String` to a label value.
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `columns`: optional column selector. Pass a `Symbol`, `String`, or a `Vector` of either 
+- `columns`: optional column selector. Pass a `Symbol`, `String`, or a `Vector` of either
   to restrict which columns are relabeled; omit to apply `f` to all columns.
 
 # Returns
 
 `tbl` (modified in place).
 
-See also: [`cols_align!`](@ref), [`cols_hide!`](@ref).
+See also: [`align!`](@ref), [`hide!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-cols_label!(uppercase, tbl)
+relabel!(uppercase, tbl)
 render(tbl)
 ```
 """
-function cols_label!(f::Function, tbl::StyledTable, columns::AbstractVector{Symbol})
+function relabel!(f::Function, tbl::StyledTable, columns::AbstractVector{Symbol})
     colnames = Symbol.(names(tbl.data))
 
     for col in columns
@@ -140,34 +140,34 @@ function cols_label!(f::Function, tbl::StyledTable, columns::AbstractVector{Symb
     return tbl
 end
 
-function cols_label!(f, tbl::StyledTable, columns::AbstractVector{<:AbstractString})
-    cols_label!(f, tbl, Symbol.(columns))
+function relabel!(f, tbl::StyledTable, columns::AbstractVector{<:AbstractString})
+    relabel!(f, tbl, Symbol.(columns))
     return tbl
 end
 
-cols_label!(f, tbl::StyledTable, column::Symbol) = cols_label!(f, tbl, [column])
-function cols_label!(f, tbl::StyledTable, column::AbstractString)
-    return cols_label!(f, tbl, Symbol(column))
+relabel!(f, tbl::StyledTable, column::Symbol) = relabel!(f, tbl, [column])
+function relabel!(f, tbl::StyledTable, column::AbstractString)
+    return relabel!(f, tbl, Symbol(column))
 end
 
-function cols_label!(f, tbl::StyledTable)
-    cols_label!(f, tbl, Symbol.(names(tbl.data)))
+function relabel!(f, tbl::StyledTable)
+    relabel!(f, tbl, Symbol.(names(tbl.data)))
     return tbl
 end
 
-function cols_label!(tbl::StyledTable, d::AbstractDict)
+function relabel!(tbl::StyledTable, d::AbstractDict)
     ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_mixed_pair_values(cols_label!, ktypes, vtypes, tbl, d)
+    _throw_mixed_pair_values(relabel!, ktypes, vtypes, tbl, d)
 end
 
-function cols_label!(tbl::StyledTable, d::AbstractVector)
+function relabel!(tbl::StyledTable, d::AbstractVector)
     if !isempty(d) && all(x -> x isa Pair, d)
         ktypes = unique(typeof(k) for (k, _) in d)
         vtypes = unique(typeof(v) for (_, v) in d)
-        _throw_mixed_pair_values(cols_label!, ktypes, vtypes, tbl, d)
+        _throw_mixed_pair_values(relabel!, ktypes, vtypes, tbl, d)
     end
-    throw(MethodError(cols_label!, (tbl, d)))
+    throw(MethodError(relabel!, (tbl, d)))
 end
 
 """
@@ -191,16 +191,16 @@ and `halign` is one of `:left`, `:center`, or `:right`.
 
 ```julia
 tbl = StyledTable(df)
-cols_align!(tbl, :x => :right, :y => :center)
+align!(tbl, :x => :right, :y => :center)
 render(tbl)
 ```
 """
-function cols_align!(tbl::StyledTable, args::Pair...)
-    cols_align!(tbl, collect(args))
+function align!(tbl::StyledTable, args::Pair...)
+    align!(tbl, collect(args))
     return tbl
 end
 
-function _set_cols_align!(tbl, d)
+function _set_align!(tbl, d)
     colnames = Symbol.(names(tbl.data))
     for (cols, halign) in d
         _validate_halign(halign)
@@ -218,8 +218,8 @@ function _set_cols_align!(tbl, d)
     return tbl
 end
 
-function cols_align!(tbl::StyledTable, d::AbstractVector{Pair{Vector{Symbol},Symbol}})
-    _set_cols_align!(tbl, d)
+function align!(tbl::StyledTable, d::AbstractVector{Pair{Vector{Symbol},Symbol}})
+    _set_align!(tbl, d)
 end
 
 """
@@ -240,11 +240,11 @@ Set alignment from a dict or vector of `col => halign` pairs.
 
 ```julia
 tbl = StyledTable(df)
-cols_align!(tbl, Dict(:x => :right, :y => :center))
+align!(tbl, Dict(:x => :right, :y => :center))
 render(tbl)
 ```
 """
-function cols_align!(
+function align!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{<:Pair{Symbol,Symbol}},
@@ -256,7 +256,7 @@ function cols_align!(
     },
 )
     ps = [_convert_cols(col_or_cols) => halign for (col_or_cols, halign) in d]
-    cols_align!(tbl, ps...)
+    align!(tbl, ps...)
     return tbl
 end
 
@@ -278,11 +278,11 @@ Set the same horizontal alignment for all columns.
 
 ```julia
 tbl = StyledTable(df)
-cols_align!(tbl, :center)
+align!(tbl, :center)
 render(tbl)
 ```
 """
-function cols_align!(tbl::StyledTable, halign::Symbol)
+function align!(tbl::StyledTable, halign::Symbol)
     _validate_halign(halign)
     for col in Symbol.(names(tbl.data))
         tbl.col_alignments[col] = halign
@@ -296,19 +296,19 @@ function _validate_halign(halign)
     end
 end
 
-function cols_align!(tbl::StyledTable, d::AbstractDict)
+function align!(tbl::StyledTable, d::AbstractDict)
     ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
+    _throw_mixed_pair_values(align!, ktypes, vtypes, tbl, d)
 end
 
-function cols_align!(tbl::StyledTable, d::AbstractVector)
+function align!(tbl::StyledTable, d::AbstractVector)
     if !isempty(d) && all(x -> x isa Pair, d)
         ktypes = unique(typeof(k) for (k, _) in d)
         vtypes = unique(typeof(v) for (_, v) in d)
-        _throw_mixed_pair_values(cols_align!, ktypes, vtypes, tbl, d)
+        _throw_mixed_pair_values(align!, ktypes, vtypes, tbl, d)
     end
-    throw(MethodError(cols_align!, (tbl, d)))
+    throw(MethodError(align!, (tbl, d)))
 end
 
 """
@@ -316,7 +316,7 @@ $TYPEDSIGNATURES
 
 Remove columns from the rendered output without modifying the `DataFrame`.
 
-Hidden columns remain accessible for grouping or formatting, but do not appear in the rendered table. Commonly paired with [`tab_rowgroup!`](@ref).
+Hidden columns remain accessible for grouping or formatting, but do not appear in the rendered table. Commonly paired with [`rowgroup!`](@ref).
 
 # Arguments
 
@@ -327,18 +327,18 @@ Hidden columns remain accessible for grouping or formatting, but do not appear i
 
 `tbl` (modified in place).
 
-See also: [`tab_rowgroup!`](@ref).
+See also: [`rowgroup!`](@ref).
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-tab_rowgroup!(tbl, :group)
-cols_hide!(tbl, :group)
+rowgroup!(tbl, :group)
+hide!(tbl, :group)
 render(tbl)
 ```
 """
-function cols_hide!(tbl::StyledTable, cols::Symbol...)
+function hide!(tbl::StyledTable, cols::Symbol...)
     colnames = Symbol.(names(tbl.data))
     for col in cols
         if col ∉ colnames
