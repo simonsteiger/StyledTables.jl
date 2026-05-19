@@ -150,8 +150,8 @@ $TYPEDFIELDS
     header::Union{Nothing,TableHeader}
     "Table-level footnote texts."
     footnotes::Vector{Any}
-    "Per-column formatter functions."
-    col_formatters::Dict{Symbol,Function}
+    "Per-column formatter stacks, applied in call order."
+    col_formatters::Dict{Symbol,Vector{AbstractFormatter}}
     "Per-column inline style overrides."
     col_styles::Dict{Symbol,ColStyleOverride}
     "Per-column conditional style functions `f(raw_value) -> Union{Nothing, NamedTuple}`."
@@ -217,7 +217,7 @@ function StyledTable(data)
         stub_col = nothing,
         header = nothing,
         footnotes = Any[],
-        col_formatters = Dict{Symbol,Function}(),
+        col_formatters = Dict{Symbol,Vector{AbstractFormatter}}(),
         col_styles = Dict{Symbol,ColStyleOverride}(),
         col_style_fns = Dict{Symbol,Function}(),
         col_footnotes = Dict{Symbol,Any}(),
