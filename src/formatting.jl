@@ -1,22 +1,6 @@
 using Printf
 
 """
-    AbstractFormatter
-
-Supertype for all formatters used with [`format!`](@ref).
-
-Implement `(f::MyFormatter)(x)` to define a custom formatter:
-
-```julia
-struct PrefixFormatter <: AbstractFormatter
-    prefix::String
-end
-(f::PrefixFormatter)(x) = ismissing(x) ? x : f.prefix * string(x)
-```
-"""
-abstract type AbstractFormatter end
-
-"""
     FunctionFormatter(f)
 
 Wraps a bare callable `f` as an [`AbstractFormatter`](@ref). Created automatically

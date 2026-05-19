@@ -119,7 +119,7 @@ end
 
     # fmt row appears when col_formatters is non-empty
     let tbl = StyledTable(df)
-        fmt_number!(tbl, [:a]; digits = 2)
+        format!(NumberFormatter(digits = 2), tbl, :a)
         out = sprint(show, tbl)
         @test contains(out, "fmt")
     end

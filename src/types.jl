@@ -1,4 +1,20 @@
 """
+    AbstractFormatter
+
+Supertype for all formatters used with [`format!`](@ref).
+
+Implement `(f::MyFormatter)(x)` to define a custom formatter:
+
+```julia
+struct PrefixFormatter <: AbstractFormatter
+    prefix::String
+end
+(f::PrefixFormatter)(x) = ismissing(x) ? x : f.prefix * string(x)
+```
+"""
+abstract type AbstractFormatter end
+
+"""
 $TYPEDEF
 
 A label spanning a group of columns in the header row.
