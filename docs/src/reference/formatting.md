@@ -1,14 +1,25 @@
 # Formatting
 
-Formatters convert raw cell values to display strings **before** styling is applied. Each formatter applies to one or more columns.
+Formatters convert raw cell values into display strings **before** styling is applied.
+They leave the underlying `DataFrame` unchanged — they only affect the rendered output.
 
-`fmt_*` functions leave the underlying `DataFrame` unchanged — they affect only the rendered output.
+## `format!`
 
-## `fmt_number!`
+The entry point for all formatting. Pass a formatter object and the columns to apply it to.
 
-Format to a fixed number of decimal places.
+```@docs
+StyledTables.format!
+```
 
-**Signature:** `fmt_number!(tbl, cols; digits=2, trailing_zeros=true)`
+## Built-in formatters
+
+### `AbstractFormatter`
+
+```@docs
+StyledTables.AbstractFormatter
+```
+
+### `NumberFormatter`
 
 ```@example formatting
 using StyledTables, DataFrames
@@ -16,26 +27,22 @@ using StyledTables, DataFrames
 df = DataFrame(x = [1.2345, 6.789], y = [100.0, 0.001])
 
 tbl = StyledTable(df)
-fmt_number!(tbl, :x; digits = 3)
-fmt_number!(tbl, :y; digits = 2)
+format!(NumberFormatter(digits = 3), tbl, :x)
+format!(NumberFormatter(digits = 2), tbl, :y)
 render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt_number!
+StyledTables.NumberFormatter
 ```
 
-## `fmt_percent!`
-
-Multiply by `scale` (default `100`) and append `suffix` (default `"%"`).
-
-**Signature:** `fmt_percent!(tbl, cols; digits=1, scale=100, suffix="%")`
+### `PercentFormatter`
 
 ```@example formatting
 df = DataFrame(rate = [0.123, 0.456, 0.789])
 
 tbl = StyledTable(df)
-fmt_percent!(tbl, :rate; digits = 1)
+format!(PercentFormatter(digits = 1), tbl, :rate)
 render(tbl)
 ```
 
@@ -45,60 +52,80 @@ For already-scaled values (e.g., 12.3 stored as 12.3%):
 df2 = DataFrame(rate = [12.3, 45.6, 78.9])
 
 tbl = StyledTable(df2)
-fmt_percent!(tbl, :rate; digits = 1, scale = 1)
+format!(PercentFormatter(digits = 1, scale = 1), tbl, :rate)
 render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt_percent!
+StyledTables.PercentFormatter
 ```
 
-## `fmt_integer!`
-
-Round to the nearest integer and display without a decimal point.
-
-**Signature:** `fmt_integer!(tbl, cols)`
+### `IntegerFormatter`
 
 ```@example formatting
 df = DataFrame(count = [12.6, 7.2, 100.9])
 
 tbl = StyledTable(df)
-fmt_integer!(tbl, :count)
+format!(IntegerFormatter(), tbl, :count)
 render(tbl)
 ```
 
 ```@docs
-StyledTables.fmt_integer!
+StyledTables.IntegerFormatter
 ```
 
-## `fmt!`
+### `MissingFormatter`
 
-Apply a custom formatter function.
+Stack `MissingFormatter` last so that earlier numeric formatters run first on non-missing values.
 
-**Signature:** `fmt!(f, tbl, cols)`
+```@docs
+StyledTables.MissingFormatter
+```
+
+### `FunctionFormatter`
+
+Pass a bare callable to `format!` — it is wrapped in a `FunctionFormatter` automatically. You rarely need to construct `FunctionFormatter` directly.
 
 ```@example formatting
 df = DataFrame(p_value = [0.032, 0.001, 0.245])
 
 tbl = StyledTable(df)
-fmt!(tbl, :p_value) do pval
+format!(tbl, :p_value) do pval
     pval < 0.05 ? "< 0.05" : "n.s."
 end
 render(tbl)
 ```
 
-Apply one formatter to multiple columns:
+```@docs
+StyledTables.FunctionFormatter
+```
+
+## Stacking formatters
+
+Each `format!` call appends to the formatter stack for a column. Formatters run in call order at render time. Each formatter in the stack receives the output of the previous one, not the original raw value. Use this to combine a numeric formatter with a fallback for missing values:
 
 ```@example formatting
-df = DataFrame(a = [1.0, 2.0], b = [3.0, 4.0])
+df = DataFrame(x = [1.5, missing, 3.0])
 
 tbl = StyledTable(df)
-fmt!(tbl, [:a, :b]) do x
-    "$(round(Int, x)) pts"
-end
+format!(NumberFormatter(digits = 1), tbl, :x)   # runs first on non-missing
+format!(MissingFormatter("—"), tbl, :x)          # intercepts any remaining missing
 render(tbl)
 ```
 
-```@docs
-StyledTables.fmt!
+## Custom formatters
+
+Implement `AbstractFormatter` to define reusable custom formatters:
+
+```julia
+struct PrefixFormatter <: AbstractFormatter
+    prefix::String
+end
+(f::PrefixFormatter)(x) = ismissing(x) ? x : f.prefix * string(x)
+```
+
+Then use it like any built-in formatter:
+
+```julia
+format!(PrefixFormatter("€"), tbl, :price)
 ```

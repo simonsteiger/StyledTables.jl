@@ -119,7 +119,7 @@ end
 
     # fmt row appears when col_formatters is non-empty
     let tbl = StyledTable(df)
-        fmt_number!(tbl, [:a]; digits = 2)
+        format!(NumberFormatter(digits = 2), tbl, :a)
         out = sprint(show, tbl)
         @test contains(out, "fmt")
     end
@@ -133,7 +133,7 @@ end
 
     # postprocessors row appears when postprocessors is non-empty
     let tbl = StyledTable(df)
-        sub_missing!(tbl, "–")
+        push!(tbl.postprocessors, SummaryTables.Replace(ismissing, "–", true))
         out = sprint(show, tbl)
         @test contains(out, "postprocessors")
     end

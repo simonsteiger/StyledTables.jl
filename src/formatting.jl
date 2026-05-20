@@ -1,213 +1,163 @@
 using Printf
 
-# Internal helper: validates cols and stores formatter function on tbl
-function _apply_formatter!(
-    tbl::StyledTable,
-    cols::AbstractVector{Symbol},
-    f::Function;
-    check_numeric::Bool = false,
-)
+"""
+    FunctionFormatter(f)
+
+Wraps a bare callable `f` as an [`AbstractFormatter`](@ref). Created automatically
+when a `Function` is passed to [`format!`](@ref).
+"""
+struct FunctionFormatter <: AbstractFormatter
+    f::Any
+end
+(ff::FunctionFormatter)(x) = ff.f(x)
+
+"""
+    NumberFormatter(; digits = 2, trailing_zeros = true)
+
+Format numeric values to a fixed number of decimal places.
+
+- `digits`: number of decimal places.
+- `trailing_zeros`: when `false`, strip trailing zeros after the decimal point.
+"""
+struct NumberFormatter <: AbstractFormatter
+    digits::Int
+    trailing_zeros::Bool
+end
+NumberFormatter(; digits::Int = 2, trailing_zeros::Bool = true) =
+    NumberFormatter(digits, trailing_zeros)
+
+function (f::NumberFormatter)(x)
+    ismissing(x) && return x
+    fmt_str = Printf.Format("%.$(f.digits)f")
+    s = Printf.format(fmt_str, Float64(x))
+    f.trailing_zeros && return s
+    s = rstrip(s, '0')
+    s = rstrip(s, '.')
+    return String(s)
+end
+
+"""
+    PercentFormatter(; digits = 1, scale = 100, suffix = "%")
+
+Multiply a value by `scale`, format to `digits` decimal places, and append `suffix`.
+"""
+struct PercentFormatter <: AbstractFormatter
+    digits::Int
+    scale::Float64
+    suffix::String
+end
+PercentFormatter(; digits::Int = 1, scale::Real = 100, suffix::String = "%") =
+    PercentFormatter(digits, Float64(scale), suffix)
+
+function (f::PercentFormatter)(x)
+    ismissing(x) && return x
+    fmt_str = Printf.Format("%.$(f.digits)f")
+    return Printf.format(fmt_str, Float64(x) * f.scale) * f.suffix
+end
+
+"""
+    IntegerFormatter()
+
+Round numeric values to the nearest integer and format without a decimal point.
+"""
+struct IntegerFormatter <: AbstractFormatter end
+
+(::IntegerFormatter)(x) = ismissing(x) ? x : isfinite(x) ? string(round(Int, x)) : string(x)
+
+"""
+    MissingFormatter(replacement)
+
+Return `replacement` when a value `ismissing`; otherwise pass it through unchanged.
+Stack this last so earlier numeric formatters run first.
+"""
+struct MissingFormatter <: AbstractFormatter
+    replacement::Any
+end
+
+(f::MissingFormatter)(x) = ismissing(x) ? f.replacement : x
+
+# ── Internal helpers ─────────────────────────────────────────────────────────
+
+function _numeric_formatter_check(tbl::StyledTable, cols::AbstractVector{Symbol})
+    for col in cols
+        T = nonmissingtype(eltype(tbl.data[!, col]))
+        T <: Real || throw(
+            ArgumentError(
+                ":$col has element type $T, which is not numeric (requires <: Real). " *
+                "Use `format!` with a custom formatter for non-numeric columns.",
+            ),
+        )
+    end
+end
+
+function _validate_format_cols(tbl::StyledTable, cols::AbstractVector{Symbol})
     colnames = Symbol.(names(tbl.data))
     for col in cols
         col in colnames || throw(ArgumentError("Column :$col not found in DataFrame"))
     end
-    if check_numeric
-        for col in cols
-            T = nonmissingtype(eltype(tbl.data[!, col]))
-            T <: Real || throw(
-                ArgumentError(
-                    ":$col has element type $T, which is not numeric (requires <: Real). " *
-                    "Use `fmt!` with a custom formatter for non-numeric columns.",
-                ),
-            )
-        end
-    end
+end
+
+function _push_formatter!(tbl::StyledTable, f::AbstractFormatter, cols::AbstractVector{Symbol})
     for col in cols
-        tbl.col_formatters[col] = f
+        vec = get!(tbl.col_formatters, col, AbstractFormatter[])
+        push!(vec, f)
     end
     return tbl
 end
 
-function _apply_formatter!(
-    tbl::StyledTable,
-    cols::AbstractVector{<:AbstractString},
-    f::Function;
-    check_numeric::Bool = false,
-)
-    _apply_formatter!(tbl, Symbol.(cols), f; check_numeric)
-    return tbl
-end
-
-function _apply_formatter!(
-    tbl::StyledTable,
-    cols::AbstractString,
-    f::Function;
-    check_numeric::Bool = false,
-)
-    _apply_formatter!(tbl, Symbol(cols), f; check_numeric)
-    return tbl
-end
-
-function _apply_formatter!(
-    tbl::StyledTable,
-    cols::Symbol,
-    f::Function;
-    check_numeric::Bool = false,
-)
-    _apply_formatter!(tbl, [cols], f; check_numeric)
-    return tbl
-end
+# ── format! ──────────────────────────────────────────────────────────────────
 
 """
-$TYPEDSIGNATURES
+    format!(formatter, tbl, cols...)
+    format!(formatter, tbl, cols::AbstractVector)
 
-Format values in `cols` to a fixed number of decimal places.
+Append `formatter` to the format stack for each column in `cols`.
 
-# Arguments
+`formatter` may be any [`AbstractFormatter`](@ref) or a bare callable (automatically
+wrapped in [`FunctionFormatter`](@ref)).
 
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `cols`: column name(s) to format — a single `Symbol` or an `AbstractVector{Symbol}`.
-
-# Keywords
-
-- `digits`: number of decimal places (default `2`).
-- `trailing_zeros`: keep trailing zeros (default `true`).
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`fmt_percent!`](@ref), [`fmt_integer!`](@ref), [`fmt!`](@ref).
+Formatters are applied in call order at render time: the first `format!` call runs
+first on the raw value. Stack [`MissingFormatter`](@ref) last to intercept any
+`missing` values that remain after earlier formatters.
 
 # Examples
 
 ```julia
 tbl = StyledTable(df)
-fmt_number!(tbl, [:x]; digits = 2)
+format!(NumberFormatter(digits = 3), tbl, :x, :y)
+format!(MissingFormatter("—"), tbl, :x, :y)
 render(tbl)
 ```
 """
-function fmt_number!(tbl::StyledTable, cols; digits::Int = 2, trailing_zeros::Bool = true)
-    return _apply_formatter!(
-        tbl,
-        cols,
-        _number_formatter(digits, trailing_zeros);
-        check_numeric = true,
-    )
-end
-
-function _number_formatter(digits, trailing_zeros)
-    fmt_str = Printf.Format("%.$(digits)f")
-    return function (x)
-        ismissing(x) && return x
-        s = Printf.format(fmt_str, Float64(x))
-        trailing_zeros && return s
-        s = rstrip(s, '0')
-        s = rstrip(s, '.')
-        return String(s)
+function format!(f::AbstractFormatter, tbl::StyledTable, cols::Symbol...)
+    syms = collect(cols)
+    _validate_format_cols(tbl, syms)
+    if f isa NumberFormatter || f isa PercentFormatter || f isa IntegerFormatter
+        _numeric_formatter_check(tbl, syms)
     end
-end
-
-"""
-$TYPEDSIGNATURES
-
-Format values in `cols` as percentage strings.
-
-Multiplies each value by `scale`, formats to `digits` decimal places, and appends `suffix`.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-
-# Keywords
-
-- `digits`: decimal places for the percentage (default `1`).
-- `scale`: multiplier applied before formatting (default `100`).
-- `suffix`: string appended after the number (default `"%"`).
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`fmt_number!`](@ref), [`fmt_integer!`](@ref), [`fmt!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-fmt_percent!(tbl, [:rate]; digits = 1)
-render(tbl)
-```
-"""
-function fmt_percent!(
-    tbl::StyledTable,
-    cols;
-    digits::Int = 1,
-    scale::Real = 100,
-    suffix::String = "%",
-)
-    fmt_str = Printf.Format("%.$(digits)f")
-    f = x -> ismissing(x) ? x : Printf.format(fmt_str, Float64(x) * scale) * suffix
-    return _apply_formatter!(tbl, cols, f; check_numeric = true)
-end
-
-"""
-$TYPEDSIGNATURES
-
-Round values in `cols` to the nearest integer and format without a decimal point.
-
-# Arguments
-
-- `tbl`: the [`StyledTable`](@ref) to modify.
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`fmt_number!`](@ref), [`fmt_percent!`](@ref), [`fmt!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-fmt_integer!(tbl, [:count])
-render(tbl)
-```
-"""
-function fmt_integer!(tbl::StyledTable, cols)
-    f = x -> ismissing(x) ? x : string(round(Int, x))
-    return _apply_formatter!(tbl, cols, f; check_numeric = true)
-end
-
-"""
-$TYPEDSIGNATURES
-
-Apply a custom formatter function to values in `cols`.
-
-`f` receives the raw cell value and returns a display-ready value.
-Return `x` unchanged for `missing` to let [`sub_missing!`](@ref) handle it.
-
-# Arguments
-
-- `f`: formatter: `f(value) -> Any`.
-- `tbl`: the [`StyledTable`](@ref) to modify.
-- `cols`: column name(s) to format.
-
-# Returns
-
-`tbl` (modified in place).
-
-See also: [`fmt_number!`](@ref), [`fmt_percent!`](@ref), [`fmt_integer!`](@ref).
-
-# Examples
-
-```julia
-tbl = StyledTable(df)
-fmt!(x -> "≈\$(round(Int, x))", tbl, [:x])
-render(tbl)
-```
-"""
-function fmt!(f::Function, tbl::StyledTable, cols)
-    _apply_formatter!(tbl, cols, f)
+    _push_formatter!(tbl, f, syms)
     return tbl
+end
+
+function format!(f::AbstractFormatter, tbl::StyledTable, cols::AbstractVector{Symbol})
+    _validate_format_cols(tbl, cols)
+    if f isa NumberFormatter || f isa PercentFormatter || f isa IntegerFormatter
+        _numeric_formatter_check(tbl, cols)
+    end
+    _push_formatter!(tbl, f, cols)
+    return tbl
+end
+
+function format!(f::AbstractFormatter, tbl::StyledTable, cols::AbstractVector{<:AbstractString})
+    format!(f, tbl, Symbol.(cols))
+    return tbl
+end
+
+# Bare callables → FunctionFormatter
+function format!(f, tbl::StyledTable, cols...)
+    format!(FunctionFormatter(f), tbl, cols...)
+end
+
+function format!(f, tbl::StyledTable, cols::AbstractVector)
+    format!(FunctionFormatter(f), tbl, cols)
 end

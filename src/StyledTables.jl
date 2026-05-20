@@ -24,7 +24,8 @@ export relabel!, align!, hide!
 export spanner!, rowgroup!, stub!, stubhead!
 export header!, footnote!, sourcenote!
 export style!
-export sub_missing!
-export fmt!, fmt_number!, fmt_percent!, fmt_integer!
+export format!
+export AbstractFormatter, FunctionFormatter
+export NumberFormatter, PercentFormatter, IntegerFormatter, MissingFormatter
 
 end

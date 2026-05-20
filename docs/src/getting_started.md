@@ -60,6 +60,6 @@ render(tbl)
 ## Formatting numbers
 
 ```@example gettingstarted
-fmt_percent!(tbl, [:response]; digits = 1)
+format!(PercentFormatter(digits = 1), tbl, [:response])
 render(tbl)
 ```
