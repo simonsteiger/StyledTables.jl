@@ -78,22 +78,13 @@ StyledTables.IntegerFormatter
 
 Stack `MissingFormatter` last so that earlier numeric formatters run first on non-missing values.
 
-```@example formatting
-df = DataFrame(x = [1.5, missing, 3.0])
-
-tbl = StyledTable(df)
-format!(NumberFormatter(digits = 1), tbl, :x)
-format!(MissingFormatter("—"), tbl, :x)
-render(tbl)
-```
-
 ```@docs
 StyledTables.MissingFormatter
 ```
 
 ### `FunctionFormatter`
 
-Pass a bare callable to `format!` — it is wrapped in a `FunctionFormatter` automatically.
+Pass a bare callable to `format!` — it is wrapped in a `FunctionFormatter` automatically. You rarely need to construct `FunctionFormatter` directly.
 
 ```@example formatting
 df = DataFrame(p_value = [0.032, 0.001, 0.245])
@@ -111,7 +102,7 @@ StyledTables.FunctionFormatter
 
 ## Stacking formatters
 
-Each `format!` call appends to the formatter stack for a column. Formatters run in call order at render time. Use this to combine a numeric formatter with a fallback for missing values:
+Each `format!` call appends to the formatter stack for a column. Formatters run in call order at render time. Each formatter in the stack receives the output of the previous one, not the original raw value. Use this to combine a numeric formatter with a fallback for missing values:
 
 ```@example formatting
 df = DataFrame(x = [1.5, missing, 3.0])
