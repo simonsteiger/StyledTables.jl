@@ -1,7 +1,6 @@
 # Shared catch-all helper for pair-accepting functions.
 # Inspects runtime key and value types; throws an informative ArgumentError for mixed types.
-# check_keys=false skips key inspection (used by tab_spanner!, where label-type mixing
-# is not the documented error case).
+# check_keys=false skips key inspection (used where key-type mixing is not the error case).
 function _throw_mixed_pair_values(
     f::Function,
     ktypes,
