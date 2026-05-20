@@ -16,7 +16,7 @@ df = DataFrame(country = ["US", "DE", "JP"], gdp = [25.5, 4.1, 4.2])
 tbl = StyledTable(df)
 header!(tbl, "GDP by Country"; subtitle = "Trillions USD, 2025")
 relabel!(tbl, :country => "Country", :gdp => "GDP")
-fmt_number!(tbl, :gdp; digits = 1)
+format!(NumberFormatter(digits = 1), tbl, :gdp)
 render(tbl)
 ```
 
