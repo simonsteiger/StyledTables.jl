@@ -3,9 +3,9 @@ $TYPEDSIGNATURES
 
 Add one or more spanning header labels above groups of columns.
 
-Each spanner is given as a `label => columns` pair, where `label` is the spanner text
-(a `String`, `SummaryTables.Multiline`, or any value accepted by `SummaryTables.Cell`)
-and `columns` is a `Vector{Symbol}` of column names to span.
+Each spanner is given as a `columns => label` pair, where `columns` is a `Vector{Symbol}`
+of column names to span and `label` is the spanner text (a `String`,
+`SummaryTables.Multiline`, or any value accepted by `SummaryTables.Cell`).
 
 Use the `level` keyword to stack spanners in multiple rows: `level = 1` (the default) is
 the bottom-most row, closest to the column labels; `level = 2` sits above it, and so on.
@@ -14,7 +14,7 @@ A higher-level spanner's column set must fully contain every lower-level spanner
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: one or more `label => column(s)` pairs.
+- `args`: one or more `column(s) => label` pairs.
 - `level`: the spanner row (default `1`).
 
 # Returns
@@ -27,17 +27,17 @@ See also: [`header!`](@ref), [`stub!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-spanner!(tbl, "Outcomes" => [:efficacy, :safety])
+spanner!(tbl, [:efficacy, :safety] => "Outcomes")
 render(tbl)
 
 tbl = StyledTable(df)
-spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
-spanner!(tbl, "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass]; level = 2)
+spanner!(tbl, [:bill_len, :bill_depth, :flipper_len] => "Length (mm)")
+spanner!(tbl, [:bill_len, :bill_depth, :flipper_len, :body_mass] => "Physical measurements"; level = 2)
 render(tbl)
 
 using SummaryTables: Multiline
 tbl = StyledTable(df)
-spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+spanner!(tbl, [:dose, :response] => Multiline("Treatment", "(N=50)"))
 render(tbl)
 ```
 """
@@ -48,7 +48,7 @@ end
 
 function _push_spanners!(tbl::StyledTable, d; level = 1)
     colnames = Symbol.(names(tbl.data))
-    for (_, columns) in d
+    for (columns, _) in d
         for col in columns
             if col ∉ colnames
                 throw(ArgumentError("Column :$col not found in DataFrame"))
@@ -56,7 +56,7 @@ function _push_spanners!(tbl::StyledTable, d; level = 1)
         end
     end
 
-    for (label, columns) in d
+    for (columns, label) in d
         push!(tbl.spanners, Spanner(label, columns, level))
     end
 
@@ -65,7 +65,7 @@ end
 
 function spanner!(
     tbl::StyledTable,
-    d::AbstractVector{Pair{String,Vector{Symbol}}};
+    d::AbstractVector{Pair{Vector{Symbol},String}};
     level = 1,
 )
     _push_spanners!(tbl, d; level)
@@ -74,7 +74,7 @@ end
 
 function spanner!(
     tbl::StyledTable,
-    d::AbstractVector{Pair{Multiline,Vector{Symbol}}};
+    d::AbstractVector{Pair{Vector{Symbol},Multiline}};
     level = 1,
 )
     _push_spanners!(tbl, d; level)
@@ -88,7 +88,7 @@ Add spanning headers from a dict or vector of pairs.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: an `AbstractDict` or `AbstractVector` pairing spanner labels to column names.
+- `d`: an `AbstractDict` or `AbstractVector` pairing column names to spanner labels.
 - `level`: the spanner row applied to every entry in `d` (default `1`).
 
 # Returns
@@ -102,8 +102,8 @@ See also: [`spanner!`](@ref), [`header!`](@ref), [`stub!`](@ref).
 ```julia
 tbl = StyledTable(df)
 spanner!(tbl, Dict(
-    "Outcomes"     => [:efficacy, :safety],
-    "Demographics" => [:age, :sex])
+    [:efficacy, :safety] => "Outcomes",
+    [:age, :sex]         => "Demographics")
 )
 render(tbl)
 ```
@@ -111,30 +111,30 @@ render(tbl)
 function spanner!(
     tbl::StyledTable,
     d::Union{
-        AbstractVector{<:Pair{<:AbstractString,<:AbstractVector{<:AbstractString}}},
-        AbstractVector{<:Pair{Symbol,Vector{Symbol}}},
-        AbstractVector{<:Pair{Symbol,<:AbstractVector{<:AbstractString}}},
-        AbstractVector{<:Pair{<:AbstractString,Vector{Symbol}}},
-        AbstractDict{Symbol,Vector{Symbol}},
-        AbstractDict{<:AbstractString,<:AbstractVector{<:AbstractString}},
-        AbstractDict{Symbol,<:AbstractVector{<:AbstractString}},
-        AbstractDict{<:AbstractString,Vector{Symbol}},
+        AbstractVector{<:Pair{<:AbstractVector{<:AbstractString},<:AbstractString}},
+        AbstractVector{<:Pair{Vector{Symbol},Symbol}},
+        AbstractVector{<:Pair{<:AbstractVector{<:AbstractString},Symbol}},
+        AbstractVector{<:Pair{Vector{Symbol},<:AbstractString}},
+        AbstractDict{Vector{Symbol},Symbol},
+        AbstractDict{<:AbstractVector{<:AbstractString},<:AbstractString},
+        AbstractDict{<:AbstractVector{<:AbstractString},Symbol},
+        AbstractDict{Vector{Symbol},<:AbstractString},
         AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
-        AbstractVector{<:Pair{Symbol,<:AbstractString}},
         AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractVector{<:Pair{Symbol,<:AbstractString}},
         AbstractVector{<:Pair{Symbol,Symbol}},
         AbstractDict{<:AbstractString,<:AbstractString},
-        AbstractDict{Symbol,<:AbstractString},
         AbstractDict{<:AbstractString,Symbol},
+        AbstractDict{Symbol,<:AbstractString},
         AbstractDict{Symbol,Symbol},
-        AbstractVector{<:Pair{Multiline,Symbol}},
-        AbstractVector{<:Pair{Multiline,<:AbstractString}},
-        AbstractDict{Multiline,Symbol},
-        AbstractDict{Multiline,<:AbstractString},
+        AbstractVector{<:Pair{Symbol,Multiline}},
+        AbstractVector{<:Pair{<:AbstractString,Multiline}},
+        AbstractDict{Symbol,Multiline},
+        AbstractDict{<:AbstractString,Multiline},
     };
     level = 1,
 )
-    ps = [_convert_lab(label) => _convert_cols(col_or_cols) for (label, col_or_cols) in d]
+    ps = [_convert_cols(col_or_cols) => _convert_lab(label) for (col_or_cols, label) in d]
     spanner!(tbl, ps; level)
     return tbl
 end
@@ -142,13 +142,13 @@ end
 function spanner!(tbl::StyledTable, d::AbstractDict; level = 1)
     ktypes = unique(typeof(k) for k in keys(d))
     vtypes = unique(typeof(v) for v in values(d))
-    _throw_mixed_pair_values(spanner!, ktypes, vtypes, tbl, d; check_keys = false)
+    _throw_mixed_pair_values(spanner!, ktypes, vtypes, tbl, d)
 end
 
 function spanner!(tbl::StyledTable, d::AbstractVector{<:Pair}; level = 1)
     ktypes = unique(typeof(k) for (k, _) in d)
     vtypes = unique(typeof(v) for (_, v) in d)
-    _throw_mixed_pair_values(spanner!, ktypes, vtypes, tbl, d; check_keys = false)
+    _throw_mixed_pair_values(spanner!, ktypes, vtypes, tbl, d)
 end
 
 """
