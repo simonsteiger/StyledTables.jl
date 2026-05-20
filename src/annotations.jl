@@ -49,7 +49,7 @@ Footnotes refer to specific columns. For notes not tied to any column, use [`sou
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `args`: one or more `text => column(s)` pairs.
+- `args`: one or more `column(s) => text` pairs.
 
 # Returns
 
@@ -63,7 +63,7 @@ See also: [`sourcenote!`](@ref), [`header!`](@ref).
 
 ```julia
 tbl = StyledTable(df)
-footnote!(tbl, "PPP adjusted" => :gdp)
+footnote!(tbl, :gdp => "PPP adjusted")
 render(tbl)
 ```
 """
@@ -76,12 +76,12 @@ function footnote!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{<:Pair{<:AbstractString,<:AbstractString}},
-        AbstractVector{<:Pair{<:AbstractString,Symbol}},
+        AbstractVector{<:Pair{Symbol,<:AbstractString}},
         AbstractDict{<:AbstractString,<:AbstractString},
-        AbstractDict{<:AbstractString,Symbol},
+        AbstractDict{Symbol,<:AbstractString},
     },
 )
-    ps = [String(text) => [col isa Symbol ? col : Symbol(col)] for (text, col) in d]
+    ps = [[col isa Symbol ? col : Symbol(col)] => String(text) for (col, text) in d]
     _push_footnotes!(tbl, ps)
     return tbl
 end
@@ -89,7 +89,7 @@ end
 function _push_footnotes!(tbl::StyledTable, d)
     colnames = Symbol.(names(tbl.data))
 
-    for (_, columns) in d
+    for (columns, _) in d
         for col in columns
             if col ∉ colnames
                 throw(ArgumentError("Column :$col not found in DataFrame"))
@@ -97,7 +97,7 @@ function _push_footnotes!(tbl::StyledTable, d)
         end
     end
 
-    for (text, columns) in d
+    for (columns, text) in d
         for col in columns
             if haskey(tbl.col_footnotes, col)
                 @warn "Column :$col already has a footnote " *
@@ -187,26 +187,26 @@ function _push_cell_footnote!(tbl::StyledTable, annotation, target::CellTarget)
     return tbl
 end
 
-function footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,SpannerTarget}})
-    for (annotation, target) in d
+function footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{SpannerTarget,<:Any}})
+    for (target, annotation) in d
         _push_spanner_footnote!(tbl, annotation, target)
     end
     return tbl
 end
 
-function footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{<:Any,CellTarget}})
-    for (annotation, target) in d
+function footnote!(tbl::StyledTable, d::AbstractVector{<:Pair{CellTarget,<:Any}})
+    for (target, annotation) in d
         _push_cell_footnote!(tbl, annotation, target)
     end
     return tbl
 end
 
-function footnote!(tbl::StyledTable, d::AbstractVector{Pair{String,Vector{Symbol}}})
+function footnote!(tbl::StyledTable, d::AbstractVector{Pair{Vector{Symbol},String}})
     _push_footnotes!(tbl, d)
     return tbl
 end
 
-function footnote!(tbl::StyledTable, d::AbstractVector{Pair{Multiline,Vector{Symbol}}})
+function footnote!(tbl::StyledTable, d::AbstractVector{Pair{Vector{Symbol},Multiline}})
     _push_footnotes!(tbl, d)
     return tbl
 end
@@ -234,7 +234,7 @@ Add footnotes from a dict or vector of pairs.
 # Arguments
 
 - `tbl`: the [`StyledTable`](@ref) to modify.
-- `d`: an `AbstractDict` or `AbstractVector` of `Pair`s mapping text to column names.
+- `d`: an `AbstractDict` or `AbstractVector` of `Pair`s mapping column names to text.
 
 # Returns
 
@@ -247,8 +247,8 @@ See also: [`spanner!`](@ref), [`header!`](@ref), [`stub!`](@ref).
 ```julia
 tbl = StyledTable(df)
 footnote!(tbl, Dict(
-    "measured each month" => [:efficacy, :safety],
-    "in years" => [:age])
+    [:efficacy, :safety] => "measured each month",
+    [:age] => "in years")
 )
 render(tbl)
 ```
@@ -257,12 +257,12 @@ function footnote!(
     tbl::StyledTable,
     d::Union{
         AbstractVector{
-            <:Pair{<:AbstractString,<:Union{Vector{<:AbstractString},Vector{Symbol}}},
+            <:Pair{<:Union{Vector{<:AbstractString},Vector{Symbol}},<:AbstractString},
         },
-        AbstractDict{<:AbstractString,<:Union{Vector{<:AbstractString},Vector{Symbol}}},
+        AbstractDict{<:Union{Vector{<:AbstractString},Vector{Symbol}},<:AbstractString},
     },
 )
-    ps = [String(text) => Symbol.(columns) for (text, columns) in d]
+    ps = [Symbol.(columns) => String(text) for (columns, text) in d]
     footnote!(tbl, ps)
     return tbl
 end

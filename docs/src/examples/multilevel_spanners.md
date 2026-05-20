@@ -54,16 +54,16 @@ render(tbl)
 ## Step 2: Level one spanner
 
 ```@example penguins
-spanner!(tbl, "Bill measures" => "male_" .* string.(bill_cols))
-spanner!(tbl, "Bill measures" => "female_" .* string.(bill_cols))
+spanner!(tbl, "male_" .* string.(bill_cols) => "Bill measures")
+spanner!(tbl, "female_" .* string.(bill_cols) => "Bill measures")
 render(tbl)
 ```
 
 ## Step 3: Level two spanner
 
 ```@example penguins
-spanner!(tbl, "Male" => male_ordered, level = 2)
-spanner!(tbl, "Female" => female_ordered, level = 2)
+spanner!(tbl, male_ordered => "Male"; level = 2)
+spanner!(tbl, female_ordered => "Female"; level = 2)
 render(tbl)
 ```
 

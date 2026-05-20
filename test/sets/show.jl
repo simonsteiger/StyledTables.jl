@@ -40,15 +40,15 @@ end
 
     # Spanners: single level shows count and col count
     tbl = StyledTable(df)
-    spanner!(tbl, "Group" => [:a, :b])
+    spanner!(tbl, [:a, :b] => "Group")
     out = sprint(show, tbl)
     @test contains(out, "span")
     @test contains(out, "1 (2 cols)")
 
     # Spanners: multiple levels show per-level breakdown
     tbl = StyledTable(df)
-    spanner!(tbl, "L1a" => [:a, :b]; level = 1)
-    spanner!(tbl, "L2" => [:a, :b, :c]; level = 2)
+    spanner!(tbl, [:a, :b] => "L1a"; level = 1)
+    spanner!(tbl, [:a, :b, :c] => "L2"; level = 2)
     out = sprint(show, tbl)
     @test contains(out, "L1: 2 cols")
     @test contains(out, "L2: 3 cols")
@@ -86,14 +86,14 @@ end
 
     # Notes: singular and plural
     tbl = StyledTable(df)
-    footnote!(tbl, "Note 1" => [:a])
+    footnote!(tbl, [:a] => "Note 1")
     out = sprint(show, tbl)
     @test contains(out, "1 note")
     @test !contains(out, "notes")
 
     tbl = StyledTable(df)
-    footnote!(tbl, "Note 1" => [:a])
-    footnote!(tbl, "Note 2" => [:b])
+    footnote!(tbl, [:a] => "Note 1")
+    footnote!(tbl, [:b] => "Note 2")
     out = sprint(show, tbl)
     @test contains(out, "2 notes")
 

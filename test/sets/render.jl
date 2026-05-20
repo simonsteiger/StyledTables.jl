@@ -15,7 +15,7 @@ end
     # Non-contiguous spanner: warn
     df = DataFrame(; x = [1], y = [2], z = [3])
     tbl = StyledTable(df)
-    spanner!(tbl, "XZ" => [:x, :z])
+    spanner!(tbl, [:x, :z] => "XZ")
     @test_logs (:warn, r"gap") render(tbl)
 
     # Unsorted row groups: warn
@@ -27,28 +27,28 @@ end
     # Well-formed table: no warnings
     df3 = DataFrame(; a = [1, 2], b = [3, 4], g = ["X", "X"])
     tbl3 = StyledTable(df3)
-    spanner!(tbl3, "AB" => [:a, :b])
+    spanner!(tbl3, [:a, :b] => "AB")
     rowgroup!(tbl3, :g)
     @test_logs min_level = Logging.Warn render(tbl3)
 
     # Hiding an edge column of a spanner: warn
     df_edge = DataFrame(; x = [1], y = [2], z = [3])
     tbl_edge = StyledTable(df_edge)
-    spanner!(tbl_edge, "XY" => [:x, :y])
+    spanner!(tbl_edge, [:x, :y] => "XY")
     hide!(tbl_edge, :x)                     # :x is the left edge of spanner "XY"
     @test_logs (:warn, r"hidden") render(tbl_edge)
 
     # Hiding all columns of a spanner: warn
     df_all = DataFrame(; x = [1], y = [2], z = [3])
     tbl_all = StyledTable(df_all)
-    spanner!(tbl_all, "XY" => [:x, :y])
+    spanner!(tbl_all, [:x, :y] => "XY")
     hide!(tbl_all, :x, :y)
     @test_logs (:warn, r"hidden") render(tbl_all)
 
     # Hiding a column not in any spanner: no spanner-hidden warning
     df_ok = DataFrame(; x = [1], y = [2], z = [3])
     tbl_ok = StyledTable(df_ok)
-    spanner!(tbl_ok, "XY" => [:x, :y])
+    spanner!(tbl_ok, [:x, :y] => "XY")
     hide!(tbl_ok, :z)
     @test_logs min_level = Logging.Warn render(tbl_ok)
 end

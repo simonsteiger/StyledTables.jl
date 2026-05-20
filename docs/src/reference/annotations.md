@@ -32,16 +32,16 @@ For general notes, use [`sourcenote!`](@ref).
 
 **Signatures:**
 ```julia
-footnote!(tbl, text => col)
-footnote!(tbl, text => [col1, col2])
-footnote!(tbl, text1 => col1, text2 => col2, ...)
+footnote!(tbl, col => text)
+footnote!(tbl, [col1, col2] => text)
+footnote!(tbl, col1 => text1, col2 => text2, ...)
 footnote!(tbl, d::AbstractDict)
 ```
 
 ```@example annotations
 tbl = StyledTable(df)
 header!(tbl, "GDP by Country")
-footnote!(tbl, "Purchasing power parity adjusted" => :gdp)
+footnote!(tbl, :gdp => "Purchasing power parity adjusted")
 render(tbl)
 ```
 
@@ -49,7 +49,7 @@ Multiple columns with the same footnote:
 
 ```@example annotations
 tbl = StyledTable(df)
-footnote!(tbl, "Source: World Bank (2025)" => [:country, :gdp])
+footnote!(tbl, [:country, :gdp] => "Source: World Bank (2025)")
 render(tbl)
 ```
 
@@ -60,8 +60,8 @@ df2 = DataFrame(country = ["US", "DE"], gdp = [25.5, 4.1], pop = [331, 84])
 
 tbl = StyledTable(df2)
 footnote!(tbl,
-    "Purchasing power parity adjusted" => :gdp,
-    "Population in millions" => :pop,
+    :gdp => "Purchasing power parity adjusted",
+    :pop => "Population in millions",
 )
 render(tbl)
 ```
