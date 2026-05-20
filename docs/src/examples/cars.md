@@ -44,7 +44,7 @@ render(tbl)
 ## Step 2: Add a spanner for performance metrics
 
 ```@example cars
-spanner!(tbl, "Performance" => [:hp, :trq_nm, :mpg])
+spanner!(tbl, [:hp, :trq_nm, :mpg] => "Performance")
 render(tbl)
 ```
 
@@ -58,7 +58,7 @@ format!(tbl, :msrp_eur) do x
 end
 align!(tbl, [:msrp_eur, :hp, :trq_nm, :mpg] => :right)
 style!(tbl, :msrp_eur; bold = true)
-footnote!(tbl, "City/highway combined estimate" => :mpg)
+footnote!(tbl, :mpg => "City/highway combined estimate")
 sourcenote!(tbl, "Source: manufacturer specifications")
 render(tbl)
 ```

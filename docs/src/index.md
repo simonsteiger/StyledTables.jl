@@ -47,7 +47,7 @@ end
 tbl = StyledTable(df)
 rowgroup!(tbl, :island)
 hide!(tbl, :island)
-spanner!(tbl, "Bill measures" => [:bill_length_mm, :bill_depth_mm])
+spanner!(tbl, [:bill_length_mm, :bill_depth_mm] => "Bill measures")
 
 labels = [
     :species => "Species", 

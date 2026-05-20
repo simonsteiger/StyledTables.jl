@@ -34,7 +34,7 @@ label_dict = Dict(
 tbl = StyledTable(report)
 header!(tbl, "Annual Revenue by Region"; subtitle = "Figures in USD billions")
 relabel!(tbl, label_dict)
-spanner!(tbl, "Quarterly" => [:q1, :q2, :q3, :q4])
+spanner!(tbl, [:q1, :q2, :q3, :q4] => "Quarterly")
 align!(tbl, [:q1, :q2, :q3, :q4, :total] => :right)
 format!(NumberFormatter(digits = 2), tbl, [:q1, :q2, :q3, :q4, :total])
 render(tbl)
@@ -46,7 +46,7 @@ Bold the "Full Year" column, flag Q4 figures as preliminary, and credit the data
 
 ```@example report
 style!(tbl, :total; bold = true)
-footnote!(tbl, "Preliminary figures, subject to audit" => :q4)
+footnote!(tbl, :q4 => "Preliminary figures, subject to audit")
 sourcenote!(tbl, "Source: Internal Finance, March 2026")
 render(tbl)
 ```

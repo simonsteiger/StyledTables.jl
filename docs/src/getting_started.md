@@ -53,7 +53,7 @@ render(tbl)
 ## Grouping columns under a spanner
 
 ```@example gettingstarted
-spanner!(tbl, "Results" => [:n, :response])
+spanner!(tbl, [:n, :response] => "Results")
 render(tbl)
 ```
 

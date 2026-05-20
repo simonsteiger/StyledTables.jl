@@ -8,7 +8,7 @@ Add a spanning header above a group of columns.
 
 **Signatures:**
 ```julia
-spanner!(tbl, (label => colgroup)::Pair...)
+spanner!(tbl, (colgroup => label)::Pair...)
 spanner!(tbl, d::AbstractDict)
 spanner!(tbl, d::AbstractVector{<:Pair})
 ```
@@ -24,7 +24,7 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-spanner!(tbl, "Outcomes" => [:efficacy, :safety])
+spanner!(tbl, [:efficacy, :safety] => "Outcomes")
 relabel!(tbl,
     :drug => "Drug",
     :dose_mg => "Dose (mg)",
@@ -39,7 +39,7 @@ Multiple spanners can be added at once:
 
 ```@example structure
 tbl = StyledTable(df)
-spanner!(tbl, "Dosing" => [:dose_mg], "Outcomes" => [:efficacy, :safety])
+spanner!(tbl, [:dose_mg] => "Dosing", [:efficacy, :safety] => "Outcomes")
 render(tbl)
 ```
 
@@ -47,7 +47,7 @@ Multi-line spanner header using `Multiline`:
 
 ```@example structure
 tbl = StyledTable(df)
-spanner!(tbl, Multiline("Outcomes", "(primary)") => [:efficacy, :safety])
+spanner!(tbl, [:efficacy, :safety] => Multiline("Outcomes", "(primary)"))
 render(tbl)
 ```
 
@@ -57,8 +57,8 @@ StyledTables.spanner!(tbl::StyledTable, args::Pair...)
 
 ```@docs
 StyledTables.spanner!(tbl::StyledTable, d::Union{AbstractVector{<:Pair{Symbol, Symbol}}, AbstractVector{<:Pair{<:AbstractString, <:AbstractString}},
-    AbstractVector{<:Pair{<:AbstractString, Symbol}}, AbstractDict{Symbol, Symbol},
-    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}, AbstractDict{Symbol, <:AbstractString}})
+    AbstractVector{<:Pair{Symbol, <:AbstractString}}, AbstractDict{Symbol, Symbol},
+    AbstractDict{<:AbstractString, <:AbstractString}, AbstractDict{Symbol, <:AbstractString}, AbstractDict{<:AbstractString, Symbol}})
 ```
 
 ## `stub!`
