@@ -39,7 +39,7 @@ rowgroup!(tbl, :group_col)
 
 ## `style!` conditional functions receive raw values, not formatted strings
 
-When both `fmt_number!` and `style!(f, ...)` are applied to the same column, the
+When both `format!` (with e.g. `NumberFormatter`) and `style!(f, ...)` are applied to the same column, the
 function `f` receives the raw `DataFrame` value (e.g. `0.042`), **not** the formatted
 string (`"0.04"`). This is intentional — styling operates on the original value so that
 numeric comparisons remain meaningful — but it surprises users who write:
