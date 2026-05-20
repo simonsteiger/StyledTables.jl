@@ -2,29 +2,29 @@
     df = DataFrame(; name = ["Alice", "Bob"], dose = [10, 20], response = [0.9, 0.8])
 
     tbl = StyledTable(df)
-    spanner!(tbl, "Treatment" => [:dose, :response], "Participant" => [:name])
+    spanner!(tbl, [:dose, :response] => "Treatment", [:name] => "Participant")
     run_reftest(tbl, "references/spanner/basic")
 
     tbl2 = StyledTable(df)
-    spanner!(tbl2, "Treatment" => [:dose, :response])
+    spanner!(tbl2, [:dose, :response] => "Treatment")
     @test tbl2.spanners[1].level == 1
 
     tbl3 = StyledTable(df)
-    spanner!(tbl3, "Treatment" => [:dose, :response]; level = 2)
+    spanner!(tbl3, [:dose, :response] => "Treatment"; level = 2)
     @test tbl3.spanners[1].level == 2
 
     tbl = StyledTable(df)
-    spanner!(tbl, Dict("Treatment" => [:dose, :response], "Participant" => [:name]))
+    spanner!(tbl, Dict([:dose, :response] => "Treatment", [:name] => "Participant"))
     run_reftest(tbl, "references/spanner/two_spanners")
 
-    @test_throws ArgumentError spanner!(StyledTable(df), "X" => [:typo])
+    @test_throws ArgumentError spanner!(StyledTable(df), [:typo] => "X")
 
     @testset "mixed-type pairs error" begin
         let df = DataFrame(; a = [1], b = [2], c = [3])
-            # Mixed value types: Symbol and Vector{Symbol} column selectors
+            # Mixed key types: Vector{Symbol} and Symbol column selectors
             @test_throws ArgumentError spanner!(
                 StyledTable(df),
-                Dict{String,Any}("AB" => [:a, :b], "C" => :c),
+                Dict{Any,String}([:a, :b] => "AB", :c => "C"),
             )
         end
     end
@@ -35,115 +35,115 @@ end
 
     # Canonical reference: Pair... varargs method
     ref = let tbl = StyledTable(df)
-        spanner!(tbl, "Treatment" => [:dose, :response])
+        spanner!(tbl, [:dose, :response] => "Treatment")
         html_str(tbl)
     end
 
-    # AbstractVector{<:Pair{AbstractString, Vector{AbstractString}}}
+    # AbstractVector{<:Pair{Vector{AbstractString}, AbstractString}}
     let tbl = StyledTable(df)
-        spanner!(tbl, ["Treatment" => ["dose", "response"]])
+        spanner!(tbl, [["dose", "response"] => "Treatment"])
         @test html_str(tbl) == ref
     end
 
-    # AbstractVector{<:Pair{Symbol, Vector{Symbol}}}
+    # AbstractVector{<:Pair{Vector{Symbol}, Symbol}}
     let tbl = StyledTable(df)
-        spanner!(tbl, [:Treatment => [:dose, :response]])
+        spanner!(tbl, [[:dose, :response] => :Treatment])
         @test html_str(tbl) == ref
     end
 
-    # AbstractVector{<:Pair{Symbol, Vector{AbstractString}}}
+    # AbstractVector{<:Pair{Vector{AbstractString}, Symbol}}
     let tbl = StyledTable(df)
-        spanner!(tbl, :Treatment => ["dose", "response"])
+        spanner!(tbl, ["dose", "response"] => :Treatment)
         @test html_str(tbl) == ref
     end
 
     let tbl = StyledTable(df)
-        spanner!(tbl, "Treatment" => [:dose, :response])
+        spanner!(tbl, [:dose, :response] => "Treatment")
         @test html_str(tbl) == ref
     end
 
-    # AbstractDict{AbstractString, Vector{AbstractString}}
+    # AbstractDict{Vector{AbstractString}, AbstractString}
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict("Treatment" => ["dose", "response"]))
+        spanner!(tbl, Dict(["dose", "response"] => "Treatment"))
         @test html_str(tbl) == ref
     end
 
-    # AbstractDict{Symbol, Vector{AbstractString}}
+    # AbstractDict{Vector{AbstractString}, Symbol}
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict(:Treatment => ["dose", "response"]))
+        spanner!(tbl, Dict(["dose", "response"] => :Treatment))
         @test html_str(tbl) == ref
     end
 
-    # AbstractDict{AbstractString, Vector{Symbol}}
+    # AbstractDict{Vector{Symbol}, AbstractString}
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict("Treatment" => [:dose, :response]))
+        spanner!(tbl, Dict([:dose, :response] => "Treatment"))
         @test html_str(tbl) == ref
     end
 
-    # AbstractDict{Symbol, Vector{Symbol}}
+    # AbstractDict{Vector{Symbol}, Symbol}
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict(:Treatment => [:dose, :response]))
+        spanner!(tbl, Dict([:dose, :response] => :Treatment))
         @test html_str(tbl) == ref
     end
 
     # Single pair
     ref = let tbl = StyledTable(df)
-        spanner!(tbl, "Treatment" => :dose)
+        spanner!(tbl, :dose => "Treatment")
         html_str(tbl)
     end
 
     # AbstractDict{Symbol, Symbol}
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict(:Treatment => :dose))
-        @test html_str(tbl) == ref
-    end
-
-    # AbstractDict{String, Symbol}
-    let tbl = StyledTable(df)
-        spanner!(tbl, Dict(:Treatment => :dose))
-        @test html_str(tbl) == ref
-    end
-
-    # AbstractDict{String, String}
-    let tbl = StyledTable(df)
-        spanner!(tbl, Dict("Treatment" => "dose"))
+        spanner!(tbl, Dict(:dose => :Treatment))
         @test html_str(tbl) == ref
     end
 
     # AbstractDict{Symbol, String}
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict("Treatment" => :dose))
+        spanner!(tbl, Dict(:dose => :Treatment))
+        @test html_str(tbl) == ref
+    end
+
+    # AbstractDict{String, String}
+    let tbl = StyledTable(df)
+        spanner!(tbl, Dict("dose" => "Treatment"))
+        @test html_str(tbl) == ref
+    end
+
+    # AbstractDict{String, Symbol}
+    let tbl = StyledTable(df)
+        spanner!(tbl, Dict(:dose => "Treatment"))
         @test html_str(tbl) == ref
     end
 
     # Single Multiline spanner
     ref = let tbl = StyledTable(df)
-        spanner!(tbl, Multiline("Treatment", "(mg)") => :dose)
+        spanner!(tbl, :dose => Multiline("Treatment", "(mg)"))
         html_str(tbl)
     end
 
     # Single Multiline inside Dict
     let tbl = StyledTable(df)
-        spanner!(tbl, Dict(Multiline("Treatment", "(mg)") => :dose))
+        spanner!(tbl, Dict(:dose => Multiline("Treatment", "(mg)")))
         @test html_str(tbl) == ref
     end
 
     # Single Multiline inside Vector
     let tbl = StyledTable(df)
-        spanner!(tbl, [Multiline("Treatment", "(mg)") => :dose])
+        spanner!(tbl, [:dose => Multiline("Treatment", "(mg)")])
         @test html_str(tbl) == ref
     end
 
-    # Mixed value types — Dict{String, Any} → ArgumentError
+    # Mixed key types — Dict{Any, String} → ArgumentError
     @test_throws ArgumentError spanner!(
         StyledTable(df),
-        Dict("Treatment" => [:dose, :response], "Participant" => :name),
+        Dict{Any,String}([:dose, :response] => "Treatment", :name => "Participant"),
     )
 
-    # Mixed value types — Vector{Pair{String, Any}} → ArgumentError
+    # Mixed key types — Vector{Pair{Any, String}} → ArgumentError
     @test_throws ArgumentError spanner!(
         StyledTable(df),
-        Pair["Treatment"=>[:dose, :response], "Participant"=>:name],
+        Pair[[:dose, :response]=>"Treatment", :name=>"Participant"],
     )
 end
 
@@ -159,43 +159,43 @@ end
     # Error: non-contiguous levels (1 and 3, no level 2)
     @test_throws ArgumentError begin
         tbl = StyledTable(df)
-        spanner!(tbl, "A" => [:bill_len]; level = 1)
-        spanner!(tbl, "B" => [:bill_depth]; level = 3)
+        spanner!(tbl, [:bill_len] => "A"; level = 1)
+        spanner!(tbl, [:bill_depth] => "B"; level = 3)
         render(tbl)
     end
 
     # Error: same-level partial overlap
     @test_throws ArgumentError begin
         tbl = StyledTable(df)
-        spanner!(tbl, "A" => [:bill_len, :bill_depth])
-        spanner!(tbl, "B" => [:bill_depth, :flipper_len])
+        spanner!(tbl, [:bill_len, :bill_depth] => "A")
+        spanner!(tbl, [:bill_depth, :flipper_len] => "B")
         render(tbl)
     end
 
     # Error: cross-level partial overlap
     @test_throws ArgumentError begin
         tbl = StyledTable(df)
-        spanner!(tbl, "A" => [:bill_len, :bill_depth, :flipper_len])
-        spanner!(tbl, "B" => [:bill_depth, :flipper_len, :body_mass]; level = 2)
+        spanner!(tbl, [:bill_len, :bill_depth, :flipper_len] => "A")
+        spanner!(tbl, [:bill_depth, :flipper_len, :body_mass] => "B"; level = 2)
         render(tbl)
     end
 
     # Scenario A: level-2 spanner covers exactly the same columns as level-1
     tbl = StyledTable(df)
-    spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+    spanner!(tbl, [:bill_len, :bill_depth, :flipper_len] => "Length (mm)")
     spanner!(
         tbl,
-        "Physical measurements" => [:bill_len, :bill_depth, :flipper_len];
+        [:bill_len, :bill_depth, :flipper_len] => "Physical measurements";
         level = 2,
     )
     run_reftest(tbl, "references/spanner/nested_two_levels")
 
     # Scenario B: level-2 spanner covers level-1 columns PLUS an extra ungrouped column
     tbl = StyledTable(df)
-    spanner!(tbl, "Length (mm)" => [:bill_len, :bill_depth, :flipper_len])
+    spanner!(tbl, [:bill_len, :bill_depth, :flipper_len] => "Length (mm)")
     spanner!(
         tbl,
-        "Physical measurements" => [:bill_len, :bill_depth, :flipper_len, :body_mass];
+        [:bill_len, :bill_depth, :flipper_len, :body_mass] => "Physical measurements";
         level = 2,
     )
     run_reftest(tbl, "references/spanner/nested_uncovered_col")
@@ -205,7 +205,7 @@ end
     df = DataFrame(; dose = [10, 20], response = [0.9, 0.8])
 
     tbl = StyledTable(df)
-    spanner!(tbl, Multiline("Treatment", "(N=50)") => [:dose, :response])
+    spanner!(tbl, [:dose, :response] => Multiline("Treatment", "(N=50)"))
     run_reftest(tbl, "references/spanner/multiline_label")
 end
 
@@ -232,7 +232,7 @@ end
 
     tbl = StyledTable(df)
     header!(tbl, "My Table"; subtitle = "Subtitle")
-    spanner!(tbl, "XY" => [:x, :y])
+    spanner!(tbl, [:x, :y] => "XY")
     run_reftest(tbl, "references/header/with_spanner")
 end
 
