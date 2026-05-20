@@ -27,9 +27,9 @@ end
 tbl = StyledTable(df)
 
 # Step 3: add styling
-tab_rowgroup!(tbl, :island)
-cols_hide!(tbl, :island)
-tab_spanner!(tbl, "Bill measures" => [:bill_length_mm, :bill_depth_mm])
+rowgroup!(tbl, :island)
+hide!(tbl, :island)
+spanner!(tbl, [:bill_length_mm, :bill_depth_mm] => "Bill measures")
 
 labels = [
     :species => "Species", 
@@ -37,7 +37,7 @@ labels = [
     :bill_depth_mm => "Depth"
 ]
 
-cols_label!(tbl, labels)
+relabel!(tbl, labels)
 
 # Step 4: render
 render(tbl)
