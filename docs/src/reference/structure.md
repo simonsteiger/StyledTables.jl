@@ -31,7 +31,7 @@ relabel!(tbl,
     :efficacy => "Efficacy",
     :safety => "Safety",
 )
-format!(PercentFormatter(digits = 1), tbl, [:efficacy, :safety])
+format!(tbl, PercentFormatter([:efficacy, :safety]; digits = 1))
 render(tbl)
 ```
 

@@ -23,7 +23,7 @@ df = DataFrame(
 tbl = StyledTable(df)
 header!(tbl, "Q2 2026 Financial Summary")
 style!(tbl, :yoy_pct; color = "#1a7340", bold = true)
-format!(PercentFormatter(digits = 1), tbl, :yoy_pct)
+format!(tbl, PercentFormatter(:yoy_pct; digits = 1))
 relabel!(tbl,
     :metric => "Metric",
     :q1 => "Q1 (€B)",
@@ -71,7 +71,7 @@ style!(tbl, :change) do val
     nothing
 end
 relabel!(tbl, :metric => "Metric", :change => "YoY Change")
-format!(PercentFormatter(digits = 1), tbl, :change)
+format!(tbl, PercentFormatter(:change; digits = 1))
 render(tbl)
 ```
 
@@ -84,7 +84,7 @@ style!(tbl, :change; italic = true) do val
     val > 0 ? (; bold = true) : nothing
 end
 relabel!(tbl, :metric => "Metric", :change => "YoY Change")
-format!(PercentFormatter(digits = 1), tbl, :change)
+format!(tbl, PercentFormatter(:change; digits = 1))
 render(tbl)
 ```
 

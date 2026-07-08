@@ -36,7 +36,7 @@ header!(tbl, "Annual Revenue by Region"; subtitle = "Figures in USD billions")
 relabel!(tbl, label_dict)
 spanner!(tbl, [:q1, :q2, :q3, :q4] => "Quarterly")
 align!(tbl, [:q1, :q2, :q3, :q4, :total] => :right)
-format!(NumberFormatter(digits = 2), tbl, [:q1, :q2, :q3, :q4, :total])
+format!(tbl, NumberFormatter([:q1, :q2, :q3, :q4, :total]; digits = 2))
 render(tbl)
 ```
 

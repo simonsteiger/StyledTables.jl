@@ -81,6 +81,6 @@ label_dict = Dict(
 )
 
 relabel!(tbl, label_dict)
-format!(IntegerFormatter(), tbl, [male_ordered..., female_ordered...])
+format!(tbl, IntegerFormatter([male_ordered..., female_ordered...]))
 render(tbl)
 ```
