@@ -25,7 +25,7 @@ export spanner!, rowgroup!, stub!, stubhead!
 export header!, footnote!, sourcenote!
 export style!
 export format!
-export AbstractFormatter, FunctionFormatter
+export AbstractFormatter
 export NumberFormatter, PercentFormatter, IntegerFormatter, MissingFormatter
 
 end
