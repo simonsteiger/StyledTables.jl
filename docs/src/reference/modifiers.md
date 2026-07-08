@@ -138,7 +138,7 @@ tbl = StyledTable(df)
 rowgroup!(tbl, :group)
 hide!(tbl, :group)
 relabel!(tbl, :subject => "Subject", :score => "Score", :pct_score => "Score (%)")
-format!(PercentFormatter(digits = 0), tbl, :pct_score)
+format!(tbl, PercentFormatter(:pct_score; digits = 0))
 render(tbl)
 ```
 

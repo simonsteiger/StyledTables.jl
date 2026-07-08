@@ -45,6 +45,6 @@ render(tbl)
 ## Step 3: Column labels
 
 ```@example gradients
-cols_label!(tbl, :id => "Student ID", :score => "Score")
+relabel!(tbl, :id => "Student ID", :score => "Score")
 render(tbl)
 ```

@@ -3,16 +3,27 @@
 
 Supertype for all formatters used with [`format!`](@ref).
 
-Implement `(f::MyFormatter)(x)` to define a custom formatter:
+Every subtype must carry a `syms::Vector{Symbol}` field naming the columns it
+targets, and implement `(f::MyFormatter)(x)` to define the formatting behavior:
 
 ```julia
 struct PrefixFormatter <: AbstractFormatter
+    syms::Vector{Symbol}
     prefix::String
 end
 (f::PrefixFormatter)(x) = ismissing(x) ? x : f.prefix * string(x)
 ```
 """
 abstract type AbstractFormatter end
+
+"""
+    AbstractNumericFormatter <: AbstractFormatter
+
+Supertype for built-in formatters that require a numeric (`<: Real`) column
+element type: [`NumberFormatter`](@ref), [`PercentFormatter`](@ref),
+[`IntegerFormatter`](@ref).
+"""
+abstract type AbstractNumericFormatter <: AbstractFormatter end
 
 """
 $TYPEDEF
@@ -41,7 +52,7 @@ struct SpannerTarget
     "The spanner label to match (compared with `==`)."
     label::Any
     "Restrict the match to this spanner level, or `nothing` to match all levels."
-    level::Union{Nothing,Int}
+    level::Union{Nothing, Int}
 end
 
 """
@@ -78,7 +89,7 @@ $TYPEDFIELDS
 """
 struct CellTarget
     "Data row index (`Int`) or a stub-column lookup key ([`Stub`](@ref))."
-    row::Union{Int,Stub}
+    row::Union{Int, Stub}
     "Column name."
     col::Symbol
 end
@@ -106,7 +117,7 @@ struct TableHeader
     "Title text, rendered bold."
     title::Any
     "Subtitle text, rendered italic, or `nothing`."
-    subtitle::Union{Nothing,Any}
+    subtitle::Union{Nothing, Any}
     "Horizontal alignment of title and subtitle cells. One of :left, :center, :right."
     halign::Symbol
 end
@@ -120,13 +131,13 @@ $TYPEDFIELDS
 """
 struct ColStyleOverride
     "Hex color string (`\"#RRGGBB\"`), or `nothing` to inherit."
-    color::Union{Nothing,String}
+    color::Union{Nothing, String}
     "`true` for bold; `nothing` inherits the default."
-    bold::Union{Nothing,Bool}
+    bold::Union{Nothing, Bool}
     "`true` for italic; `nothing` inherits the default."
-    italic::Union{Nothing,Bool}
+    italic::Union{Nothing, Bool}
     "`true` for underline; `nothing` inherits the default."
-    underline::Union{Nothing,Bool}
+    underline::Union{Nothing, Bool}
 end
 
 """
@@ -149,49 +160,49 @@ $TYPEDFIELDS
     "Source data."
     data::DataFrame
     "Display labels keyed by column name."
-    col_labels::Dict{Symbol,Any}
+    col_labels::Dict{Symbol, Any}
     "Horizontal alignment (`:left`, `:center`, `:right`) keyed by column name."
-    col_alignments::Dict{Symbol,Symbol}
+    col_alignments::Dict{Symbol, Symbol}
     "Spanner header definitions."
     spanners::Vector{Spanner}
     "Column used for row grouping, or `nothing`."
-    rowgroup_col::Union{Nothing,Symbol}
+    rowgroup_col::Union{Nothing, Symbol}
     "Left indent applied to data rows inside a group (points)."
     rowgroup_indent_pt::Float64
     "When `true`, row-group label rows span the full table width instead of the first cell only."
     rowgroup_full_width::Bool = false
     "Column designated as the stub (row-label column), or `nothing`."
-    stub_col::Union{Nothing,Symbol}
+    stub_col::Union{Nothing, Symbol}
     "Title/subtitle definition, or `nothing`."
-    header::Union{Nothing,TableHeader}
+    header::Union{Nothing, TableHeader}
     "Table-level footnote texts."
     footnotes::Vector{Any}
     "Per-column formatter stacks, applied in call order."
-    col_formatters::Dict{Symbol,Vector{AbstractFormatter}}
+    col_formatters::Dict{Symbol, Vector{AbstractFormatter}}
     "Per-column inline style overrides."
-    col_styles::Dict{Symbol,ColStyleOverride}
+    col_styles::Dict{Symbol, ColStyleOverride}
     "Per-column conditional style functions `f(raw_value) -> Union{Nothing, NamedTuple}`."
-    col_style_fns::Dict{Symbol,Function}
+    col_style_fns::Dict{Symbol, Function}
     "Per-column footnote annotations."
-    col_footnotes::Dict{Symbol,Any}
+    col_footnotes::Dict{Symbol, Any}
     "Per-spanner footnote entries: `SpannerTarget => annotation`."
-    spanner_footnotes::Vector{Pair{SpannerTarget,Any}}
+    spanner_footnotes::Vector{Pair{SpannerTarget, Any}}
     "Per-cell footnote annotations keyed by `(data_row_index, col_symbol)`."
-    cell_footnotes::Dict{Tuple{Int,Symbol},Any}
+    cell_footnotes::Dict{Tuple{Int, Symbol}, Any}
     "Columns excluded from the rendered output."
     hidden_cols::Set{Symbol}
     "Label for the stub column header, or `nothing`."
-    stubhead_label::Union{Nothing,Any}
+    stubhead_label::Union{Nothing, Any}
     "Source-note lines appended below the table body."
     sourcenotes::Vector{Any}
     "SummaryTables postprocessors applied during rendering."
     postprocessors::Vector{Any}
     "Digits to round to, or `nothing` (SummaryTables defaults to 3)."
-    round_digits::Union{Nothing,Int}
+    round_digits::Union{Nothing, Int}
     "Global rounding mode (`:auto`, `:digits`, `:sigdigits`), or `nothing`."
-    round_mode::Union{Nothing,Symbol}
+    round_mode::Union{Nothing, Symbol}
     "`true` to pad with trailing zeros when rounding; `nothing` defers to SummaryTables."
-    trailing_zeros::Union{Nothing,Bool}
+    trailing_zeros::Union{Nothing, Bool}
 end
 
 """
@@ -224,8 +235,8 @@ function StyledTable(data)
     df = data isa DataFrame ? data : DataFrame(data)
     return StyledTable(;
         data = df,
-        col_labels = Dict{Symbol,Any}(),
-        col_alignments = Dict{Symbol,Symbol}(),
+        col_labels = Dict{Symbol, Any}(),
+        col_alignments = Dict{Symbol, Symbol}(),
         spanners = Spanner[],
         rowgroup_col = nothing,
         rowgroup_indent_pt = 12.0,
@@ -233,12 +244,12 @@ function StyledTable(data)
         stub_col = nothing,
         header = nothing,
         footnotes = Any[],
-        col_formatters = Dict{Symbol,Vector{AbstractFormatter}}(),
-        col_styles = Dict{Symbol,ColStyleOverride}(),
-        col_style_fns = Dict{Symbol,Function}(),
-        col_footnotes = Dict{Symbol,Any}(),
-        spanner_footnotes = Pair{SpannerTarget,Any}[],
-        cell_footnotes = Dict{Tuple{Int,Symbol},Any}(),
+        col_formatters = Dict{Symbol, Vector{AbstractFormatter}}(),
+        col_styles = Dict{Symbol, ColStyleOverride}(),
+        col_style_fns = Dict{Symbol, Function}(),
+        col_footnotes = Dict{Symbol, Any}(),
+        spanner_footnotes = Pair{SpannerTarget, Any}[],
+        cell_footnotes = Dict{Tuple{Int, Symbol}, Any}(),
         hidden_cols = Set{Symbol}(),
         stubhead_label = nothing,
         sourcenotes = Any[],

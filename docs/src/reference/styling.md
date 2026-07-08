@@ -23,7 +23,7 @@ df = DataFrame(
 tbl = StyledTable(df)
 header!(tbl, "Q2 2026 Financial Summary")
 style!(tbl, :yoy_pct; color = "#1a7340", bold = true)
-format!(PercentFormatter(digits = 1), tbl, :yoy_pct)
+format!(tbl, PercentFormatter(:yoy_pct; digits = 1))
 relabel!(tbl,
     :metric => "Metric",
     :q1 => "Q1 (€B)",
@@ -71,7 +71,7 @@ style!(tbl, :change) do val
     nothing
 end
 relabel!(tbl, :metric => "Metric", :change => "YoY Change")
-format!(PercentFormatter(digits = 1), tbl, :change)
+format!(tbl, PercentFormatter(:change; digits = 1))
 render(tbl)
 ```
 
@@ -84,7 +84,7 @@ style!(tbl, :change; italic = true) do val
     val > 0 ? (; bold = true) : nothing
 end
 relabel!(tbl, :metric => "Metric", :change => "YoY Change")
-format!(PercentFormatter(digits = 1), tbl, :change)
+format!(tbl, PercentFormatter(:change; digits = 1))
 render(tbl)
 ```
 
@@ -96,11 +96,9 @@ StyledTables.style!(::Function, ::StyledTables.StyledTable, ::Symbol...)
 StyledTables.style!(::Function, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
-## `sub_missing!`
+## Replacing missing values
 
-Replace `missing` values with a placeholder string for display.
-
-**Signature:** `sub_missing!(tbl, r)`
+Use [`MissingFormatter`](@ref) to replace `missing` values with a placeholder string for display.
 
 ```@example styling
 df = DataFrame(
@@ -109,7 +107,7 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-sub_missing!(tbl, "–")
+format!(tbl, MissingFormatter(:value, "–"))
 render(tbl)
 ```
 
@@ -117,10 +115,8 @@ Any `String` works as a placeholder:
 
 ```@example styling
 tbl = StyledTable(df)
-sub_missing!(tbl, "N/A")
+format!(tbl, MissingFormatter(:value, "N/A"))
 render(tbl)
 ```
 
-```@docs
-StyledTables.sub_missing!
-```
+See [`MissingFormatter`](@ref StyledTables.MissingFormatter) in the [Formatting](@ref) reference for the full docstring.
