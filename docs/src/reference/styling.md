@@ -96,11 +96,9 @@ StyledTables.style!(::Function, ::StyledTables.StyledTable, ::Symbol...)
 StyledTables.style!(::Function, ::StyledTables.StyledTable, ::AbstractVector{Symbol})
 ```
 
-## `sub_missing!`
+## Replacing missing values
 
-Replace `missing` values with a placeholder string for display.
-
-**Signature:** `sub_missing!(tbl, r)`
+Use [`MissingFormatter`](@ref) to replace `missing` values with a placeholder string for display.
 
 ```@example styling
 df = DataFrame(
@@ -109,7 +107,7 @@ df = DataFrame(
 )
 
 tbl = StyledTable(df)
-sub_missing!(tbl, "–")
+format!(tbl, MissingFormatter(:value, "–"))
 render(tbl)
 ```
 
@@ -117,10 +115,8 @@ Any `String` works as a placeholder:
 
 ```@example styling
 tbl = StyledTable(df)
-sub_missing!(tbl, "N/A")
+format!(tbl, MissingFormatter(:value, "N/A"))
 render(tbl)
 ```
 
-```@docs
-StyledTables.sub_missing!
-```
+See [`MissingFormatter`](@ref StyledTables.MissingFormatter) in the [Formatting](@ref) reference for the full docstring.

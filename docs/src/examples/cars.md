@@ -37,7 +37,7 @@ label_dict = Dict(
 tbl = StyledTable(cars)
 rowgroup!(tbl, :origin)
 hide!(tbl, :origin, :year)
-label!(tbl, label_dict)
+relabel!(tbl, label_dict)
 render(tbl)
 ```
 

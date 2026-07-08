@@ -43,7 +43,7 @@ render(tbl)
 ## Step 2: Add header, stub label, missing handling, and notes
 
 ```@example clinical
-sub_missing!(tbl, "—")
+format!(tbl, MissingFormatter([:placebo_n, :treatment_n], "—"))
 footnote!(tbl, [:placebo_n, :treatment_n] => "Percentages computed on non-missing observations")
 sourcenote!(tbl, "Abbreviations: SD = standard deviation; N = total per arm")
 render(tbl)
