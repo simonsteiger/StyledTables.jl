@@ -123,5 +123,5 @@ end
 Then use it like any built-in formatter:
 
 ```julia
-format!(tbl, PrefixFormatter(:price, "€"))
+format!(tbl, PrefixFormatter([:price], "€"))
 ```
