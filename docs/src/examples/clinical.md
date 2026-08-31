@@ -1,9 +1,16 @@
 # Clinical Demographics Table
 
-Demographic summary tables appear in nearly every clinical trial report. 
-This example builds one from scratch with two treatment arms, categorical and continuous variables, missing data, and regulatory-style footnotes.
+This example creates a clinical demographics table.
 
-## The data
+Styling elements used in this example are:
+
+- Stubs
+- Rowgroups
+- Hidden columns
+- Column labels
+- Formatting missing values
+- Footnotes
+- Source notes
 
 ```@example clinical
 using StyledTables, DataFrames, SummaryTables
@@ -26,7 +33,8 @@ demo = DataFrame(
 
 ## Step 1: Basic stub table with multiline column labels
 
-Mark `:category` as the stub, group rows by `:variable`, and use `Multiline` for two-line column headers.
+We first mark the `category` column as the stub, then group rows by `variable`.
+We also use `Multiline` for two-line column headers.
 
 ```@example clinical
 tbl = StyledTable(demo)
@@ -42,11 +50,11 @@ render(tbl)
 
 ## Step 2: Add header, stub label, missing handling, and notes
 
+Now we handle missing values by replacing them with a dash, and finally add a footnote and a source note.
+
 ```@example clinical
 format!(tbl, MissingFormatter([:placebo_n, :treatment_n], "—"))
 footnote!(tbl, [:placebo_n, :treatment_n] => "Percentages computed on non-missing observations")
 sourcenote!(tbl, "Abbreviations: SD = standard deviation; N = total per arm")
 render(tbl)
 ```
-
-Row groups label the variable category, the stub column names each subgroup, and multiline headers identify each treatment arm and statistic type. The missing Placebo `Unknown` count appears as an em dash.

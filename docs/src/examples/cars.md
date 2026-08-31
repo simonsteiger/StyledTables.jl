@@ -1,9 +1,18 @@
 # Sports Cars Performance Table
 
-This example compares sports cars across performance metrics.
-We hide auxiliary columns, group by origin country, add a performance spanner, format prices, and highlight them with bold styling.
+This example creates a table comparing sports cars across performance metrics.
 
-## The data
+Styling elements used in this example are:
+
+- Rowgroups
+- Hidden columns
+- Column labels
+- Formatting values
+- Column spanners
+- Cell alignment
+- Cell styling (bold font)
+- Footnotes
+- Source notes
 
 ```@example cars
 using StyledTables, DataFrames
@@ -22,7 +31,7 @@ cars = DataFrame(
 
 ## Step 1: Basic table with row groups
 
-Group by `:origin` and hide the origin and year columns.
+We first group the table by `:origin` and hide the origin and year columns.
 
 ```@example cars
 label_dict = Dict(
@@ -43,6 +52,9 @@ render(tbl)
 
 ## Step 2: Add a spanner for performance metrics
 
+The columns `hp`, `trq_nm`, and `mpg` all describe performance of cars.
+Let's unite them under a Performance column spanner:
+
 ```@example cars
 spanner!(tbl, [:hp, :trq_nm, :mpg] => "Performance")
 render(tbl)
@@ -50,7 +62,7 @@ render(tbl)
 
 ## Step 3: Reorder, format, and highlight
 
-Format MSRP with a currency prefix, right-align numeric columns, bold the price values, and annotate the MPG column.
+Finally, we format `msrp_eur` as Euros, right-align numeric columns, bold the price values, and annotate the MPG column.
 
 ```@example cars
 format!(tbl, :msrp_eur) do x
@@ -62,5 +74,3 @@ footnote!(tbl, :mpg => "City/highway combined estimate")
 sourcenote!(tbl, "Source: manufacturer specifications")
 render(tbl)
 ```
-
-The table groups cars by origin, spans the three performance columns, formats MSRP with a thousands separator and currency symbol, and bolds prices for emphasis. The MPG footnote clarifies the measurement basis.

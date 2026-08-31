@@ -1,15 +1,12 @@
 # Footnotes everywhere
 
-StyledTables.jl supports three footnote targets. Each target places an
-auto-numbered superscript on a different element and appends the annotation text below the table.
+Here we'll showcase how to place footnotes in three different places.
 
-| Target        | Constructor              | Attaches to        |
-|---------------|--------------------------|--------------------|
-| Column header | `:col => "note"`         | A column label     |
-| Spanner label | `SpannerTarget(label) => "note"`   | A spanner row cell |
-| Body cell     | `CellTarget(row, col) => "note"`   | A single data cell |
-
-## Setup
+| Target        | Constructor              |
+|---------------|--------------------------|
+| Column header | `:col => "note"`         |
+| Spanner label | `SpannerTarget(label) => "note"`   |
+| Body cell     | `CellTarget(row, col) => "note"`   |
 
 ```@example footnotes
 using StyledTables, DataFrames
@@ -24,7 +21,7 @@ df = DataFrame(
 
 ## Column footnotes
 
-Annotate one or more column headers with a note.
+Typically, all we want and need is to annotate a single column name:
 
 ```@example footnotes
 tbl = StyledTable(df)
@@ -37,7 +34,8 @@ render(tbl)
 
 ## Spanner footnotes
 
-Use [`SpannerTarget`](@ref) to annotate a spanner label instead of a column header — useful when a note applies to the group as a whole rather than any single column.
+When we're using column spanners and our footnote applies to all columns under that spanner, we of course don't want to target all these column names with the same footnote.
+Instead, we can use [`SpannerTarget`](@ref) to annotate only the spanner label:
 
 ```@example footnotes
 tbl = StyledTable(df)
@@ -48,7 +46,9 @@ render(tbl)
 
 ## Cell footnotes
 
-Use [`CellTarget`](@ref) to annotate a single body cell — useful for flagging a data point as preliminary, revised, or otherwise noteworthy.
+Last but not least, we may also want to annotate specific values in our table.
+We do this by targetting cells using [`CellTarget`](@ref). 
+You can specify the cell location in two ways:
 
 **By row index** (1-based):
 
@@ -61,7 +61,8 @@ render(tbl)
 
 **By stub value** (requires [`stub!`](@ref)):
 
-With a stub column, target rows by stub value rather than numeric index — more robust when row order may change.
+If a stub column exists, you may target rows by the stub value rather than the numeric index.
+This option offers better readability over numeric indices, and if you expect your rows to change order it is also the more robust and maintainable choice.
 
 ```@example footnotes
 tbl = StyledTable(df)

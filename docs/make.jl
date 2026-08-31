@@ -23,20 +23,12 @@ makedocs(;
             "Rendering" => "reference/rendering.md",
         ],
         "Examples" => [
-            "Basic use" => [
-                "Sports Cars Table" => "examples/cars.md",
-                "Clinical Demographics" => "examples/clinical.md",
-                "Quarterly Report" => "examples/report.md",
-            ],
-            "Advanced options" => [
-                "Multilevel spanners" => "examples/multilevel_spanners.md",
-                "Color gradients" => "examples/color_gradients.md",
-                "Footnotes everywhere" => "examples/footnotes.md",
-            ],
+            "Multilevel spanners" => "examples/multilevel_spanners.md",
+            "Color gradients" => "examples/color_gradients.md",
+            "Footnotes everywhere" => "examples/footnotes.md",
         ],
         "Resources" => [
             "Why StyledTables?" => "resources/why.md",
-            # "Limitations" => "resources/limitations.md",
             "Export" => "resources/export.md",
             "API" => "resources/api.md",
         ],
