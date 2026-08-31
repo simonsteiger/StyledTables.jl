@@ -1,8 +1,6 @@
 # Multi-tier spanners
 
-The following example shows how layouts with several tiers of column spanners can be achieved.
-
-## The data
+The following example shows how you can create layouts with several tiers of column spanners.
 
 We will use the [`PalmerPenguins`](https://allisonhorst.github.io/palmerpenguins/) data.
 
@@ -44,6 +42,8 @@ Finally, a higher-order column spanner will indicate which measurements are from
 
 ## Step 1: Row groups
 
+We begin by setting row groups and hiding the grouping column:
+
 ```@example penguins
 tbl = StyledTable(summary)
 rowgroup!(tbl, :island)
@@ -53,6 +53,8 @@ render(tbl)
 
 ## Step 2: Level one spanner
 
+Next, we add the level one spanner, grouping all columns with bill measures together:
+
 ```@example penguins
 spanner!(tbl, "male_" .* string.(bill_cols) => "Bill measures")
 spanner!(tbl, "female_" .* string.(bill_cols) => "Bill measures")
@@ -61,6 +63,8 @@ render(tbl)
 
 ## Step 3: Level two spanner
 
+On top of the level one spanner, we'll add a spanner grouping columns of males and females together:
+
 ```@example penguins
 spanner!(tbl, male_ordered => "Male"; level = 2)
 spanner!(tbl, female_ordered => "Female"; level = 2)
@@ -68,6 +72,8 @@ render(tbl)
 ```
 
 ## Step 4: Add column labels
+
+Now we can simplify the names of the columns because the information about bill measures and sex is contained in our column spanners:
 
 ```@example penguins
 label_dict = Dict(

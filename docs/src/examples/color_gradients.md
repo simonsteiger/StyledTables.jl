@@ -3,9 +3,6 @@
 Numeric trends in larger tables can quickly become difficult to see.
 Adding color to reveal these trends can be one way to make reading complex tables a little easier.
 
-## The data
-
-Clean gradients in real data can be hard to come by.
 Excuse the contrived nature of the data below, but I really want to make a rainbow gradient!
 
 ```@example gradients
